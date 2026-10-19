@@ -10,4 +10,28 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
   },
+  build: {
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons';
+          }
+          if (id.includes('src/i18n/extraLanguages')) {
+            return 'i18n-extra';
+          }
+          if (
+            id.includes('src/data/generatorsBatch') ||
+            id.includes('src/data/gamingAndSystemsGenerators')
+          ) {
+            return 'generators-batches';
+          }
+        },
+      },
+    },
+  },
 });

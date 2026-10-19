@@ -370,6 +370,7 @@ export function resolveStyleData(
       : ['is', 'or', 'ex', 'flow', 'craft', 'wave'],
     tone: chosen.tone || (dna ? dna.tone : 'Moderne • distinctif • équilibré'),
     styleKey: key,
+    attestedItems: chosen.attestedItems,
   };
 
   const styleTuple = NAMEFORGE_STYLES.find((x) => x[0] === key);

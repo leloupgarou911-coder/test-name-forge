@@ -1,4 +1,5 @@
 import { GeneratorId, GeneratorMeta, SubcategoryData } from '../types';
+import { ATTESTED_BABY_NAMES } from './attestedBabyNames';
 
 export const METADATA_BATCH_A: Record<string, GeneratorMeta> = {
   // 1. Prénoms de bébé
@@ -989,21 +990,64 @@ export const METADATA_BATCH_A: Record<string, GeneratorMeta> = {
 
 export const SUBCATEGORIES_BATCH_A: Record<string, Record<string, SubcategoryData>> = {
   baby_name: {
-    soft: {
-      icon: '🕊️',
-      label: 'Doux & Poétique',
-      bestFor: 'Prénoms délicats aux voyelles soyeuses',
-      prefixes: ['Lé', 'Mi', 'No', 'Él', 'Lu', 'Sio', 'Aé', 'Ma', 'Thé', 'Maé', 'Al', 'So', 'Lo', 'Ca'],
-      suffixes: ['na', 'o', 'is', 'a', 'ann', 'or', 'ie', 'en', 'am', 'ine', 'elle', 'io', 'ya'],
-      descriptions: ['🌸 Un prénom doux et mélodieux, plein de tendresse.'],
-    },
     classic: {
       icon: '👑',
-      label: 'Intemporel & Noble',
-      bestFor: 'Prénoms classiques et élégants',
-      prefixes: ['Aur', 'Aug', 'Vic', 'Gabr', 'Max', 'Jul', 'Hél', 'Val', 'Flor', 'Alex', 'Ém'],
-      suffixes: ['ien', 'ius', 'iel', 'or', 'ine', 'ance', 'and', 'ette', 'ia', 'iste', 'ence'],
-      descriptions: ['✨ Un prénom noble et intemporel traversant les générations.'],
+      label: 'Classique & Intemporel',
+      bestFor: 'Prénoms intemporels, élégants et séculaires',
+      prefixes: ['Gabriel', 'Raphaël', 'Louis', 'Arthur', 'Jules', 'Alexandre', 'Victor', 'Augustin', 'Louise', 'Alice', 'Emma', 'Jeanne', 'Charlotte'],
+      suffixes: [''],
+      descriptions: ['👑 Un prénom intemporel attesté, riche d’histoire et d’élégance séculaire.'],
+      tone: 'Noble • intemporel • élégant',
+      attestedItems: ATTESTED_BABY_NAMES.filter((b) => b.style === 'classic'),
+    },
+    modern: {
+      icon: '✨',
+      label: 'Moderne & Court',
+      bestFor: 'Prénoms courts, vifs et harmonieux',
+      prefixes: ['Léo', 'Liam', 'Noah', 'Maël', 'Milo', 'Eden', 'Sacha', 'Jade', 'Lina', 'Mia', 'Ambre', 'Romy', 'Alba', 'Luna'],
+      suffixes: [''],
+      descriptions: ['✨ Un prénom moderne attesté aux sonorités vives et contemporaines.'],
+      tone: 'Vif • court • contemporain',
+      attestedItems: ATTESTED_BABY_NAMES.filter((b) => b.style === 'modern'),
+    },
+    nature: {
+      icon: '🌿',
+      label: 'Nature & Flore',
+      bestFor: 'Inspirations végétales, marines et célestes',
+      prefixes: ['Iris', 'Basile', 'Sylvain', 'Flora', 'Jasmin', 'Marin', 'Zéphyr', 'Solal', 'Céleste', 'Daphné'],
+      suffixes: [''],
+      descriptions: ['🌿 Un prénom authentique inspiré par la nature et les éléments.'],
+      tone: 'Poétique • végétal • apaisant',
+      attestedItems: ATTESTED_BABY_NAMES.filter((b) => b.style === 'nature'),
+    },
+    vintage: {
+      icon: '🕰️',
+      label: 'Rétro & Noble',
+      bestFor: 'Prénoms rétro de caractère à la douce patine historique',
+      prefixes: ['Gustave', 'Lucien', 'Marcel', 'Félix', 'Gaspard', 'Marius', 'Adèle', 'Colette', 'Suzanne', 'Diane', 'Constance'],
+      suffixes: [''],
+      descriptions: ['🕰️ Un prénom rétro attesté empreint de charme et de distinction.'],
+      tone: 'Charme rétro • distinction • caractère',
+      attestedItems: ATTESTED_BABY_NAMES.filter((b) => b.style === 'vintage'),
+    },
+    international: {
+      icon: '🌍',
+      label: 'Multiculturel & Voyageur',
+      bestFor: 'Prénoms attestés faciles à porter à l’international',
+      prefixes: ['Sofia', 'Elena', 'Mateo', 'Oliver', 'Inès', 'Yanis', 'Selma', 'Freya', 'Kenzo', 'Zayn', 'Aaron'],
+      suffixes: [''],
+      descriptions: ['🌍 Un prénom attesté aux résonances internationales universelles.'],
+      tone: 'Cosmopolite • universel • fluide',
+      attestedItems: ATTESTED_BABY_NAMES.filter((b) => b.style === 'international'),
+    },
+    creative: {
+      icon: '🎨',
+      label: 'Créatif & Néo-Harmonies (Mode inventé)',
+      bestFor: 'Recherche créative de nouvelles harmonies sonores originales',
+      prefixes: ['Éli', 'Milo', 'Naé', 'Léan', 'Solan', 'Thélio', 'Maélys', 'Naya', 'Liora', 'Aëlys', 'Célian'],
+      suffixes: ['a', 'o', 'is', 'el', 'ia', 'ann', 'or', 'ine'],
+      descriptions: ['✨ Une proposition créative explorant de nouvelles harmonies phonétiques douces.'],
+      tone: 'Création originale • doux • novateur',
     },
   },
 

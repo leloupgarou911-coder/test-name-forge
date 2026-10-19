@@ -108,6 +108,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-2 text-xs">
               <li>
                 <button
+                  onClick={() => onNavigate('style-studio')}
+                  className="hover:text-pink-300 transition flex items-center gap-1.5 cursor-pointer text-pink-400"
+                >
+                  <span>✨</span>
+                  <span>Atelier Style (Unicode & Canvas)</span>
+                </button>
+              </li>
+              <li>
+                <button
                   onClick={() => onNavigate('my-names')}
                   className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer"
                 >
@@ -121,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>🔍</span>
-                  <span>Catalogue des 36</span>
+                  <span>Catalogue ({ALL_GENERATORS_LIST.length})</span>
                 </button>
               </li>
             </ul>

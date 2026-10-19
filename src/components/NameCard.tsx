@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bookmark, Heart, FileText, Copy, Check, Star, Info, Volume2 } from 'lucide-react';
+import { Bookmark, Heart, FileText, Copy, Check, Star, Info, Volume2, Wand2 } from 'lucide-react';
 import { GeneratedName, GeneratorId } from '../types';
 import {
   findSavedEntry,
@@ -100,7 +100,24 @@ export const NameCard: React.FC<NameCardProps> = ({
               <span>{item.style}</span>
             </span>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* Style Studio quick button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.dispatchEvent(
+                    new CustomEvent('nameforge:navigate', {
+                      detail: { view: 'style-studio', name: item.name },
+                    })
+                  );
+                }}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-pink-300 bg-slate-800/80 hover:bg-slate-700 transition cursor-pointer"
+                title="Styliser ce nom (Unicode & Visuel)"
+                aria-label={`Styliser le nom ${item.name}`}
+              >
+                <Wand2 className="w-4 h-4 text-pink-400" />
+              </button>
+
               {/* Audio speech synthesis button */}
               <button
                 onClick={handleSpeak}
@@ -127,8 +144,20 @@ export const NameCard: React.FC<NameCardProps> = ({
             {item.name}
           </h3>
 
-          <div className="inline-block mt-2.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-purple-500/15 border border-purple-400/30 text-purple-300">
-            {item.tone}
+          <div className="flex flex-wrap items-center justify-center gap-1.5 mt-2.5">
+            <span className="px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-purple-500/15 border border-purple-400/30 text-purple-300">
+              {item.tone}
+            </span>
+            {item.isAttested === true && (
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center gap-1">
+                <span>✓ Prénom Réel Attesté</span>
+              </span>
+            )}
+            {item.isAttested === false && item.generatorId === 'baby_name' && (
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 border border-indigo-400/40 text-indigo-300 flex items-center gap-1">
+                <span>✨ Mode Créatif</span>
+              </span>
+            )}
           </div>
 
           <p className="mt-3.5 text-sm sm:text-[14px] text-slate-300 leading-relaxed min-h-[50px] line-clamp-3 font-normal">

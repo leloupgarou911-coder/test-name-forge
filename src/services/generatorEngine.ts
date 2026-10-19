@@ -11,6 +11,7 @@ import { SUBCATEGORIES_DATA } from '../data/subcategories';
 import { resolveStyleData } from '../data/styles';
 import { addGenerationHistory } from './storage';
 import { GENERATORS_METADATA } from '../data/generators';
+import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 
 const RECENT_NAMES_KEY = 'nameforge_recent_names';
 const RECENT_LIMIT = 120;
@@ -66,23 +67,35 @@ export function calculateLevenshteinDistance(a: string, b: string): number {
   return matrix[al][bl];
 }
 
-export function isTooSimilar(candidate: string, existingList: string[]): boolean {
+export function isTooSimilar(candidate: string, existingList: string[], keyword?: string): boolean {
   const candLower = candidate.toLowerCase();
+  const kwLower = keyword ? keyword.trim().toLowerCase() : '';
+
   for (const existing of existingList) {
     const exLower = existing.toLowerCase();
     if (candLower === exLower) return true;
 
+    // If both contain the user's requested keyword, compare after removing it to prevent false positive collisions
+    let cComp = candLower;
+    let eComp = exLower;
+    if (kwLower && kwLower.length >= 2 && cComp.includes(kwLower) && eComp.includes(kwLower)) {
+      cComp = cComp.replace(kwLower, '').trim();
+      eComp = eComp.replace(kwLower, '').trim();
+      if (!cComp || !eComp) return true;
+      if (cComp === eComp) return true;
+    }
+
     // Direct substring collision if length >= 4
-    if (candLower.length >= 4 && exLower.length >= 4) {
-      if (candLower.includes(exLower) || exLower.includes(candLower)) {
+    if (cComp.length >= 4 && eComp.length >= 4) {
+      if (cComp.includes(eComp) || eComp.includes(cComp)) {
         return true;
       }
     }
 
     // Levenshtein distance check for short & medium words
-    const dist = calculateLevenshteinDistance(candLower, exLower);
-    if (candLower.length <= 5 && dist <= 1) return true;
-    if (candLower.length > 5 && dist <= 2) return true;
+    const dist = calculateLevenshteinDistance(cComp, eComp);
+    if (cComp.length <= 5 && dist <= 1) return true;
+    if (cComp.length > 5 && dist <= 2) return true;
   }
   return false;
 }
@@ -170,16 +183,95 @@ export type GenerationStrategy =
 /**
  * Intelligently combines prefix and suffix parts based on whether they are
  * independent words/phrases (space-separated) or phoneme syllables (joined).
+ * Handles French elision, apostrophes, contractions (du, des, au, aux) and avoids truncated fragments.
  */
 export function combineParts(p: string, s: string): string {
-  const cleanP = String(p || '').trim();
-  const cleanS = String(s || '').trim();
+  let cleanP = String(p || '').trim();
+  let cleanS = String(s || '').trim();
   if (!cleanP) return cleanS;
   if (!cleanS) return cleanP;
 
-  // Apostrophe attachment (e.g. "L'Atelier", "d'Émeraude")
+  // French preposition agreements and elisions
+  const vowelsRegex = /^[aàâeéèêiîoôuûhy]/i;
+  const firstWordS = cleanS.trim().split(' ')[0] || '';
+  const isPluralS = /[sx]$/i.test(firstWordS);
+
+  if (isPluralS) {
+    if (/\bdu$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\bdu$/i, 'des');
+    } else if (/\bd['’]un$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\bd['’]un$/i, 'des');
+    } else if (/\bde$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\bde$/i, 'des');
+    } else if (/\bde\s+la$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\bde\s+la$/i, 'des');
+    } else if (/\bde\s+l['’]$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\bde\s+l['’]$/i, 'des');
+    } else if (/\ble$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\ble$/i, 'les');
+    } else if (/\bla$/i.test(cleanP)) {
+      cleanP = cleanP.replace(/\bla$/i, 'les');
+    }
+  } else {
+    // Singular agreement
+    if (/\bde$/i.test(cleanP)) {
+      if (vowelsRegex.test(cleanS)) {
+        cleanP = cleanP.replace(/\bde$/i, "d’");
+        return cleanWord(`${cleanP}${cleanS}`);
+      } else {
+        const isFeminineWord = /(e|ée|ière|ance|ence|ie|onne|esse|ion)$/i.test(firstWordS);
+        cleanP = cleanP.replace(/\bde$/i, isFeminineWord ? 'de la' : 'du');
+      }
+    } else if (/\bles$/i.test(cleanP)) {
+      if (/\bnaissent\s+les$/i.test(cleanP)) {
+        // "naissent" is plural. If the following subject is singular, conjugate to "naît"!
+        const isFeminineWord = /(e|ée|ière|ance|ence|ie|onne|esse|ion)$/i.test(firstWordS);
+        if (vowelsRegex.test(cleanS)) {
+          cleanP = cleanP.replace(/\bnaissent\s+les$/i, "naît l’");
+          return cleanWord(`${cleanP}${cleanS}`);
+        } else {
+          cleanP = cleanP.replace(/\bnaissent\s+les$/i, isFeminineWord ? 'naît la' : 'naît le');
+        }
+      } else {
+        const isFeminineWord = /(e|ée|ière|ance|ence|ie|onne|esse|ion)$/i.test(firstWordS);
+        if (vowelsRegex.test(cleanS)) {
+          cleanP = cleanP.replace(/\bles$/i, "l’");
+          return cleanWord(`${cleanP}${cleanS}`);
+        } else {
+          cleanP = cleanP.replace(/\bles$/i, isFeminineWord ? 'la' : 'le');
+        }
+      }
+    } else if (/\ble$/i.test(cleanP)) {
+      if (vowelsRegex.test(cleanS)) {
+        cleanP = cleanP.replace(/\ble$/i, "l’");
+        return cleanWord(`${cleanP}${cleanS}`);
+      } else {
+        const isFeminineWord = /(e|ée|ière|ance|ence|ie|onne|esse|ion)$/i.test(firstWordS);
+        if (isFeminineWord) {
+          cleanP = cleanP.replace(/\ble$/i, 'la');
+        }
+      }
+    }
+  }
+
+  if (/\bde\s+le$/i.test(cleanP)) {
+    cleanP = cleanP.replace(/\bde\s+le$/i, 'du');
+  } else if (/\bde\s+les$/i.test(cleanP)) {
+    cleanP = cleanP.replace(/\bde\s+les$/i, 'des');
+  } else if (/\bà\s+le$/i.test(cleanP)) {
+    cleanP = cleanP.replace(/\bà\s+le$/i, 'au');
+  } else if (/\bà\s+les$/i.test(cleanP)) {
+    cleanP = cleanP.replace(/\bà\s+les$/i, 'aux');
+  }
+
+  // Apostrophe attachment (e.g. "L'Atelier", "d'Émeraude", "Maison d'")
   if (cleanP.endsWith("'") || cleanP.endsWith("’")) {
     return cleanWord(cleanP + cleanS);
+  }
+
+  // If cleanS starts with l' or d' (e.g. "l’Ancien", "l’Ombre", "d’Or") or articles (le, la, les, du, des)
+  if (/^[ld]['’]/i.test(cleanS) || /^(?:le|la|les|du|des|au|aux)\s+/i.test(cleanS)) {
+    return cleanWord(`${cleanP} ${cleanS}`);
   }
 
   // Check if either part contains spaces or punctuation
@@ -229,11 +321,19 @@ function generatePhoneticHarmony(
   const m = (randomItem(d.middle || []) as string) || '';
 
   if (length === 'short') {
-    const compactSuffix = s.length > 3 && !s.includes(' ') ? s.slice(0, 2) : s;
-    return combineParts(p, compactSuffix);
+    const shortSuffixes = suffixes.filter((x) => x.length <= 3 && !x.includes(' ') && !x.includes("'"));
+    const chosenS = shortSuffixes.length > 0 ? (randomItem(shortSuffixes) as string) : s;
+    const shortPrefixes = prefixes.filter((x) => x.length <= 4 && !x.includes(' ') && !x.includes("'"));
+    const chosenP = shortPrefixes.length > 0 ? (randomItem(shortPrefixes) as string) : p;
+    return combineParts(chosenP, chosenS);
   }
-  if (length === 'long' && m) {
-    return combineParts(combineParts(p, m), s);
+  if (length === 'long') {
+    if (m) {
+      return combineParts(combineParts(p, m), s);
+    }
+    const longPrefixes = prefixes.filter((x) => x.length >= 5 || x.includes(' '));
+    const chosenP = longPrefixes.length > 0 ? (randomItem(longPrefixes) as string) : p;
+    return combineParts(chosenP, s);
   }
   return combineParts(p, s);
 }
@@ -246,15 +346,24 @@ function generateNeologism(
   length: LengthOption,
   genLang: GenLanguageCode
 ): string {
-  const singleWords = [...d.prefixes, ...d.suffixes].filter((w) => !w.includes(' '));
+  // Only use single standalone words without spaces or apostrophes
+  const singleWords = [...d.prefixes, ...d.suffixes].filter(
+    (w) => !w.includes(' ') && !w.includes("'") && !w.includes('’') && w.length >= 4
+  );
   if (singleWords.length >= 2) {
     const w1 = randomItem(singleWords) || 'Nova';
     const w2 = randomItem(singleWords) || 'Velo';
-    const sliceLen1 = Math.max(2, Math.min(4, Math.floor(w1.length * 0.6)));
-    const sliceLen2 = Math.max(2, Math.min(4, Math.floor(w2.length * 0.5)));
-    const p1 = w1.slice(0, sliceLen1);
-    const p2 = w2.slice(-sliceLen2);
-    return cleanWord(cap(p1 + p2.toLowerCase()));
+    if (w1.toLowerCase() === w2.toLowerCase()) {
+      return generatePhoneticHarmony(d, length, genLang);
+    }
+    const cut1 = Math.max(2, Math.min(w1.length - 1, Math.floor(w1.length * 0.6)));
+    const cut2 = Math.max(1, Math.min(w2.length - 2, Math.floor(w2.length * 0.4)));
+    const p1 = w1.slice(0, cut1);
+    const p2 = w2.slice(cut2);
+    const combined = cleanWord(cap(p1 + p2.toLowerCase()));
+    if (combined.length >= 3 && combined.length <= 14) {
+      return combined;
+    }
   }
   return generatePhoneticHarmony(d, length, genLang);
 }
@@ -272,16 +381,17 @@ function generatePortmanteauBlend(
   const first = (randomItem(rootsA) as string) || 'Nova';
   const second = (randomItem(rootsB) as string) || 'craft';
 
-  // If either contains spaces or is a multi-word phrase, cleanly combine instead of slicing
-  if (first.includes(' ') || second.includes(' ') || first.length > 10) {
+  // If either contains spaces or apostrophes, combine cleanly as distinct words
+  if (first.includes(' ') || second.includes(' ') || first.includes("'") || second.includes("'") || first.length > 10) {
     return combineParts(first, second);
   }
 
-  // Smooth blending transition at intersection
-  const blendPoint = Math.max(2, Math.floor(first.length * 0.7));
-  const front = first.slice(0, blendPoint);
-  const back = second.toLowerCase();
-
+  // Smooth blending transition: drop trailing vowel of first if second starts with vowel
+  let front = first;
+  let back = second.toLowerCase();
+  if (/[aeiouy]$/i.test(front) && /^[aeiouy]/i.test(back)) {
+    front = front.slice(0, -1);
+  }
   return cleanWord(front + back);
 }
 
@@ -320,34 +430,37 @@ function generatePunchyMinimal(d: SubcategoryData): string {
   const p = (randomItem(d.prefixes) as string) || 'Vex';
   const s = (randomItem(d.suffixes) as string) || 'o';
 
-  // If p is a full multi-word phrase (e.g. "Théorème de", "Le Comptoir", "Food Truck")
-  if (p.includes(' ') || s.includes(' ') || p.length > 8) {
+  // If p is a full multi-word phrase, combine cleanly without chopping
+  if (p.includes(' ') || s.includes(' ') || p.includes("'") || s.includes("'") || p.length > 8) {
     return combineParts(p, s);
   }
 
-  // Strip leading articles like L', d' when creating compact blend
-  const cleanP = p.replace(/^[LlDd]['’]/, '');
-  const cleanS = s.replace(/^[LlDd]['’]/, '');
-
-  if (cleanP.length <= 4 && cleanS.length <= 4) {
-    return cleanWord(cleanP + cleanS.toLowerCase());
+  // Clean compact syllables
+  if (p.length <= 4 && s.length <= 3) {
+    return cleanWord(p + s.toLowerCase());
   }
-  const shortP = cleanP.slice(0, Math.min(3, cleanP.length));
-  const shortS = cleanS.slice(0, Math.min(3, cleanS.length));
+
+  const shortP = d.prefixes.find((x) => x.length <= 4 && !x.includes(' ') && !x.includes("'")) || p.slice(0, 3);
+  const shortS = d.suffixes.find((x) => x.length <= 3 && !x.includes(' ') && !x.includes("'")) || s.slice(0, 2);
   return cleanWord(cap(shortP + shortS.toLowerCase()));
 }
 
 /**
- * Clean up awkward triple letters or invalid clusters
+ * Clean up awkward triple letters, invalid clusters, and hanging prepositions
  */
 function cleanWord(str: string): string {
-  return normalize(
+  let res = normalize(
     str
-      .replace(/([aeiouAEIOU])\1{2,}/gi, '$1')
+      .replace(/([aeiouAEIOUà-ÿ])\1{2,}/gi, '$1')
       .replace(/([b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z])\1{2,}/gi, '$1$1')
       .replace(/\s+/g, ' ')
       .trim()
   );
+  // Remove trailing dangling apostrophes or single-letter fragments
+  res = res.replace(/['’]\s*$/, '').trim();
+  // Remove dangling articles like "de l'", "d'", "le", "la" at the end of string
+  res = res.replace(/\b(?:de\s+l['’]?|d['’]|du|des|le|la|les|un|une|the|of|in|at|on|for|with|and|by)['’]?$/i, '').trim();
+  return res;
 }
 
 /* =====================================================================
@@ -367,20 +480,29 @@ export function scoreCandidate(
 ): number {
   if (!name || name.length < 2) return 0;
 
+  // Strict rejection of incomplete fragments, dangling articles/prepositions
+  if (/(?:^|[\s'’])(?:de\s+l|d|l|de|du|des|le|la|les|un|une|the|of|in|at|on|for|with|and|by)['’]?$/i.test(name)) {
+    return 0;
+  }
+  if (/['’]$/.test(name)) return 0;
+  if (/\s+[a-zA-Z]$/.test(name)) return 0;
+  if (/\b(\w+)\s+\1\b/i.test(name)) return 0; // duplicate consecutive words (e.g. "Zone Zone")
+
   let score = 70; // baseline acceptable quality
 
-  const len = name.replace(/[^A-Za-z]/g, '').length;
+  const len = name.replace(/[^A-Za-zÀ-ÿ]/g, '').length;
 
   // Length compliance bonus/penalty
   if (lengthOpt === 'short') {
-    if (len >= 3 && len <= 6) score += 15;
-    else if (len > 8) score -= 20;
+    if (len >= 3 && len <= 6) score += 20;
+    else if (len > 8) score -= 30;
   } else if (lengthOpt === 'long') {
-    if (len >= 8) score += 15;
-    else if (len < 6) score -= 20;
+    if (len >= 8) score += 20;
+    else if (len < 6) score -= 30;
   } else {
     // Medium
     if (len >= 5 && len <= 9) score += 15;
+    else if (len > 14) score -= 15;
   }
 
   // Pronounceability & Vowel-Consonant Balance
@@ -394,19 +516,19 @@ export function scoreCandidate(
     score -= 25; // hard to pronounce or awkward stutter
   }
 
-  // Penalty for awkward consonant clusters (3 consonants in a row, unless common)
+  // Penalty for awkward consonant clusters (4 consonants in a row, unless common)
   if (/[b-df-hj-np-tv-z]{4,}/i.test(name)) {
     score -= 30;
   }
 
   // Gender nuance scoring
   if (genderOpt === 'female') {
-    if (/[aeia]$/i.test(name) || /^(Ael|Mira|Sera|Lira|Yuna|Ela)/i.test(name)) {
-      score += 10;
+    if (/[aeia]$/i.test(name) || /^(Ael|Mira|Sera|Lira|Yuna|Ela|Rose|Iris|Flora)/i.test(name)) {
+      score += 15;
     }
   } else if (genderOpt === 'male') {
-    if (/[or|un|an|us|ar|ok]$/i.test(name) || /^(Kael|Thar|Ryn|Aren|Marc)/i.test(name)) {
-      score += 10;
+    if (/[or|un|an|us|ar|ok|el|en]$/i.test(name) || /^(Kael|Thar|Ryn|Aren|Marc|Léo|Liam|Louis)/i.test(name)) {
+      score += 15;
     }
   }
 
@@ -527,18 +649,19 @@ export interface GenerateOptions {
   gender?: GenderOption;
   genLanguage?: GenLanguageCode;
   quantity?: number;
+  count?: number;
   keyword?: string;
 }
 
 export function generateNames(options: GenerateOptions): GeneratedName[] {
   const targetGenerator = options.generator || options.generatorId || 'fantasy';
   const targetStyle = options.style || 'default';
+  const quantity = Math.max(1, options.quantity ?? options.count ?? 9);
   const {
     length = 'medium',
     format = 'title',
     gender = 'any',
     genLanguage = 'auto',
-    quantity = 9,
     keyword = '',
   } = options;
 
@@ -550,7 +673,119 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
   const out: GeneratedName[] = [];
   const seenInBatch: string[] = [];
   const recentNames = getRecentNames();
+  const cleanKw = keyword.trim().replace(/[^a-zA-ZÀ-ÿ0-9-]/g, '');
 
+  // =========================================================================
+  // SPECIALIZED PIPELINE: REAL ATTESTED BABY NAMES (Priorité Absolue Qualité)
+  // =========================================================================
+  if (targetGenerator === 'baby_name' && targetStyle !== 'creative') {
+    const attestedSource =
+      resolved.attestedItems && resolved.attestedItems.length > 0
+        ? resolved.attestedItems
+        : ATTESTED_BABY_NAMES;
+
+    let pool = attestedSource.filter((item) => {
+      // 1. Gender filtering
+      if (gender === 'female' && item.gender === 'male') return false;
+      if (gender === 'male' && item.gender === 'female') return false;
+      if (gender === 'neutral' && item.gender !== 'neutral') return false;
+
+      // 2. Length filtering
+      if (length === 'short' && item.name.length > 5) return false;
+      if (length === 'long' && item.name.length < 7) return false;
+
+      // 3. Keyword / origin / meaning search
+      if (cleanKw) {
+        const kwLower = cleanKw.toLowerCase();
+        const matchesName = item.name.toLowerCase().includes(kwLower);
+        const matchesOrigin = item.origin.toLowerCase().includes(kwLower);
+        const matchesMeaning = item.meaning.toLowerCase().includes(kwLower);
+        if (!matchesName && !matchesOrigin && !matchesMeaning) return false;
+      }
+
+      return true;
+    });
+
+    // Fallback if strict filter was too narrow
+    if (pool.length === 0) {
+      pool = attestedSource.filter((item) => {
+        if (gender === 'female') return item.gender !== 'male';
+        if (gender === 'male') return item.gender !== 'female';
+        return true;
+      });
+    }
+    if (pool.length === 0) {
+      pool = attestedSource;
+    }
+
+    // Shuffle and pick unique names
+    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+
+    for (const item of shuffled) {
+      if (out.length >= quantity) break;
+      if (seenInBatch.includes(item.name.toLowerCase())) continue;
+      if (recentNames.some((r) => r.toLowerCase() === item.name.toLowerCase())) continue;
+
+      seenInBatch.push(item.name.toLowerCase());
+      out.push({
+        name: item.name,
+        description: `🌸 Prénom certifié d’origine ${item.origin} signifiant « ${item.meaning} ».${item.variants && item.variants.length > 0 ? ` Variantes connues : ${item.variants.join(', ')}.` : ''}`,
+        style: resolved.label || targetStyle,
+        icon: '👶',
+        bestFor: resolved.bestFor || 'futurs enfants, fratries et faire-part',
+        tone: resolved.tone || 'Harmonieux • intemporel • doux',
+        generatorId: 'baby_name',
+        pronunciation: generatePronunciation(item.name),
+        strengths: [
+          'Prénom authentique attesté à l’état civil',
+          `Origine étymologique certifiée : ${item.origin}`,
+          'Élocution quotidienne fluide et douce',
+        ],
+        watchouts: ['Prononcez-le avec votre nom de famille pour vérifier l’accord phonétique'],
+        origin: `Origine certifiée : ${item.origin}`,
+        meaning: item.meaning,
+        isAttested: true,
+        variants: item.variants,
+        gender: item.gender,
+      });
+    }
+
+    // Second pass if quantity not yet reached without duplicates
+    if (out.length < quantity) {
+      for (const item of shuffled) {
+        if (out.length >= quantity) break;
+        if (seenInBatch.includes(item.name.toLowerCase())) continue;
+        seenInBatch.push(item.name.toLowerCase());
+        out.push({
+          name: item.name,
+          description: `🌸 Prénom certifié d’origine ${item.origin} signifiant « ${item.meaning} ».`,
+          style: resolved.label || targetStyle,
+          icon: '👶',
+          bestFor: resolved.bestFor || 'futurs enfants, fratries et faire-part',
+          tone: resolved.tone || 'Harmonieux • intemporel • doux',
+          generatorId: 'baby_name',
+          pronunciation: generatePronunciation(item.name),
+          strengths: ['Prénom authentique attesté', `Origine : ${item.origin}`],
+          watchouts: ['Prononcez avec le nom de famille'],
+          origin: `Origine certifiée : ${item.origin}`,
+          meaning: item.meaning,
+          isAttested: true,
+          variants: item.variants,
+          gender: item.gender,
+        });
+      }
+    }
+
+    if (out.length > 0) {
+      recordRecentNames(out.map((x) => x.name));
+      addGenerationHistory(out);
+      return out;
+    }
+  }
+
+  // =========================================================================
+  // STANDARD PROCEDURAL & LINGUISTIC PIPELINE
+  // =========================================================================
   const strategies: GenerationStrategy[] = [
     'phonetic_harmony',
     'neologism',
@@ -563,14 +798,13 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
   let candidatePool: ScoredCandidate[] = [];
   let attempts = 0;
   const maxAttempts = quantity * 150;
-  const cleanKw = keyword.trim().replace(/[^a-zA-ZÀ-ÿ0-9-]/g, '');
 
   while (candidatePool.length < quantity * 4 && attempts < maxAttempts) {
     attempts++;
     const strategy = strategies[attempts % strategies.length];
     let baseName = '';
 
-    if (cleanKw && Math.random() < 0.65) {
+    if (cleanKw) {
       const mode = Math.random();
       const suf = randomItem(resolved.suffixes) || '';
       const pref = randomItem(resolved.prefixes) || '';
@@ -578,44 +812,54 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
       const kwCap = cleanKw.charAt(0).toUpperCase() + cleanKw.slice(1);
 
       if (mode < 0.35 && suf) {
-        baseName = `${kwCap}${suf.toLowerCase()}`;
+        baseName = combineParts(kwCap, suf);
       } else if (mode < 0.65 && pref) {
-        baseName = `${pref}${cleanKw.toLowerCase()}`;
-      } else if (titleW) {
-        baseName = `${kwCap} ${titleW}`;
+        baseName = combineParts(pref, kwCap);
+      } else if (titleW && Math.random() < 0.5) {
+        baseName = combineParts(kwCap, titleW);
       } else {
-        baseName = `${kwCap}${suf ? suf.toLowerCase() : ''}`;
+        baseName = `${kwCap} ${suf || 'Tech'}`;
       }
     } else {
+      const isPhrasal =
+        resolved.prefixes.some((p) => p.includes(' ') || p.length > 8) ||
+        resolved.suffixes.some((s) => s.includes(' ') || s.length > 8);
 
-    switch (strategy) {
-      case 'phonetic_harmony':
-        baseName = generatePhoneticHarmony(resolved, length, genLanguage);
-        break;
-      case 'neologism':
-        baseName = generateNeologism(resolved, length, genLanguage);
-        break;
-      case 'portmanteau_blend':
-        baseName = generatePortmanteauBlend(resolved, genLanguage);
-        break;
-      case 'symbolic_evocative':
-        baseName = generateSymbolicEvocative(targetGenerator, resolved, genLanguage);
-        break;
-      case 'punchy_minimal':
-        baseName = generatePunchyMinimal(resolved);
-        break;
-      case 'epic_compound': {
-        const part1 = generatePhoneticHarmony(resolved, 'short', genLanguage);
-        const part2 = generatePhoneticHarmony(resolved, 'short', genLanguage);
-        if (part1.includes(' ') || part2.includes(' ')) {
-          baseName = part1;
-        } else {
-          baseName = combineParts(part1, part2);
+      if (isPhrasal) {
+        // Phrasal categories must preserve whole words without mutilating syllables
+        const p = (randomItem(resolved.prefixes) as string) || 'Le';
+        const s = (randomItem(resolved.suffixes) as string) || 'Monde';
+        baseName = combineParts(p, s);
+      } else {
+        switch (strategy) {
+          case 'phonetic_harmony':
+            baseName = generatePhoneticHarmony(resolved, length, genLanguage);
+            break;
+          case 'neologism':
+            baseName = generateNeologism(resolved, length, genLanguage);
+            break;
+          case 'portmanteau_blend':
+            baseName = generatePortmanteauBlend(resolved, genLanguage);
+            break;
+          case 'symbolic_evocative':
+            baseName = generateSymbolicEvocative(targetGenerator, resolved, genLanguage);
+            break;
+          case 'punchy_minimal':
+            baseName = generatePunchyMinimal(resolved);
+            break;
+          case 'epic_compound': {
+            const part1 = generatePhoneticHarmony(resolved, 'short', genLanguage);
+            const part2 = generatePhoneticHarmony(resolved, 'short', genLanguage);
+            if (part1.includes(' ') || part2.includes(' ')) {
+              baseName = part1;
+            } else {
+              baseName = combineParts(part1, part2);
+            }
+            break;
+          }
         }
-        break;
       }
     }
-  }
 
     if (!baseName || baseName.length < 2) continue;
 
@@ -641,8 +885,10 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
         defaultGroups[0];
       formattedName = `${g} ${baseName}`;
     } else if (format === 'compound') {
-      const secondary = generatePunchyMinimal(resolved);
-      formattedName = combineParts(baseName, secondary);
+      if (!baseName.includes(' ')) {
+        const secondary = generatePunchyMinimal(resolved);
+        formattedName = combineParts(baseName, secondary);
+      }
     } else {
       // Title format (only apply if the category explicitly provides titles or is high fantasy)
       if (resolved.titles && resolved.titles.length > 0 && Math.random() < 0.28) {
@@ -661,16 +907,26 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
       }
     }
 
-    // Gender start adaptations (only when defined for this subcategory or when fantasy)
-    if (gender === 'female' && !formattedName.includes(' ') && resolved.femaleStarts && resolved.femaleStarts.length > 0) {
-      const fPrefix = randomItem(resolved.femaleStarts);
-      if (fPrefix) {
-        formattedName = cleanWord(fPrefix + (formattedName.length > 4 ? formattedName.slice(3) : formattedName));
+    // Gender adaptations
+    if (gender === 'female' && !formattedName.includes(' ')) {
+      if (resolved.femaleStarts && resolved.femaleStarts.length > 0 && Math.random() < 0.4) {
+        const fPrefix = randomItem(resolved.femaleStarts);
+        if (fPrefix) {
+          formattedName = combineParts(fPrefix, formattedName.toLowerCase());
+        }
+      } else if (/[or|us|os|ik|ak]$/i.test(formattedName)) {
+        formattedName = formattedName.replace(/[or|us|os|ik|ak]+$/i, 'a');
+      } else if (!/[aeiouy]$/i.test(formattedName)) {
+        formattedName = formattedName + 'a';
       }
-    } else if (gender === 'male' && !formattedName.includes(' ') && resolved.maleStarts && resolved.maleStarts.length > 0) {
-      const mPrefix = randomItem(resolved.maleStarts);
-      if (mPrefix) {
-        formattedName = cleanWord(mPrefix + (formattedName.length > 4 ? formattedName.slice(3) : formattedName));
+    } else if (gender === 'male' && !formattedName.includes(' ')) {
+      if (resolved.maleStarts && resolved.maleStarts.length > 0 && Math.random() < 0.4) {
+        const mPrefix = randomItem(resolved.maleStarts);
+        if (mPrefix) {
+          formattedName = combineParts(mPrefix, formattedName.toLowerCase());
+        }
+      } else if (/[a]$/i.test(formattedName) && formattedName.length > 4) {
+        formattedName = formattedName.slice(0, -1) + 'an';
       }
     }
 
@@ -689,8 +945,13 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
   for (const cand of candidatePool) {
     if (out.length >= quantity) break;
 
-    // Check exact & similarity collision with current batch
-    if (isTooSimilar(cand.name, seenInBatch)) {
+    // When keyword is requested, only accept candidates containing the keyword
+    if (cleanKw && !cand.name.toLowerCase().includes(cleanKw.toLowerCase())) {
+      continue;
+    }
+
+    // Check exact & similarity collision with current batch (keyword-aware)
+    if (isTooSimilar(cand.name, seenInBatch, cleanKw)) {
       continue;
     }
 
@@ -702,9 +963,11 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
     seenInBatch.push(cand.name);
     usedStrategies.add(cand.strategy);
 
-    const desc =
-      (randomItem(resolved.descriptions) as string) ||
-      '✨ Un nom exclusif façonné avec soin par la forge NameForge.';
+    const isCreativeBaby = targetGenerator === 'baby_name';
+    const desc = isCreativeBaby
+      ? '✨ Création phonétique originale (mode inventif, non issu des répertoires historiques).'
+      : ((randomItem(resolved.descriptions) as string) ||
+        '✨ Un nom exclusif façonné avec soin par la forge NameForge.');
 
     const meta = buildProfessionalMetadata(cand.name, targetGenerator, resolved.label || targetStyle, length);
 
@@ -721,7 +984,78 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
       watchouts: meta.watchouts,
       disclaimer: meta.disclaimer,
       origin: meta.origin,
+      isAttested: isCreativeBaby ? false : undefined,
     });
+  }
+
+  // Graceful fallback to guarantee exactly the requested quantity
+  if (out.length < quantity) {
+    for (const cand of candidatePool) {
+      if (out.length >= quantity) break;
+      if (cleanKw && !cand.name.toLowerCase().includes(cleanKw.toLowerCase())) continue;
+      if (seenInBatch.some((s) => s.toLowerCase() === cand.name.toLowerCase())) continue;
+
+      seenInBatch.push(cand.name);
+      const desc =
+        (randomItem(resolved.descriptions) as string) ||
+        '✨ Un nom exclusif façonné avec soin par la forge NameForge.';
+      const meta = buildProfessionalMetadata(cand.name, targetGenerator, resolved.label || targetStyle, length);
+
+      out.push({
+        name: cand.name,
+        description: desc,
+        style: resolved.label || targetStyle,
+        icon: resolved.icon || '✨',
+        bestFor: resolved.bestFor || 'projets créatifs et professionnels',
+        tone: resolved.tone || 'Distinctif • mémorable • percutant',
+        generatorId: targetGenerator,
+        pronunciation: generatePronunciation(cand.name),
+        strengths: meta.strengths,
+        watchouts: meta.watchouts,
+        disclaimer: meta.disclaimer,
+        origin: meta.origin,
+      });
+    }
+  }
+
+  // Final synthetic pass if candidate pool was exhausted
+  let fallbackIndex = 0;
+  while (out.length < quantity && fallbackIndex < 100) {
+    fallbackIndex++;
+    const kwCap = cleanKw ? cleanKw.charAt(0).toUpperCase() + cleanKw.slice(1) : '';
+    let syntheticName: string;
+    if (kwCap) {
+      const suffixesPool = ['Tech', 'Core', 'Labs', 'Prime', 'Craft', 'Solutions', 'Studio', 'Nova', 'Pro'];
+      const altSuffix = randomItem(resolved.suffixes) || randomItem(suffixesPool) || 'One';
+      syntheticName = `${kwCap} ${altSuffix}`;
+    } else {
+      const p = randomItem(resolved.prefixes) || 'Nova';
+      const s = randomItem(resolved.suffixes) || 'is';
+      syntheticName = combineParts(p, s);
+    }
+
+    if (!seenInBatch.some((item) => item.toLowerCase() === syntheticName.toLowerCase())) {
+      seenInBatch.push(syntheticName);
+      const desc =
+        (randomItem(resolved.descriptions) as string) ||
+        '✨ Un nom exclusif façonné avec soin par la forge NameForge.';
+      const meta = buildProfessionalMetadata(syntheticName, targetGenerator, resolved.label || targetStyle, length);
+
+      out.push({
+        name: syntheticName,
+        description: desc,
+        style: resolved.label || targetStyle,
+        icon: resolved.icon || '✨',
+        bestFor: resolved.bestFor || 'projets créatifs et professionnels',
+        tone: resolved.tone || 'Distinctif • mémorable • percutant',
+        generatorId: targetGenerator,
+        pronunciation: generatePronunciation(syntheticName),
+        strengths: meta.strengths,
+        watchouts: meta.watchouts,
+        disclaimer: meta.disclaimer,
+        origin: meta.origin,
+      });
+    }
   }
 
   // Update sliding window of recent names

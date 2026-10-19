@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Bookmark, Menu, X, ChevronDown, Settings, Search, Globe, Dices } from 'lucide-react';
+import { Bookmark, Menu, X, ChevronDown, Settings, Search, Globe, Dices, Wand2 } from 'lucide-react';
 import { ALL_GENERATORS_LIST, GENERATOR_FAMILIES_CONFIG } from '../data/generators';
 import { GeneratorId } from '../types';
 import { getSavedNames, subscribeToStorage } from '../services/storage';
@@ -122,7 +122,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         }}
                         className="text-xs text-purple-400 hover:text-purple-300 font-semibold cursor-pointer"
                       >
-                        {t.allGenerators} →
+                        {t.allGenerators.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))} →
                       </button>
                     </div>
 
@@ -183,6 +183,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Dices className="w-3.5 h-3.5 text-amber-400" />
               <span>🎲 Aléatoire</span>
+            </button>
+
+            {/* Typography / Style Studio */}
+            <button
+              onClick={() => onNavigate('style-studio')}
+              className={`text-sm font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                currentView === 'style-studio'
+                  ? 'text-white border-b-2 border-purple-500 pb-1'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Wand2 className="w-3.5 h-3.5 text-pink-400" />
+              <span>{settings.language === 'fr' ? 'Atelier Style' : 'Style Studio'}</span>
             </button>
 
             {/* My Names with Live Counter */}
@@ -270,7 +283,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className="w-full text-left py-2 px-3 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 flex items-center justify-between"
             >
-              <span>{t.allGenerators}</span>
+              <span>{t.allGenerators.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))}</span>
               <span className="text-xs bg-purple-600/30 text-purple-300 px-2 py-0.5 rounded-full font-bold">
                 {ALL_GENERATORS_LIST.length}
               </span>
@@ -286,6 +299,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Dices className="w-4 h-4 text-amber-400" />
               <span>Générateur Aléatoire (🎲 Surprenez-moi)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                onNavigate('style-studio');
+                setMobileMenuOpen(false);
+              }}
+              className="w-full text-left py-2 px-3 rounded-xl text-sm font-semibold text-pink-300 hover:bg-slate-800 flex items-center gap-2"
+            >
+              <Wand2 className="w-4 h-4 text-pink-400" />
+              <span>{settings.language === 'fr' ? 'Atelier Style (Unicode & Canvas HD)' : 'Style Studio (Unicode & HD Canvas)'}</span>
             </button>
 
             <button

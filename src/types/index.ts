@@ -313,6 +313,10 @@ export interface GeneratedName {
   watchouts?: string[];
   origin?: string;
   disclaimer?: string;
+  meaning?: string;
+  isAttested?: boolean;
+  variants?: string[];
+  gender?: GenderOption;
 }
 
 export interface NamedCollection {
@@ -354,6 +358,14 @@ export interface StyleOption {
   description?: string;
 }
 
+export interface AttestedNameItem {
+  name: string;
+  gender: GenderOption;
+  origin: string;
+  meaning: string;
+  variants?: string[];
+}
+
 export interface SubcategoryData {
   label: string;
   icon: string;
@@ -371,6 +383,7 @@ export interface SubcategoryData {
   strengths?: string[];
   watchouts?: string[];
   disclaimer?: string;
+  attestedItems?: AttestedNameItem[];
 }
 
 export interface GeneratorMeta {

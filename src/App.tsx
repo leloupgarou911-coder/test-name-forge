@@ -5,6 +5,7 @@ import { HomeView } from './views/HomeView';
 import { GeneratorsListView } from './views/GeneratorsListView';
 import { GeneratorDetailView } from './views/GeneratorDetailView';
 import { MyNamesView } from './views/MyNamesView';
+import { StyleStudioView } from './views/StyleStudioView';
 import { GeneratorId } from './types';
 import { GENERATORS_METADATA, ALL_GENERATORS_LIST } from './data/generators';
 import { applySettingsToDOM, getAppSettings, subscribeToSettings } from './services/settings';
@@ -12,6 +13,7 @@ import { applySettingsToDOM, getAppSettings, subscribeToSettings } from './servi
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<string>('home');
   const [currentGenerator, setCurrentGenerator] = useState<GeneratorId>('fantasy');
+  const [styleStudioText, setStyleStudioText] = useState<string>('NameForge');
   const [settings, setSettings] = useState(getAppSettings());
 
   // Initialize and subscribe to settings
@@ -39,6 +41,10 @@ export const App: React.FC = () => {
       setCurrentView('my-names');
       return;
     }
+    if (hash === 'style-studio' || hash === 'atelier-style' || hash === 'text-styler') {
+      setCurrentView('style-studio');
+      return;
+    }
     if (hash.startsWith('generator/')) {
       const genId = hash.replace('generator/', '') as GeneratorId;
       if (GENERATORS_METADATA[genId]) {
@@ -61,10 +67,19 @@ export const App: React.FC = () => {
   useEffect(() => {
     parseHash();
     window.addEventListener('hashchange', parseHash);
-    return () => window.removeEventListener('hashchange', parseHash);
+    const handleCustomNav = (e: any) => {
+      if (e.detail?.view) {
+        handleNavigate(e.detail.view, e.detail.name || e.detail.generatorId);
+      }
+    };
+    window.addEventListener('nameforge:navigate', handleCustomNav);
+    return () => {
+      window.removeEventListener('hashchange', parseHash);
+      window.removeEventListener('nameforge:navigate', handleCustomNav);
+    };
   }, []);
 
-  const handleNavigate = (view: string, generatorId?: GeneratorId) => {
+  const handleNavigate = (view: string, generatorId?: GeneratorId | string) => {
     if (view === 'home') {
       window.location.hash = '';
       setCurrentView('home');
@@ -77,9 +92,17 @@ export const App: React.FC = () => {
       window.location.hash = '/my-names';
       setCurrentView('my-names');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (view === 'style-studio') {
+      window.location.hash = '/style-studio';
+      if (generatorId) {
+        setStyleStudioText(String(generatorId));
+      }
+      setCurrentView('style-studio');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'generator-detail' && generatorId) {
-      window.location.hash = `/generator/${generatorId}`;
-      setCurrentGenerator(generatorId);
+      const gId = generatorId as GeneratorId;
+      window.location.hash = `/generator/${gId}`;
+      setCurrentGenerator(gId);
       setCurrentView('generator-detail');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -93,6 +116,11 @@ export const App: React.FC = () => {
       document.title = `Tous les ${ALL_GENERATORS_LIST.length} Générateurs de Noms — NameForge`;
     } else if (currentView === 'my-names') {
       document.title = 'Mes Noms — Favoris, Notes & Collections | NameForge';
+    } else if (currentView === 'style-studio') {
+      document.title =
+        settings.language === 'fr'
+          ? 'Atelier de Stylisation & Polices Unicode | NameForge'
+          : 'Typography & Style Studio | NameForge';
     } else if (currentView === 'generator-detail') {
       const meta = GENERATORS_METADATA[currentGenerator];
       document.title = `${meta ? meta.title : 'Générateur de Noms'} | NameForge`;
@@ -122,6 +150,9 @@ export const App: React.FC = () => {
           <GeneratorDetailView generatorId={currentGenerator} onNavigate={handleNavigate} />
         )}
         {currentView === 'my-names' && <MyNamesView onNavigate={handleNavigate} />}
+        {currentView === 'style-studio' && (
+          <StyleStudioView onNavigate={handleNavigate} initialText={styleStudioText} />
+        )}
       </main>
 
       <Footer onNavigate={handleNavigate} />

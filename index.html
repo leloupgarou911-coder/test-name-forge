@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NameForge — 234+ Générateurs de Noms Gratuits & Professionnels</title>
+    <title>NameForge — 234+ Free & Professional Name Generators</title>
     <meta
       name="description"
-      content="NameForge est une plateforme professionnelle gratuite de 234+ générateurs de noms pour marques, commerces, personnages, RPG, fantasy, univers animés, sciences et technologies."
+      content="NameForge is a professional suite of 234+ free name generators for brands, businesses, characters, fantasy lore, gaming tags, tech startups, and scientific naming."
     />
     <meta
       name="keywords"
-      content="générateur de noms, name generator, générateur de marques, fantasy name generator, RPG names, générateur entreprise, startup name generator"
+      content="name generator, fantasy name generator, brand name generator, business names, gaming tag generator, RPG names, typography styler"
     />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#060611" />
@@ -24,13 +24,15 @@
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f172a'/><path d='M7 21h18v3H7z' fill='%2306b6d4'/><path d='M5 13h18a3 3 0 0 1 3 3v2H5z' fill='%238b5cf6'/><path d='M17 5l-6 9h5l-1 7 7-10h-5l2-6z' fill='%2338bdf8'/></svg>"
     />
 
-    <!-- Prevent Theme Flash -->
+    <!-- Prevent Theme & Language Flash -->
     <script>
       (function() {
         try {
           var raw = localStorage.getItem('nameforge_settings');
+          var lang = 'en';
           if (raw) {
             var s = JSON.parse(raw);
+            if (s.language) lang = s.language;
             var isDark = true;
             if (s.theme === 'light') isDark = false;
             else if (s.theme === 'system') {
@@ -43,13 +45,16 @@
               document.documentElement.classList.add('light');
               document.documentElement.classList.remove('dark');
             }
-            if (['ar', 'he', 'fa', 'ur', 'ps'].indexOf(s.language) !== -1) {
+            if (['ar', 'he', 'fa', 'ur', 'ps'].indexOf(lang) !== -1) {
               document.documentElement.dir = 'rtl';
+            } else {
+              document.documentElement.dir = 'ltr';
             }
             if (s.textSize) {
               document.documentElement.classList.add('text-size-' + s.textSize);
             }
           }
+          document.documentElement.lang = lang;
         } catch(e) {}
       })();
     </script>

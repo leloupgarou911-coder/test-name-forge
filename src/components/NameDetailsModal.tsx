@@ -12,6 +12,7 @@ import {
   Volume2,
   ShieldAlert,
   Lightbulb,
+  Wand2,
 } from 'lucide-react';
 import { GeneratedName, GeneratorId } from '../types';
 import {
@@ -198,6 +199,48 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             </div>
           </div>
 
+          {/* Attested Data Box for Baby Names / Real Names */}
+          {nameItem.isAttested !== undefined && (
+            <div
+              className={`p-4 rounded-2xl border ${
+                nameItem.isAttested
+                  ? 'bg-emerald-950/20 border-emerald-500/30'
+                  : 'bg-indigo-950/20 border-indigo-500/30'
+              } space-y-2`}
+            >
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                  <CheckCircle2
+                    className={`w-4 h-4 ${nameItem.isAttested ? 'text-emerald-400' : 'text-indigo-400'}`}
+                  />
+                  <span className={nameItem.isAttested ? 'text-emerald-300' : 'text-indigo-300'}>
+                    {nameItem.isAttested ? 'Prénom Réel Attesté à l’État Civil' : 'Création Phonétique (Mode Inventé)'}
+                  </span>
+                </span>
+                {nameItem.origin && (
+                  <span className="text-[11px] font-semibold text-slate-300 px-2.5 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/60">
+                    {nameItem.origin}
+                  </span>
+                )}
+              </div>
+              {nameItem.meaning && (
+                <div className="text-slate-200 text-xs">
+                  <strong className="text-white">Signification étymologique :</strong> « {nameItem.meaning} »
+                </div>
+              )}
+              {nameItem.variants && nameItem.variants.length > 0 && (
+                <div className="text-slate-400 text-[11px]">
+                  <strong>Variantes connues :</strong> {nameItem.variants.join(', ')}
+                </div>
+              )}
+              {!nameItem.isAttested && (
+                <p className="text-[11px] text-slate-400 italic">
+                  Note de transparence NameForge : Cette proposition est une harmonie sonore originale, non issue des registres traditionnels d’état civil.
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Strengths vs Watch-outs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Strengths */}
@@ -291,6 +334,22 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             >
               <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-current' : ''}`} />
               <span>{isLiked ? 'Aimé' : 'J’aime'}</span>
+            </button>
+
+            <button
+              onClick={() => {
+                onClose();
+                window.dispatchEvent(
+                  new CustomEvent('nameforge:navigate', {
+                    detail: { view: 'style-studio', name: nameItem.name },
+                  })
+                );
+              }}
+              className="py-2 px-3.5 rounded-xl font-bold transition flex items-center gap-1.5 text-xs cursor-pointer border bg-pink-600/20 text-pink-300 border-pink-500/50 hover:bg-pink-600 hover:text-white"
+              title="Styliser ce nom dans l'Atelier Typographique"
+            >
+              <Wand2 className="w-3.5 h-3.5" />
+              <span>Styliser</span>
             </button>
           </div>
 

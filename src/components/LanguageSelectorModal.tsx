@@ -8,6 +8,7 @@ import {
   getAppSettings,
   saveAppSettings,
 } from '../services/settings';
+import { isLanguageFullyTranslated, FULL_TRANSLATION_LANGUAGES } from '../i18n';
 
 interface LanguageSelectorModalProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
   onLanguageSelected,
 }) => {
   const [search, setSearch] = useState('');
-  const [activeTab, setActiveTab] = useState<'all' | 'Europe' | 'Asie' | 'Moyen-Orient' | 'Afrique' | 'Inde & Asie du Sud'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'full' | 'Europe' | 'Asie' | 'Moyen-Orient' | 'Afrique' | 'Inde & Asie du Sud'>('all');
   const [currentLang, setCurrentLang] = useState<LanguageCode>(getAppSettings().language);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,7 +53,12 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
   const filteredLanguages = useMemo(() => {
     const q = search.trim().toLowerCase();
     return sortedLanguages.filter((l) => {
-      const matchesTab = activeTab === 'all' || l.region === activeTab;
+      let matchesTab = true;
+      if (activeTab === 'full') {
+        matchesTab = isLanguageFullyTranslated(l.code);
+      } else if (activeTab !== 'all') {
+        matchesTab = l.region === activeTab;
+      }
       if (!matchesTab) return false;
       if (!q) return true;
       return (
@@ -100,7 +106,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
                 </span>
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Sélectionnez votre langue d'affichage. Tri alphabétique & prise en charge RTL automatique.
+                82 langues au catalogue : 25 traductions intégrales dédiées et 57 avec support & repli automatique • Prise en charge RTL native.
               </p>
             </div>
           </div>
@@ -140,6 +146,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
           <div className="flex items-center gap-1.5 flex-wrap">
             {[
               { id: 'all', label: `Toutes (${SUPPORTED_LANGUAGES.length})` },
+              { id: 'full', label: `✨ 100% Traduites (${FULL_TRANSLATION_LANGUAGES.length})` },
               { id: 'Europe', label: 'Europe' },
               { id: 'Asie', label: 'Asie' },
               { id: 'Moyen-Orient', label: 'Moyen-Orient & RTL' },
@@ -166,6 +173,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
             {filteredLanguages.map((lang) => {
               const isSelected = currentLang === lang.code;
+              const isFull = isLanguageFullyTranslated(lang.code);
               return (
                 <button
                   key={lang.code}
@@ -187,8 +195,17 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
                           </span>
                         )}
                       </div>
-                      <div className="text-xs text-slate-400 truncate">
-                        {lang.label} <span className="text-[10px] opacity-60">({lang.code})</span>
+                      <div className="text-xs text-slate-400 truncate flex items-center gap-1.5 mt-0.5">
+                        <span>{lang.label} ({lang.code})</span>
+                        <span
+                          className={`text-[9px] font-semibold px-1.5 py-0.2 rounded border ${
+                            isFull
+                              ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30'
+                              : 'text-slate-400 bg-slate-800/80 border-slate-700/40'
+                          }`}
+                        >
+                          {isFull ? 'Intégrale' : 'Repli EN'}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -220,9 +237,9 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
         </div>
 
         {/* Footer info */}
-        <div className="p-3.5 px-6 border-t border-slate-800 bg-[#090e1c] flex items-center justify-between text-xs text-slate-400">
-          <span>Active : <strong className="text-white">{SUPPORTED_LANGUAGES.find(l => l.code === currentLang)?.native || currentLang}</strong></span>
-          <span className="text-slate-500">Sauvegarde locale instantanée • UTF-8</span>
+        <div className="p-3.5 px-6 border-t border-slate-800 bg-[#090e1c] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
+          <span>Active : <strong className="text-white">{SUPPORTED_LANGUAGES.find(l => l.code === currentLang)?.native || currentLang}</strong> {isLanguageFullyTranslated(currentLang) ? '(✨ Traduction intégrale)' : '(Support standard • Repli anglais)'}</span>
+          <span className="text-slate-500">25 intégrales • 57 repli • UTF-8 & RTL</span>
         </div>
       </div>
     </div>

@@ -170,7 +170,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
 
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-black uppercase tracking-widest mb-8 shadow-inner">
           <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-          <span>{t.hero.badge}</span>
+          <span>{t.hero.badge.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))}</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] mb-6">
@@ -190,7 +190,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             onClick={() => onNavigate('generators')}
             className="w-full sm:w-auto h-13 px-7 rounded-2xl bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold text-sm shadow-xl shadow-purple-600/30 hover:shadow-cyan-500/30 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer"
           >
-            <span>{t.hero.exploreBtn}</span>
+            <span>{t.hero.exploreBtn.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
 
@@ -200,7 +200,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               onNavigate('generator-detail', randomGen.id);
             }}
             className="w-full sm:w-auto h-13 px-6 rounded-2xl bg-gradient-to-r from-amber-500/20 to-purple-600/20 hover:from-amber-500/30 hover:to-purple-600/30 text-amber-300 font-extrabold text-sm border border-amber-500/40 hover:border-amber-400 transition flex items-center justify-center gap-2 cursor-pointer"
-            title="Ouvrir un générateur aléatoire parmi les 134"
+            title={`Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}`}
           >
             <Dices className="w-4 h-4 text-amber-400" />
             <span>🎲 Surprenez-moi !</span>
@@ -219,7 +219,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-semibold border-t border-slate-800/80 pt-8 max-w-3xl mx-auto">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-cyan-400" />
-            <span className="text-slate-300">{t.hero.fastStatGenerators}</span>
+            <span className="text-slate-300">{t.hero.fastStatGenerators.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-purple-400" />
@@ -373,7 +373,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <div className="w-12 h-12 rounded-2xl bg-cyan-600/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4">
               <Layers className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-black text-white mb-2">{t.advantages.adv2Title}</h3>
+            <h3 className="text-base font-black text-white mb-2">{t.advantages.adv2Title.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))}</h3>
             <p className="text-xs text-slate-400 leading-relaxed">{t.advantages.adv2Desc}</p>
           </div>
 
@@ -754,7 +754,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           <div className="p-8 rounded-3xl bg-gradient-to-b from-[#10182c] to-[#0a0f1e] border border-slate-800 relative">
             <div className="text-4xl font-black text-purple-500/30 mb-4">01</div>
             <h3 className="text-lg font-black text-white mb-2">{t.howItWorks.step1Title}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t.howItWorks.step1Desc}</p>
+            <p className="text-xs text-slate-400 leading-relaxed">{t.howItWorks.step1Desc.replace(/\b134\b/g, String(ALL_GENERATORS_LIST.length))}</p>
           </div>
 
           {/* Step 2 */}

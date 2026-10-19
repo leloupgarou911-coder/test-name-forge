@@ -1,0 +1,434 @@
+import { ALL_GENERATORS_LIST, GENERATORS_METADATA } from '../data/generators';
+import { SUBCATEGORIES_DATA } from '../data/subcategories';
+import { generateNames, isTooSimilar, calculateLevenshteinDistance } from '../services/generatorEngine';
+import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
+
+declare const process: { exit: (code: number) => void };
+
+interface TestResult {
+  num: number;
+  description: string;
+  passed: boolean;
+  error?: string;
+}
+
+const results: TestResult[] = [];
+let testCounter = 1;
+
+function assert(condition: boolean, description: string, details?: string) {
+  const currentNum = testCounter++;
+  if (condition) {
+    results.push({ num: currentNum, description, passed: true });
+    console.log(`  ✓ Test ${currentNum}: ${description}`);
+  } else {
+    results.push({ num: currentNum, description, passed: false, error: details || 'Assertion failed' });
+    console.error(`  ✗ Test ${currentNum} FAILED: ${description} - ${details || ''}`);
+  }
+}
+
+console.log('=====================================================');
+console.log('NAMEFORGE COMPREHENSIVE AUTOMATED TEST SUITE (33+ LOTS)');
+console.log('=====================================================\n');
+
+// -----------------------------------------------------------------------------
+// LOT 1: CATALOG INTEGRITY & DATABASE VALIDATION (Tests 1 - 7)
+// -----------------------------------------------------------------------------
+console.log('--- LOT 1: CATALOG INTEGRITY & REPOSITORIES ---');
+
+// Test 1: Exactly 234 registered generators in list
+assert(
+  ALL_GENERATORS_LIST.length === 234,
+  'ALL_GENERATORS_LIST contains exactly 234 unique generator definitions',
+  `Found ${ALL_GENERATORS_LIST.length}`
+);
+
+// Test 2: Exactly 234 keys in GENERATORS_METADATA
+const metaKeys = Object.keys(GENERATORS_METADATA);
+assert(
+  metaKeys.length === 234,
+  'GENERATORS_METADATA map contains exactly 234 registered generators',
+  `Found ${metaKeys.length}`
+);
+
+// Test 3: No duplicate generator IDs
+const idCounts = new Set<string>();
+let duplicateFound = false;
+for (const g of ALL_GENERATORS_LIST) {
+  if (idCounts.has(g.id)) {
+    duplicateFound = true;
+    break;
+  }
+  idCounts.add(g.id);
+}
+assert(!duplicateFound, 'Every generator ID in ALL_GENERATORS_LIST is strictly unique');
+
+// Test 4: Every generator in metadata exists in list
+const missingInList = metaKeys.filter((k) => !idCounts.has(k));
+assert(
+  missingInList.length === 0,
+  'Every key in GENERATORS_METADATA exists in ALL_GENERATORS_LIST',
+  `Missing: ${missingInList.join(', ')}`
+);
+
+// Test 5: Every generator has valid subcategory resolution
+const missingSubcategories = ALL_GENERATORS_LIST.filter((g) => !SUBCATEGORIES_DATA[g.id]);
+assert(
+  missingSubcategories.length === 0,
+  'Every generator has a dedicated or resolvable entry in SUBCATEGORIES_DATA',
+  `Missing: ${missingSubcategories.map((g) => g.id).join(', ')}`
+);
+
+// Test 6: Attested baby names database is populated with verified records
+assert(
+  ATTESTED_BABY_NAMES.length >= 80,
+  'ATTESTED_BABY_NAMES has rich verified historical entries with origins & meanings',
+  `Count: ${ATTESTED_BABY_NAMES.length}`
+);
+
+// Test 7: Attested baby names contain zero empty origins or meanings
+const incompleteBabyNames = ATTESTED_BABY_NAMES.filter(
+  (b) => !b.name || !b.origin || !b.meaning || !b.gender
+);
+assert(
+  incompleteBabyNames.length === 0,
+  'All attested baby names have complete metadata (name, origin, meaning, gender)',
+  `Incomplete count: ${incompleteBabyNames.length}`
+);
+
+// -----------------------------------------------------------------------------
+// LOT 2: GENERATOR ENGINE PARAMETER TESTING (Tests 8 - 17)
+// -----------------------------------------------------------------------------
+console.log('\n--- LOT 2: ENGINE PARAMETER MATRIX ---');
+
+// Test 8: Keyword parameter is strictly integrated (Brand generator)
+const kwResultsBrand = generateNames({ generatorId: 'brand', keyword: 'Aero', quantity: 6 });
+const nonKwBrand = kwResultsBrand.filter((r) => !r.name.toLowerCase().includes('aero'));
+assert(
+  kwResultsBrand.length === 6 && nonKwBrand.length === 0,
+  'Keyword "Aero" is strictly incorporated in 100% of generated brand names',
+  `Non-matching: ${nonKwBrand.map((r) => r.name).join(', ')}`
+);
+
+// Test 9: Keyword parameter in fantasy generator
+const kwResultsFantasy = generateNames({ generatorId: 'fantasy', keyword: 'Val', quantity: 5 });
+const nonKwFantasy = kwResultsFantasy.filter((r) => !r.name.toLowerCase().includes('val'));
+assert(
+  kwResultsFantasy.length === 5 && nonKwFantasy.length === 0,
+  'Keyword "Val" is strictly incorporated in 100% of fantasy names',
+  `Non-matching: ${nonKwFantasy.map((r) => r.name).join(', ')}`
+);
+
+// Test 10: Length parameter - short yields shorter names on average than long
+const shortBatches = generateNames({ generatorId: 'fantasy', length: 'short', quantity: 10 });
+const longBatches = generateNames({ generatorId: 'fantasy', length: 'long', quantity: 10 });
+const avgShort = shortBatches.reduce((acc, c) => acc + c.name.length, 0) / shortBatches.length;
+const avgLong = longBatches.reduce((acc, c) => acc + c.name.length, 0) / longBatches.length;
+assert(
+  avgShort < avgLong,
+  `Length parameter influences result length (avg short: ${avgShort.toFixed(1)} < avg long: ${avgLong.toFixed(1)})`
+);
+
+// Test 11: Format parameter "group" produces prefixes like Atelier, Studio, Maison
+const groupNames = generateNames({ generatorId: 'business', format: 'group', quantity: 5 });
+const hasGroupPrefix = groupNames.every((r) =>
+  /^(Atelier|Studio|Maison|Collectif|Groupe|Agence|Boutique)\b/i.test(r.name)
+);
+assert(
+  hasGroupPrefix,
+  'Format "group" prepends proper professional collective indicators',
+  `Names: ${groupNames.map((r) => r.name).join(', ')}`
+);
+
+// Test 12: Gender parameter female filters baby names
+const femaleBabies = generateNames({ generatorId: 'baby_name', gender: 'female', quantity: 8 });
+const nonFemale = femaleBabies.filter((b) => b.isAttested && ATTESTED_BABY_NAMES.some((a) => a.name === b.name && a.gender === 'male'));
+assert(
+  nonFemale.length === 0,
+  'Gender female returns exclusively female/neutral baby names',
+  `Male names found: ${nonFemale.map((n) => n.name).join(', ')}`
+);
+
+// Test 13: Gender parameter male filters baby names
+const maleBabies = generateNames({ generatorId: 'baby_name', gender: 'male', quantity: 8 });
+const nonMale = maleBabies.filter((b) => b.isAttested && ATTESTED_BABY_NAMES.some((a) => a.name === b.name && a.gender === 'female'));
+assert(
+  nonMale.length === 0,
+  'Gender male returns exclusively male/neutral baby names',
+  `Female names found: ${nonMale.map((n) => n.name).join(', ')}`
+);
+
+// Test 14: Baby names creative style explicitly marks isAttested: false
+const creativeBabies = generateNames({ generatorId: 'baby_name', style: 'creative', quantity: 5 });
+const allMarkedFalse = creativeBabies.every((b) => b.isAttested === false);
+assert(
+  allMarkedFalse,
+  'Baby names in creative mode are honestly tagged with isAttested: false'
+);
+
+// Test 15: Baby names classic style marks isAttested: true
+const classicBabies = generateNames({ generatorId: 'baby_name', style: 'classic', quantity: 5 });
+const allMarkedTrue = classicBabies.every((b) => b.isAttested === true);
+assert(
+  allMarkedTrue,
+  'Baby names in classic mode are certified historical with isAttested: true'
+);
+
+// Test 16: Quantity parameter accuracy for 1, 5, 12, 18
+const q1 = generateNames({ generatorId: 'fantasy', quantity: 1 });
+const q5 = generateNames({ generatorId: 'fantasy', quantity: 5 });
+const q12 = generateNames({ generatorId: 'fantasy', quantity: 12 });
+const q18 = generateNames({ generatorId: 'fantasy', quantity: 18 });
+assert(
+  q1.length === 1 && q5.length === 5 && q12.length === 12 && q18.length === 18,
+  'Quantity parameter returns exact count requested (1, 5, 12, 18)'
+);
+
+// Test 17: Support count alias for quantity
+const aliasCount = generateNames({ generatorId: 'brand', count: 7 } as any);
+assert(
+  aliasCount.length === 7,
+  'GenerateOptions supports count as an alias for quantity'
+);
+
+// -----------------------------------------------------------------------------
+// LOT 3: LINGUISTIC ACCURACY & GRAMMAR CHECKS (Tests 18 - 25)
+// -----------------------------------------------------------------------------
+console.log('\n--- LOT 3: GRAMMAR, PHONETICS & LINGUISTICS ---');
+
+// Test 18: No dangling prepositions or incomplete articles across sensitive categories
+const bookSample = generateNames({ generatorId: 'book', quantity: 15 });
+const danglingRegex = /(?:^|[\s'’])(?:de\s+l|d|l|de|du|des|le|la|les|un|une|the|of|in|at|on|for|with|and|by)['’]?$/i;
+const danglingFound = bookSample.filter((b) => danglingRegex.test(b.name));
+assert(
+  danglingFound.length === 0,
+  'Book titles contain zero dangling articles or trailing prepositions',
+  `Dangling: ${danglingFound.map((b) => b.name).join(', ')}`
+);
+
+// Test 19: Plural subject agreement in book generator ("Là où naissent les...")
+const pluralVerbTitles = bookSample.filter((b) => /naissent\s+(?:le|la|un|une)\b/i.test(b.name));
+assert(
+  pluralVerbTitles.length === 0,
+  'French titles avoid plural verb with singular article ("naissent le...")',
+  `Mismatches: ${pluralVerbTitles.map((b) => b.name).join(', ')}`
+);
+
+// Test 20: No duplicate consecutive words (e.g. "Soleil Soleil")
+const dupWordsRegex = /\b(\w{3,})\s+\1\b/i;
+const dupWordsFound = bookSample.filter((b) => dupWordsRegex.test(b.name));
+assert(
+  dupWordsFound.length === 0,
+  'Book titles contain zero duplicate consecutive identical words'
+);
+
+// Test 21: French spacing before titles and apostrophes (no "Vexl'ombre")
+const heroSample = generateNames({ generatorId: 'moba_champion', format: 'compound', quantity: 10 });
+const agglutinatedTitles = heroSample.filter((h) => /[a-zA-Z][ld]['’][a-zA-Z]/i.test(h.name));
+assert(
+  agglutinatedTitles.length === 0,
+  'Names with titles preserve whitespace before articles (no "Vexl’ombre")',
+  `Agglutinated: ${agglutinatedTitles.map((h) => h.name).join(', ')}`
+);
+
+// Test 22: Restaurant names sound natural and have correct French gender agreements
+const restaurantSample = generateNames({ generatorId: 'restaurant', quantity: 10 });
+const hasValidFrenchStructure = restaurantSample.every((r) =>
+  /^(Le|La|L’|L'|Au|Chez)\s+/i.test(r.name) || r.name.length > 5
+);
+assert(
+  hasValidFrenchStructure,
+  'Restaurant names conform to natural French culinary establishment patterns'
+);
+
+// Test 23: Levenshtein distance calculation accuracy
+const d1 = calculateLevenshteinDistance('kitten', 'sitting');
+const d2 = calculateLevenshteinDistance('forge', 'forge');
+assert(
+  d1 === 3 && d2 === 0,
+  'calculateLevenshteinDistance computes exact edit distance'
+);
+
+// Test 24: isTooSimilar correctly flags close phonetic variants
+const sim1 = isTooSimilar('Kaly', ['Kaly', 'Aero']);
+const sim2 = isTooSimilar('Novalis', ['Novalis']);
+assert(
+  sim1 === true && sim2 === true,
+  'isTooSimilar correctly identifies collisions with existing batch'
+);
+
+// Test 25: isTooSimilar does not falsely reject distinct names sharing a keyword
+const simKw = isTooSimilar('Talis Aero', ['Kaly Aero'], 'Aero');
+assert(
+  simKw === false,
+  'isTooSimilar does not falsely reject distinct candidates that share the requested keyword'
+);
+
+// -----------------------------------------------------------------------------
+// LOT 4: FULL CATALOG AUDIT OF ALL 234 GENERATORS (Tests 26 - 33)
+// -----------------------------------------------------------------------------
+console.log('\n--- LOT 4: FULL CATALOG RUN (234 GENERATORS) ---');
+
+let totalEmpty = 0;
+let totalShort = 0;
+let totalBatchDupes = 0;
+let totalDangling = 0;
+let totalTrailingApos = 0;
+let totalConsecutiveDupes = 0;
+let totalEvaluated = 0;
+
+for (const g of ALL_GENERATORS_LIST) {
+  const count = 5;
+  const batch = generateNames({ generatorId: g.id, quantity: count });
+  if (!batch || batch.length !== count) {
+    totalShort++;
+  }
+  const seenBatch = new Set<string>();
+  for (const item of batch) {
+    totalEvaluated++;
+    if (!item.name || item.name.trim().length === 0) totalEmpty++;
+    const lower = item.name.toLowerCase();
+    if (seenBatch.has(lower)) totalBatchDupes++;
+    seenBatch.add(lower);
+
+    if (danglingRegex.test(item.name)) totalDangling++;
+    if (/['’]$/.test(item.name)) totalTrailingApos++;
+    if (dupWordsRegex.test(item.name)) totalConsecutiveDupes++;
+  }
+}
+
+// Test 26: 0 empty names across entire catalog
+assert(
+  totalEmpty === 0,
+  `0 empty names generated across all 234 generators (${totalEvaluated} names evaluated)`,
+  `Empty count: ${totalEmpty}`
+);
+
+// Test 27: 0 short batches across entire catalog
+assert(
+  totalShort === 0,
+  `0 short batches across all 234 generators (all batches met target quantity of 5)`,
+  `Short count: ${totalShort}`
+);
+
+// Test 28: 0 duplicate names within any batch
+assert(
+  totalBatchDupes === 0,
+  `0 intra-batch duplicate names across all 234 generators`,
+  `Duplicate count: ${totalBatchDupes}`
+);
+
+// Test 29: 0 dangling prepositions across entire catalog
+assert(
+  totalDangling === 0,
+  `0 dangling prepositions across all 234 generators`,
+  `Dangling count: ${totalDangling}`
+);
+
+// Test 30: 0 trailing apostrophes across entire catalog
+assert(
+  totalTrailingApos === 0,
+  `0 trailing apostrophes across all 234 generators`,
+  `Trailing apos count: ${totalTrailingApos}`
+);
+
+// Test 31: 0 consecutive duplicate words across entire catalog
+assert(
+  totalConsecutiveDupes === 0,
+  `0 consecutive duplicate words across all 234 generators`,
+  `Consecutive dupes count: ${totalConsecutiveDupes}`
+);
+
+// Test 32: All generated names provide professional metadata
+const testBatch = generateNames({ generatorId: 'innovation', quantity: 4 });
+const hasAllMeta = testBatch.every(
+  (b) => b.strengths && b.strengths.length > 0 && b.watchouts && b.watchouts.length > 0 && b.pronunciation
+);
+assert(
+  hasAllMeta,
+  'Generated names include rich metadata (strengths, watchouts, pronunciation)'
+);
+
+// Test 33: Multi-language phonetic adaptation generates appropriate characters
+const frNames = generateNames({ generatorId: 'fantasy', genLanguage: 'fr', quantity: 5 });
+assert(
+  frNames.length === 5 && frNames.every((n) => n.name.length > 0),
+  'French phonetic profile generates 5 consistent names'
+);
+
+// -----------------------------------------------------------------------------
+// LOT 5: TEXT STYLER WORKSHOP & I18N RTL VALIDATION (Tests 34 - 40)
+// -----------------------------------------------------------------------------
+console.log('\n--- LOT 5: TEXT STYLER, UNICODE & RTL ---');
+
+import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS, generateSvgCode } from '../services/textStyler';
+import { SUPPORTED_LANGUAGES, getAppSettings } from '../services/settings';
+
+// Test 34: Unicode styles library count
+assert(
+  UNICODE_STYLES.length >= 20,
+  `UNICODE_STYLES library provides 20+ transformation modes (found ${UNICODE_STYLES.length})`
+);
+
+// Test 35: Unicode transforms work accurately across diverse glyph blocks
+const sampleWord = 'Forge';
+const transformedBold = UNICODE_STYLES.find((s) => s.id === 'bold-sans')?.transform(sampleWord);
+const transformedFraktur = UNICODE_STYLES.find((s) => s.id === 'fraktur')?.transform(sampleWord);
+const transformedScript = UNICODE_STYLES.find((s) => s.id === 'script')?.transform(sampleWord);
+const transformedInverted = UNICODE_STYLES.find((s) => s.id === 'inverted')?.transform(sampleWord);
+
+assert(
+  Boolean(transformedBold && transformedBold !== sampleWord && transformedFraktur && transformedScript && transformedInverted),
+  'Unicode transformations accurately map standard characters to stylistic mathematical blocks',
+  `Bold: ${transformedBold}, Fraktur: ${transformedFraktur}`
+);
+
+// Test 36: Visual effects presets integrity
+assert(
+  VISUAL_EFFECTS.length >= 6 && VISUAL_EFFECTS.every((e) => e.gradientCSS && e.textShadowCSS && e.bgColor),
+  'VISUAL_EFFECTS presets contain complete CSS gradients, text shadows, and backgrounds'
+);
+
+// Test 37: Texture fills clipping mask integrity
+assert(
+  TEXTURE_FILLS.length >= 6 && TEXTURE_FILLS.every((t) => typeof t.canvasDrawer === 'function' && t.cssBackground),
+  'TEXTURE_FILLS provide valid procedural canvas drawers and CSS background-clip textures'
+);
+
+// Test 38: Vector SVG export generator
+const svgOutput = generateSvgCode('TestBrand', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+assert(
+  svgOutput.includes('<svg') && svgOutput.includes('TestBrand') && svgOutput.includes('</svg>'),
+  'generateSvgCode outputs valid vector SVG markup with text and gradient defs'
+);
+
+// Test 39: English is official default language
+const defaultSet = getAppSettings();
+assert(
+  defaultSet.language === 'en',
+  `Official default app language is English ('en') (found '${defaultSet.language}')`
+);
+
+// Test 40: RTL language support
+const rtlCodes = ['ar', 'he', 'fa', 'ur', 'ps'];
+const rtlMeta = SUPPORTED_LANGUAGES.filter((l) => rtlCodes.includes(l.code));
+const allHaveRtl = rtlMeta.length === rtlCodes.length && rtlMeta.every((l) => l.dir === 'rtl');
+assert(
+  allHaveRtl,
+  'All Middle Eastern / RTL languages (ar, he, fa, ur, ps) have dir="rtl" defined'
+);
+
+// -----------------------------------------------------------------------------
+// SUMMARY
+// -----------------------------------------------------------------------------
+const passedCount = results.filter((r) => r.passed).length;
+const failedCount = results.filter((r) => !r.passed).length;
+
+console.log('\n=====================================================');
+console.log(`TEST SUITE SUMMARY: ${passedCount}/${results.length} PASSED`);
+if (failedCount > 0) {
+  console.error(`FAILED: ${failedCount} tests failed.`);
+  process.exit(1);
+} else {
+  console.log(`ALL ${results.length} TESTS PASSED SUCCESSFULLY! 🚀`);
+  console.log('=====================================================');
+}

@@ -367,3 +367,123 @@
   }
 }
 
+
+
+/* Experience layer: consistent surfaces, keyboard access, and motion preferences. */
+@layer base {
+  :where(a, button, input, select, textarea, [role="button"], [tabindex]):focus-visible {
+    outline: 3px solid #a78bfa;
+    outline-offset: 3px;
+  }
+
+  :where(button, a, input, select, textarea) {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: rgba(139, 92, 246, 0.32);
+    color: inherit;
+  }
+
+  html {
+    scroll-padding-top: 6rem;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    line-height: 1.55;
+  }
+
+  img, canvas, svg, video {
+    max-width: 100%;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.58;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.allow-motion) {
+      scroll-behavior: auto;
+    }
+
+    html:not(.allow-motion) *,
+    html:not(.allow-motion) *::before,
+    html:not(.allow-motion) *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* A coherent light palette for utility classes used throughout older views.
+   Keep saturated primary actions and accent chips colorful. */
+@layer utilities {
+  html.light {
+    color-scheme: light;
+    --nf-surface: #ffffff;
+    --nf-surface-muted: #f1f5f9;
+    --nf-line: #dbe3ee;
+    --nf-ink: #172033;
+    --nf-muted: #526176;
+  }
+
+  html.light body {
+    color: var(--nf-ink);
+  }
+
+  html.light :is(header, nav, footer, section, article, aside, dialog) {
+    border-color: var(--nf-line);
+  }
+
+  html.light :is(.bg-slate-900, .bg-slate-900\/90, .bg-slate-900\/80,
+    .bg-slate-800, .bg-slate-800\/90, .bg-slate-800\/80,
+    .bg-slate-800\/60, .bg-slate-950, .bg-gray-900, .bg-gray-800) {
+    background-color: var(--nf-surface) !important;
+    border-color: var(--nf-line) !important;
+    color: var(--nf-ink) !important;
+  }
+
+  html.light :is(.text-white, .text-slate-100, .text-slate-200) {
+    color: var(--nf-ink);
+  }
+
+  html.light :is(.text-slate-300, .text-slate-400, .text-slate-500, .text-gray-400) {
+    color: var(--nf-muted) !important;
+  }
+
+  html.light :is(.border-slate-600, .border-slate-700, .border-slate-800,
+    .border-slate-700\/80, .border-slate-800\/80, .border-white\/10, .border-white\/5) {
+    border-color: var(--nf-line) !important;
+  }
+
+  html.light :is(input, select, textarea) {
+    color: var(--nf-ink);
+    accent-color: #7c3aed;
+  }
+
+  html.light :is(input, select, textarea):focus-visible {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+  }
+
+  html.light :is(button, a) {
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-duration: 160ms;
+  }
+
+  html.light :is(button, a):focus-visible {
+    outline-color: #7c3aed;
+  }
+
+  html.light .bg-slate-800\/60:hover,
+  html.light .bg-slate-800\/80:hover,
+  html.light .bg-slate-800\/90:hover {
+    background-color: #e9eafc !important;
+  }
+}

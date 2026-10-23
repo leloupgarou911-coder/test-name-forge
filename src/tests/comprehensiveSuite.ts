@@ -109,6 +109,14 @@ assert(
   `Non-matching: ${nonKwBrand.map((r) => r.name).join(', ')}`
 );
 
+// Test 47: Unicode keywords in non-Latin scripts survive cleaning and generation.
+const unicodeKeywordNames = generateNames({ generatorId: 'brand', keyword: '星辰', quantity: 3 });
+assert(
+  unicodeKeywordNames.length === 3 && unicodeKeywordNames.every((entry) => entry.name.includes('星辰')),
+  'Chinese keyword characters are preserved in generated names',
+  `Generated: ${unicodeKeywordNames.map((entry) => entry.name).join(', ')}`
+);
+
 // Test 9: Keyword parameter in fantasy generator
 const kwResultsFantasy = generateNames({ generatorId: 'fantasy', keyword: 'Val', quantity: 5 });
 const nonKwFantasy = kwResultsFantasy.filter((r) => !r.name.toLowerCase().includes('val'));

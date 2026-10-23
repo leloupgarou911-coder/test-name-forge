@@ -3,6 +3,7 @@ import { Search, Sparkles, ArrowRight, Dices } from 'lucide-react';
 import { ALL_GENERATORS_LIST, GENERATOR_FAMILIES_CONFIG } from '../data/generators';
 import { GeneratorId, LanguageCode } from '../types';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
+import { normalizeSearchText } from '../services/search';
 
 interface GeneratorsListViewProps {
   onNavigate: (view: string, generatorId?: GeneratorId) => void;
@@ -37,11 +38,21 @@ export const GeneratorsListView: React.FC<GeneratorsListViewProps> = ({ onNaviga
   const t = CATALOGUE_COPY[language] || EN_COPY;
   const categoryLabel = (id: string, fallback: string) => t.categories[id] || fallback;
   const filtered = ALL_GENERATORS_LIST.filter((gen) => {
-    const query = search.toLocaleLowerCase();
-    const matchesSearch = gen.title.toLocaleLowerCase().includes(query) ||
-      gen.description.toLocaleLowerCase().includes(query) ||
-      gen.shortTitle.toLocaleLowerCase().includes(query) ||
-      gen.badge.toLocaleLowerCase().includes(query);
+    const query = normalizeSearchText(search);
+    const searchableFields = [
+      gen.id,
+      gen.title,
+      gen.description,
+      gen.shortTitle,
+      gen.badge,
+      gen.generatorTitle,
+      gen.generatorSubtitle,
+      gen.guideTitle,
+      gen.category,
+    ];
+    const matchesSearch = !query || searchableFields.some((field) =>
+      normalizeSearchText(String(field || '')).includes(query)
+    );
     return matchesSearch && (selectedCategory === 'all' || gen.category === selectedCategory);
   });
 

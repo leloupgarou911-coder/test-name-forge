@@ -41,16 +41,17 @@ import { NoteModal } from '../components/NoteModal';
 import { CollectionModal } from '../components/CollectionModal';
 import { CompareModal } from '../components/CompareModal';
 import { ALL_GENERATORS_LIST } from '../data/generators';
-import { getAppSettings } from '../services/settings';
+import { getAppSettings, subscribeToSettings } from '../services/settings';
 
 interface MyNamesViewProps {
   onNavigate: (view: string, generatorId?: GeneratorId) => void;
 }
 
 export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
-  const currentLanguage = getAppSettings().language;
+  const [currentLanguage, setCurrentLanguage] = useState(() => getAppSettings().language);
+  useEffect(() => subscribeToSettings((settings) => setCurrentLanguage(settings.language)), []);
   const libraryText: Record<string, { empty: string; emptyDescription: string; generate: string; noResults: string; collections: string; collectionsDescription: string; create: string; noCollections: string; noCollectionsDescription: string; clear: string }> = {
-    fr: { empty: 'Votre collection est vide', emptyDescription: "Vous n'avez pas encore enregistré de nom. Utilisez Save ou Like depuis un générateur pour constituer votre collection !", generate: 'Générer des noms', noResults: '{copy.noResults}', collections: 'Vos collections thématiques', collectionsDescription: '{copy.collectionsDescription}', create: 'Créer une collection', noCollections: 'Aucune collection créée', noCollectionsDescription: 'Créez votre première collection pour classer vos noms par projet ou campagne.', clear: 'Tout supprimer' },
+    fr: { empty: 'Votre collection est vide', emptyDescription: "Vous n'avez pas encore enregistré de nom. Utilisez Save ou Like depuis un générateur pour constituer votre collection !", generate: 'Générer des noms', noResults: 'Aucun nom ne correspond à vos critères de recherche.', collections: 'Vos collections thématiques', collectionsDescription: 'Regroupez vos noms par livre, faction, campagne ou équipe.', create: 'Créer une collection', noCollections: 'Aucune collection créée', noCollectionsDescription: 'Créez votre première collection pour classer vos noms par projet ou campagne.', clear: 'Tout supprimer' },
     en: { empty: 'Your collection is empty', emptyDescription: 'You have not saved any names yet. Use Save or Like in a generator to build your collection!', generate: 'Generate names', noResults: 'No names match your search criteria.', collections: 'Your themed collections', collectionsDescription: 'Group names by book, faction, campaign, or team.', create: 'Create a collection', noCollections: 'No collections created', noCollectionsDescription: 'Create your first collection to organize names by project or campaign.', clear: 'Delete all' },
     es: { empty: 'Tu colección está vacía', emptyDescription: 'Aún no has guardado nombres. Usa Guardar o Me gusta en un generador para crear tu colección.', generate: 'Generar nombres', noResults: 'Ningún nombre coincide con tu búsqueda.', collections: 'Tus colecciones temáticas', collectionsDescription: 'Agrupa nombres por libro, facción, campaña o equipo.', create: 'Crear una colección', noCollections: 'No hay colecciones', noCollectionsDescription: 'Crea tu primera colección para organizar nombres por proyecto o campaña.', clear: 'Eliminar todo' },
     de: { empty: 'Deine Sammlung ist leer', emptyDescription: 'Du hast noch keine Namen gespeichert. Nutze Speichern oder Gefällt mir in einem Generator.', generate: 'Namen generieren', noResults: 'Keine Namen entsprechen deiner Suche.', collections: 'Deine thematischen Sammlungen', collectionsDescription: 'Gruppiere Namen nach Buch, Fraktion, Kampagne oder Team.', create: 'Sammlung erstellen', noCollections: 'Keine Sammlungen vorhanden', noCollectionsDescription: 'Erstelle deine erste Sammlung, um Namen nach Projekt oder Kampagne zu ordnen.', clear: 'Alle löschen' },
@@ -634,7 +635,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             </div>
           ) : filteredEntries.length === 0 ? (
             <div className="text-center py-16 text-slate-400">
-              <p className="text-sm">Aucun nom ne correspond à vos critères de recherche.</p>
+              <p className="text-sm">{copy.noResults}</p>
               <button
                 onClick={() => {
                   setFilterTab('all');

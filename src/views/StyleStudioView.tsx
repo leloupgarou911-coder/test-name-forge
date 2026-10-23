@@ -24,7 +24,7 @@ import {
   generateSvgCode,
 } from '../services/textStyler';
 import { GeneratorId } from '../types';
-import { getAppSettings } from '../services/settings';
+import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
 
 interface StyleStudioViewProps {
@@ -72,8 +72,11 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   const [cssCopied, setCssCopied] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const settings = getAppSettings();
+  const [settings, setSettings] = useState(getAppSettings);
   const t = getTranslations(settings.language);
+
+  // Keep the studio's labels and direction in sync while it remains open.
+  useEffect(() => subscribeToSettings(setSettings), []);
 
   // When initialText changes, update input
   useEffect(() => {

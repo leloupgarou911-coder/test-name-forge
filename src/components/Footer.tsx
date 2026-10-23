@@ -36,6 +36,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     ro: { studio: 'Studio de stil (Unicode și Canvas)', favorites: 'Favorite și notițe', catalog: 'Catalog', home: 'Acasă', all: 'Toate generatoarele', names: 'Numele mele', generators: 'Generatoare', styles: 'Stiluri', free: '100% gratuit și local' },
     da: { studio: 'Stilstudie (Unicode og Canvas)', favorites: 'Favoritter og noter', catalog: 'Katalog', home: 'Hjem', all: 'Alle generatorer', names: 'Mine navne', generators: 'Generatorer', styles: 'Stilarter', free: '100 % gratis og lokalt' },
     fi: { studio: 'Tyylistudio (Unicode ja Canvas)', favorites: 'Suosikit ja muistiinpanot', catalog: 'Luettelo', home: 'Etusivu', all: 'Kaikki generaattorit', names: 'Omat nimet', generators: 'Generaattorit', styles: 'Tyylit', free: '100 % maksuton ja paikallinen' },
+    zh: { studio: '样式工作室 (Unicode 与 Canvas)', favorites: '收藏与备注', catalog: '目录', home: '首页', all: '所有生成器', names: '我的名称', generators: '生成器', styles: '样式', free: '100% 免费且本地运行' },
     ru: { studio: 'Студия стилей (Unicode и Canvas)', favorites: 'Избранное и заметки', catalog: 'Каталог', home: 'Главная', all: 'Все генераторы', names: 'Мои имена', generators: 'Генераторы', styles: 'Стили', free: 'Бесплатно и локально на 100%' },
     hi: { studio: 'स्टाइल स्टूडियो (Unicode और Canvas)', favorites: 'पसंदीदा और नोट्स', catalog: 'कैटलॉग', home: 'होम', all: 'सभी जनरेटर', names: 'मेरे नाम', generators: 'जनरेटर', styles: 'शैलियाँ', free: '100% मुफ़्त और स्थानीय' },
   };

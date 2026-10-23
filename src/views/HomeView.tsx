@@ -31,7 +31,6 @@ import { GeneratedName, GeneratorFamily, GeneratorId, SavedNameEntry } from '../
 import { getSavedNames, subscribeToStorage } from '../services/storage';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
-import { generateNames } from '../services/generatorEngine';
 import { NameCard } from '../components/NameCard';
 
 interface HomeViewProps {
@@ -75,14 +74,20 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   const handleQuickForge = (targetId?: GeneratorId) => {
     const id = targetId || quickGenId;
     setQuickGenerating(true);
-    setTimeout(() => {
-      const res = generateNames({
-        generator: id,
-        quantity: 3,
-        keyword: quickKeyword,
-      });
-      setQuickResults(res);
-      setQuickGenerating(false);
+    setTimeout(async () => {
+      try {
+        // Defer the generation engine until the quick forge actually runs,
+        // allowing the Home view to render before this heavier module is fetched.
+        const { generateNames } = await import('../services/generatorEngine');
+        const res = generateNames({
+          generator: id,
+          quantity: 3,
+          keyword: quickKeyword,
+        });
+        setQuickResults(res);
+      } finally {
+        setQuickGenerating(false);
+      }
     }, 100);
   };
 

@@ -1,6 +1,6 @@
 import { ALL_GENERATORS_LIST, GENERATORS_METADATA } from '../data/generators';
 import { SUBCATEGORIES_DATA } from '../data/subcategories';
-import { generateNames, isTooSimilar, calculateLevenshteinDistance } from '../services/generatorEngine';
+import { generateNames, isTooSimilar, calculateLevenshteinDistance, scoreCandidate } from '../services/generatorEngine';
 import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 
@@ -221,6 +221,24 @@ assert(
   strictGenderBabies.every((b) => b.gender !== 'male'),
   'Baby-name fallback may relax length only, never the selected gender',
   `Unexpected male names: ${strictGenderBabies.filter((b) => b.gender === 'male').map((b) => b.name).join(', ')}`
+);
+
+// Unicode scripts must be scored by their real letter count, not as zero Latin letters.
+const cjkShortScore = scoreCandidate('未来', 'short', 'any');
+const cjkLongScore = scoreCandidate('星河远航者', 'long', 'any');
+assert(
+  cjkShortScore > 0 && cjkLongScore > 0,
+  'Unicode candidate scoring accepts valid CJK names and counts their letters',
+  `short=${cjkShortScore}, long=${cjkLongScore}`
+);
+
+// Male-ending heuristic must match suffixes, not individual characters.
+const masculineSuffixScore = scoreCandidate('Aldor', 'medium', 'male');
+const neutralSuffixScore = scoreCandidate('Aldox', 'medium', 'male');
+assert(
+  masculineSuffixScore > neutralSuffixScore,
+  'Gender heuristic recognizes complete suffixes rather than single ending characters',
+  `Aldor=${masculineSuffixScore}, Aldox=${neutralSuffixScore}`
 );
 
 // Test 16: Quantity parameter accuracy for 1, 5, 12, 18

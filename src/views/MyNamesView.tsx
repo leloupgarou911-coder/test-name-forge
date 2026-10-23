@@ -80,6 +80,23 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
     ko: { compareLimit: "한 번에 최대 4개의 이름을 비교할 수 있습니다.", localBadge: "로컬 개인 공간", exportJson: "모두 JSON으로 백업", exportCsv: "CSV 스프레드시트로 내보내기", restore: "JSON 파일 복원", allCollections: "모든 컬렉션", noCollection: "컬렉션 없음", allGenerators: "모든 생성기", searchPlaceholder: "이름, 메모 또는 스타일로 필터링...", compare: "비교", recentHistory: "최근 생성 기록", emptyHistory: "기록이 비어 있습니다" },
   };
   const controls = controlText[currentLanguage] || controlText.en;
+  const actionText: Record<string, {
+    deleteCollectionConfirm: string; clearHistoryConfirm: string; clearHistory: string;
+    assignFolder: string; copyName: string; deleteForever: string; editCollection: string;
+    delete: string; save: string; like: string; recentHistoryShort: string;
+  }> = {
+    fr: { deleteCollectionConfirm: "Supprimer toute votre collection ?", clearHistoryConfirm: "Vider l’historique des générations ?", clearHistory: "Vider l’historique", assignFolder: "Classer dans un dossier...", copyName: "Copier le nom", deleteForever: "Supprimer définitivement", editCollection: "Modifier la collection", delete: "Supprimer", save: "Enregistrer", like: "Aimer", recentHistoryShort: "Historique récent" },
+    en: { deleteCollectionConfirm: "Delete your entire collection?", clearHistoryConfirm: "Clear generation history?", clearHistory: "Clear history", assignFolder: "Move to a collection...", copyName: "Copy name", deleteForever: "Delete permanently", editCollection: "Edit collection", delete: "Delete", save: "Save", like: "Like", recentHistoryShort: "Recent history" },
+    es: { deleteCollectionConfirm: "¿Eliminar toda tu colección?", clearHistoryConfirm: "¿Vaciar el historial de generación?", clearHistory: "Vaciar historial", assignFolder: "Organizar en una carpeta...", copyName: "Copiar nombre", deleteForever: "Eliminar definitivamente", editCollection: "Editar colección", delete: "Eliminar", save: "Guardar", like: "Me gusta", recentHistoryShort: "Historial reciente" },
+    de: { deleteCollectionConfirm: "Gesamte Sammlung löschen?", clearHistoryConfirm: "Generierungsverlauf leeren?", clearHistory: "Verlauf leeren", assignFolder: "In einen Ordner verschieben...", copyName: "Namen kopieren", deleteForever: "Endgültig löschen", editCollection: "Sammlung bearbeiten", delete: "Löschen", save: "Speichern", like: "Gefällt mir", recentHistoryShort: "Letzter Verlauf" },
+    ar: { deleteCollectionConfirm: "هل تريد حذف مجموعتك بالكامل؟", clearHistoryConfirm: "هل تريد مسح سجل التوليد؟", clearHistory: "مسح السجل", assignFolder: "التصنيف في مجلد...", copyName: "نسخ الاسم", deleteForever: "حذف نهائي", editCollection: "تعديل المجموعة", delete: "حذف", save: "حفظ", like: "إعجاب", recentHistoryShort: "السجل الأخير" },
+    pt: { deleteCollectionConfirm: "Excluir toda a sua coleção?", clearHistoryConfirm: "Limpar o histórico de geração?", clearHistory: "Limpar histórico", assignFolder: "Organizar em uma pasta...", copyName: "Copiar nome", deleteForever: "Excluir permanentemente", editCollection: "Editar coleção", delete: "Excluir", save: "Salvar", like: "Curtir", recentHistoryShort: "Histórico recente" },
+    it: { deleteCollectionConfirm: "Eliminare tutta la raccolta?", clearHistoryConfirm: "Svuotare la cronologia delle generazioni?", clearHistory: "Svuota cronologia", assignFolder: "Organizza in una cartella...", copyName: "Copia nome", deleteForever: "Elimina definitivamente", editCollection: "Modifica raccolta", delete: "Elimina", save: "Salva", like: "Mi piace", recentHistoryShort: "Cronologia recente" },
+    tr: { deleteCollectionConfirm: "Tüm koleksiyon silinsin mi?", clearHistoryConfirm: "Oluşturma geçmişi temizlensin mi?", clearHistory: "Geçmişi temizle", assignFolder: "Bir klasöre yerleştir...", copyName: "İsmi kopyala", deleteForever: "Kalıcı olarak sil", editCollection: "Koleksiyonu düzenle", delete: "Sil", save: "Kaydet", like: "Beğen", recentHistoryShort: "Son geçmiş" },
+    ja: { deleteCollectionConfirm: "コレクション全体を削除しますか？", clearHistoryConfirm: "生成履歴を消去しますか？", clearHistory: "履歴を消去", assignFolder: "フォルダーに分類...", copyName: "名前をコピー", deleteForever: "完全に削除", editCollection: "コレクションを編集", delete: "削除", save: "保存", like: "いいね", recentHistoryShort: "最近の履歴" },
+    ko: { deleteCollectionConfirm: "컬렉션 전체를 삭제할까요?", clearHistoryConfirm: "생성 기록을 지울까요?", clearHistory: "기록 지우기", assignFolder: "폴더에 정리...", copyName: "이름 복사", deleteForever: "영구 삭제", editCollection: "컬렉션 편집", delete: "삭제", save: "저장", like: "좋아요", recentHistoryShort: "최근 기록" },
+  };
+  const actions = actionText[currentLanguage] || actionText.en;
   const [entries, setEntries] = useState<SavedNameEntry[]>([]);
   const [collections, setCollections] = useState<NamedCollection[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -221,7 +238,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
       setSelectedForCompare(selectedForCompare.filter((n) => n !== name));
     } else {
       if (selectedForCompare.length >= 4) {
-        alert('Vous pouvez comparer jusqu\'à 4 noms simultanément.');
+        alert(controls.compareLimit);
         return;
       }
       setSelectedForCompare([...selectedForCompare, name]);
@@ -325,7 +342,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <div className="w-full max-w-md bg-[#0f172a] border border-red-500/40 rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-2.5 text-red-400">
               <AlertTriangle className="w-5 h-5" />
-              <h3 className="text-base font-bold text-white">Supprimer toute votre collection ?</h3>
+              <h3 className="text-base font-bold text-white">{actions.deleteCollectionConfirm}</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Cette action supprimera définitivement vos {entries.length} noms enregistrés, collections,
@@ -355,7 +372,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <div className="w-full max-w-md bg-[#0f172a] border border-red-500/40 rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-2.5 text-red-400">
               <AlertTriangle className="w-5 h-5" />
-              <h3 className="text-base font-bold text-white">Vider l'historique des générations ?</h3>
+              <h3 className="text-base font-bold text-white">{actions.clearHistoryConfirm}</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               Voulez-vous réinitialiser les 50 derniers noms générés récents ? Vos favoris enregistrés
@@ -477,7 +494,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             }`}
           >
             <History className="w-3.5 h-3.5" />
-            <span>Historique Récent ({history.length})</span>
+            <span>{actions.recentHistoryShort} ({history.length})</span>
           </button>
         </div>
 
@@ -747,7 +764,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           }}
                           className="w-full text-[11px] px-2 py-1 bg-[#0a0f1d] border border-slate-800 rounded-lg text-slate-300 focus:outline-none focus:border-purple-500 cursor-pointer"
                         >
-                          <option value="">📁 Classer dans un dossier...</option>
+                          <option value="">📁 {actions.assignFolder}</option>
                           {collections.map((c) => (
                             <option key={c.id} value={c.id}>
                               {c.name}
@@ -820,7 +837,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         <button
                           onClick={() => handleCopySingle(item.name)}
                           className="py-1.5 px-3 rounded-xl bg-[#182236] hover:bg-[#202e48] text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer"
-                          title="Copier le nom"
+                          title={actions.copyName}
                         >
                           {copiedName === item.name ? (
                             <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -832,7 +849,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         <button
                           onClick={() => handleDelete(item.name, item.generator)}
                           className="py-1.5 px-2.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-red-400 text-xs transition cursor-pointer"
-                          title="Supprimer définitivement"
+                          title={actions.deleteForever}
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -922,7 +939,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         <button
                           onClick={() => setEditingCollection(col)}
                           className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer"
-                          title="Modifier la collection"
+                          title={actions.editCollection}
                         >
                           Éditer
                         </button>
@@ -934,7 +951,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                             }
                           }}
                           className="p-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/60 text-red-400 text-xs cursor-pointer"
-                          title="Supprimer"
+                          title={actions.delete}
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -966,7 +983,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 className="px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/40 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
-                <span>Vider l'historique</span>
+                <span>{actions.clearHistory}</span>
               </button>
             )}
           </div>
@@ -1016,7 +1033,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                               ? 'bg-purple-600/30 text-purple-300 border-purple-500/50'
                               : 'bg-slate-800 text-slate-400 border-slate-700'
                           }`}
-                          title="Enregistrer"
+                          title={actions.save}
                         >
                           <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
                         </button>
@@ -1031,7 +1048,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                               ? 'bg-pink-600/30 text-pink-300 border-pink-500/50'
                               : 'bg-slate-800 text-slate-400 border-slate-700'
                           }`}
-                          title="Liker"
+                          title={actions.like}
                         >
                           <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-current text-pink-400' : ''}`} />
                         </button>

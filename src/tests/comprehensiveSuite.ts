@@ -362,6 +362,7 @@ console.log('\n--- LOT 5: TEXT STYLER, UNICODE & RTL ---');
 
 import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS, generateSvgCode } from '../services/textStyler';
 import { SUPPORTED_LANGUAGES, getAppSettings } from '../services/settings';
+import { getStudioLabel } from '../i18n/studio';
 
 // Test 34: Unicode styles library count
 assert(
@@ -439,6 +440,16 @@ const longWidth = Number(longSvg.match(/viewBox="0 0 (\d+)/)?.[1] || 0);
 assert(
   longWidth > shortWidth,
   'SVG export dynamically expands its canvas for longer text'
+);
+
+// Test 44: Core Studio labels are translated for all 25 priority languages.
+const priorityStudioLanguages = ['fr', 'en', 'ar', 'tr', 'es', 'de', 'it', 'pt', 'ja', 'ko', 'zh', 'ru', 'hi', 'nl', 'pl', 'sv', 'vi', 'id', 'th', 'el', 'he', 'cs', 'ro', 'da', 'fi'];
+const studioKeys = ['title', 'inputLabel', 'inputPlaceholder', 'copyPlain', 'quickPresets', 'unicodeTab', 'effectsTab', 'texturesTab', 'exportTab', 'fontFamily', 'fontSize', 'letterSpacing', 'visualEffect', 'textureMask', 'transparentBg', 'exportQuality', 'exportPng', 'copySvg', 'copyCss'] as const;
+const studioLabelsComplete = priorityStudioLanguages.every((language) => studioKeys.every((key) => getStudioLabel(language, key).trim().length > 0));
+assert(
+  studioLabelsComplete,
+  'Core Style Studio controls have translated labels for all 25 priority languages',
+  `Checked ${priorityStudioLanguages.length} languages and ${studioKeys.length} labels`
 );
 
 // -----------------------------------------------------------------------------

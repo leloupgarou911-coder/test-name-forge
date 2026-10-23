@@ -14,9 +14,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const settings = getAppSettings();
   const t = getTranslations(settings.language).footer;
   const footerLabels: Record<string, { studio: string; favorites: string; catalog: string; home: string; all: string; names: string; generators: string; styles: string; free: string }> = {
-    fr: { studio: 'Studio de style (Unicode & Canvas)', favorites: 'Favoris et notes', catalog: 'Catalogue', home: 'Accueil', all: 'Tous les générateurs', names: 'Mes noms', generators: 'Générateurs', styles: 'Styles', free: '100 % Gratuit & local' },
-    en: { studio: 'Style Studio (Unicode & Canvas)', favorites: 'Favorites & Notes', catalog: 'Catalog', home: 'Home', all: 'All generators', names: 'My names', generators: 'Generators', styles: 'Styles', free: '100% Free & local' },
-    ar: { studio: 'استوديو الأنماط (Unicode وCanvas)', favorites: 'المفضلة والملاحظات', catalog: 'الفهرس', home: 'الرئيسية', all: 'جميع المولدات', names: 'أسمائي', generators: 'مولدات الأسماء', styles: 'أنماط', free: 'مجاني ومحلي 100٪' },
+    fr: { studio: 'Studio de style (Unicode & Canvas)', favorites: 'Favoris et notes', catalog: 'Catalogue', home: 'Accueil', all: 'Tous les générateurs', names: 'Mes noms', generators: 'Générateurs', styles: 'Styles', free: '100 % gratuit et local' },
+    en: { studio: 'Style Studio (Unicode & Canvas)', favorites: 'Favorites & Notes', catalog: 'Catalog', home: 'Home', all: 'All generators', names: 'My names', generators: 'Generators', styles: 'Styles', free: '100% free & local' },
+    ar: { studio: 'استوديو الأنماط (Unicode وCanvas)', favorites: 'المفضلة والملاحظات', catalog: 'الفهرس', home: 'الرئيسية', all: 'جميع المولدات', names: 'أسمائي', generators: 'مولدات الأسماء', styles: 'الأنماط', free: 'مجاني ومحلي 100٪' },
     es: { studio: 'Estudio de estilo (Unicode y Canvas)', favorites: 'Favoritos y notas', catalog: 'Catálogo', home: 'Inicio', all: 'Todos los generadores', names: 'Mis nombres', generators: 'Generadores', styles: 'Estilos', free: '100 % gratis y local' },
     de: { studio: 'Style-Studio (Unicode & Canvas)', favorites: 'Favoriten & Notizen', catalog: 'Katalog', home: 'Startseite', all: 'Alle Generatoren', names: 'Meine Namen', generators: 'Generatoren', styles: 'Stile', free: '100 % kostenlos & lokal' },
     it: { studio: 'Studio Stile (Unicode & Canvas)', favorites: 'Preferiti e note', catalog: 'Catalogo', home: 'Home', all: 'Tutti i generatori', names: 'I miei nomi', generators: 'Generatori', styles: 'Stili', free: '100% gratuito e locale' },
@@ -24,6 +24,20 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     tr: { studio: 'Stil Stüdyosu (Unicode & Canvas)', favorites: 'Favoriler ve Notlar', catalog: 'Katalog', home: 'Ana sayfa', all: 'Tüm oluşturucular', names: 'İsimlerim', generators: 'Oluşturucular', styles: 'Stiller', free: '%100 ücretsiz ve yerel' },
     ja: { studio: 'スタイルスタジオ (Unicode & Canvas)', favorites: 'お気に入りとメモ', catalog: 'カタログ', home: 'ホーム', all: 'すべてのジェネレーター', names: 'マイネーム', generators: 'ジェネレーター', styles: 'スタイル', free: '完全無料・ローカル' },
     ko: { studio: '스타일 스튜디오 (Unicode & Canvas)', favorites: '즐겨찾기 및 메모', catalog: '카탈로그', home: '홈', all: '모든 생성기', names: '내 이름', generators: '생성기', styles: '스타일', free: '100% 무료 및 로컬' },
+    nl: { studio: 'Stijlstudio (Unicode & Canvas)', favorites: 'Favorieten en notities', catalog: 'Catalogus', home: 'Home', all: 'Alle generatoren', names: 'Mijn namen', generators: 'Generatoren', styles: 'Stijlen', free: '100% gratis en lokaal' },
+    pl: { studio: 'Studio stylu (Unicode i Canvas)', favorites: 'Ulubione i notatki', catalog: 'Katalog', home: 'Strona główna', all: 'Wszystkie generatory', names: 'Moje nazwy', generators: 'Generatory', styles: 'Style', free: '100% bezpłatnie i lokalnie' },
+    sv: { studio: 'Stilstudio (Unicode och Canvas)', favorites: 'Favoriter och anteckningar', catalog: 'Katalog', home: 'Hem', all: 'Alla generatorer', names: 'Mina namn', generators: 'Generatorer', styles: 'Stilar', free: '100 % gratis och lokalt' },
+    vi: { studio: 'Studio phong cách (Unicode & Canvas)', favorites: 'Yêu thích và ghi chú', catalog: 'Danh mục', home: 'Trang chủ', all: 'Tất cả trình tạo', names: 'Tên của tôi', generators: 'Trình tạo', styles: 'Kiểu', free: 'Miễn phí và cục bộ 100%' },
+    id: { studio: 'Studio Gaya (Unicode & Canvas)', favorites: 'Favorit & Catatan', catalog: 'Katalog', home: 'Beranda', all: 'Semua generator', names: 'Nama saya', generators: 'Generator', styles: 'Gaya', free: '100% gratis dan lokal' },
+    th: { studio: 'สตูดิโอสไตล์ (Unicode & Canvas)', favorites: 'รายการโปรดและบันทึก', catalog: 'แค็ตตาล็อก', home: 'หน้าแรก', all: 'เครื่องมือสร้างทั้งหมด', names: 'ชื่อของฉัน', generators: 'เครื่องมือสร้าง', styles: 'สไตล์', free: 'ฟรีและทำงานในเครื่อง 100%' },
+    el: { studio: 'Εργαστήριο στυλ (Unicode & Canvas)', favorites: 'Αγαπημένα και σημειώσεις', catalog: 'Κατάλογος', home: 'Αρχική', all: 'Όλες οι γεννήτριες', names: 'Τα ονόματά μου', generators: 'Γεννήτριες', styles: 'Στυλ', free: '100% δωρεάν και τοπικά' },
+    he: { studio: 'סטודיו סגנון (Unicode ו-Canvas)', favorites: 'מועדפים והערות', catalog: 'קטלוג', home: 'דף הבית', all: 'כל המחוללים', names: 'השמות שלי', generators: 'מחוללים', styles: 'סגנונות', free: 'חינם ומקומי ב-100%' },
+    cs: { studio: 'Studio stylu (Unicode a Canvas)', favorites: 'Oblíbené a poznámky', catalog: 'Katalog', home: 'Domů', all: 'Všechny generátory', names: 'Moje názvy', generators: 'Generátory', styles: 'Styly', free: '100% zdarma a lokálně' },
+    ro: { studio: 'Studio de stil (Unicode și Canvas)', favorites: 'Favorite și notițe', catalog: 'Catalog', home: 'Acasă', all: 'Toate generatoarele', names: 'Numele mele', generators: 'Generatoare', styles: 'Stiluri', free: '100% gratuit și local' },
+    da: { studio: 'Stilstudie (Unicode og Canvas)', favorites: 'Favoritter og noter', catalog: 'Katalog', home: 'Hjem', all: 'Alle generatorer', names: 'Mine navne', generators: 'Generatorer', styles: 'Stilarter', free: '100 % gratis og lokalt' },
+    fi: { studio: 'Tyylistudio (Unicode ja Canvas)', favorites: 'Suosikit ja muistiinpanot', catalog: 'Luettelo', home: 'Etusivu', all: 'Kaikki generaattorit', names: 'Omat nimet', generators: 'Generaattorit', styles: 'Tyylit', free: '100 % maksuton ja paikallinen' },
+    ru: { studio: 'Студия стилей (Unicode и Canvas)', favorites: 'Избранное и заметки', catalog: 'Каталог', home: 'Главная', all: 'Все генераторы', names: 'Мои имена', generators: 'Генераторы', styles: 'Стили', free: 'Бесплатно и локально на 100%' },
+    hi: { studio: 'स्टाइल स्टूडियो (Unicode और Canvas)', favorites: 'पसंदीदा और नोट्स', catalog: 'कैटलॉग', home: 'होम', all: 'सभी जनरेटर', names: 'मेरे नाम', generators: 'जनरेटर', styles: 'शैलियाँ', free: '100% मुफ़्त और स्थानीय' },
   };
   const labels = footerLabels[settings.language] || footerLabels.en;
   const isRtlLanguage = ['ar', 'he', 'fa', 'ur', 'ps'].includes(settings.language);
@@ -67,7 +81,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <li key={gen.id}>
                   <button
                     onClick={() => onNavigate('generator-detail', gen.id)}
-                    className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-left"
+                    className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-start"
                   >
                     <span>{gen.icon}</span>
                     <span>{gen.shortTitle}</span>
@@ -126,7 +140,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   className="hover:text-pink-300 transition flex items-center gap-1.5 cursor-pointer text-pink-400"
                 >
                   <span>✨</span>
-                  <span>Atelier Style (Unicode & Canvas)</span>
+                  <span>{labels.studio}</span>
                 </button>
               </li>
               <li>
@@ -135,7 +149,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>📁</span>
-                  <span>Mes Favoris & Notes</span>
+                  <span>{labels.favorites}</span>
                 </button>
               </li>
               <li>

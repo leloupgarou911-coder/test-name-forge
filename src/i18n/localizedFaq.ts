@@ -467,9 +467,29 @@ const FI_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
 {q:'Mitä teen, jos en pidä tuloksesta?',a:'Luo uusia nimiä tai paina G. Voit myös vaihtaa arkkityyppiä, pituutta tai generoinnin kieltä.'},
 {q:'Miten ilmoitan ongelmasta tai ehdotan parannusta?',a:'Jaa ehdotuksesi projektin repositoriossa tai ehdota uusia arkkityyppejä tuleviin versioihin.'}
 ];
+const CS_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'Jak funguje generátor jmen jako NameForge?',a:'NameForge kombinuje jazykové kořeny, harmonické slabiky a pravidla tvorby slov pro fantasy, technologie, značky a příběhy. Zohledňuje rytmus, výslovnost i soulad s tématem.'},
+{q:'Jak vybrat jméno vhodné pro můj projekt?',a:'Nejprve určete požadovaný dojem a řekněte jméno nahlas. Pro mobilní aplikaci se hodí krátké jméno, pro knižní sérii spíše vyprávěcí.'},
+{q:'Jak vytvořit originální a zapamatovatelné jméno?',a:'Zkuste nečekané kombinace slabik nebo přirozené spojení slov. Vyhněte se otřepaným klišé a zbytečným číslům.'},
+{q:'Jak se vyhnout podobným jménům při opakovaném generování?',a:'NameForge lokálně uchovává posledních 100 jmen a při dalším generování filtruje nedávné návrhy.'},
+{q:'Mohu vytvářet jména s různými jazyky a zvuky?',a:'Ano. Zvolte francouzský, anglický, japonský/anime, arabský/orientální, latinský/elfský, severský nebo technologický styl. Jazyk rozhraní se nezmění.'},
+{q:'Jak funguje nastavení stylu a délky?',a:'Krátká délka obvykle nabídne jednu či dvě slabiky, střední dvě až tři a dlouhá podporuje složená nebo vyprávěcí jména.'},
+{q:'Jak jména kopírovat, ukládat a později najít?',a:'Použijte tlačítka pro kopírování, oblíbené a označení „líbí se“. Uložená jména najdete v sekci Moje jména.'},
+{q:'Jak fungují oblíbené položky, kolekce a soukromé poznámky?',a:'Vytvářejte tematické kolekce podle projektů a přidávejte soukromé poznámky k jednotlivým jménům.'},
+{q:'Jak se počítá hodnocení hvězdičkami a žebříček?',a:'Každý návrh ohodnoťte jednou až pěti hvězdičkami. Žebříček ukazuje vaše nejlépe hodnocená jména bez smyšlených hlasů.'},
+{q:'Lze seznamy jmen exportovat nebo importovat?',a:'Uložená data včetně poznámek exportujte do JSON nebo CSV a obnovte dřívější zálohu JSON.'},
+{q:'Ukládají se osobní údaje do mého zařízení?',a:'NameForge funguje lokálně bez účtu. Jména, poznámky a nastavení zůstávají v úložišti prohlížeče.'},
+{q:'Jsou jména zaručeně jedinečná na celém světě?',a:'Ne. Žádný algoritmus nezaručí absolutní jedinečnost; stejné jméno už může existovat v jiném jazyce.'},
+{q:'Mohu jméno použít pro firmu nebo produkt?',a:'Návrhy lze využít kreativně. Před komerčním použitím zkontrolujte rejstříky ochranných známek, například EUIPO nebo USPTO.'},
+{q:'Jak ověřím dostupnost internetové domény?',a:'Vyhledejte jméno u registrátora domén a ověřte koncovky jako .com, .cz nebo .io.'},
+{q:'Mám před použitím jména kontrolovat ochranné známky?',a:'Ano, zejména před investicí do značky, loga nebo firmy. NameForge nepotvrzuje právní dostupnost.'},
+{q:'Funguje web na telefonech a tabletech?',a:'Ano. Responzivní rozhraní je navrženo pro telefony, tablety i počítače.'},
+{q:'Co dělat, když se mi výsledek nelíbí?',a:'Vytvořte nová jména nebo stiskněte G. Můžete také změnit archetyp, délku či jazyk generování.'},
+{q:'Jak nahlásím problém nebo navrhnu vylepšení?',a:'Sdílejte návrhy v repozitáři projektu nebo navrhněte nové archetypy pro další verze.'}
+];
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : language === 'ru' ? RU_FAQ : language === 'hi' ? HI_FAQ : language === 'pl' ? PL_FAQ : language === 'sv' ? SV_FAQ : language === 'vi' ? VI_FAQ : language === 'id' ? ID_FAQ : language === 'th' ? TH_FAQ : language === 'el' ? EL_FAQ : language === 'ro' ? RO_FAQ : language === 'da' ? DA_FAQ : language === 'fi' ? FI_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : language === 'ru' ? RU_FAQ : language === 'hi' ? HI_FAQ : language === 'pl' ? PL_FAQ : language === 'sv' ? SV_FAQ : language === 'vi' ? VI_FAQ : language === 'id' ? ID_FAQ : language === 'th' ? TH_FAQ : language === 'el' ? EL_FAQ : language === 'ro' ? RO_FAQ : language === 'da' ? DA_FAQ : language === 'fi' ? FI_FAQ : language === 'cs' ? CS_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -477,4 +497,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh', 'ru', 'hi', 'pl', 'sv', 'vi', 'id', 'th', 'el', 'ro', 'da', 'fi'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh', 'ru', 'hi', 'pl', 'sv', 'vi', 'id', 'th', 'el', 'ro', 'da', 'fi', 'cs'] as const;

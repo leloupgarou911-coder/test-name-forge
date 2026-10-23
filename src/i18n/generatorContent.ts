@@ -153,6 +153,8 @@ const LOCALIZED_DESCRIPTIONS: Record<string, Record<string, string>> = {
   }
 };
 
+export const LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES = Object.keys(LOCALIZED_DESCRIPTIONS);
+
 /** Localized, honest category-level summary. Detailed editorial guides remain in their authored source language. */
 export function getLocalizedGeneratorDescription(meta: GeneratorMeta, language: LanguageCode): string {
   const locale = LOCALIZED_DESCRIPTIONS[language];

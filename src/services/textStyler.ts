@@ -738,6 +738,28 @@ export interface RenderCanvasOptions {
   outlineWidth?: number;
 }
 
+/**
+ * Split text into user-perceived character clusters for Canvas spacing and SVG sizing.
+ * Keeps combining accents, emoji skin tones, ZWJ sequences, and flag pairs intact.
+ */
+export function splitGraphemes(text: string): string[] {
+  const points = Array.from(String(text ?? ''));
+  const clusters: string[] = [];
+  let regionalRun = 0;
+  for (const point of points) {
+    const isMark = /[\p{M}\uFE0E\uFE0F]/u.test(point);
+    const isModifier = /\p{Emoji_Modifier}/u.test(point);
+    const isRegional = /\p{Regional_Indicator}/u.test(point);
+    const previous = clusters.length ? clusters[clusters.length - 1] : '';
+    if (!clusters.length) clusters.push(point);
+    else if (isMark || isModifier || point === '\u200D' || previous.endsWith('\u200D')) clusters[clusters.length - 1] += point;
+    else if (isRegional && regionalRun % 2 === 1) clusters[clusters.length - 1] += point;
+    else clusters.push(point);
+    regionalRun = isRegional ? regionalRun + 1 : 0;
+  }
+  return clusters;
+}
+
 function drawTextWithLetterSpacing(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -746,7 +768,7 @@ function drawTextWithLetterSpacing(
   letterSpacing: number,
   stroke = false
 ): void {
-  const characters = Array.from(text);
+  const characters = splitGraphemes(text);
   if (letterSpacing <= 0 || characters.length < 2) {
     if (stroke) ctx.strokeText(text, x, y);
     else ctx.fillText(text, x, y);

@@ -63,6 +63,23 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
     ko: { empty: '컬렉션이 비어 있습니다', emptyDescription: '아직 저장한 이름이 없습니다. 생성기에서 저장 또는 좋아요를 사용하세요.', generate: '이름 생성', noResults: '검색 조건과 일치하는 이름이 없습니다.', collections: '테마별 컬렉션', collectionsDescription: '책, 진영, 캠페인 또는 팀별로 이름을 묶으세요.', create: '컬렉션 만들기', noCollections: '생성된 컬렉션이 없습니다', noCollectionsDescription: '프로젝트나 캠페인별로 이름을 정리할 첫 컬렉션을 만드세요.', clear: '모두 삭제' },
   };
   const copy = libraryText[currentLanguage] || libraryText.en;
+  const controlText: Record<string, {
+    compareLimit: string; localBadge: string; exportJson: string; exportCsv: string;
+    restore: string; allCollections: string; noCollection: string; allGenerators: string;
+    searchPlaceholder: string; compare: string; recentHistory: string; emptyHistory: string;
+  }> = {
+    fr: { compareLimit: "Vous pouvez comparer jusqu’à 4 noms simultanément.", localBadge: "ESPACE PERSONNEL LOCAL", exportJson: "Sauvegarder tout en JSON", exportCsv: "Exporter en tableau CSV", restore: "Restaurer un fichier JSON", allCollections: "Toutes les collections", noCollection: "Sans collection", allGenerators: "Tous les générateurs", searchPlaceholder: "Filtrer par nom, note ou style...", compare: "Comparer", recentHistory: "Historique récent des générations", emptyHistory: "Historique vide" },
+    en: { compareLimit: "You can compare up to 4 names at once.", localBadge: "LOCAL PERSONAL SPACE", exportJson: "Back up everything as JSON", exportCsv: "Export as CSV spreadsheet", restore: "Restore a JSON file", allCollections: "All collections", noCollection: "No collection", allGenerators: "All generators", searchPlaceholder: "Filter by name, note, or style...", compare: "Compare", recentHistory: "Recent generation history", emptyHistory: "History is empty" },
+    es: { compareLimit: "Puedes comparar hasta 4 nombres a la vez.", localBadge: "ESPACIO PERSONAL LOCAL", exportJson: "Guardar todo como JSON", exportCsv: "Exportar como hoja CSV", restore: "Restaurar archivo JSON", allCollections: "Todas las colecciones", noCollection: "Sin colección", allGenerators: "Todos los generadores", searchPlaceholder: "Filtrar por nombre, nota o estilo...", compare: "Comparar", recentHistory: "Historial reciente de generación", emptyHistory: "Historial vacío" },
+    de: { compareLimit: "Du kannst bis zu 4 Namen gleichzeitig vergleichen.", localBadge: "LOKALER PERSÖNLICHER BEREICH", exportJson: "Alles als JSON sichern", exportCsv: "Als CSV-Tabelle exportieren", restore: "JSON-Datei wiederherstellen", allCollections: "Alle Sammlungen", noCollection: "Keine Sammlung", allGenerators: "Alle Generatoren", searchPlaceholder: "Nach Name, Notiz oder Stil filtern...", compare: "Vergleichen", recentHistory: "Letzter Generierungsverlauf", emptyHistory: "Verlauf ist leer" },
+    ar: { compareLimit: "يمكنك مقارنة 4 أسماء كحد أقصى في الوقت نفسه.", localBadge: "مساحة شخصية محلية", exportJson: "حفظ الكل بصيغة JSON", exportCsv: "تصدير كجدول CSV", restore: "استعادة ملف JSON", allCollections: "كل المجموعات", noCollection: "بلا مجموعة", allGenerators: "كل المولّدات", searchPlaceholder: "تصفية حسب الاسم أو الملاحظة أو النمط...", compare: "مقارنة", recentHistory: "سجل التوليد الأخير", emptyHistory: "السجل فارغ" },
+    pt: { compareLimit: "Você pode comparar até 4 nomes ao mesmo tempo.", localBadge: "ESPAÇO PESSOAL LOCAL", exportJson: "Guardar tudo como JSON", exportCsv: "Exportar como planilha CSV", restore: "Restaurar arquivo JSON", allCollections: "Todas as coleções", noCollection: "Sem coleção", allGenerators: "Todos os geradores", searchPlaceholder: "Filtrar por nome, nota ou estilo...", compare: "Comparar", recentHistory: "Histórico recente de geração", emptyHistory: "Histórico vazio" },
+    it: { compareLimit: "Puoi confrontare fino a 4 nomi contemporaneamente.", localBadge: "SPAZIO PERSONALE LOCALE", exportJson: "Salva tutto come JSON", exportCsv: "Esporta come foglio CSV", restore: "Ripristina file JSON", allCollections: "Tutte le raccolte", noCollection: "Nessuna raccolta", allGenerators: "Tutti i generatori", searchPlaceholder: "Filtra per nome, nota o stile...", compare: "Confronta", recentHistory: "Cronologia recente delle generazioni", emptyHistory: "Cronologia vuota" },
+    tr: { compareLimit: "Aynı anda en fazla 4 ismi karşılaştırabilirsin.", localBadge: "YEREL KİŞİSEL ALAN", exportJson: "Tümünü JSON olarak yedekle", exportCsv: "CSV tablosu olarak dışa aktar", restore: "JSON dosyasını geri yükle", allCollections: "Tüm koleksiyonlar", noCollection: "Koleksiyon yok", allGenerators: "Tüm oluşturucular", searchPlaceholder: "İsim, not veya stile göre filtrele...", compare: "Karşılaştır", recentHistory: "Son oluşturma geçmişi", emptyHistory: "Geçmiş boş" },
+    ja: { compareLimit: "一度に比較できる名前は最大4件です。", localBadge: "ローカル個人スペース", exportJson: "すべてJSONでバックアップ", exportCsv: "CSV表としてエクスポート", restore: "JSONファイルを復元", allCollections: "すべてのコレクション", noCollection: "コレクションなし", allGenerators: "すべてのジェネレーター", searchPlaceholder: "名前・メモ・スタイルで絞り込む...", compare: "比較", recentHistory: "最近の生成履歴", emptyHistory: "履歴は空です" },
+    ko: { compareLimit: "한 번에 최대 4개의 이름을 비교할 수 있습니다.", localBadge: "로컬 개인 공간", exportJson: "모두 JSON으로 백업", exportCsv: "CSV 스프레드시트로 내보내기", restore: "JSON 파일 복원", allCollections: "모든 컬렉션", noCollection: "컬렉션 없음", allGenerators: "모든 생성기", searchPlaceholder: "이름, 메모 또는 스타일로 필터링...", compare: "비교", recentHistory: "최근 생성 기록", emptyHistory: "기록이 비어 있습니다" },
+  };
+  const controls = controlText[currentLanguage] || controlText.en;
   const [entries, setEntries] = useState<SavedNameEntry[]>([]);
   const [collections, setCollections] = useState<NamedCollection[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -366,7 +383,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
       <div className="text-center max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-extrabold uppercase tracking-widest mb-3">
           <Bookmark className="w-3.5 h-3.5" />
-          <span>ESPACE PERSONNEL LOCAL</span>
+          <span>{controls.localBadge}</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-3">
           Mes Noms, Collections & Historique
@@ -479,7 +496,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <button
             onClick={handleExportJSON}
             className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
-            title="Sauvegarder tout en JSON"
+            title={controls.exportJson}
           >
             <Download className="w-3.5 h-3.5 text-purple-400" />
             <span>JSON</span>
@@ -488,7 +505,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <button
             onClick={handleExportCSV}
             className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
-            title="Exporter en tableau CSV"
+            title={controls.exportCsv}
           >
             <Download className="w-3.5 h-3.5 text-cyan-400" />
             <span>CSV</span>
@@ -497,7 +514,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <button
             onClick={() => fileInputRef.current?.click()}
             className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
-            title="Restaurer un fichier JSON"
+            title={controls.restore}
           >
             <Upload className="w-3.5 h-3.5 text-emerald-400" />
             <span>Restaurer</span>
@@ -544,8 +561,8 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                   onChange={(e) => setFilterCollectionId(e.target.value)}
                   className="h-9 px-3 bg-[#0a0f1d] border border-slate-700/80 rounded-xl text-xs font-semibold text-white cursor-pointer"
                 >
-                  <option value="all">Toutes collections</option>
-                  <option value="none">Sans collection</option>
+                  <option value="all">{controls.allCollections}</option>
+                  <option value="none">{controls.noCollection}</option>
                   {collections.map((col) => (
                     <option key={col.id} value={col.id}>
                       📁 {col.name}
@@ -558,7 +575,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                   onChange={(e) => setFilterGenerator(e.target.value)}
                   className="h-9 px-3 bg-[#0a0f1d] border border-slate-700/80 rounded-xl text-xs font-semibold text-white cursor-pointer"
                 >
-                  <option value="all">Tous générateurs</option>
+                  <option value="all">{controls.allGenerators}</option>
                   {ALL_GENERATORS_LIST.map((g) => (
                     <option key={g.id} value={g.id}>
                       {g.icon} {g.shortTitle}
@@ -574,7 +591,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Filtrer par nom, note ou style..."
+                  placeholder={controls.searchPlaceholder}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full h-9 pl-9 pr-3 bg-[#0a0f1d] border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
@@ -688,7 +705,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                             onChange={() => handleToggleCompareSelection(item.name)}
                             className="rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-0 cursor-pointer"
                           />
-                          <span>Comparer</span>
+                          <span>{controls.compare}</span>
                         </label>
                       </div>
 
@@ -938,7 +955,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
         <div className="space-y-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl font-bold text-white">Historique Récent des Générations</h2>
+              <h2 className="text-xl font-bold text-white">{controls.recentHistory}</h2>
               <p className="text-xs text-slate-400 mt-0.5">
                 Les 50 dernières propositions générées en cours de session.
               </p>
@@ -957,7 +974,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           {history.length === 0 ? (
             <div className="p-12 text-center rounded-3xl bg-[#0e1627] border border-slate-800 space-y-3">
               <History className="w-12 h-12 text-slate-500 mx-auto" />
-              <h3 className="text-base font-bold text-white">Historique vide</h3>
+              <h3 className="text-base font-bold text-white">{controls.emptyHistory}</h3>
               <p className="text-xs text-slate-400">
                 Générez des noms sur le site pour qu'ils s'enregistrent automatiquement ici.
               </p>

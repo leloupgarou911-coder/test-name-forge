@@ -117,6 +117,20 @@ assert(
   `Generated: ${unicodeKeywordNames.map((entry) => entry.name).join(', ')}`
 );
 
+// Unicode edit distance must count supplementary characters as one code point.
+assert(
+  calculateLevenshteinDistance('😀', '😃') === 1,
+  'Unicode edit distance counts emoji as single characters'
+);
+assert(
+  calculateLevenshteinDistance('A😀B', 'A😀B') === 0,
+  'Unicode edit distance recognizes identical supplementary characters'
+);
+assert(
+  calculateLevenshteinDistance('星辰', '星月') === 1,
+  'Unicode edit distance handles CJK characters'
+);
+
 // Test 9: Keyword parameter in fantasy generator
 const kwResultsFantasy = generateNames({ generatorId: 'fantasy', keyword: 'Val', quantity: 5 });
 const nonKwFantasy = kwResultsFantasy.filter((r) => !r.name.toLowerCase().includes('val'));

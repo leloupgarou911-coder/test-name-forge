@@ -693,39 +693,32 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
         ? resolved.attestedItems
         : ATTESTED_BABY_NAMES;
 
-    let pool = attestedSource.filter((item) => {
-      // 1. Gender filtering
+    // Apply semantic filters first. Never silently ignore gender or a user keyword:
+    // an empty result is more honest than returning unrelated names.
+    const semanticPool = attestedSource.filter((item) => {
       if (gender === 'female' && item.gender === 'male') return false;
       if (gender === 'male' && item.gender === 'female') return false;
       if (gender === 'neutral' && item.gender !== 'neutral') return false;
 
-      // 2. Length filtering
-      if (length === 'short' && item.name.length > 5) return false;
-      if (length === 'long' && item.name.length < 7) return false;
-
-      // 3. Keyword / origin / meaning search
       if (cleanKw) {
-        const kwLower = cleanKw.toLowerCase();
-        const matchesName = item.name.toLowerCase().includes(kwLower);
-        const matchesOrigin = item.origin.toLowerCase().includes(kwLower);
-        const matchesMeaning = item.meaning.toLowerCase().includes(kwLower);
+        const kwLower = cleanKw.normalize('NFC').toLocaleLowerCase();
+        const matchesName = item.name.normalize('NFC').toLocaleLowerCase().includes(kwLower);
+        const matchesOrigin = item.origin.normalize('NFC').toLocaleLowerCase().includes(kwLower);
+        const matchesMeaning = item.meaning.normalize('NFC').toLocaleLowerCase().includes(kwLower);
         if (!matchesName && !matchesOrigin && !matchesMeaning) return false;
       }
-
       return true;
     });
 
-    // Fallback if strict filter was too narrow
-    if (pool.length === 0) {
-      pool = attestedSource.filter((item) => {
-        if (gender === 'female') return item.gender !== 'male';
-        if (gender === 'male') return item.gender !== 'female';
-        return true;
-      });
-    }
-    if (pool.length === 0) {
-      pool = attestedSource;
-    }
+    // Keep the length preference when possible, but relax it alone if it would
+    // leave no choices. Gender and keyword constraints are never relaxed.
+    let pool = semanticPool.filter((item) => {
+      if (length === 'short' && item.name.length > 5) return false;
+      if (length === 'long' && item.name.length < 7) return false;
+      return true;
+    });
+    if (pool.length === 0) pool = semanticPool;
+    if (pool.length === 0) return [];
 
     // Shuffle and pick unique names
     const shuffled = [...pool].sort(() => 0.5 - Math.random());

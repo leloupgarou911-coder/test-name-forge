@@ -84,6 +84,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           generator: id,
           quantity: 3,
           keyword: quickKeyword,
+          // Keep the Home quick-forge action aligned with the dedicated generation-language preference.
+          genLanguage: getAppSettings().defaultGenLanguage || 'auto',
         });
         setQuickResults(res);
       } finally {

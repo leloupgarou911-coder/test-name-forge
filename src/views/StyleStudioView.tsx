@@ -26,6 +26,7 @@ import {
 import { GeneratorId } from '../types';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
+import { getStudioLabel } from '../i18n/studio';
 
 interface StyleStudioViewProps {
   initialText?: string;
@@ -183,7 +184,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         <div className="flex items-center gap-2">
           <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/15 border border-purple-400/30 text-purple-300 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>{settings.language === 'fr' ? 'Atelier de Stylisation Typographique' : 'Typography & Style Studio'}</span>
+            <span>{getStudioLabel(settings.language, 'title')}</span>
           </span>
         </div>
       </div>
@@ -219,7 +220,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
           <div className="flex-1 relative">
             <label htmlFor="styler-input" className="sr-only">
-              {settings.language === 'fr' ? 'Nom à styliser' : settings.language === 'en' ? 'Name to style' : t.generatorControl.genLangLabel}
+              {getStudioLabel(settings.language, 'inputLabel')}
             </label>
             <input
               id="styler-input"
@@ -227,7 +228,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
               dir={settings.language === 'ar' || settings.language === 'he' ? 'rtl' : 'ltr'}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder={settings.language === 'fr' ? 'Entrez un nom ou une marque...' : 'Enter a name or brand...'}
+              placeholder={getStudioLabel(settings.language, 'inputPlaceholder')}
               className={`w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner ${settings.language === 'ar' || settings.language === 'he' ? 'text-right pl-12' : 'text-left pr-12'}`}
               maxLength={60}
             />
@@ -255,7 +256,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             ) : (
               <>
                 <Copy className="w-4 h-4" />
-                <span>{settings.language === 'fr' ? 'Copier Texte Brut' : 'Copy Plain'}</span>
+                <span>{getStudioLabel(settings.language, 'copyPlain')}</span>
               </>
             )}
           </button>
@@ -264,7 +265,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         {/* Preset sample names quick pills */}
         <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           <span className="text-xs font-semibold text-slate-400 shrink-0">
-            {settings.language === 'fr' ? 'Exemples rapides :' : 'Quick Presets:'}
+            {`${getStudioLabel(settings.language, 'quickPresets')}:`}
           </span>
           {PRESET_SAMPLE_NAMES.map((name) => (
             <button
@@ -289,7 +290,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Type className="w-4 h-4 text-purple-400" />
-          <span>{settings.language === 'fr' ? '1. Polices Unicode Copiables (22)' : '1. Copyable Unicode Fonts (22)'}</span>
+          <span>{getStudioLabel(settings.language, 'unicodeTab')}</span>
         </button>
 
         <button
@@ -301,7 +302,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Palette className="w-4 h-4 text-cyan-400" />
-          <span>{settings.language === 'fr' ? '2. Effets Visuels & Néons' : '2. Visual Effects & Glows'}</span>
+          <span>{getStudioLabel(settings.language, 'effectsTab')}</span>
         </button>
 
         <button
@@ -313,7 +314,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Layers className="w-4 h-4 text-pink-400" />
-          <span>{settings.language === 'fr' ? '3. Textures & Masques d’Écrêtage' : '3. Texture Fills & Masks'}</span>
+          <span>{getStudioLabel(settings.language, 'texturesTab')}</span>
         </button>
 
         <button
@@ -325,7 +326,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Sliders className="w-4 h-4 text-emerald-400" />
-          <span>{settings.language === 'fr' ? '4. Studio Canvas & Export HD' : '4. Canvas HD Export Studio'}</span>
+          <span>{getStudioLabel(settings.language, 'exportTab')}</span>
         </button>
       </div>
 
@@ -571,7 +572,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
             {/* Font Family */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300">{settings.language === 'fr' ? 'Famille de police :' : 'Font family:'}</label>
+              <label className="text-xs font-bold text-slate-300">{getStudioLabel(settings.language, 'fontFamily')}</label>
               <select
                 value={fontFamily}
                 onChange={(e) => setFontFamily(e.target.value)}
@@ -588,7 +589,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Font Size Slider */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
-                <span className="text-slate-300">{settings.language === 'fr' ? 'Taille de police :' : 'Font size:'}</span>
+                <span className="text-slate-300">{getStudioLabel(settings.language, 'fontSize')}</span>
                 <span className="text-cyan-400">{fontSize}px</span>
               </div>
               <input
@@ -605,7 +606,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Letter Spacing */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
-                <span className="text-slate-300">{settings.language === 'fr' ? 'Espacement des lettres :' : 'Letter spacing:'}</span>
+                <span className="text-slate-300">{getStudioLabel(settings.language, 'letterSpacing')}</span>
                 <span className="text-cyan-400">{letterSpacing}px</span>
               </div>
               <input
@@ -622,7 +623,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Active Effect & Texture Pickers */}
             <div className="grid grid-cols-2 gap-3 pt-2">
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">{settings.language === 'fr' ? 'Effet visuel :' : 'Visual effect:'}</label>
+                <label className="text-[11px] font-bold text-slate-400 block mb-1">{getStudioLabel(settings.language, 'visualEffect')}</label>
                 <select
                   value={selectedEffect}
                   onChange={(e) => setSelectedEffect(e.target.value)}
@@ -637,7 +638,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">{settings.language === 'fr' ? 'Texture / masque :' : 'Texture / mask:'}</label>
+                <label className="text-[11px] font-bold text-slate-400 block mb-1">{getStudioLabel(settings.language, 'textureMask')}</label>
                 <select
                   value={selectedTexture}
                   onChange={(e) => setSelectedTexture(e.target.value)}
@@ -655,7 +656,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Transparent vs Dark Backing Toggle */}
             <div className="flex items-center justify-between pt-2">
               <label htmlFor="transparent-toggle" className="text-xs font-bold text-slate-300">
-                {settings.language === 'fr' ? 'Fond transparent (PNG découpé) :' : 'Transparent background (cutout PNG):'}
+                {getStudioLabel(settings.language, 'transparentBg')}
               </label>
               <input
                 id="transparent-toggle"
@@ -668,7 +669,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
             {/* Resolution multiplier */}
             <div className="flex items-center justify-between pt-1">
-              <span className="text-xs font-bold text-slate-300">{settings.language === 'fr' ? 'Qualité d’export :' : 'Export quality:'}</span>
+              <span className="text-xs font-bold text-slate-300">{getStudioLabel(settings.language, 'exportQuality')}</span>
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3].map((s) => (
                   <button
@@ -715,7 +716,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 className="py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-purple-950/40 transition"
               >
                 <Download className="w-4 h-4" />
-                <span>{settings.language === 'fr' ? 'Exporter l’image PNG HD' : 'Export HD PNG image'}</span>
+                <span>{getStudioLabel(settings.language, 'exportPng')}</span>
               </button>
 
               <button
@@ -730,7 +731,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 ) : (
                   <>
                     <ImageIcon className="w-4 h-4 text-pink-400" />
-                    <span>{settings.language === 'fr' ? 'Copier le code SVG' : 'Copy SVG code'}</span>
+                    <span>{getStudioLabel(settings.language, 'copySvg')}</span>
                   </>
                 )}
               </button>
@@ -747,7 +748,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 ) : (
                   <>
                     <Code className="w-4 h-4 text-cyan-400" />
-                    <span>{settings.language === 'fr' ? 'Copier les styles CSS' : 'Copy CSS styles'}</span>
+                    <span>{getStudioLabel(settings.language, 'copyCss')}</span>
                   </>
                 )}
               </button>

@@ -31,6 +31,7 @@ import { GeneratedName, GeneratorFamily, GeneratorId, SavedNameEntry } from '../
 import { getSavedNames, subscribeToStorage } from '../services/storage';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
+import { getLocalizedGeneratorDescription } from '../i18n/generatorContent';
 import { NameCard } from '../components/NameCard';
 
 interface HomeViewProps {
@@ -110,7 +111,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
       (gen) =>
         gen.title.toLowerCase().includes(q) ||
         gen.shortTitle.toLowerCase().includes(q) ||
-        gen.description.toLowerCase().includes(q) ||
+        getLocalizedGeneratorDescription(gen, settings.language).toLowerCase().includes(q) || gen.description.toLowerCase().includes(q) ||
         gen.badge.toLowerCase().includes(q)
     );
   }, [searchQuery]);
@@ -521,7 +522,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 </h3>
 
                 <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
-                  {gen.description}
+                  {getLocalizedGeneratorDescription(gen, settings.language)}
                 </p>
               </div>
 

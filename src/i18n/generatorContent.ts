@@ -153,11 +153,87 @@ const LOCALIZED_DESCRIPTIONS: Record<string, Record<string, string>> = {
   }
 };
 
+
+/**
+ * Reviewed, generator-specific descriptions for core generators.
+ * Other pages keep their category summary until their own translations are reviewed.
+ */
+const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = {
+  fantasy: {
+    en: 'Forge names for fantasy heroes, magical lineages, legendary realms, and original worlds for your stories or games.',
+    fr: 'Forgez des noms pour des héros fantastiques, des lignées magiques, des royaumes légendaires et des univers originaux.',
+    es: 'Crea nombres para héroes fantásticos, linajes mágicos, reinos legendarios y mundos originales para tus historias o juegos.',
+    de: 'Erschaffe Namen für Fantasy-Helden, magische Blutlinien, legendäre Reiche und eigene Welten für Geschichten oder Spiele.'
+  },
+  baby_name: {
+    en: 'Explore baby names with attention to real-world usage, pronunciation, cultural origins, and meanings where available.',
+    fr: 'Explorez des prénoms de bébé en tenant compte de leur usage réel, de leur prononciation, de leur origine culturelle et de leur signification lorsqu’elle est connue.',
+    es: 'Explora nombres para bebés teniendo en cuenta su uso real, pronunciación, origen cultural y significado cuando esté disponible.',
+    de: 'Entdecke Vornamen für Babys mit Blick auf tatsächlichen Gebrauch, Aussprache, kulturelle Herkunft und Bedeutung, sofern bekannt.'
+  },
+  brand: {
+    en: 'Develop memorable brand-name ideas for products and services, then check trademarks, domains, and market use before adopting one.',
+    fr: 'Trouvez des idées de noms de marque mémorables pour des produits et services, puis vérifiez les marques déposées, les domaines et les usages avant de les adopter.',
+    es: 'Encuentra ideas de marcas memorables para productos y servicios; antes de usarlas, comprueba marcas registradas, dominios y usos comerciales.',
+    de: 'Finde einprägsame Markennamen für Produkte und Dienstleistungen. Prüfe vor der Nutzung Markenrechte, Domains und bestehende Verwendungen.'
+  },
+  business: {
+    en: 'Find professional business-name ideas suited to a company’s positioning, audience, and long-term plans; verify legal availability before registration.',
+    fr: 'Trouvez des idées de noms d’entreprise adaptées à son positionnement, à son public et à ses ambitions, puis vérifiez leur disponibilité juridique avant l’immatriculation.',
+    es: 'Encuentra nombres profesionales para empresas según su posicionamiento, público y objetivos; verifica la disponibilidad legal antes de registrarlos.',
+    de: 'Finde professionelle Firmennamen passend zu Positionierung, Zielgruppe und langfristigen Zielen. Prüfe vor der Registrierung die rechtliche Verfügbarkeit.'
+  },
+  product: {
+    en: 'Create product-name ideas that communicate a clear benefit and fit the intended audience, packaging, and product category.',
+    fr: 'Créez des idées de noms de produits qui expriment un bénéfice clair et correspondent au public visé, à l’emballage et à la catégorie du produit.',
+    es: 'Crea nombres de productos que comuniquen un beneficio claro y encajen con el público, el envase y la categoría del producto.',
+    de: 'Entwickle Produktnamen, die einen klaren Nutzen vermitteln und zur Zielgruppe, Verpackung und Produktkategorie passen.'
+  },
+  startup: {
+    en: 'Explore concise, distinctive startup names for emerging ventures; check domain, company-register, and trademark availability before launch.',
+    fr: 'Explorez des noms courts et distinctifs pour une startup ; vérifiez les domaines, les registres d’entreprises et les marques avant le lancement.',
+    es: 'Explora nombres breves y distintivos para startups; comprueba dominios, registros mercantiles y marcas antes del lanzamiento.',
+    de: 'Entdecke kurze, unverwechselbare Namen für Start-ups. Prüfe vor dem Start Domains, Unternehmensregister und Markenrechte.'
+  },
+  book: {
+    en: 'Find book-title ideas shaped around genre, atmosphere, central themes, and the impression you want readers to remember.',
+    fr: 'Trouvez des titres de livres adaptés au genre, à l’atmosphère, aux thèmes centraux et à l’impression que vous souhaitez laisser aux lecteurs.',
+    es: 'Encuentra títulos de libros acordes con el género, la atmósfera, los temas centrales y la impresión que quieres dejar en los lectores.',
+    de: 'Finde Buchtitel passend zu Genre, Atmosphäre, zentralen Themen und dem Eindruck, den du bei Lesenden hinterlassen möchtest.'
+  },
+  gaming: {
+    en: 'Generate gaming aliases for competitive play, streaming, and online communities; check each platform’s character and availability rules.',
+    fr: 'Générez des pseudos pour le jeu compétitif, le streaming et les communautés en ligne ; vérifiez les règles de longueur et la disponibilité sur chaque plateforme.',
+    es: 'Genera alias para juegos competitivos, streaming y comunidades en línea; comprueba las reglas de caracteres y disponibilidad de cada plataforma.',
+    de: 'Erstelle Gaming-Namen für Wettkampf, Streaming und Online-Communitys. Prüfe die Zeichenregeln und Verfügbarkeit auf jeder Plattform.'
+  },
+  anime: {
+    en: 'Create stylized anime-character names for protagonists, rivals, and original casts, without claiming unverified Japanese meanings.',
+    fr: 'Créez des noms stylisés pour des personnages d’anime, héros, rivaux ou distributions originales, sans leur attribuer une signification japonaise non vérifiée.',
+    es: 'Crea nombres estilizados para protagonistas, rivales y personajes de anime originales, sin atribuirles significados japoneses que no se hayan verificado.',
+    de: 'Erstelle stilisierte Namen für Anime-Hauptfiguren, Rivalen und eigene Figuren, ohne ungeprüfte japanische Bedeutungen zu behaupten.'
+  },
+  restaurant: {
+    en: 'Explore restaurant-name ideas that fit the cuisine, atmosphere, location, and audience; check local businesses and trademark availability before choosing.',
+    fr: 'Trouvez des noms de restaurants adaptés à la cuisine, à l’ambiance, au lieu et à la clientèle ; vérifiez les commerces existants et les marques avant de choisir.',
+    es: 'Explora nombres para restaurantes acordes con la cocina, el ambiente, la ubicación y el público; revisa negocios y marcas existentes antes de elegir.',
+    de: 'Finde Restaurantnamen passend zu Küche, Atmosphäre, Standort und Gästen. Prüfe vor der Entscheidung bestehende Betriebe und Marken.'
+  }
+};
+
 export const LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES = Object.keys(LOCALIZED_DESCRIPTIONS);
 
 /** Localized, honest category-level summary. Detailed editorial guides remain in their authored source language. */
 export function getLocalizedGeneratorDescription(meta: GeneratorMeta, language: LanguageCode): string {
+  const generatorSpecific = GENERATOR_DESCRIPTION_OVERRIDES[meta.id]?.[language];
+  if (generatorSpecific) return generatorSpecific;
+
   const locale = LOCALIZED_DESCRIPTIONS[language];
   if (!locale) return meta.description;
   return locale[meta.category] || locale.creative || meta.description;
+}
+
+/** True when this generator has a reviewed, generator-specific description in this locale. */
+export function hasLocalizedGeneratorDescription(generatorId: string, language: LanguageCode): boolean {
+  return Boolean(GENERATOR_DESCRIPTION_OVERRIDES[generatorId]?.[language]);
 }

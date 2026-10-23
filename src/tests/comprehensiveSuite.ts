@@ -417,6 +417,30 @@ assert(
   'All Middle Eastern / RTL languages (ar, he, fa, ur, ps) have dir="rtl" defined'
 );
 
+// Test 41: SVG safely escapes user-supplied markup.
+const escapedSvg = generateSvgCode('<script>alert("x")</script>', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+assert(
+  escapedSvg.includes('&lt;script&gt;') && !escapedSvg.includes('<script>'),
+  'SVG export escapes user text so markup is rendered as text, not injected elements'
+);
+
+// Test 42: SVG includes a texture overlay clipped to the glyph shape.
+const texturedSvg = generateSvgCode('NameForge', 48, 'sans-serif', 'pure-gold', 'brushed-gold', true);
+assert(
+  texturedSvg.includes('clip-path="url(#nf-text-clip)"') && texturedSvg.includes('nf-pattern-brushed-gold'),
+  'SVG export applies the selected texture as a clipped overlay inside the text'
+);
+
+// Test 43: SVG width expands for longer text instead of staying fixed.
+const shortSvg = generateSvgCode('Hi', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+const longSvg = generateSvgCode('A very long NameForge studio title', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+const shortWidth = Number(shortSvg.match(/viewBox="0 0 (\\d+)/)?.[1] || 0);
+const longWidth = Number(longSvg.match(/viewBox="0 0 (\\d+)/)?.[1] || 0);
+assert(
+  longWidth > shortWidth,
+  'SVG export dynamically expands its canvas for longer text'
+);
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

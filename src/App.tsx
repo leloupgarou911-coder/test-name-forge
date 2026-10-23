@@ -8,7 +8,7 @@ import { MyNamesView } from './views/MyNamesView';
 import { StyleStudioView } from './views/StyleStudioView';
 import { GeneratorId } from './types';
 import { GENERATORS_METADATA, ALL_GENERATORS_LIST } from './data/generators';
-import { applySettingsToDOM, getAppSettings, subscribeToSettings } from './services/settings';
+import { applySettingsToDOM, getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from './services/settings';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<string>('home');
@@ -134,22 +134,35 @@ export const App: React.FC = () => {
     }
   };
 
-  // Sync document title and meta
+  // Keep the browser's language and reading direction synchronized with the selected language.
   useEffect(() => {
-    if (currentView === 'home') {
-      document.title = `NameForge — ${ALL_GENERATORS_LIST.length} Générateurs de Noms Gratuits & Professionnels`;
-    } else if (currentView === 'generators') {
-      document.title = `Tous les ${ALL_GENERATORS_LIST.length} Générateurs de Noms — NameForge`;
-    } else if (currentView === 'my-names') {
-      document.title = 'Mes Noms — Favoris, Notes & Collections | NameForge';
-    } else if (currentView === 'style-studio') {
-      document.title =
-        settings.language === 'fr'
-          ? 'Atelier de Stylisation & Polices Unicode | NameForge'
-          : 'Typography & Style Studio | NameForge';
-    } else if (currentView === 'generator-detail') {
+    const languageMeta = SUPPORTED_LANGUAGES.find((language) => language.code === settings.language);
+    document.documentElement.lang = settings.language;
+    document.documentElement.dir = languageMeta?.dir || 'ltr';
+  }, [settings.language]);
+
+  // Keep page titles useful and consistent with the selected interface language.
+  useEffect(() => {
+    const isFrench = settings.language === 'fr';
+    const titles = {
+      home: isFrench
+        ? `NameForge — ${ALL_GENERATORS_LIST.length} générateurs de noms gratuits`
+        : `NameForge — ${ALL_GENERATORS_LIST.length} Free Name Generators`,
+      generators: isFrench
+        ? `Catalogue des ${ALL_GENERATORS_LIST.length} générateurs — NameForge`
+        : `Browse ${ALL_GENERATORS_LIST.length} Name Generators — NameForge`,
+      'my-names': isFrench
+        ? 'Mes noms enregistrés, favoris et notes — NameForge'
+        : 'Saved Names, Favorites & Notes — NameForge',
+      'style-studio': isFrench
+        ? 'Atelier de style et polices Unicode — NameForge'
+        : 'Typography & Unicode Style Studio — NameForge',
+    };
+    if (currentView === 'generator-detail') {
       const meta = GENERATORS_METADATA[currentGenerator];
-      document.title = `${meta ? meta.title : 'Générateur de Noms'} | NameForge`;
+      document.title = `${meta ? meta.title : (isFrench ? 'Générateur de noms' : 'Name Generator')} | NameForge`;
+    } else {
+      document.title = titles[currentView as keyof typeof titles] || 'NameForge — Name Generators';
     }
   }, [currentView, currentGenerator, settings.language]);
 

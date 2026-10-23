@@ -1,6 +1,8 @@
 name: NameForge quality checks
 
 on:
+  push:
+    branches: [fix/primary-25-language-content-sync]
   pull_request:
     branches: [main]
   workflow_dispatch:

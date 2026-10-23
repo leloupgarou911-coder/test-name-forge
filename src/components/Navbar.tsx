@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav aria-label={settings.language === 'fr' ? 'Navigation principale' : 'Main navigation'} className="hidden md:flex items-center gap-6">
             <button
               onClick={() => onNavigate('home')}
               className={`text-sm font-semibold transition cursor-pointer ${
@@ -94,6 +94,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="relative">
               <button
                 onClick={() => setGeneratorsDropdownOpen(!generatorsDropdownOpen)}
+                aria-expanded={generatorsDropdownOpen}
+                aria-haspopup="true"
                 className={`text-sm font-semibold flex items-center gap-1.5 transition cursor-pointer py-1.5 ${
                   currentView === 'generators' || currentView === 'generator-detail'
                     ? 'text-white'
@@ -255,6 +257,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="nameforge-mobile-menu"
               className="w-10 h-10 rounded-xl bg-slate-800/80 flex items-center justify-center text-slate-300 hover:text-white"
               aria-label="Menu"
             >

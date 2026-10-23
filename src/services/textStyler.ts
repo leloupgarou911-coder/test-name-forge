@@ -738,6 +738,37 @@ export interface RenderCanvasOptions {
   outlineWidth?: number;
 }
 
+function drawTextWithLetterSpacing(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  letterSpacing: number,
+  stroke = false
+): void {
+  const characters = Array.from(text);
+  if (letterSpacing <= 0 || characters.length < 2) {
+    if (stroke) ctx.strokeText(text, x, y);
+    else ctx.fillText(text, x, y);
+    return;
+  }
+
+  const widths = characters.map((character) => ctx.measureText(character).width);
+  const totalWidth = widths.reduce((sum, width) => sum + width, 0)
+    + letterSpacing * characters.length;
+  let cursorX = x - totalWidth / 2;
+  const previousAlign = ctx.textAlign;
+  ctx.textAlign = 'left';
+
+  characters.forEach((character, index) => {
+    if (stroke) ctx.strokeText(character, cursorX, y);
+    else ctx.fillText(character, cursorX, y);
+    cursorX += widths[index] + letterSpacing;
+  });
+
+  ctx.textAlign = previousAlign;
+}
+
 export function renderStyledTextToCanvas(
   canvas: HTMLCanvasElement,
   options: RenderCanvasOptions
@@ -825,7 +856,7 @@ export function renderStyledTextToCanvas(
   if (outlineWidth > 0) {
     ctx.strokeStyle = outlineColor;
     ctx.lineWidth = outlineWidth * scale;
-    ctx.strokeText(text, posX, posY);
+    drawTextWithLetterSpacing(ctx, text, posX, posY, letterSpacing * scale, true);
   }
 
   // Base color comes from the selected visual effect, not a fixed neon gradient.
@@ -836,7 +867,7 @@ export function renderStyledTextToCanvas(
     gradient.addColorStop(gradientStops.length === 1 ? 0 : index / (gradientStops.length - 1), color);
   });
   ctx.fillStyle = gradient;
-  ctx.fillText(text, posX, posY);
+  drawTextWithLetterSpacing(ctx, text, posX, posY, letterSpacing * scale);
 
   // Apply the selected texture as a subtle clipped overlay inside the glyphs.
   // source-atop keeps the texture within the text shape, preserving transparent backgrounds.
@@ -854,7 +885,7 @@ export function renderStyledTextToCanvas(
   ctx.shadowColor = 'transparent';
   ctx.shadowBlur = 0;
   ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-  ctx.fillText(text, posX, posY - 2 * scale);
+  drawTextWithLetterSpacing(ctx, text, posX, posY - 2 * scale, letterSpacing * scale);
 }
 
 /**
@@ -883,12 +914,14 @@ export function generateSvgCode(
   fontFamily: string,
   effectId: string,
   textureId: string,
-  isTransparentBg: boolean
+  isTransparentBg: boolean,
+  letterSpacing = 0
 ): string {
   const effect = VISUAL_EFFECTS.find((e) => e.id === effectId) || VISUAL_EFFECTS[0];
   const texture = TEXTURE_FILLS.find((t) => t.id === textureId) || TEXTURE_FILLS[0];
   // Estimate a canvas wide enough for long labels instead of clipping them in a fixed 800px SVG.
-  const width = Math.max(320, Math.ceil(text.length * fontSize * 0.78 + 120));
+  const characters = Array.from(text);
+  const width = Math.max(320, Math.ceil(characters.length * fontSize * 0.78 + Math.max(0, characters.length - 1) * letterSpacing + 120));
   const height = Math.max(160, Math.ceil(fontSize * 2.8));
   const colors = effect.gradientCSS.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
   const stops = colors.map((color, index) =>
@@ -922,7 +955,7 @@ export function generateSvgCode(
     </pattern>
     <clipPath id="nf-text-clip">
       <text x="50%" y="53%" font-family="${safeFontFamily}, system-ui, sans-serif"
-        font-size="${fontSize}px" font-weight="900" text-anchor="middle"
+        font-size="${fontSize}px" letter-spacing="${letterSpacing}px" font-weight="900" text-anchor="middle"
         dominant-baseline="middle">${safeText}</text>
     </clipPath>
     <filter id="nf-glow" x="-25%" y="-25%" width="150%" height="150%">

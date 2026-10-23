@@ -115,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <div className="absolute left-0 mt-2 w-[520px] rounded-2xl bg-[#0b1020] border border-slate-800 shadow-2xl p-4 z-30 animate-fade-in max-h-[80vh] overflow-y-auto">
                     <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
                       <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                        Les {ALL_GENERATORS_LIST.length} Générateurs NameForge
+                        {settings.language === 'fr' ? 'Les' : 'All'} {ALL_GENERATORS_LIST.length} {settings.language === 'fr' ? 'générateurs NameForge' : 'NameForge generators'}
                       </span>
                       <button
                         onClick={() => {
@@ -181,7 +181,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('generator-detail', randomGen.id);
               }}
               className="text-xs font-bold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer"
-              title={`Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}`}
+              title={settings.language === 'fr' ? `Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}` : `Open a random generator from ${ALL_GENERATORS_LIST.length}`}
             >
               <Dices className="w-3.5 h-3.5 text-amber-400" />
               <span>🎲 Aléatoire</span>
@@ -225,7 +225,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => setShowLangModal(true)}
               className="h-10 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700/80 text-xs sm:text-sm font-bold text-slate-200 hover:text-white flex items-center gap-2 transition cursor-pointer shadow-sm hover:border-purple-500/60"
-              title="Changer la langue (80 langues disponibles)"
+              title={settings.language === 'fr' ? `Changer la langue (${SUPPORTED_LANGUAGES.length} langues disponibles)` : `Change language (${SUPPORTED_LANGUAGES.length} languages available)`}
               aria-label="Changer la langue"
             >
               <Globe className="w-4 h-4 text-cyan-400" />

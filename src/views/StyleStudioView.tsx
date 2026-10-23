@@ -224,16 +224,17 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             <input
               id="styler-input"
               type="text"
+              dir={settings.language === 'ar' || settings.language === 'he' ? 'rtl' : 'ltr'}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder={settings.language === 'fr' ? 'Entrez un nom ou une marque...' : 'Enter a name or brand...'}
-              className="w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner"
+              className={`w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner ${settings.language === 'ar' || settings.language === 'he' ? 'text-right pl-12' : 'text-left pr-12'}`}
               maxLength={60}
             />
             {inputText && (
               <button
                 onClick={() => setInputText('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1"
+                className={`absolute top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1 ${settings.language === 'ar' || settings.language === 'he' ? 'left-4' : 'right-4'}`}
                 title="Effacer"
               >
                 ✕

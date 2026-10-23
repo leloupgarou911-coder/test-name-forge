@@ -24,7 +24,7 @@ import {
   generateSvgCode,
 } from '../services/textStyler';
 import { GeneratorId } from '../types';
-import { getAppSettings, subscribeToSettings } from '../services/settings';
+import { getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from '../services/settings';
 import { getTranslations } from '../i18n';
 import { getStudioLabel } from '../i18n/studio';
 
@@ -75,6 +75,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [settings, setSettings] = useState(getAppSettings);
   const t = getTranslations(settings.language);
+  const isRtl = SUPPORTED_LANGUAGES.find((language) => language.code === settings.language)?.dir === 'rtl';
 
   // Keep the studio's labels and direction in sync while it remains open.
   useEffect(() => subscribeToSettings(setSettings), []);
@@ -187,7 +188,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   };
 
   return (
-    <div lang={settings.language} dir={settings.language === 'ar' || settings.language === 'he' ? 'rtl' : 'ltr'} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-12 animate-fade-in">
+    <div lang={settings.language} dir={isRtl ? 'rtl' : 'ltr'} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-12 animate-fade-in">
       {/* Top Breadcrumb & Return */}
       <div className="flex items-center justify-between gap-4 mb-6">
         <button
@@ -229,17 +230,17 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             <input
               id="styler-input"
               type="text"
-              dir={settings.language === 'ar' || settings.language === 'he' ? 'rtl' : 'ltr'}
+              dir={isRtl ? 'rtl' : 'ltr'}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder={getStudioLabel(settings.language, 'inputPlaceholder')}
-              className={`w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner ${settings.language === 'ar' || settings.language === 'he' ? 'text-right pl-12' : 'text-left pr-12'}`}
+              className={`w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner ${isRtl ? 'text-right pl-12' : 'text-left pr-12'}`}
               maxLength={60}
             />
             {inputText && (
               <button
                 onClick={() => setInputText('')}
-                className={`absolute top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1 ${settings.language === 'ar' || settings.language === 'he' ? 'left-4' : 'right-4'}`}
+                className={`absolute top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1 ${isRtl ? 'left-4' : 'right-4'}`}
                 title={getStudioLabel(settings.language, 'clearInput')}
               >
                 ✕
@@ -249,7 +250,8 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
           {/* Quick copy input button */}
           <button
-            onClick={() => handleCopyText(inputText, 'input-raw')}
+            aria-live="polite"
+            onClick={() => handleCopyText(inputText, 'input-raw')
             className="px-6 py-4 rounded-2xl font-bold text-sm bg-purple-600 hover:bg-purple-500 text-white transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-purple-900/30"
           >
             {copiedId === 'input-raw' ? (
@@ -363,6 +365,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                   role="button"
                   tabIndex={0}
                   aria-label={`${getStudioLabel(settings.language, 'clickToCopy')}: ${style.name}`}
+                  aria-describedby={`studio-style-${style.id}-preview`}
                   className="p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
                 >
                   <div>
@@ -375,7 +378,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       </span>
                     </div>
 
-                    <div className="text-xl sm:text-2xl font-medium text-white break-words py-2 group-hover:text-cyan-200 transition">
+                    <div id={`studio-style-${style.id}-preview`} className="text-xl sm:text-2xl font-medium text-white break-words py-2 group-hover:text-cyan-200 transition">
                       {styledText}
                     </div>
                   </div>
@@ -384,7 +387,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                     <span className="text-slate-500 group-hover:text-slate-400 font-medium">
                       {getStudioLabel(settings.language, 'clickToCopy')}
                     </span>
-                    <button
+                    <span aria-hidden="true"
                       className={`px-3 py-1 rounded-xl font-bold flex items-center gap-1.5 transition ${
                         isCopied
                           ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
@@ -402,7 +405,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                           <span>{getStudioLabel(settings.language, 'copy')}</span>
                         </>
                       )}
-                    </button>
+                    </span>
                   </div>
                 </div>
               );

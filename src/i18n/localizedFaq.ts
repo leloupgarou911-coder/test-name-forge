@@ -138,9 +138,31 @@ const NL_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
   { q: 'Hoe kan ik een probleem melden of een verbetering voorstellen?', a: 'Je kunt suggesties delen in de projectrepository of nieuwe archetypen voorstellen voor toekomstige versies.' },
 ];
 
+
+const TR_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+  { q: 'NameForge gibi bir isim oluşturucu nasıl çalışır?', a: 'NameForge; fantastik dünyalar, teknoloji, markalar ve hikâyeler gibi farklı alanlara uyarlanmış dil köklerini, uyumlu heceleri ve biçimbilim kurallarını birleştirir. Basit rastgele oluşturuculardan farklı olarak ritmi, telaffuzu ve konuya uygunluğu dikkate alır.' },
+  { q: 'Projem için gerçekten uygun bir ismi nasıl seçerim?', a: 'Önce istediğin tonu belirle: prestijli, güçlü, gizemli veya samimi. İsmi yüksek sesle söyleyerek kulağa nasıl geldiğini dene. Kullanım amacına uygun bir uzunluk seç: mobil uygulama için kısa, kitap serisi için daha anlatımlı bir isim.' },
+  { q: 'Özgün ve akılda kalıcı bir ismi nasıl oluşturabilirim?', a: 'Beklenmedik hece birleşimlerini veya kelimelerin incelikli birleşimlerini dene. Eskimiş klişelerden ve gereksiz sayılardan kaçın. Çarpıcı isimler için Kısa, dengeli sonuçlar için Orta seçeneğini kullan.' },
+  { q: 'Her yeni üretimde benzer isimleri nasıl önleyebilirim?', a: 'NameForge, son oluşturulan 100 ismi tarayıcında yerel olarak hatırlar. Sonraki üretimlerde yakın zamanda önerilen isimleri filtreleyerek daha çeşitli sonuçlar sunmaya çalışır.' },
+  { q: 'Farklı dillerde ve seslerde isimler oluşturabilir miyim?', a: 'Evet. Her oluşturucuda Fransızca, İngilizce, Japonca/anime, Arapça/doğu, Latince/elf, İskandinav ve teknoloji gibi ses kökenleri seçilebilir. Bu ayar, sitenin arayüz dilini değiştirmeden isimlerin fonetik köklerini etkiler.' },
+  { q: 'Stil ve uzunluk ayarları nasıl çalışır?', a: 'Uzunluk isim yapısını etkiler: Kısa genellikle bir veya iki güçlü hece, Orta iki ya da üç dengeli hece, Uzun ise birleşik veya anlatı niteliğinde isimler üretmeyi hedefler. Stil, baskın sesleri ve istenen arketipi değiştirir.' },
+  { q: 'İsimlerimi nasıl kopyalar, kaydeder ve yeniden bulurum?', a: 'Her isim kartında tek tıklamayla kopyalama, favorilere kaydetme ve beğenme düğmeleri bulunur. Seçtiğin isimleri gezinme menüsündeki İsimlerim bölümünde bulabilirsin.' },
+  { q: 'Favoriler, koleksiyonlar ve özel notlar nasıl çalışır?', a: 'İsimlerim bölümünde isimleri projelerine göre gruplamak için temalı koleksiyonlar oluşturabilirsin. Ayrıca bir fikri veya kullanım amacını hatırlamak için isimlere özel notlar ekleyebilirsin.' },
+  { q: 'Yıldız puanları ve en iyi isim sıralaması nasıl hesaplanır?', a: 'Her öneriye bir ila beş yıldız arasında puan verebilirsin. En iyi isimler listesi, bu çalışma alanında en yüksek puan verdiğin isimleri gösterir; sahte oylar oluşturmaz.' },
+  { q: 'İsim listelerimi dışa veya içe aktarabilir miyim?', a: 'Evet. İsimlerim bölümünde kayıtlı öğeleri notlar ve koleksiyonlar dâhil JSON olarak ya da elektronik tablolar için CSV biçiminde dışa aktarabilirsin. Önceden alınmış bir JSON yedeğini de geri yükleyebilirsin.' },
+  { q: 'Kişisel verilerim cihazımda saklanıyor mu?', a: 'NameForge yerel olarak çalışır; hesap veya parola gerekmez. Kaydettiğin isimler, notlar ve tercihlerin tarayıcının depolama alanında kalır.' },
+  { q: 'Oluşturulan isimlerin dünya çapında benzersiz olduğu garanti edilir mi?', a: 'Motor, alışılmadık birleşimler oluşturmak için birçok kökü bir araya getirir. Ancak hiçbir algoritma dünya çapında mutlak benzersizlik garantisi veremez; aynı isim başka bir dilde zaten kullanılıyor olabilir.' },
+  { q: 'Oluşturulan bir ismi şirketim veya ürünüm için kullanabilir miyim?', a: 'Öneriler yaratıcı amaçlarla telif ücreti olmadan kullanılabilir. Ticari kullanımdan önce sektörün ve bulunduğun bölgenin marka kayıtlarını kontrol et; örneğin EUIPO veya USPTO kayıtlarına bak.' },
+  { q: 'Bir internet alan adının kullanılabilir olduğunu nasıl kontrol ederim?', a: 'Seçtiğin ismi bir alan adı kayıt kuruluşunda aratarak .com, .tr veya .io gibi uzantıların kayda açık olup olmadığını kontrol edebilirsin.' },
+  { q: 'Bir ismi kullanmadan önce tescilli markaları kontrol etmeli miyim?', a: 'Evet. Markalaşmaya, logoya veya şirket kaydına yatırım yapmadan önce bu kontrol önemlidir. NameForge yasal kullanılabilirliği onaylamaz; yalnızca fikir verir.' },
+  { q: 'Web sitesi telefonlarda ve tabletlerde çalışıyor mu?', a: 'Evet. Duyarlı arayüz akıllı telefonlarda, tabletlerde ve masaüstü ekranlarında kullanılacak şekilde tasarlanmıştır.' },
+  { q: 'Bir sonucu beğenmezsem ne yapabilirim?', a: 'Yeni isimler oluştur seçeneğini seç veya klavyede G tuşuna bas. Farklı sesler denemek için arketipi, uzunluğu ya da üretim dilini de değiştirebilirsin.' },
+  { q: 'Bir sorunu nasıl bildirebilir veya iyileştirme önerebilirim?', a: 'Önerilerini proje deposunda paylaşabilir veya gelecekteki sürümlerde değerlendirilmek üzere yeni arketipler önerebilirsin.' },
+];
+
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -148,4 +170,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr'] as const;

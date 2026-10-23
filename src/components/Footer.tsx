@@ -13,7 +13,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const settings = getAppSettings();
   const t = getTranslations(settings.language).footer;
-  const labels = {
+  const footerLabels: Record<string, { studio: string; favorites: string; catalog: string; home: string; all: string; names: string; generators: string; styles: string; free: string }> = {
     fr: { studio: '{labels.studio}', favorites: '{labels.favorites}', catalog: 'Catalogue', home: 'Accueil', all: 'Tous les générateurs', names: 'Mes noms', generators: 'Générateurs', styles: 'Styles', free: '100 % Gratuit & local' },
     en: { studio: 'Style Studio (Unicode & Canvas)', favorites: 'Favorites & Notes', catalog: 'Catalog', home: 'Home', all: 'All generators', names: 'My names', generators: 'Generators', styles: 'Styles', free: '100% Free & local' },
     ar: { studio: 'استوديو الأنماط (Unicode وCanvas)', favorites: 'المفضلة والملاحظات', catalog: 'الفهرس', home: 'الرئيسية', all: 'جميع المولدات', names: 'أسمائي', generators: 'مولدات الأسماء', styles: 'أنماط', free: 'مجاني ومحلي 100٪' },
@@ -24,7 +24,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     tr: { studio: 'Stil Stüdyosu (Unicode & Canvas)', favorites: 'Favoriler ve Notlar', catalog: 'Katalog', home: 'Ana sayfa', all: 'Tüm oluşturucular', names: 'İsimlerim', generators: 'Oluşturucular', styles: 'Stiller', free: '%100 ücretsiz ve yerel' },
     ja: { studio: 'スタイルスタジオ (Unicode & Canvas)', favorites: 'お気に入りとメモ', catalog: 'カタログ', home: 'ホーム', all: 'すべてのジェネレーター', names: 'マイネーム', generators: 'ジェネレーター', styles: 'スタイル', free: '完全無料・ローカル' },
     ko: { studio: '스타일 스튜디오 (Unicode & Canvas)', favorites: '즐겨찾기 및 메모', catalog: '카탈로그', home: '홈', all: '모든 생성기', names: '내 이름', generators: '생성기', styles: '스타일', free: '100% 무료 및 로컬' },
-  }[settings.language] || { studio: 'Style Studio (Unicode & Canvas)', favorites: 'Favorites & Notes', catalog: 'Catalog', home: 'Home', all: 'All generators', names: 'My names', generators: 'Generators', styles: 'Styles', free: '100% Free & local' };
+  };
+  const labels = footerLabels[settings.language] || footerLabels.en;
 
   const fantasyGens = ALL_GENERATORS_LIST.filter((g) => g.category === 'fantasy').slice(0, 5);
   const businessGens = ALL_GENERATORS_LIST.filter((g) => g.category === 'business').slice(0, 5);

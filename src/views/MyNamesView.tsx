@@ -41,12 +41,27 @@ import { NoteModal } from '../components/NoteModal';
 import { CollectionModal } from '../components/CollectionModal';
 import { CompareModal } from '../components/CompareModal';
 import { ALL_GENERATORS_LIST } from '../data/generators';
+import { getAppSettings } from '../services/settings';
 
 interface MyNamesViewProps {
   onNavigate: (view: string, generatorId?: GeneratorId) => void;
 }
 
 export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
+  const currentLanguage = getAppSettings().language;
+  const libraryText: Record<string, { empty: string; emptyDescription: string; generate: string; noResults: string; collections: string; collectionsDescription: string; create: string; noCollections: string; noCollectionsDescription: string; clear: string }> = {
+    fr: { empty: 'Votre collection est vide', emptyDescription: "Vous n'avez pas encore enregistré de nom. Utilisez Save ou Like depuis un générateur pour constituer votre collection !", generate: 'Générer des noms', noResults: '{copy.noResults}', collections: 'Vos collections thématiques', collectionsDescription: '{copy.collectionsDescription}', create: 'Créer une collection', noCollections: 'Aucune collection créée', noCollectionsDescription: 'Créez votre première collection pour classer vos noms par projet ou campagne.', clear: 'Tout supprimer' },
+    en: { empty: 'Your collection is empty', emptyDescription: 'You have not saved any names yet. Use Save or Like in a generator to build your collection!', generate: 'Generate names', noResults: 'No names match your search criteria.', collections: 'Your themed collections', collectionsDescription: 'Group names by book, faction, campaign, or team.', create: 'Create a collection', noCollections: 'No collections created', noCollectionsDescription: 'Create your first collection to organize names by project or campaign.', clear: 'Delete all' },
+    es: { empty: 'Tu colección está vacía', emptyDescription: 'Aún no has guardado nombres. Usa Guardar o Me gusta en un generador para crear tu colección.', generate: 'Generar nombres', noResults: 'Ningún nombre coincide con tu búsqueda.', collections: 'Tus colecciones temáticas', collectionsDescription: 'Agrupa nombres por libro, facción, campaña o equipo.', create: 'Crear una colección', noCollections: 'No hay colecciones', noCollectionsDescription: 'Crea tu primera colección para organizar nombres por proyecto o campaña.', clear: 'Eliminar todo' },
+    de: { empty: 'Deine Sammlung ist leer', emptyDescription: 'Du hast noch keine Namen gespeichert. Nutze Speichern oder Gefällt mir in einem Generator.', generate: 'Namen generieren', noResults: 'Keine Namen entsprechen deiner Suche.', collections: 'Deine thematischen Sammlungen', collectionsDescription: 'Gruppiere Namen nach Buch, Fraktion, Kampagne oder Team.', create: 'Sammlung erstellen', noCollections: 'Keine Sammlungen vorhanden', noCollectionsDescription: 'Erstelle deine erste Sammlung, um Namen nach Projekt oder Kampagne zu ordnen.', clear: 'Alle löschen' },
+    ar: { empty: 'مجموعتك فارغة', emptyDescription: 'لم تحفظ أي أسماء بعد. استخدم الحفظ أو الإعجاب من أي مولّد لإضافة الأسماء إلى مجموعتك.', generate: 'إنشاء أسماء', noResults: 'لا توجد أسماء تطابق معايير البحث.', collections: 'مجموعاتك الموضوعية', collectionsDescription: 'نظّم الأسماء حسب الكتاب أو الفصيل أو الحملة أو الفريق.', create: 'إنشاء مجموعة', noCollections: 'لا توجد مجموعات', noCollectionsDescription: 'أنشئ مجموعتك الأولى لتنظيم الأسماء حسب المشروع أو الحملة.', clear: 'حذف الكل' },
+    pt: { empty: 'Sua coleção está vazia', emptyDescription: 'Você ainda não salvou nomes. Use Salvar ou Curtir em um gerador para montar sua coleção.', generate: 'Gerar nomes', noResults: 'Nenhum nome corresponde à sua pesquisa.', collections: 'Suas coleções temáticas', collectionsDescription: 'Agrupe nomes por livro, facção, campanha ou equipe.', create: 'Criar coleção', noCollections: 'Nenhuma coleção criada', noCollectionsDescription: 'Crie sua primeira coleção para organizar nomes por projeto ou campanha.', clear: 'Excluir tudo' },
+    it: { empty: 'La tua raccolta è vuota', emptyDescription: 'Non hai ancora salvato nomi. Usa Salva o Mi piace in un generatore per creare la raccolta.', generate: 'Genera nomi', noResults: 'Nessun nome corrisponde alla ricerca.', collections: 'Le tue raccolte tematiche', collectionsDescription: 'Raggruppa i nomi per libro, fazione, campagna o squadra.', create: 'Crea una raccolta', noCollections: 'Nessuna raccolta creata', noCollectionsDescription: 'Crea la prima raccolta per organizzare i nomi per progetto o campagna.', clear: 'Elimina tutto' },
+    tr: { empty: 'Koleksiyonun boş', emptyDescription: 'Henüz isim kaydetmedin. Koleksiyonunu oluşturmak için oluşturucularda Kaydet veya Beğen seçeneklerini kullan.', generate: 'İsim oluştur', noResults: 'Aramanla eşleşen isim yok.', collections: 'Tematik koleksiyonların', collectionsDescription: 'İsimleri kitap, grup, kampanya veya takıma göre grupla.', create: 'Koleksiyon oluştur', noCollections: 'Henüz koleksiyon yok', noCollectionsDescription: 'İsimleri projeye veya kampanyaya göre düzenlemek için ilk koleksiyonunu oluştur.', clear: 'Tümünü sil' },
+    ja: { empty: 'コレクションは空です', emptyDescription: 'まだ名前が保存されていません。ジェネレーターで保存またはいいねを使ってください。', generate: '名前を生成', noResults: '検索条件に一致する名前はありません。', collections: 'テーマ別コレクション', collectionsDescription: '本、陣営、キャンペーン、チームごとに名前を整理します。', create: 'コレクションを作成', noCollections: 'コレクションはありません', noCollectionsDescription: '最初のコレクションを作成して、プロジェクト別に名前を整理しましょう。', clear: 'すべて削除' },
+    ko: { empty: '컬렉션이 비어 있습니다', emptyDescription: '아직 저장한 이름이 없습니다. 생성기에서 저장 또는 좋아요를 사용하세요.', generate: '이름 생성', noResults: '검색 조건과 일치하는 이름이 없습니다.', collections: '테마별 컬렉션', collectionsDescription: '책, 진영, 캠페인 또는 팀별로 이름을 묶으세요.', create: '컬렉션 만들기', noCollections: '생성된 컬렉션이 없습니다', noCollectionsDescription: '프로젝트나 캠페인별로 이름을 정리할 첫 컬렉션을 만드세요.', clear: '모두 삭제' },
+  };
+  const copy = libraryText[currentLanguage] || libraryText.en;
   const [entries, setEntries] = useState<SavedNameEntry[]>([]);
   const [collections, setCollections] = useState<NamedCollection[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -592,7 +607,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                     className="px-3 py-1.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/40 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                    <span>Tout Supprimer</span>
+                    <span>{copy.clear}</span>
                   </button>
                 )}
               </div>
@@ -605,18 +620,16 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <div className="w-16 h-16 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center mx-auto text-2xl">
                 🔖
               </div>
-              <h3 className="text-xl font-bold text-white">Votre collection est vide</h3>
+              <h3 className="text-xl font-bold text-white">{copy.empty}</h3>
               <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
-                Vous n'avez pas encore enregistré de nom. Rendez-vous sur n'importe quel générateur et
-                cliquez sur <strong className="text-purple-300">Save</strong> ou{' '}
-                <strong className="text-pink-300">Like</strong> pour constituer votre collection !
+                {copy.emptyDescription}
               </p>
               <button
                 onClick={() => onNavigate('home')}
                 className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 shadow-lg shadow-purple-600/30 transition inline-flex items-center gap-2 cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-cyan-300" />
-                <span>Générer des Noms</span>
+                <span>{copy.generate}</span>
               </button>
             </div>
           ) : filteredEntries.length === 0 ? (
@@ -822,7 +835,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
         <div className="space-y-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl font-bold text-white">Vos Collections Thématiques</h2>
+              <h2 className="text-xl font-bold text-white">{copy.collections}</h2>
               <p className="text-xs text-slate-400 mt-0.5">
                 Regroupez vos noms par livre, faction, campagne ou équipe.
               </p>
@@ -832,16 +845,16 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-md"
             >
               <Plus className="w-4 h-4" />
-              <span>Créer une Collection</span>
+              <span>{copy.create}</span>
             </button>
           </div>
 
           {collections.length === 0 ? (
             <div className="p-12 text-center rounded-3xl bg-[#0e1627] border border-slate-800 space-y-3">
               <FolderPlus className="w-12 h-12 text-purple-400 mx-auto opacity-70" />
-              <h3 className="text-base font-bold text-white">Aucune collection créée</h3>
+              <h3 className="text-base font-bold text-white">{copy.noCollections}</h3>
               <p className="text-xs text-slate-400 max-w-sm mx-auto">
-                Créez votre première collection pour classer vos noms par projet ou par campagne.
+                {copy.noCollectionsDescription}
               </p>
               <button
                 onClick={() => setEditingCollection(null)}

@@ -1,6 +1,7 @@
 import { ALL_GENERATORS_LIST, GENERATORS_METADATA } from '../data/generators';
 import { SUBCATEGORIES_DATA } from '../data/subcategories';
 import { generateNames, isTooSimilar, calculateLevenshteinDistance } from '../services/generatorEngine';
+import { generateSvgCode } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 
 declare const process: { exit: (code: number) => void };
@@ -379,12 +380,23 @@ assert(
   'French phonetic profile generates 5 consistent names'
 );
 
+// SVG export must preserve letter spacing and Unicode content.
+const spacedSvg = generateSvgCode('星😀辰', 48, 'Arial', 'cyber-neon', 'cosmic-nebula-texture', true, 3);
+assert(
+  spacedSvg.includes('letter-spacing="3px"'),
+  'SVG export preserves the selected letter spacing'
+);
+assert(
+  spacedSvg.includes('星😀辰'),
+  'SVG export preserves multilingual and supplementary Unicode text'
+);
+
 // -----------------------------------------------------------------------------
 // LOT 5: TEXT STYLER WORKSHOP & I18N RTL VALIDATION (Tests 34 - 40)
 // -----------------------------------------------------------------------------
 console.log('\n--- LOT 5: TEXT STYLER, UNICODE & RTL ---');
 
-import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS, generateSvgCode } from '../services/textStyler';
+import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS } from '../services/textStyler';
 import { SUPPORTED_LANGUAGES, getAppSettings } from '../services/settings';
 import { getStudioLabel } from '../i18n/studio';
 

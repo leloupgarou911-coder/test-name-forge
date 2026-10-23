@@ -177,7 +177,8 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       fontFamily,
       selectedEffect,
       selectedTexture,
-      isTransparent
+      isTransparent,
+      letterSpacing
     );
     try {
       await copyToClipboard(code);

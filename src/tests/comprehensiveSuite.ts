@@ -717,6 +717,31 @@ assert(
   descriptionCoverageFailures.join(', ') || `${LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length} languages checked`
 );
 
+
+const additionalFaqChecks = [
+  ['ko', 'NameForge 같은', 'Korean'],
+  ['zh', 'NameForge 这样的', 'Chinese'],
+  ['ru', 'Как работает', 'Russian'],
+  ['hi', 'NameForge जैसा', 'Hindi'],
+  ['pl', 'Jak działa', 'Polish'],
+  ['sv', 'Hur fungerar', 'Swedish'],
+  ['vi', 'Trình tạo tên', 'Vietnamese'],
+  ['id', 'Bagaimana generator', 'Indonesian'],
+  ['th', 'เครื่องมือสร้างชื่อ', 'Thai'],
+  ['el', 'Πώς λειτουργεί', 'Greek'],
+  ['ro', 'Cum funcționează', 'Romanian'],
+  ['da', 'Hvordan fungerer', 'Danish'],
+  ['fi', 'Miten NameForgen', 'Finnish'],
+  ['cs', 'Jak funguje', 'Czech'],
+  ['he', 'איך פועל', 'Hebrew'],
+] as const;
+for (const [language, prefix, label] of additionalFaqChecks) {
+  const localized = getLocalizedFaq(language);
+  assert(localized.length === 18, `${label} FAQ preserves all 18 entries`, `Found ${localized.length}`);
+  assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
+  assert(localized[0].q.startsWith(prefix), `${label} FAQ uses its own translation rather than French fallback`);
+}
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

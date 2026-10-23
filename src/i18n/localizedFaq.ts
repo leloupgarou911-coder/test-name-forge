@@ -116,9 +116,31 @@ const PT_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
   { q: 'Como posso comunicar um problema ou sugerir uma melhoria?', a: 'Podes partilhar sugestões no repositório do projeto ou propor novos arquétipos para serem considerados em versões futuras.' },
 ];
 
+
+const NL_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+  { q: 'Hoe werkt een naamgenerator zoals NameForge?', a: 'NameForge combineert taalkundige woordstammen, harmonieuze lettergrepen en morfologische regels die zijn afgestemd op verschillende werelden, zoals fantasy, technologie, merken en verhalen. Anders dan eenvoudige willekeurige generatoren houdt de engine rekening met ritme, uitspraak en thematische relevantie.' },
+  { q: 'Hoe kies ik een naam die echt bij mijn project past?', a: 'Bepaal eerst de gewenste uitstraling: prestigieus, krachtig, mysterieus of vriendelijk. Spreek de naam hardop uit om te horen hoe hij klinkt. Kies ook een passende lengte: kort voor een mobiele app of meer verhalend voor een boekenreeks.' },
+  { q: 'Hoe maak ik een originele, gemakkelijk te onthouden naam?', a: 'Probeer onverwachte combinaties van lettergrepen of subtiele samenvoegingen van woorden. Vermijd afgezaagde clichés en overbodige cijfers. Kies Kort voor krachtige namen en Gemiddeld voor een evenwichtig resultaat.' },
+  { q: 'Hoe voorkom ik vergelijkbare namen bij meerdere generaties?', a: 'NameForge bewaart lokaal een doorlopende lijst met de 100 laatst gegenereerde namen. Bij volgende generaties worden recente suggesties gefilterd om meer variatie en nieuwe resultaten te stimuleren.' },
+  { q: 'Kan ik namen maken met verschillende talen en klanken?', a: 'Ja. Elke generator heeft een keuze voor de generatietaal, zoals Frans, Engels, Japans/anime, Arabisch/oosters, Latijn/elfachtig, Noords en technologisch. Die keuze verandert de klankwortels zonder de taal van de website-interface te wijzigen.' },
+  { q: 'Hoe werken de instellingen voor stijl en lengte?', a: 'De lengte beïnvloedt de structuur: Kort levert meestal één of twee krachtige lettergrepen op, Gemiddeld mikt op twee of drie evenwichtige lettergrepen en Lang geeft de voorkeur aan samengestelde of verhalende namen. De stijl verandert de dominante klanken en het gewenste archetype.' },
+  { q: 'Hoe kan ik namen kopiëren, opslaan en later terugvinden?', a: 'Elke naamkaart heeft een knop om met één klik te kopiëren, een knop om favorieten op te slaan en een vind-ik-leukknop. Je vindt geselecteerde namen via Mijn namen in de navigatie.' },
+  { q: 'Hoe werken favorieten, verzamelingen en privénotities?', a: 'In Mijn namen kun je thematische verzamelingen maken om namen per project te groeperen. Je kunt ook privénotities aan afzonderlijke namen toevoegen om ideeën of beoogde rollen te onthouden.' },
+  { q: 'Hoe worden sterren en ranglijsten van beste namen berekend?', a: 'Je kunt elke suggestie één tot vijf sterren geven. De lijst met beste namen toont je hoogst beoordeelde creaties in deze werkruimte, zonder stemmen te verzinnen.' },
+  { q: 'Kan ik mijn namenlijsten exporteren of importeren?', a: 'Ja. In Mijn namen kun je opgeslagen items exporteren als JSON, inclusief notities en verzamelingen, of als CSV voor spreadsheets. Je kunt ook veilig een eerdere JSON-back-up herstellen.' },
+  { q: 'Worden mijn persoonlijke gegevens op mijn apparaat opgeslagen?', a: 'NameForge werkt lokaal: je hebt geen account of wachtwoord nodig. Je opgeslagen namen, notities en voorkeuren blijven in de opslag van je browser.' },
+  { q: 'Zijn gegenereerde namen gegarandeerd wereldwijd uniek?', a: 'De engine combineert veel woordstammen voor een breed scala aan ongebruikelijke combinaties. Geen enkel algoritme kan echter absolute wereldwijde uniciteit garanderen; een naam kan toevallig al in een andere taal bestaan.' },
+  { q: 'Kan ik een gegenereerde naam gebruiken voor mijn bedrijf of product?', a: 'De suggesties kunnen royaltyvrij voor creatieve doeleinden worden gebruikt. Controleer vóór commercieel gebruik de relevante merkenregisters voor je sector en rechtsgebied, zoals EUIPO of USPTO.' },
+  { q: 'Hoe controleer ik of een internetdomein beschikbaar is?', a: 'Voer de gekozen naam in bij een domeinregistrar om te controleren of extensies zoals .com, .nl of .io geregistreerd kunnen worden.' },
+  { q: 'Moet ik geregistreerde merken controleren voordat ik een naam gebruik?', a: 'Ja. Dat is belangrijk voordat je investeert in branding, een logo of bedrijfsregistratie. NameForge bevestigt niet dat een naam juridisch beschikbaar is, maar biedt inspiratie.' },
+  { q: 'Werkt de website op telefoons en tablets?', a: 'Ja. De responsieve interface is ontworpen voor smartphones, tablets en desktopschermen.' },
+  { q: 'Wat kan ik doen als ik een resultaat niet goed vind?', a: 'Kies Nieuwe namen genereren of druk op G op je toetsenbord. Je kunt ook het archetype, de lengte of de generatietaal wijzigen om andere klanken te verkennen.' },
+  { q: 'Hoe kan ik een probleem melden of een verbetering voorstellen?', a: 'Je kunt suggesties delen in de projectrepository of nieuwe archetypen voorstellen voor toekomstige versies.' },
+];
+
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -126,4 +148,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl'] as const;

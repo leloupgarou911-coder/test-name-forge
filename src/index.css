@@ -174,6 +174,30 @@
     color: #1e293b !important;
   }
 
+  /* Re-map the most common fixed dark surfaces used by cards and panels. */
+  html.light .bg-\\[\\#0e1627\\],
+  html.light .bg-\\[\\#0f1629\\],
+  html.light .bg-\\[\\#101a2c\\] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  html.light .bg-\\[\\#131b2e\\],
+  html.light .bg-\\[\\#0d1424\\],
+  html.light .bg-\\[\\#080d19\\],
+  html.light .bg-\\[\\#060611\\] {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  html.light [class*="from-\\[\\#131b2e\\]"],
+  html.light [class*="via-\\[\\#0d1424\\]"],
+  html.light [class*="to-\\[\\#080d19\\]"] {
+    background-image: linear-gradient(135deg, #ffffff, #f1f5f9, #e2e8f0) !important;
+  }
+
   /* Typography Contrast in Light Mode */
   html.light h1:not([class*="bg-clip-text"]),
   html.light h2:not([class*="bg-clip-text"]),

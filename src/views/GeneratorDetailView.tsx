@@ -143,6 +143,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
 
   const handleGenerate = () => {
     setIsGenerating(true);
+    // Debounce rapid control/keyword edits so typing does not trigger a full batch for every keystroke.
     setTimeout(() => {
       const generated = generateNames({
         generator: generatorId,
@@ -156,7 +157,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
       });
       setResults(generated);
       setIsGenerating(false);
-    }, 120);
+    }, 280);
   };
 
   useEffect(() => {

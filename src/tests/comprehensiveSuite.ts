@@ -83,6 +83,20 @@ assert(faqJapanese.every((item) => item.q.trim() && item.a.trim()), 'Every Japan
 assert(faqJapanese[0].q.startsWith('NameForgeのような'), 'Japanese FAQ does not display French or English source text');
 assert(faqJapanese.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('كيف يعمل')), 'Japanese FAQ avoids known untranslated fallback entries');
 
+
+for (const [language, prefix, label] of [
+  ['ko', 'NameForge 같은', 'Korean'],
+  ['zh', 'NameForge 这样的', 'Chinese'],
+  ['ru', 'Как работает', 'Russian'],
+  ['hi', 'NameForge जैसा', 'Hindi'],
+  ['pl', 'Jak działa', 'Polish'],
+] as const) {
+  const localized = getLocalizedFaq(language);
+  assert(localized.length === 18, `${label} FAQ preserves all 18 entries`, `Found ${localized.length}`);
+  assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
+  assert(localized[0].q.startsWith(prefix), `${label} FAQ does not fall back to the French source`);
+}
+
 console.log('=====================================================');
 console.log('NAMEFORGE COMPREHENSIVE AUTOMATED TEST SUITE (33+ LOTS)');
 console.log('=====================================================\n');

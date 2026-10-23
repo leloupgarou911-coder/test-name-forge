@@ -564,7 +564,6 @@
   /* Dark arbitrary-color surfaces are common in the older JSX views and Studio. */
   html.light [class*="bg-[#0"],
   html.light [class*="bg-[#1"],
-  html.light [class*="bg-[#2"] {
     background-color: var(--nf-surface) !important;
     border-color: var(--nf-border) !important;
     color: var(--nf-ink) !important;

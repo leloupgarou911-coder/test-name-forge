@@ -491,26 +491,26 @@
 
 /* Cross-view theme repairs: legacy fixed dark surfaces must also be readable in light mode. */
 @layer utilities {
-  html.light .bg-\\[\\#0c1222\\],
-  html.light .bg-\\[\\#10182c\\],
-  html.light .bg-\\[\\#0e1627\\],
-  html.light .bg-\\[\\#090d19\\],
-  html.light .bg-\\[\\#0a101d\\],
-  html.light .bg-\\[\\#11182c\\],
-  html.light .bg-\\[\\#060611\\],
-  html.light .bg-\\[\\#070714\\],
-  html.light .bg-\\[\\#080b16\\] {
+  html.light .bg-\[\#0c1222\],
+  html.light .bg-\[\#10182c\],
+  html.light .bg-\[\#0e1627\],
+  html.light .bg-\[\#090d19\],
+  html.light .bg-\[\#0a101d\],
+  html.light .bg-\[\#11182c\],
+  html.light .bg-\[\#060611\],
+  html.light .bg-\[\#070714\],
+  html.light .bg-\[\#080b16\] {
     background-color: #ffffff !important;
     color: #172033 !important;
     border-color: #dbe3ee !important;
   }
 
-  html.light .from-\\[\\#11182c\\] {
+  html.light .from-\[\#11182c\] {
     --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
     --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position) !important;
   }
 
-  html.light .to-\\[\\#0a101d\\] {
+  html.light .to-\[\#0a101d\] {
     --tw-gradient-to: #f1f5f9 var(--tw-gradient-to-position) !important;
   }
 
@@ -522,16 +522,16 @@
     color: #172033 !important;
   }
 
-  html.light .bg-black\\/75 {
+  html.light .bg-black\/75 {
     background-color: rgb(15 23 42 / 0.45) !important;
   }
 
-  html.light .bg-gradient-to-r.from-purple-900\\/30 {
+  html.light .bg-gradient-to-r.from-purple-900\/30 {
     background-image: linear-gradient(to right, #f5f3ff, #f8fafc, #eef2ff) !important;
   }
 
-  html.light .bg-purple-600\\/30,
-  html.light .bg-purple-600\\/35 {
+  html.light .bg-purple-600\/30,
+  html.light .bg-purple-600\/35 {
     color: #581c87 !important;
   }
 

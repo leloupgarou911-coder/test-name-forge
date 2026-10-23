@@ -763,7 +763,7 @@ export function renderStyledTextToCanvas(
 
   // Measure text
   const metrics = ctx.measureText(text);
-  const textWidth = metrics.width + (text.length - 1) * letterSpacing * scale;
+  const textWidth = metrics.width + Math.max(0, Array.from(text).length - 1) * letterSpacing * scale;
   const paddingX = 60 * scale;
   const paddingY = 50 * scale;
   const width = Math.max(300 * scale, Math.ceil(textWidth + paddingX * 2));
@@ -865,7 +865,7 @@ export function downloadCanvasAsPng(canvas: HTMLCanvasElement, filename: string)
     const url = canvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${filename.replace(/[^a-zA-Z0-9_-]/g, '_')}_styled.png`;
+    a.download = `${filename.replace(/[^\\p{L}\\p{N}_-]/gu, '_') || 'nameforge'}_styled.png`;
     document.body.appendChild(a);
     a.click();
     a.remove();

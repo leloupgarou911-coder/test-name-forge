@@ -1,7 +1,7 @@
 import { ALL_GENERATORS_LIST, GENERATORS_METADATA } from '../data/generators';
 import { SUBCATEGORIES_DATA } from '../data/subcategories';
 import { generateNames, isTooSimilar, calculateLevenshteinDistance } from '../services/generatorEngine';
-import { generateSvgCode } from '../services/textStyler';
+import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 
 declare const process: { exit: (code: number) => void };
@@ -475,6 +475,13 @@ const texturedSvg = generateSvgCode('NameForge', 48, 'sans-serif', 'pure-gold', 
 assert(
   texturedSvg.includes('clip-path="url(#nf-text-clip)"') && texturedSvg.includes('nf-pattern-brushed-gold'),
   'SVG export applies the selected texture as a clipped overlay inside the text'
+);
+
+// Grapheme-safe handling for accents, emoji modifiers, ZWJ sequences, and flags.
+const graphemeSamples = ['e\u0301', '👍🏽', '👩‍💻', '🇩🇿'];
+assert(
+  graphemeSamples.every((sample) => splitGraphemes(sample).length === 1),
+  'Canvas spacing and SVG sizing treat multi-code-point visible characters as one grapheme'
 );
 
 // Test 43: SVG width expands for longer text instead of staying fixed.

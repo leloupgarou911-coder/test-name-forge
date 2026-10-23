@@ -15,13 +15,13 @@ import { getTranslations } from '../i18n';
 interface NameCardProps {
   item: GeneratedName;
   onOpenNote?: (name: string, generatorId: GeneratorId, style: string) => void;
-  onUpdate?: () => void;
+  onDataChange?: () => void;
 }
 
 export const NameCard: React.FC<NameCardProps> = ({
   item,
   onOpenNote,
-  onUpdate,
+  onDataChange,
 }) => {
   const [copied, setCopied] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -65,20 +65,20 @@ export const NameCard: React.FC<NameCardProps> = ({
   const handleSaveToggle = () => {
     const newState = toggleSaveName(item.name, item.generatorId, item.style);
     setIsSaved(newState);
-    if (onUpdate) onUpdate();
+    if (onDataChange) onDataChange();
   };
 
   const handleLikeToggle = () => {
     const newState = toggleLikeName(item.name, item.generatorId, item.style);
     setIsLiked(newState);
-    if (onUpdate) onUpdate();
+    if (onDataChange) onDataChange();
   };
 
   const handleRate = (r: number) => {
     const next = rating === r ? 0 : r;
     setRating(next);
     setStoredRating(item.name, next);
-    if (onUpdate) onUpdate();
+    if (onDataChange) onDataChange();
   };
 
   return (
@@ -87,7 +87,7 @@ export const NameCard: React.FC<NameCardProps> = ({
         <NameDetailsModal
           nameItem={item}
           onClose={() => setShowDetails(false)}
-          onUpdate={onUpdate}
+          onUpdate={onDataChange}
         />
       )}
 

@@ -355,7 +355,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
                 onOpenNote={(name, genId, st) =>
                   setNoteModalData({ name, generatorId: genId, style: st })
                 }
-                onUpdate={handleGenerate}
+                onDataChange={refreshCategoryTopRated}
               />
             ))}
           </div>

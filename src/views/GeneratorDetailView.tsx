@@ -16,6 +16,7 @@ import {
   SavedNameEntry,
 } from '../types';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
+import { getLocalizedGeneratorDescription } from '../i18n/generatorContent';
 
 interface GeneratorDetailViewProps {
   generatorId: GeneratorId;
@@ -316,7 +317,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            {meta.description}
+            {getLocalizedGeneratorDescription(meta, language)}
           </p>
 
           {/* Legal disclaimer if applicable */}

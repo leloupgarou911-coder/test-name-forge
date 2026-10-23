@@ -505,7 +505,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
 
                   <div className="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between">
                     <span className="text-[10px] text-slate-500">
-                      {new Date(item.createdAt).toLocaleDateString()}
+                      {new Date(item.createdAt).toLocaleDateString(language)}
                     </span>
                     <button
                       onClick={() => handleCopyTop(item.name)}

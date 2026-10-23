@@ -18,12 +18,38 @@ export const App: React.FC = () => {
 
   // Initialize and subscribe to settings
   useEffect(() => {
-    applySettingsToDOM(getAppSettings());
+    const initialSettings = getAppSettings();
+    applySettingsToDOM(initialSettings);
+
     const unsub = subscribeToSettings((s) => {
       setSettings(s);
       applySettingsToDOM(s);
     });
-    return () => unsub();
+
+    // Keep the "system" theme in sync when the operating system theme changes.
+    const media = typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-color-scheme: dark)')
+      : null;
+    const handleSystemThemeChange = () => {
+      const current = getAppSettings();
+      if (current.theme === 'system') {
+        applySettingsToDOM(current);
+      }
+    };
+
+    media?.addEventListener?.('change', handleSystemThemeChange);
+    // Compatibility with older browsers that expose the legacy listener API.
+    if (media && !media.addEventListener) {
+      media.addListener(handleSystemThemeChange);
+    }
+
+    return () => {
+      unsub();
+      media?.removeEventListener?.('change', handleSystemThemeChange);
+      if (media && !media.removeEventListener) {
+        media.removeListener(handleSystemThemeChange);
+      }
+    };
   }, []);
 
   // Handle URL hash changes for deep linking

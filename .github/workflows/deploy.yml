@@ -27,10 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npx vite build
-        env:
-          BASE_URL: /test-name-forge/
+      - name: TypeScript and production build
+        run: npm run build
+
+      - name: Run test suite before deployment
+        run: npm test
 
       - uses: actions/upload-pages-artifact@v3
         with:

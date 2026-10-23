@@ -3,7 +3,9 @@ name: Verify NameForge
 on:
   push:
     branches:
+      - main
       - "fix/nameforge-professional-sync"
+      - "fix/audit-ci-and-interface"
   pull_request:
     branches:
       - main

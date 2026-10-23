@@ -92,8 +92,7 @@ function mapChars(
   const config = CHAR_MAPS[styleKey];
   const exceptions = UNICODE_EXCEPTIONS[styleKey] || {};
 
-  return text
-    .split('')
+  return Array.from(text)
     .map((char) => {
       if (exceptions[char]) return exceptions[char];
       if (fallbackMap) {
@@ -153,8 +152,7 @@ const SMALL_CAPS_MAP: Record<string, string> = {
 
 // Circled characters
 function toCircled(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => {
       const code = c.charCodeAt(0);
       if (code >= 65 && code <= 90) return String.fromCodePoint(0x24b6 + (code - 65));
@@ -168,8 +166,7 @@ function toCircled(text: string): string {
 
 // Squared characters
 function toSquared(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => {
       const code = c.toUpperCase().charCodeAt(0);
       if (code >= 65 && code <= 90) return String.fromCodePoint(0x1f130 + (code - 65));
@@ -250,8 +247,7 @@ const INVERTED_MAP: Record<string, string> = {
 };
 
 function toInverted(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .reverse()
     .map((c) => INVERTED_MAP[c] || c)
     .join('');
@@ -260,16 +256,14 @@ function toInverted(text: string): string {
 // Combining marks (Strikethrough, Underline, Slash)
 function toCombining(text: string, markCode: number): string {
   const mark = String.fromCodePoint(markCode);
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => (c === ' ' ? ' ' : `${c}${mark}`))
     .join('');
 }
 
 // Fullwidth Vaporwave
 function toFullwidth(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => {
       const code = c.charCodeAt(0);
       if (code === 32) return '　';
@@ -356,9 +350,7 @@ export const UNICODE_STYLES: UnicodeStyleOption[] = [
     category: 'formal',
     sample: 'ꜱᴍᴀʟʟ ᴄᴀᴘɪᴛᴀʟꜱ',
     transform: (t) =>
-      t
-        .toLowerCase()
-        .split('')
+      Array.from(t.toLowerCase())
         .map((c) => SMALL_CAPS_MAP[c] || c)
         .join(''),
   },

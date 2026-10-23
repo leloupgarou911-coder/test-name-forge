@@ -102,7 +102,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <li key={gen.id}>
                   <button
                     onClick={() => onNavigate('generator-detail', gen.id)}
-                    className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-left"
+                    className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-start"
                   >
                     <span>{gen.icon}</span>
                     <span>{gen.shortTitle}</span>
@@ -122,7 +122,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <li key={gen.id}>
                   <button
                     onClick={() => onNavigate('generator-detail', gen.id)}
-                    className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-left"
+                    className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-start"
                   >
                     <span>{gen.icon}</span>
                     <span>{gen.shortTitle}</span>

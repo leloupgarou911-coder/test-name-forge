@@ -4,7 +4,7 @@ import { generateNames, isTooSimilar, calculateLevenshteinDistance, scoreCandida
 import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 import { normalizeSearchText } from '../services/search';
-import { getLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
+import { getLocalizedGeneratorDescription, hasLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
 import { getLocalizedFaq } from '../i18n/localizedFaq';
 
 declare const process: { exit: (code: number) => void };
@@ -741,6 +741,33 @@ for (const [language, prefix, label] of additionalFaqChecks) {
   assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
   assert(localized[0].q.startsWith(prefix), `${label} FAQ uses its own translation rather than French fallback`);
 }
+
+// Generator-specific descriptions must exist in each locale declared as reviewed.
+const reviewedGeneratorDescriptionLocales = ['en', 'fr', 'es', 'de'] as const;
+const reviewedGeneratorIds = [
+  'fantasy', 'baby_name', 'brand', 'business', 'product',
+  'startup', 'book', 'gaming', 'anime', 'restaurant',
+];
+const specificDescriptionFailures: string[] = [];
+for (const generatorId of reviewedGeneratorIds) {
+  const meta = GENERATORS_METADATA[generatorId];
+  for (const lang of reviewedGeneratorDescriptionLocales) {
+    const localized = getLocalizedGeneratorDescription(meta, lang);
+    if (!hasLocalizedGeneratorDescription(generatorId, lang) || !localized.trim()) {
+      specificDescriptionFailures.push(`${generatorId}/${lang}`);
+    }
+  }
+}
+assert(
+  specificDescriptionFailures.length === 0,
+  '10 core generators have specific descriptions in English, French, Spanish, and German',
+  specificDescriptionFailures.join(', ')
+);
+// A locale without a reviewed generator-specific entry must be reported honestly.
+assert(
+  !hasLocalizedGeneratorDescription('baby_name', 'ar'),
+  'Unreviewed generator-specific translations are not falsely reported as complete'
+);
 
 // -----------------------------------------------------------------------------
 // SUMMARY

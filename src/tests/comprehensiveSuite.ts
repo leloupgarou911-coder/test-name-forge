@@ -478,7 +478,7 @@ assert(
 );
 
 // Grapheme-safe handling for accents, emoji modifiers, ZWJ sequences, and flags.
-const graphemeSamples = ['e\\u0301', '👍🏽', '👩‍💻', '🇩🇿'];
+const graphemeSamples = ['e\u0301', '👍🏽', '👩‍💻', '🇩🇿'];
 assert(
   graphemeSamples.every((sample) => splitGraphemes(sample).length === 1),
   'Canvas spacing and SVG sizing treat multi-code-point visible characters as one grapheme'

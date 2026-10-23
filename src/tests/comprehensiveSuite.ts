@@ -157,12 +157,14 @@ assert(
   `Female names found: ${nonMale.map((n) => n.name).join(', ')}`
 );
 
-// Test 14: Baby names creative style explicitly marks isAttested: false
+// Test 14: Baby-name styles always return real attested names, including creative mode
 const creativeBabies = generateNames({ generatorId: 'baby_name', style: 'creative', quantity: 5 });
-const allMarkedFalse = creativeBabies.every((b) => b.isAttested === false);
+const allMarkedAttested = creativeBabies.length === 5 && creativeBabies.every(
+  (b) => b.isAttested === true && ATTESTED_BABY_NAMES.some((item) => item.name === b.name)
+);
 assert(
-  allMarkedFalse,
-  'Baby names in creative mode are honestly tagged with isAttested: false'
+  allMarkedAttested,
+  'Baby-name styles always return names from the attested-name database'
 );
 
 // Test 15: Baby names classic style marks isAttested: true
@@ -381,6 +383,15 @@ assert(
   Boolean(transformedBold && transformedBold !== sampleWord && transformedFraktur && transformedScript && transformedInverted),
   'Unicode transformations accurately map standard characters to stylistic mathematical blocks',
   `Bold: ${transformedBold}, Fraktur: ${transformedFraktur}`
+);
+
+// Test 46: Unicode transformations preserve supplementary-plane emoji and symbols.
+const emojiInput = 'Forge 🚀 𐐒';
+const emojiBold = UNICODE_STYLES.find((style) => style.id === 'bold-sans')?.transform(emojiInput) || '';
+const emojiInverted = UNICODE_STYLES.find((style) => style.id === 'inverted')?.transform(emojiInput) || '';
+assert(
+  emojiBold.includes('🚀') && emojiBold.includes('𐐒') && emojiInverted.includes('🚀') && emojiInverted.includes('𐐒'),
+  'Unicode transforms preserve supplementary-plane characters without splitting surrogate pairs'
 );
 
 // Test 36: Visual effects presets integrity

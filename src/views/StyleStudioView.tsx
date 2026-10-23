@@ -251,7 +251,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           {/* Quick copy input button */}
           <button
             aria-live="polite"
-            onClick={() => handleCopyText(inputText, 'input-raw')
+            onClick={() => handleCopyText(inputText, 'input-raw')}
             className="px-6 py-4 rounded-2xl font-bold text-sm bg-purple-600 hover:bg-purple-500 text-white transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-purple-900/30"
           >
             {copiedId === 'input-raw' ? (

@@ -54,6 +54,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   const [categoryTopRated, setCategoryTopRated] = useState<SavedNameEntry[]>([]);
   const [copiedTopName, setCopiedTopName] = useState<string | null>(null);
 
+  useEffect(() => () => {
+    if (generationTimeout.current) clearTimeout(generationTimeout.current);
+  }, []);
+
   const refreshCategoryTopRated = () => {
     setCategoryTopRated(getTopRatedNamesByCategory(generatorId, 6));
   };

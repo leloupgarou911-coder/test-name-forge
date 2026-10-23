@@ -192,26 +192,13 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       {/* Hero Title */}
       <div className="text-center max-w-3xl mx-auto mb-10">
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-          {settings.language === 'fr' ? (
-            <>
-              Forge Typographique &{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
-                Effets Visuels
-              </span>
-            </>
-          ) : (
-            <>
-              Typography Forge &{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
-                Visual Studio
-              </span>
-            </>
-          )}
+          {getStudioLabel(settings.language, 'heroTitle')}{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
+            {getStudioLabel(settings.language, 'heroAccent')}
+          </span>
         </h1>
         <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
-          {settings.language === 'fr'
-            ? 'Transformez vos noms en créations visuelles uniques : polices Unicode copiables partout (Discord, Twitter, jeux), effets néon, or brossé, textures magma et masques d’écrêtage exportables en HD.'
-            : 'Transform your names into standout creations: copy-pasteable Unicode styles for Discord, games, and socials, plus glowing neon, metallic gold, texture fills, and HD image exports.'}
+          {getStudioLabel(settings.language, 'heroDescription')}
         </p>
       </div>
 
@@ -236,7 +223,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
               <button
                 onClick={() => setInputText('')}
                 className={`absolute top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1 ${settings.language === 'ar' || settings.language === 'he' ? 'left-4' : 'right-4'}`}
-                title="Effacer"
+                title={getStudioLabel(settings.language, 'clearInput')}
               >
                 ✕
               </button>
@@ -337,9 +324,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <p className="text-xs sm:text-sm text-slate-400">
-              {settings.language === 'fr'
-                ? 'Cliquez sur n’importe quel style pour le copier instantanément dans votre presse-papiers.'
-                : 'Click any style card to copy directly to your clipboard for instant use.'}
+              {getStudioLabel(settings.language, 'unicodeHint')}
             </p>
           </div>
 
@@ -406,9 +391,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       {activeTab === 'effects' && (
         <div className="space-y-6">
           <p className="text-xs sm:text-sm text-slate-400">
-            {settings.language === 'fr'
-              ? 'Sélectionnez un effet pour voir le rendu en direct avec dégradés, halos électroluminescents et ombrages 3D.'
-              : 'Select a visual style to preview lighting shaders, specular glows, and metallic finishes.'}
+            {getStudioLabel(settings.language, 'effectsHint')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -475,9 +458,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       {activeTab === 'textures' && (
         <div className="space-y-6">
           <p className="text-xs sm:text-sm text-slate-400">
-            {settings.language === 'fr'
-              ? 'Les masques d’écrêtage remplissent les lettres avec des motifs graphiques procéduraux (fibre de carbone, magma, or brossé, nacre).'
-              : 'Clipping masks inject procedural patterns and materials directly into the glyph vector paths.'}
+            {getStudioLabel(settings.language, 'texturesHint')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

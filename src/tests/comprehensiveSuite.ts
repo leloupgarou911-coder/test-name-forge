@@ -434,8 +434,8 @@ assert(
 // Test 43: SVG width expands for longer text instead of staying fixed.
 const shortSvg = generateSvgCode('Hi', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
 const longSvg = generateSvgCode('A very long NameForge studio title', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
-const shortWidth = Number(shortSvg.match(/viewBox="0 0 (\\d+)/)?.[1] || 0);
-const longWidth = Number(longSvg.match(/viewBox="0 0 (\\d+)/)?.[1] || 0);
+const shortWidth = Number(shortSvg.match(/viewBox="0 0 (\d+)/)?.[1] || 0);
+const longWidth = Number(longSvg.match(/viewBox="0 0 (\d+)/)?.[1] || 0);
 assert(
   longWidth > shortWidth,
   'SVG export dynamically expands its canvas for longer text'

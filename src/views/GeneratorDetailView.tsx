@@ -169,6 +169,14 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
 
   useEffect(() => {
     handleGenerate();
+    // Cancel pending work when controls change or this generator page unmounts.
+    // This prevents stale batches from updating a page the user has already left.
+    return () => {
+      if (generationTimeout.current) {
+        clearTimeout(generationTimeout.current);
+        generationTimeout.current = null;
+      }
+    };
   }, [
     generatorId,
     selectedStyle,

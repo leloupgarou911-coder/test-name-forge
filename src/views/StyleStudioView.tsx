@@ -169,7 +169,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   };
 
   return (
-    <div className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-12 animate-fade-in">
+    <div lang={settings.language} dir={settings.language === 'ar' || settings.language === 'he' ? 'rtl' : 'ltr'} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-12 animate-fade-in">
       {/* Top Breadcrumb & Return */}
       <div className="flex items-center justify-between gap-4 mb-6">
         <button

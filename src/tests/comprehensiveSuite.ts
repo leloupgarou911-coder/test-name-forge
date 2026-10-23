@@ -5,6 +5,7 @@ import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 import { normalizeSearchText } from '../services/search';
 import { getLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
+import { getLocalizedFaq } from '../i18n/localizedFaq';
 
 declare const process: { exit: (code: number) => void };
 
@@ -28,6 +29,13 @@ function assert(condition: boolean, description: string, details?: string) {
     console.error(`  ✗ Test ${currentNum} FAILED: ${description} - ${details || ''}`);
   }
 }
+
+// FAQ localization regression checks
+const faqEnglish = getLocalizedFaq('en');
+assert(faqEnglish.length === 18, 'English FAQ preserves all 18 FAQ entries', `Found ${faqEnglish.length}`);
+assert(faqEnglish.every((item) => item.q.trim() && item.a.trim()), 'Every English FAQ entry has a question and answer');
+assert(faqEnglish[0].q.startsWith('How does a name generator'), 'English FAQ does not display the French source question');
+assert(getLocalizedFaq('fr')[0].q === 'Comment fonctionne un générateur de noms comme NameForge ?', 'French FAQ source remains unchanged');
 
 console.log('=====================================================');
 console.log('NAMEFORGE COMPREHENSIVE AUTOMATED TEST SUITE (33+ LOTS)');

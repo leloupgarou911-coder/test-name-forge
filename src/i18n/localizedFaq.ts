@@ -204,9 +204,29 @@ const JA_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
   { q: '問題を報告したり、改善案を提案したりするには？', a: 'プロジェクトのリポジトリで提案を共有したり、今後のバージョンで検討してほしい新しいアーキタイプを提案したりできます。' },
 ];
 
+const KO_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'NameForge 같은 이름 생성기는 어떻게 작동하나요?',a:'NameForge는 판타지, 기술, 브랜드, 이야기 분야에 맞는 언어 어근과 음절, 단어 형성 규칙을 결합하며 발음과 주제 적합성도 고려합니다.'},
+{q:'프로젝트에 맞는 이름은 어떻게 고르나요?',a:'원하는 분위기를 정하고 이름을 소리 내어 읽어 보세요. 모바일 앱에는 짧은 이름, 책 시리즈에는 더 서사적인 이름이 어울립니다.'},
+{q:'독창적이고 기억하기 쉬운 이름을 만들려면?',a:'새로운 음절 조합이나 자연스러운 단어 결합을 시도하고 진부한 표현과 불필요한 숫자는 피하세요.'},
+{q:'반복 생성에서 비슷한 이름을 피하려면?',a:'NameForge는 최근 생성한 100개 이름을 브라우저에 저장하고 다음 생성에서 최근 결과를 걸러 다양성을 높입니다.'},
+{q:'다른 언어와 발음으로 이름을 만들 수 있나요?',a:'네. 프랑스어, 영어, 일본 애니메이션풍, 아랍·동양풍, 라틴·엘프풍, 북유럽풍, 기술풍 등을 선택할 수 있으며 사이트 UI 언어는 바뀌지 않습니다.'},
+{q:'스타일과 길이 설정은 어떻게 작동하나요?',a:'짧게는 보통 1~2음절, 중간은 2~3음절, 길게는 복합형 이름을 지향합니다. 스타일은 주요 발음과 이름의 유형을 바꿉니다.'},
+{q:'이름을 복사하고 저장한 뒤 다시 찾으려면?',a:'이름 카드의 복사, 즐겨찾기, 좋아요 버튼을 사용하세요. 저장한 이름은 메뉴의 내 이름에서 찾을 수 있습니다.'},
+{q:'즐겨찾기, 컬렉션, 비공개 메모는 어떻게 쓰나요?',a:'내 이름에서 프로젝트별 컬렉션을 만들고 각 이름에 비공개 메모를 추가할 수 있습니다.'},
+{q:'별점과 최고 이름 순위는 어떻게 정해지나요?',a:'각 이름에 별 1~5개를 줄 수 있습니다. 순위에는 이 작업 공간에서 직접 높게 평가한 이름이 표시됩니다.'},
+{q:'이름 목록을 내보내거나 가져올 수 있나요?',a:'저장 항목을 메모와 컬렉션을 포함한 JSON 또는 표 계산용 CSV로 내보낼 수 있으며 JSON 백업도 복원할 수 있습니다.'},
+{q:'개인 데이터는 내 기기에 저장되나요?',a:'NameForge는 계정 없이 로컬에서 작동합니다. 저장한 이름, 메모, 설정은 브라우저 저장소에 남습니다.'},
+{q:'이름이 전 세계에서 유일하다고 보장되나요?',a:'아니요. 여러 어근을 조합하지만 다른 언어에서 같은 이름이 이미 사용될 수 있습니다.'},
+{q:'생성한 이름을 회사나 제품에 사용할 수 있나요?',a:'창작 목적으로 사용할 수 있지만 상업적 사용 전에는 EUIPO나 USPTO 등 관련 상표 등록 정보를 확인하세요.'},
+{q:'도메인 사용 가능 여부는 어떻게 확인하나요?',a:'도메인 등록 서비스에서 이름을 검색해 .com, .kr, .io 등의 등록 가능 여부를 확인하세요.'},
+{q:'이름을 쓰기 전에 등록 상표를 확인해야 하나요?',a:'네. 브랜드나 회사에 투자하기 전에 확인하세요. NameForge는 법적 사용 가능성을 보증하지 않습니다.'},
+{q:'사이트가 휴대전화와 태블릿에서도 작동하나요?',a:'네. 반응형 인터페이스는 휴대전화, 태블릿, 데스크톱에 맞게 설계되었습니다.'},
+{q:'결과가 마음에 들지 않으면 어떻게 하나요?',a:'새 이름 생성을 선택하거나 G를 누르세요. 유형, 길이, 생성 언어도 바꿀 수 있습니다.'},
+{q:'문제를 신고하거나 개선안을 제안하려면?',a:'프로젝트 저장소에서 의견을 공유하거나 다음 버전에 반영할 새로운 유형을 제안할 수 있습니다.'}
+];
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -214,4 +234,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko'] as const;

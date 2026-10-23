@@ -45,6 +45,19 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
     ko: { back: '모든 생성기로 돌아가기', proposals: '개 생성된 이름', inspired: '영감来源:', copyAllTitle: '설명이 포함된 전체 목록 복사', copiedBatch: '목록 복사 완료!', copyBatch: '목록 복사', exportTextTitle: '텍스트 파일로 다운로드', exportCsvTitle: 'CSV 스프레드시트로 다운로드', tip: '팁: ', tipEnd: ' 키를 누르면 새 목록을 바로 생성합니다.', leaderboard: '독립 순위표', bestNames: '최고 평점 이름', leaderboardDesc: '이 카테고리의 1~5점 별점 평가를 기준으로 합니다.', ratedCount: '개 평가된 제안', stars: '개 별', copied: '복사됨', copy: '복사', noRatings: '아직 평가가 없습니다:', noRatingsDesc: '위의 이름에 별점을 주어 개인 순위표를 만들어 보세요.', advantages: '주요 장점', limits: '유의 사항', explore: '다른 카테고리 둘러보기' },
   };
   const text = ui[language] || ui.en;
+  const exportLabels: Record<string, string[]> = {
+    en: ['Date', 'Generator', 'Style', 'Archetype', 'Tone', 'Description', 'Ideal for', 'Name', 'Pronunciation', 'Name batch'],
+    fr: ['Date', 'Générateur', 'Style', 'Archétype', 'Tonalité', 'Description', 'Idéal pour', 'Nom', 'Prononciation', 'Lot de noms'],
+    ar: ['التاريخ', 'المولّد', 'النمط', 'النموذج', 'النبرة', 'الوصف', 'مناسب لـ', 'الاسم', 'النطق', 'مجموعة أسماء'],
+    es: ['Fecha', 'Generador', 'Estilo', 'Arquetipo', 'Tono', 'Descripción', 'Ideal para', 'Nombre', 'Pronunciación', 'Lote de nombres'],
+    de: ['Datum', 'Generator', 'Stil', 'Archetyp', 'Ton', 'Beschreibung', 'Ideal für', 'Name', 'Aussprache', 'Namensliste'],
+    it: ['Data', 'Generatore', 'Stile', 'Archetipo', 'Tono', 'Descrizione', 'Ideale per', 'Nome', 'Pronuncia', 'Lotto di nomi'],
+    pt: ['Data', 'Gerador', 'Estilo', 'Arquétipo', 'Tom', 'Descrição', 'Ideal para', 'Nome', 'Pronúncia', 'Lote de nomes'],
+    tr: ['Tarih', 'Oluşturucu', 'Stil', 'Arketip', 'Ton', 'Açıklama', 'Şunun için ideal', 'Ad', 'Telaffuz', 'Ad listesi'],
+    ja: ['日付', 'ジェネレーター', 'スタイル', 'アーキタイプ', 'トーン', '説明', 'おすすめ用途', '名前', '発音', '名前一覧'],
+    ko: ['날짜', '생성기', '스타일', '원형', '어조', '설명', '추천 용도', '이름', '발음', '이름 목록'],
+  };
+  const exportText = exportLabels[language] || exportLabels.en;
 
   const [selectedStyle, setSelectedStyle] = useState('default');
   const [selectedLength, setSelectedLength] = useState<LengthOption>('medium');
@@ -127,11 +140,11 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
     if (!results.length) return;
     const content = [
       `========================================================`,
-      `NameForge — Lot de noms (${meta.title})`,
-      `Date : ${new Date().toLocaleString()}`,
-      `Générateur : ${generatorId} | Style : ${selectedStyle}`,
+      `NameForge — ${exportText[9]} (${meta.title})`,
+      `${exportText[0]}: ${new Date().toLocaleString(language)}`,
+      `${exportText[1]}: ${generatorId} | ${exportText[2]}: ${selectedStyle}`,
       `========================================================\n`,
-      ...results.map((r, i) => `${i + 1}. ${r.name}\n   Archétype : ${r.style} | Tonalité : ${r.tone}\n   Description : ${r.description}\n   Idéal pour : ${r.bestFor}\n`),
+      ...results.map((r, i) => `${i + 1}. ${r.name}\n   ${exportText[3]}: ${r.style} | ${exportText[4]}: ${r.tone}\n   ${exportText[5]}: ${r.description}\n   ${exportText[6]}: ${r.bestFor}\n`),
     ].join('\n');
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -144,7 +157,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
 
   const handleExportBatchCSV = () => {
     if (!results.length) return;
-    const header = ['Nom', 'Archétype', 'Tonalité', 'Description', 'Idéal pour', 'Phonétique'];
+    const header = [exportText[7], exportText[3], exportText[4], exportText[5], exportText[6], exportText[8]];
     const rows = results.map((r) => [
       `"${r.name.replace(/"/g, '""')}"`,
       `"${r.style.replace(/"/g, '""')}"`,

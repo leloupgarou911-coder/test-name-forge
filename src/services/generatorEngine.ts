@@ -499,7 +499,9 @@ export function scoreCandidate(
 
   let score = 70; // baseline acceptable quality
 
-  const len = name.replace(/[^A-Za-zÀ-ÿ]/g, '').length;
+  // Count Unicode letters instead of Latin-only characters so names in Arabic,
+  // CJK, Cyrillic and other scripts receive fair length scoring.
+  const len = Array.from(name.normalize('NFC').matchAll(/[\p{L}\p{M}]/gu)).length;
 
   // Length compliance bonus/penalty
   if (lengthOpt === 'short') {
@@ -509,25 +511,27 @@ export function scoreCandidate(
     if (len >= 8) score += 20;
     else if (len < 6) score -= 30;
   } else {
-    // Medium
     if (len >= 5 && len <= 9) score += 15;
     else if (len > 14) score -= 15;
   }
 
-  // Pronounceability & Vowel-Consonant Balance
-  const vowels = (name.match(/[aeiouyAEIOUYà-ÿ]/gi) || []).length;
-  const consonants = (name.match(/[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]/gi) || []).length;
-  const ratio = vowels / Math.max(1, consonants);
+  // Apply Latin phonetic heuristics only when the name contains Latin letters.
+  // Vowel ratios are not meaningful for Arabic, Chinese, Japanese, etc.
+  const hasLatinLetters = /\p{Script=Latin}/u.test(name);
+  if (hasLatinLetters) {
+    const vowels = (name.match(/[aeiouyAEIOUYà-ÿ]/gi) || []).length;
+    const consonants = (name.match(/[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]/gi) || []).length;
+    const ratio = vowels / Math.max(1, consonants);
 
-  if (ratio >= 0.4 && ratio <= 1.4) {
-    score += 15; // smooth phonetic cadence
-  } else if (ratio < 0.25 || ratio > 2.5) {
-    score -= 25; // hard to pronounce or awkward stutter
-  }
+    if (ratio >= 0.4 && ratio <= 1.4) {
+      score += 15;
+    } else if (ratio < 0.25 || ratio > 2.5) {
+      score -= 25;
+    }
 
-  // Penalty for awkward consonant clusters (4 consonants in a row, unless common)
-  if (/[b-df-hj-np-tv-z]{4,}/i.test(name)) {
-    score -= 30;
+    if (/[b-df-hj-np-tv-z]{4,}/i.test(name)) {
+      score -= 30;
+    }
   }
 
   // Gender nuance scoring
@@ -536,7 +540,7 @@ export function scoreCandidate(
       score += 15;
     }
   } else if (genderOpt === 'male') {
-    if (/[or|un|an|us|ar|ok|el|en]$/i.test(name) || /^(Kael|Thar|Ryn|Aren|Marc|Léo|Liam|Louis)/i.test(name)) {
+    if (/(?:or|un|an|us|ar|ok|el|en)$/i.test(name) || /^(Kael|Thar|Ryn|Aren|Marc|Léo|Liam|Louis)/i.test(name)) {
       score += 15;
     }
   }

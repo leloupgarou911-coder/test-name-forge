@@ -78,7 +78,7 @@ export const NameCard: React.FC<NameCardProps> = ({
     const next = rating === r ? 0 : r;
     setRating(next);
     setStoredRating(item.name, next);
-    if (onUpdate) onUpdate();
+    if (onDataChange) onDataChange();
   };
 
   return (

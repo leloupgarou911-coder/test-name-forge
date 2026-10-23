@@ -269,7 +269,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Menu Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-slate-800 bg-[#090d1c] px-4 pt-3 pb-6 space-y-3">
+          <div id="nameforge-mobile-menu" className="md:hidden border-b border-slate-800 bg-[#090d1c] px-4 pt-3 pb-6 space-y-3">
             <button
               onClick={() => {
                 onNavigate('home');

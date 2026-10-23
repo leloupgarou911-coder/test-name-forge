@@ -305,9 +305,70 @@ const PL_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
 {q:'Jak zgłosić problem lub zaproponować ulepszenie?',a:'Podziel się sugestią w repozytorium projektu albo zaproponuj nowy archetyp na przyszłość.'}
 ];
 
+const SV_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'Hur fungerar en namngenerator som NameForge?',a:'NameForge kombinerar språkliga rötter, harmoniska stavelser och ordregler för fantasy, teknik, varumärken och berättelser. Den tar hänsyn till rytm, uttal och tematisk relevans.'},
+{q:'Hur väljer jag ett namn som passar mitt projekt?',a:'Bestäm först önskad känsla och säg namnet högt. Välj ett kort namn för en mobilapp eller ett mer berättande namn för en bokserie.'},
+{q:'Hur skapar jag ett originellt och minnesvärt namn?',a:'Prova oväntade stavelsekombinationer eller naturliga sammanslagningar av ord. Undvik slitna klichéer och onödiga siffror.'},
+{q:'Hur undviker jag liknande namn vid flera genereringar?',a:'NameForge sparar lokalt de 100 senast skapade namnen och filtrerar nyliga förslag vid nästa generering.'},
+{q:'Kan jag skapa namn med olika språk och ljud?',a:'Ja. Välj franskt, engelskt, japanskt/anime, arabiskt/orientaliskt, latinskt/alviskt, nordiskt eller tekniskt ljud. Webbplatsens gränssnittsspråk ändras inte.'},
+{q:'Hur fungerar stil- och längdinställningarna?',a:'Kort ger oftast en eller två stavelser, mellan två eller tre, och lång passar sammansatta eller berättande namn. Stilen ändrar ljudkaraktären.'},
+{q:'Hur kopierar och sparar jag namn för att hitta dem senare?',a:'Använd knapparna för kopiering, favoriter och gilla på varje namnkort. Sparade namn finns under Mina namn.'},
+{q:'Hur fungerar favoriter, samlingar och privata anteckningar?',a:'Skapa tematiska samlingar för dina projekt och lägg till privata anteckningar till enskilda namn.'},
+{q:'Hur beräknas stjärnor och topplistan?',a:'Betygsätt varje förslag med en till fem stjärnor. Listan visar dina högst betygsatta namn utan påhittade röster.'},
+{q:'Kan jag exportera eller importera namnlistor?',a:'Exportera sparade data med anteckningar till JSON eller CSV, eller återställ en tidigare JSON-säkerhetskopia.'},
+{q:'Sparas mina personuppgifter på min enhet?',a:'NameForge fungerar lokalt utan konto. Sparade namn, anteckningar och inställningar finns i webbläsarens lagring.'},
+{q:'Är namnen garanterat unika i hela världen?',a:'Nej. Inget system kan garantera global unikhet; ett namn kan redan finnas på ett annat språk.'},
+{q:'Kan jag använda ett namn för ett företag eller en produkt?',a:'Förslagen kan användas kreativt. Kontrollera relevanta varumärkesregister, till exempel EUIPO eller USPTO, före kommersiell användning.'},
+{q:'Hur kontrollerar jag om en domän är ledig?',a:'Sök efter namnet hos en domänregistrator och kontrollera ändelser som .com, .se eller .io.'},
+{q:'Bör jag kontrollera varumärken innan jag använder ett namn?',a:'Ja, särskilt före investering i varumärke eller företag. NameForge garanterar inte juridisk tillgänglighet.'},
+{q:'Fungerar webbplatsen på telefoner och surfplattor?',a:'Ja. Det responsiva gränssnittet fungerar på telefoner, surfplattor och datorer.'},
+{q:'Vad gör jag om jag inte gillar resultatet?',a:'Skapa nya namn eller tryck på G. Du kan också ändra arketyp, längd eller genereringsspråk.'},
+{q:'Hur rapporterar jag ett problem eller föreslår en förbättring?',a:'Dela förslag i projektets kodförråd eller föreslå nya arketyper för kommande versioner.'}
+];
+const VI_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'Trình tạo tên như NameForge hoạt động thế nào?',a:'NameForge kết hợp gốc từ, âm tiết hài hòa và quy tắc cấu tạo từ cho fantasy, công nghệ, thương hiệu và truyện kể; đồng thời xét nhịp điệu, cách đọc và độ phù hợp chủ đề.'},
+{q:'Làm sao chọn tên phù hợp với dự án?',a:'Hãy xác định sắc thái mong muốn rồi đọc tên thành tiếng. Ứng dụng di động thường hợp với tên ngắn, còn bộ sách có thể dùng tên giàu tính kể chuyện hơn.'},
+{q:'Làm sao tạo tên độc đáo, dễ nhớ?',a:'Thử kết hợp âm tiết mới lạ hoặc ghép từ tự nhiên. Tránh sáo ngữ cũ và chữ số không cần thiết.'},
+{q:'Làm sao tránh tên tương tự qua nhiều lần tạo?',a:'NameForge lưu cục bộ 100 tên gần nhất trong trình duyệt và lọc các gợi ý mới dùng ở lần tạo tiếp theo.'},
+{q:'Có thể tạo tên với ngôn ngữ và âm sắc khác nhau không?',a:'Có. Bạn có thể chọn phong cách Pháp, Anh, Nhật/anime, Ả Rập/phương Đông, Latin/elf, Bắc Âu hoặc công nghệ mà không đổi ngôn ngữ giao diện.'},
+{q:'Cài đặt phong cách và độ dài hoạt động ra sao?',a:'Độ dài ngắn thường có một hoặc hai âm tiết, trung bình có hai hoặc ba, còn dài phù hợp tên ghép hoặc giàu tính truyện kể. Phong cách thay đổi âm sắc chủ đạo.'},
+{q:'Làm sao sao chép, lưu và tìm lại tên?',a:'Dùng các nút sao chép, yêu thích và thích trên thẻ tên. Tên đã lưu nằm trong mục Tên của tôi.'},
+{q:'Mục yêu thích, bộ sưu tập và ghi chú riêng hoạt động thế nào?',a:'Tạo bộ sưu tập theo dự án và thêm ghi chú riêng cho từng tên để lưu ý tưởng hoặc mục đích sử dụng.'},
+{q:'Điểm sao và bảng xếp hạng được tính thế nào?',a:'Bạn có thể chấm mỗi gợi ý từ một đến năm sao. Danh sách hiển thị tên bạn đánh giá cao nhất, không tạo lượt bình chọn giả.'},
+{q:'Có thể xuất hoặc nhập danh sách tên không?',a:'Có thể xuất dữ liệu đã lưu cùng ghi chú sang JSON hoặc CSV, và khôi phục bản sao lưu JSON trước đó.'},
+{q:'Dữ liệu cá nhân có được lưu trên thiết bị không?',a:'NameForge hoạt động cục bộ, không cần tài khoản. Tên, ghi chú và tùy chọn được lưu trong trình duyệt.'},
+{q:'Tên tạo ra có chắc chắn độc nhất toàn cầu không?',a:'Không. Không thuật toán nào đảm bảo độc nhất tuyệt đối; tên có thể đã tồn tại trong ngôn ngữ khác.'},
+{q:'Tôi có thể dùng tên cho công ty hoặc sản phẩm không?',a:'Có thể dùng cho sáng tạo. Trước khi dùng thương mại, hãy kiểm tra cơ sở dữ liệu nhãn hiệu liên quan như EUIPO hoặc USPTO.'},
+{q:'Làm sao kiểm tra tên miền còn đăng ký được không?',a:'Tìm tên tại nhà đăng ký tên miền và kiểm tra phần mở rộng như .com, .vn hoặc .io.'},
+{q:'Có nên kiểm tra nhãn hiệu đã đăng ký trước khi dùng tên không?',a:'Có. Hãy kiểm tra trước khi đầu tư vào thương hiệu, logo hoặc công ty. NameForge không xác nhận tính hợp pháp của tên.'},
+{q:'Trang web có hoạt động trên điện thoại và máy tính bảng không?',a:'Có. Giao diện thích ứng với điện thoại, máy tính bảng và máy tính để bàn.'},
+{q:'Nếu không thích kết quả thì làm gì?',a:'Chọn tạo tên mới hoặc nhấn G. Bạn cũng có thể đổi kiểu, độ dài hoặc ngôn ngữ tạo tên.'},
+{q:'Làm sao báo lỗi hoặc đề xuất cải tiến?',a:'Chia sẻ góp ý trong kho mã dự án hoặc đề xuất kiểu tên mới cho các phiên bản sau.'}
+];
+const ID_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'Bagaimana generator nama seperti NameForge bekerja?',a:'NameForge menggabungkan akar kata, suku kata yang selaras, dan aturan pembentukan kata untuk fantasi, teknologi, merek, dan cerita. Ritme, pelafalan, serta kecocokan tema juga dipertimbangkan.'},
+{q:'Bagaimana memilih nama yang cocok untuk proyek saya?',a:'Tentukan kesan yang diinginkan lalu ucapkan nama dengan lantang. Aplikasi seluler cocok dengan nama singkat, sedangkan seri buku dapat memakai nama yang lebih naratif.'},
+{q:'Bagaimana membuat nama yang unik dan mudah diingat?',a:'Coba gabungan suku kata yang tidak biasa atau perpaduan kata yang alami. Hindari klise usang dan angka yang tidak perlu.'},
+{q:'Bagaimana menghindari nama serupa dalam beberapa generasi?',a:'NameForge menyimpan 100 nama terbaru secara lokal di browser dan menyaring saran terkini pada proses berikutnya.'},
+{q:'Bisakah membuat nama dengan bahasa dan bunyi berbeda?',a:'Bisa. Pilih nuansa Prancis, Inggris, Jepang/anime, Arab/oriental, Latin/elf, Nordik, atau teknologi tanpa mengubah bahasa antarmuka situs.'},
+{q:'Bagaimana pengaturan gaya dan panjang bekerja?',a:'Panjang pendek biasanya menghasilkan satu atau dua suku kata, sedang dua atau tiga, dan panjang cocok untuk nama gabungan atau naratif. Gaya mengubah karakter bunyi.'},
+{q:'Bagaimana menyalin, menyimpan, dan menemukan nama lagi?',a:'Gunakan tombol salin, favorit, dan suka pada kartu nama. Nama tersimpan ada di bagian Nama Saya.'},
+{q:'Bagaimana favorit, koleksi, dan catatan pribadi bekerja?',a:'Buat koleksi tematik untuk proyek dan tambahkan catatan pribadi pada nama tertentu untuk mengingat ide atau kegunaannya.'},
+{q:'Bagaimana penilaian bintang dan peringkat nama dihitung?',a:'Beri setiap saran satu hingga lima bintang. Daftar teratas menampilkan nama dengan nilai tertinggi dari Anda, tanpa suara palsu.'},
+{q:'Bisakah daftar nama diekspor atau diimpor?',a:'Ekspor data tersimpan beserta catatan ke JSON atau CSV, dan pulihkan cadangan JSON sebelumnya.'},
+{q:'Apakah data pribadi disimpan di perangkat saya?',a:'NameForge berjalan secara lokal tanpa akun. Nama, catatan, dan preferensi tersimpan di penyimpanan browser.'},
+{q:'Apakah nama dijamin unik di seluruh dunia?',a:'Tidak. Tidak ada algoritme yang menjamin keunikan global; nama yang sama mungkin sudah ada dalam bahasa lain.'},
+{q:'Bisakah nama digunakan untuk perusahaan atau produk?',a:'Saran dapat digunakan untuk tujuan kreatif. Sebelum penggunaan komersial, periksa daftar merek dagang seperti EUIPO atau USPTO.'},
+{q:'Bagaimana memeriksa ketersediaan domain?',a:'Cari nama pilihan di registrar domain dan periksa ekstensi seperti .com, .id, atau .io.'},
+{q:'Perlukah memeriksa merek terdaftar sebelum memakai nama?',a:'Ya, terutama sebelum berinvestasi pada merek, logo, atau perusahaan. NameForge tidak menjamin ketersediaan hukum.'},
+{q:'Apakah situs berfungsi di ponsel dan tablet?',a:'Ya. Antarmuka responsif dirancang untuk ponsel, tablet, dan komputer.'},
+{q:'Apa yang harus dilakukan jika hasilnya tidak disukai?',a:'Pilih buat nama baru atau tekan G. Anda juga dapat mengubah arketipe, panjang, atau bahasa generasi.'},
+{q:'Bagaimana melaporkan masalah atau menyarankan perbaikan?',a:'Bagikan saran di repositori proyek atau usulkan arketipe baru untuk versi mendatang.'}
+];
+
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : language === 'ru' ? RU_FAQ : language === 'hi' ? HI_FAQ : language === 'pl' ? PL_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : language === 'ru' ? RU_FAQ : language === 'hi' ? HI_FAQ : language === 'pl' ? PL_FAQ : language === 'sv' ? SV_FAQ : language === 'vi' ? VI_FAQ : language === 'id' ? ID_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -315,4 +376,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh', 'ru', 'hi', 'pl'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh', 'ru', 'hi', 'pl', 'sv', 'vi', 'id'] as const;

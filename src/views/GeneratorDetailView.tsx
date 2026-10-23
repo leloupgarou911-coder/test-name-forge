@@ -89,6 +89,22 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
     fi: ['Päiväys', 'Generaattori', 'Tyyli', 'Arkkityyppi', 'Sävy', 'Kuvaus', 'Sopii kohteelle', 'Nimi', 'Ääntäminen', 'Nimierä'],
   };
   const exportText = exportLabels[language] || exportLabels.en;
+  const exportFormatLabels: Record<string, { txt: string; csv: string }> = {
+    en:{txt:'Export .TXT',csv:'Export .CSV'}, fr:{txt:'Exporter en .TXT',csv:'Exporter en .CSV'},
+    es:{txt:'Exportar .TXT',csv:'Exportar .CSV'}, de:{txt:'.TXT exportieren',csv:'.CSV exportieren'},
+    it:{txt:'Esporta .TXT',csv:'Esporta .CSV'}, pt:{txt:'Exportar .TXT',csv:'Exportar .CSV'},
+    ar:{txt:'تصدير .TXT',csv:'تصدير .CSV'}, tr:{txt:'.TXT dışa aktar',csv:'.CSV dışa aktar'},
+    ja:{txt:'.TXTを書き出す',csv:'.CSVを書き出す'}, ko:{txt:'.TXT 내보내기',csv:'.CSV 내보내기'},
+    zh:{txt:'导出 .TXT',csv:'导出 .CSV'}, ru:{txt:'Экспорт .TXT',csv:'Экспорт .CSV'},
+    hi:{txt:'.TXT निर्यात करें',csv:'.CSV निर्यात करें'}, nl:{txt:'.TXT exporteren',csv:'.CSV exporteren'},
+    pl:{txt:'Eksportuj .TXT',csv:'Eksportuj .CSV'}, sv:{txt:'Exportera .TXT',csv:'Exportera .CSV'},
+    vi:{txt:'Xuất .TXT',csv:'Xuất .CSV'}, id:{txt:'Ekspor .TXT',csv:'Ekspor .CSV'},
+    th:{txt:'ส่งออก .TXT',csv:'ส่งออก .CSV'}, el:{txt:'Εξαγωγή .TXT',csv:'Εξαγωγή .CSV'},
+    he:{txt:'ייצוא .TXT',csv:'ייצוא .CSV'}, cs:{txt:'Exportovat .TXT',csv:'Exportovat .CSV'},
+    ro:{txt:'Exportă .TXT',csv:'Exportă .CSV'}, da:{txt:'Eksportér .TXT',csv:'Eksportér .CSV'},
+    fi:{txt:'Vie .TXT',csv:'Vie .CSV'}
+  };
+  const exportFormat = exportFormatLabels[language] || exportFormatLabels.en;
 
   const [selectedStyle, setSelectedStyle] = useState('default');
   const [selectedLength, setSelectedLength] = useState<LengthOption>('medium');
@@ -404,7 +420,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
                 title={text.exportTextTitle}
               >
                 <Download className="w-3 h-3 text-cyan-400" />
-                <span>Export .TXT</span>
+                <span>{exportFormat.txt}</span>
               </button>
 
               <button
@@ -413,7 +429,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
                 title={text.exportCsvTitle}
               >
                 <Download className="w-3 h-3 text-purple-400" />
-                <span>Export .CSV</span>
+                <span>{exportFormat.csv}</span>
               </button>
             </div>
           </div>

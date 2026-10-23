@@ -698,13 +698,10 @@ assert(
   'Catalogue search treats hyphens and spaces consistently'
 );
 
-// Generator descriptions must be available in each of the 25 priority UI languages.
-const descriptionSamples = ['fantasy', 'brand', 'book', 'sci-fi']
-  .map((id) => GENERATORS_METADATA[id as keyof typeof GENERATORS_METADATA])
-  .filter(Boolean);
+// Every generator must have a non-empty localized category summary in all 25 priority languages.
 const descriptionCoverageFailures: string[] = [];
 for (const lang of LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES) {
-  for (const meta of descriptionSamples) {
+  for (const meta of ALL_GENERATORS_LIST) {
     const localized = getLocalizedGeneratorDescription(meta, lang as any);
     if (!localized.trim() || (lang !== 'fr' && localized === meta.description)) {
       descriptionCoverageFailures.push(`${lang}/${meta.id}`);
@@ -712,9 +709,12 @@ for (const lang of LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES) {
   }
 }
 assert(
-  LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length === 25 && descriptionCoverageFailures.length === 0,
-  'Generator descriptions have non-empty localized summaries for all 25 priority languages',
-  descriptionCoverageFailures.join(', ') || `${LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length} languages checked`
+  LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length === 25 &&
+    ALL_GENERATORS_LIST.length === 234 &&
+    descriptionCoverageFailures.length === 0,
+  'All 234 generators have non-empty localized summaries in all 25 priority languages',
+  descriptionCoverageFailures.slice(0, 30).join(', ') ||
+    `${ALL_GENERATORS_LIST.length} generators × ${LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length} languages checked`
 );
 
 

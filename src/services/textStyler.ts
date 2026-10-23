@@ -877,7 +877,7 @@ export function renderStyledTextToCanvas(
     ctx.globalCompositeOperation = 'source-atop';
     ctx.globalAlpha = 0.32;
     ctx.fillStyle = pattern;
-    ctx.fillText(text, posX, posY);
+    drawTextWithLetterSpacing(ctx, text, posX, posY, letterSpacing * scale);
     ctx.restore();
   }
 

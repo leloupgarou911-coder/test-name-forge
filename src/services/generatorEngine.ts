@@ -39,67 +39,72 @@ function normalize(s: string): string {
    1. SIMILARITY & LEVENSHTEIN DISTANCE FILTER
 ===================================================================== */
 
+function comparisonKey(value: string): string {
+  // NFC makes canonically equivalent spellings compare equally (e.g. é and e + ◌́).
+  // Normalize punctuation and whitespace without deleting word boundaries.
+  return String(value ?? '')
+    .normalize('NFC')
+    .toLocaleLowerCase()
+    .replace(/[^\p{L}\p{M}\p{N}\p{S}]+/gu, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
+
 export function calculateLevenshteinDistance(a: string, b: string): number {
-  // Work on Unicode code points, not UTF-16 code units, so emoji and other
-  // supplementary characters count as one character each.
-  const left = Array.from(String(a ?? ''), (character) => character.toLocaleLowerCase());
-  const right = Array.from(String(b ?? ''), (character) => character.toLocaleLowerCase());
+  // Compare normalized Unicode code points, not UTF-16 code units.
+  const left = Array.from(comparisonKey(a));
+  const right = Array.from(comparisonKey(b));
   const al = left.length;
   const bl = right.length;
   if (al === 0) return bl;
   if (bl === 0) return al;
 
-  const matrix: number[][] = [];
-  for (let i = 0; i <= al; i++) {
-    matrix[i] = [i];
-  }
-  for (let j = 0; j <= bl; j++) {
-    matrix[0][j] = j;
-  }
-
+  // Two rows are sufficient; this reduces memory from O(n*m) to O(min(n,m)).
+  const row = Array.from({ length: bl + 1 }, (_, index) => index);
   for (let i = 1; i <= al; i++) {
+    let diagonal = row[0];
+    row[0] = i;
     for (let j = 1; j <= bl; j++) {
+      const above = row[j];
       const cost = left[i - 1] === right[j - 1] ? 0 : 1;
-      matrix[i][j] = Math.min(
-        matrix[i - 1][j] + 1, // deletion
-        matrix[i][j - 1] + 1, // insertion
-        matrix[i - 1][j - 1] + cost // substitution
-      );
+      row[j] = Math.min(row[j] + 1, row[j - 1] + 1, diagonal + cost);
+      diagonal = above;
     }
   }
-
-  return matrix[al][bl];
+  return row[bl];
 }
 
 export function isTooSimilar(candidate: string, existingList: string[], keyword?: string): boolean {
-  const candLower = candidate.toLowerCase();
-  const kwLower = keyword ? keyword.trim().toLowerCase() : '';
+  const candLower = comparisonKey(candidate);
+  const kwLower = comparisonKey(keyword || '');
 
   for (const existing of existingList) {
-    const exLower = existing.toLowerCase();
+    const exLower = comparisonKey(existing);
     if (candLower === exLower) return true;
 
-    // If both contain the user's requested keyword, compare after removing it to prevent false positive collisions
+    // Remove the requested keyword from both candidates before comparing their distinct parts.
     let cComp = candLower;
     let eComp = exLower;
-    if (kwLower && kwLower.length >= 2 && cComp.includes(kwLower) && eComp.includes(kwLower)) {
+    if (kwLower && Array.from(kwLower).length >= 2 && cComp.includes(kwLower) && eComp.includes(kwLower)) {
       cComp = cComp.replace(kwLower, '').trim();
       eComp = eComp.replace(kwLower, '').trim();
       if (!cComp || !eComp) return true;
       if (cComp === eComp) return true;
     }
 
-    // Direct substring collision if length >= 4
-    if (cComp.length >= 4 && eComp.length >= 4) {
-      if (cComp.includes(eComp) || eComp.includes(cComp)) {
-        return true;
-      }
+    const cLength = Array.from(cComp).length;
+    const eLength = Array.from(eComp).length;
+    if (cLength >= 4 && eLength >= 4 && (cComp.includes(eComp) || eComp.includes(cComp))) {
+      return true;
     }
 
-    // Levenshtein distance check for short & medium words
+    // Short names (especially CJK names) have little room for safe fuzzy matching.
+    // Keep exact matching for 1–2 character candidates; don't discard valid alternatives.
+    if (Math.min(cLength, eLength) <= 2) continue;
+
     const dist = calculateLevenshteinDistance(cComp, eComp);
-    if (cComp.length <= 5 && dist <= 1) return true;
-    if (cComp.length > 5 && dist <= 2) return true;
+    if (Math.max(cLength, eLength) <= 5 && dist <= 1) return true;
+    if (Math.max(cLength, eLength) > 5 && dist <= 2) return true;
   }
   return false;
 }

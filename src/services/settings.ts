@@ -206,8 +206,21 @@ export function applySettingsToDOM(settings: AppSettings): void {
 
 export function subscribeToSettings(callback: (settings: AppSettings) => void): () => void {
   const handler = () => callback(getAppSettings());
+  const storageHandler = (event: StorageEvent) => {
+    // Synchronize settings changed in another tab without reacting to unrelated storage writes.
+    if (event.key === SETTINGS_KEY || event.key === null) {
+      const settings = getAppSettings();
+      applySettingsToDOM(settings);
+      callback(settings);
+    }
+  };
+
   window.addEventListener('nameforge:settings', handler);
-  return () => window.removeEventListener('nameforge:settings', handler);
+  window.addEventListener('storage', storageHandler);
+  return () => {
+    window.removeEventListener('nameforge:settings', handler);
+    window.removeEventListener('storage', storageHandler);
+  };
 }
 
 function notifySettingsChange() {

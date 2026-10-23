@@ -338,7 +338,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               <NameCard
                 key={item.name}
                 item={item}
-                onUpdate={() => handleQuickForge()}
+                onDataChange={refreshSaved}
               />
             ))}
           </div>

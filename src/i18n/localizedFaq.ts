@@ -28,12 +28,36 @@ const EN_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
   { q: 'How can I report a problem or suggest an improvement?', a: 'You can share suggestions through the project repository or propose new archetypes to consider for future versions.' },
 ];
 
+
+const ES_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+  { q: '¿Cómo funciona un generador de nombres como NameForge?', a: 'NameForge combina raíces lingüísticas, sílabas armoniosas y reglas morfológicas adaptadas a cada universo (fantasía, tecnología, marcas y narrativa). A diferencia de los generadores aleatorios básicos, tiene en cuenta el ritmo, la pronunciación y la relación con el tema.' },
+  { q: '¿Cómo elijo un nombre que encaje de verdad con mi proyecto?', a: 'Primero define el tono que buscas (prestigioso, contundente, misterioso o cercano). Pronuncia el nombre en voz alta para comprobar cómo suena. Adapta también su longitud al uso previsto: corto para una aplicación móvil o más evocador para una saga de libros.' },
+  { q: '¿Cómo puedo crear un nombre original y fácil de recordar?', a: 'Prueba combinaciones de sílabas inesperadas o fusiones sutiles de palabras. Evita los clichés gastados y los números innecesarios. Elige la opción Corta para nombres directos y Media para un resultado equilibrado.' },
+  { q: '¿Cómo evito que se repitan nombres entre generaciones?', a: 'NameForge conserva localmente una memoria móvil de los 100 nombres generados más recientemente. En las siguientes generaciones, filtra las sugerencias recientes para fomentar resultados más variados y novedosos.' },
+  { q: '¿Puedo generar nombres con diferentes idiomas y sonidos?', a: 'Sí. Cada generador dispone de un selector de idioma de generación (francés, inglés, japonés/anime, árabe/oriental, latín/élfico, nórdico y tecnológico). Este selector modifica las raíces fonéticas sin cambiar el idioma de la interfaz del sitio.' },
+  { q: '¿Cómo funcionan los ajustes de estilo y longitud?', a: 'La longitud influye en la estructura: Corta suele producir una o dos sílabas contundentes; Media busca dos o tres sílabas equilibradas; y Larga favorece nombres compuestos o narrativos. El estilo modifica los sonidos predominantes y el arquetipo deseado.' },
+  { q: '¿Cómo puedo copiar, guardar y volver a encontrar mis nombres?', a: 'Cada tarjeta de nombre incluye un botón para copiar con un clic, otro para guardar favoritos y otro para indicar que te gusta. Puedes encontrar los nombres seleccionados en Mis nombres, desde la navegación.' },
+  { q: '¿Cómo funcionan los favoritos, las colecciones y las notas privadas?', a: 'En Mis nombres puedes crear colecciones temáticas para agrupar nombres por proyecto. También puedes añadir notas privadas a nombres individuales para recordar una idea o el papel previsto.' },
+  { q: '¿Cómo se calculan las estrellas y las clasificaciones de los mejores nombres?', a: 'Puedes valorar cada sugerencia de una a cinco estrellas. La lista de los mejores nombres destaca tus creaciones mejor valoradas en este espacio de trabajo, sin inventar votos.' },
+  { q: '¿Puedo exportar o importar mis listas de nombres?', a: 'Sí. En Mis nombres puedes exportar los elementos guardados en JSON (incluidas notas y colecciones) o CSV para hojas de cálculo. También puedes restaurar de forma segura una copia de seguridad JSON anterior.' },
+  { q: '¿Se guardan mis datos personales en mi dispositivo?', a: 'NameForge funciona localmente: no necesitas una cuenta ni una contraseña. Tus nombres guardados, notas y preferencias permanecen en el almacenamiento del navegador.' },
+  { q: '¿Se garantiza que los nombres generados sean únicos en todo el mundo?', a: 'El motor combina numerosas raíces para crear muchas combinaciones poco comunes. Sin embargo, ningún algoritmo puede garantizar una unicidad absoluta en todo el mundo; un nombre podría existir ya por casualidad en otro idioma.' },
+  { q: '¿Puedo usar un nombre generado para mi empresa o producto?', a: 'Las sugerencias se ofrecen sin regalías para usos creativos. Antes de utilizar un nombre comercialmente, consulta los registros de marcas pertinentes para tu sector y jurisdicción, como EUIPO o USPTO.' },
+  { q: '¿Cómo compruebo si un dominio de internet está disponible?', a: 'Introduce el nombre elegido en un registrador de dominios para comprobar si extensiones como .com, .es o .io están disponibles para registrarse.' },
+  { q: '¿Debo comprobar las marcas registradas antes de usar un nombre?', a: 'Sí. Es esencial hacerlo antes de invertir en una marca, un logotipo o el registro de una empresa. NameForge no certifica la disponibilidad legal; ofrece inspiración.' },
+  { q: '¿El sitio funciona en teléfonos y tabletas?', a: 'Sí. La interfaz adaptable está diseñada para utilizarse en teléfonos inteligentes, tabletas y pantallas de ordenador.' },
+  { q: '¿Qué hago si no me gusta un resultado?', a: 'Selecciona Generar nuevos nombres o pulsa G en el teclado. También puedes cambiar el arquetipo, la longitud o el idioma de generación para explorar otro sonido.' },
+  { q: '¿Cómo puedo informar de un problema o sugerir una mejora?', a: 'Puedes compartir sugerencias en el repositorio del proyecto o proponer nuevos arquetipos para considerar en futuras versiones.' },
+];
+
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
-  if (language !== 'en') return COMPREHENSIVE_FAQ_LIST;
+  if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : null;
+  if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
-    ...(EN_FAQ[index] || {}),
+    ...(translations[index] || {}),
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es'] as const;

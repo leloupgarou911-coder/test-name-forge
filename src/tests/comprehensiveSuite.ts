@@ -97,6 +97,20 @@ for (const [language, prefix, label] of [
   assert(localized[0].q.startsWith(prefix), `${label} FAQ does not fall back to the French source`);
 }
 
+
+for (const [language, prefix, label] of [
+  ['sv', 'Hur fungerar', 'Swedish'],
+  ['vi', 'Trình tạo tên', 'Vietnamese'],
+  ['id', 'Bagaimana generator', 'Indonesian'],
+  ['th', 'เครื่องมือสร้างชื่อ', 'Thai'],
+  ['el', 'Πώς λειτουργεί', 'Greek'],
+] as const) {
+  const localized = getLocalizedFaq(language);
+  assert(localized.length === 18, `${label} FAQ preserves all 18 entries`, `Found ${localized.length}`);
+  assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
+  assert(localized[0].q.startsWith(prefix), `${label} FAQ does not fall back to the French source`);
+}
+
 console.log('=====================================================');
 console.log('NAMEFORGE COMPREHENSIVE AUTOMATED TEST SUITE (33+ LOTS)');
 console.log('=====================================================\n');

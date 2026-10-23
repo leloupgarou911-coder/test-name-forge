@@ -383,7 +383,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       {isCopied ? (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          <span>{settings.language === 'fr' ? 'Copié !' : 'Copied!'}</span>
+                          <span>{getStudioLabel(settings.language, 'copied')}</span>
                         </>
                       ) : (
                         <>

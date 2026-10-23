@@ -46,16 +46,16 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   };
   const text = ui[language] || ui.en;
   const exportLabels: Record<string, string[]> = {
-    en: ['Date', 'Generator', 'Style', 'Archetype', 'Tone', 'Description', 'Ideal for', 'Name', 'Pronunciation'],
-    fr: ['Date', 'Générateur', 'Style', 'Archétype', 'Tonalité', 'Description', 'Idéal pour', 'Nom', 'Prononciation'],
-    ar: ['التاريخ', 'المولّد', 'النمط', 'النموذج', 'النبرة', 'الوصف', 'مناسب لـ', 'الاسم', 'النطق'],
-    es: ['Fecha', 'Generador', 'Estilo', 'Arquetipo', 'Tono', 'Descripción', 'Ideal para', 'Nombre', 'Pronunciación'],
-    de: ['Datum', 'Generator', 'Stil', 'Archetyp', 'Ton', 'Beschreibung', 'Ideal für', 'Name', 'Aussprache'],
-    it: ['Data', 'Generatore', 'Stile', 'Archetipo', 'Tono', 'Descrizione', 'Ideale per', 'Nome', 'Pronuncia'],
-    pt: ['Data', 'Gerador', 'Estilo', 'Arquétipo', 'Tom', 'Descrição', 'Ideal para', 'Nome', 'Pronúncia'],
-    tr: ['Tarih', 'Oluşturucu', 'Stil', 'Arketip', 'Ton', 'Açıklama', 'Şunun için ideal', 'Ad', 'Telaffuz'],
-    ja: ['日付', 'ジェネレーター', 'スタイル', 'アーキタイプ', 'トーン', '説明', 'おすすめ用途', '名前', '発音'],
-    ko: ['날짜', '생성기', '스타일', '원형', '어조', '설명', '추천 용도', '이름', '발음'],
+    en: ['Date', 'Generator', 'Style', 'Archetype', 'Tone', 'Description', 'Ideal for', 'Name', 'Pronunciation', 'Name batch'],
+    fr: ['Date', 'Générateur', 'Style', 'Archétype', 'Tonalité', 'Description', 'Idéal pour', 'Nom', 'Prononciation', 'Lot de noms'],
+    ar: ['التاريخ', 'المولّد', 'النمط', 'النموذج', 'النبرة', 'الوصف', 'مناسب لـ', 'الاسم', 'النطق', 'مجموعة أسماء'],
+    es: ['Fecha', 'Generador', 'Estilo', 'Arquetipo', 'Tono', 'Descripción', 'Ideal para', 'Nombre', 'Pronunciación', 'Lote de nombres'],
+    de: ['Datum', 'Generator', 'Stil', 'Archetyp', 'Ton', 'Beschreibung', 'Ideal für', 'Name', 'Aussprache', 'Namensliste'],
+    it: ['Data', 'Generatore', 'Stile', 'Archetipo', 'Tono', 'Descrizione', 'Ideale per', 'Nome', 'Pronuncia', 'Lotto di nomi'],
+    pt: ['Data', 'Gerador', 'Estilo', 'Arquétipo', 'Tom', 'Descrição', 'Ideal para', 'Nome', 'Pronúncia', 'Lote de nomes'],
+    tr: ['Tarih', 'Oluşturucu', 'Stil', 'Arketip', 'Ton', 'Açıklama', 'Şunun için ideal', 'Ad', 'Telaffuz', 'Ad listesi'],
+    ja: ['日付', 'ジェネレーター', 'スタイル', 'アーキタイプ', 'トーン', '説明', 'おすすめ用途', '名前', '発音', '名前一覧'],
+    ko: ['날짜', '생성기', '스타일', '원형', '어조', '설명', '추천 용도', '이름', '발음', '이름 목록'],
   };
   const exportText = exportLabels[language] || exportLabels.en;
 
@@ -140,7 +140,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
     if (!results.length) return;
     const content = [
       `========================================================`,
-      `NameForge — Lot de noms (${meta.title})`,
+      `NameForge — ${exportText[9]} (${meta.title})`,
       `${exportText[0]}: ${new Date().toLocaleString(language)}`,
       `${exportText[1]}: ${generatorId} | ${exportText[2]}: ${selectedStyle}`,
       `========================================================\n`,

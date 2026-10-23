@@ -896,16 +896,25 @@ export function generateSvgCode(
   const effect = VISUAL_EFFECTS.find((e) => e.id === effectId) || VISUAL_EFFECTS[0];
   const width = 800;
   const height = 240;
+  const colors = effect.gradientCSS.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
+  const stops = colors.map((color, index) =>
+    `<stop offset="${colors.length === 1 ? 0 : Math.round((index / (colors.length - 1)) * 100)}%" stop-color="${color}" />`
+  ).join('\n      ');
+  const safeText = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+  const safeFontFamily = fontFamily.replace(/["<>]/g, '');
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
   <defs>
     <linearGradient id="nf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00f0ff" />
-      <stop offset="50%" stop-color="#d946ef" />
-      <stop offset="100%" stop-color="#8b5cf6" />
+      ${stops}
     </linearGradient>
-    <filter id="nf-glow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="nf-glow" x="-25%" y="-25%" width="150%" height="150%">
       <feGaussianBlur stdDeviation="8" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
@@ -914,18 +923,8 @@ export function generateSvgCode(
     </filter>
   </defs>
   ${!isTransparentBg ? `<rect width="100%" height="100%" fill="${effect.bgColor}" />` : ''}
-  <text 
-    x="50%" 
-    y="55%" 
-    font-family="${fontFamily}, system-ui, sans-serif" 
-    font-size="${fontSize}px" 
-    font-weight="900" 
-    text-anchor="middle" 
-    dominant-baseline="middle" 
-    fill="url(#nf-grad)"
-    filter="url(#nf-glow)"
-  >
-    ${text}
-  </text>
+  <text x="50%" y="55%" font-family="${safeFontFamily}, system-ui, sans-serif"
+    font-size="${fontSize}px" font-weight="900" text-anchor="middle"
+    dominant-baseline="middle" fill="url(#nf-grad)" filter="url(#nf-glow)">${safeText}</text>
 </svg>`.trim();
 }

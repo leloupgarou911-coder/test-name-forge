@@ -396,7 +396,7 @@ assert(
 // -----------------------------------------------------------------------------
 console.log('\n--- LOT 5: TEXT STYLER, UNICODE & RTL ---');
 
-import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS, generateSvgCode } from '../services/textStyler';
+import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS } from '../services/textStyler';
 import { SUPPORTED_LANGUAGES, getAppSettings } from '../services/settings';
 import { getStudioLabel } from '../i18n/studio';
 

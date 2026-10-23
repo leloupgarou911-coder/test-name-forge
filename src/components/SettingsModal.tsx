@@ -91,13 +91,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm font-bold text-slate-100">
                 <Globe className="w-4 h-4 text-cyan-400" />
-                <h3>{t.languageTitle} ({FULL_TRANSLATION_LANGUAGES.length} langues complètes / {SUPPORTED_LANGUAGES.length} disponibles)</h3>
+                <h3>{t.languageTitle} ({FULL_TRANSLATION_LANGUAGES.length} / {SUPPORTED_LANGUAGES.length})</h3>
               </div>
               <span className="text-[11px] font-semibold text-purple-300">
-                Active : {SUPPORTED_LANGUAGES.find(l => l.code === settings.language)?.native}
+                {SUPPORTED_LANGUAGES.find(l => l.code === settings.language)?.native}
               </span>
             </div>
-            <p className="text-slate-400 leading-relaxed">{t.languageDesc} {FULL_TRANSLATION_LANGUAGES.length} langues disposent d’une interface traduite ; les autres utilisent actuellement une langue de secours.</p>
+            <p className="text-slate-400 leading-relaxed">{t.languageDesc}</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 max-h-56 overflow-y-auto pr-1">
               {SUPPORTED_LANGUAGES.map((lang) => {
                 const isActive = settings.language === lang.code;

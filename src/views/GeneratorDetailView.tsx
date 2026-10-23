@@ -621,7 +621,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
       {/* Other generators slider/switcher */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 border-t border-slate-800">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 text-center">
-          Explorer d’autres catégories
+          {text.explore}
         </h3>
         <div className="flex flex-wrap items-center justify-center gap-2">
           {ALL_GENERATORS_LIST.filter((g) => g.id !== generatorId).slice(0, 10).map((g) => (

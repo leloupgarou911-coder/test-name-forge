@@ -125,6 +125,27 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
     downloadCanvasAsPng(canvasRef.current, inputText || 'styled_name');
   };
 
+  const copyToClipboard = async (value: string): Promise<void> => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return;
+    }
+
+    // Clipboard API may be unavailable on older browsers or non-secure origins.
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    if (!copied) {
+      throw new Error('Clipboard copy is not supported in this browser.');
+    }
+  };
+
   const handleCopySvg = async () => {
     const code = generateSvgCode(
       inputText || 'NameForge',
@@ -135,13 +156,11 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       isTransparent
     );
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(code);
-      }
+      await copyToClipboard(code);
       setSvgCopied(true);
       setTimeout(() => setSvgCopied(false), 1500);
     } catch (e) {
-      console.error(e);
+      console.error('Failed to copy SVG', e);
     }
   };
 
@@ -159,9 +178,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   filter: drop-shadow(${currentEffect.textShadowCSS.split(',')[0]});
 }`;
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(cssCode);
-      }
+      await copyToClipboard(cssCode);
       setCssCopied(true);
       setTimeout(() => setCssCopied(false), 1500);
     } catch (e) {

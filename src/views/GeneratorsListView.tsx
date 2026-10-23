@@ -43,7 +43,7 @@ export const GeneratorsListView: React.FC<GeneratorsListViewProps> = ({ onNaviga
     const searchableFields = [
       gen.id,
       gen.title,
-      getLocalizedGeneratorDescription(gen, settings.language),
+      getLocalizedGeneratorDescription(gen, language),
       gen.shortTitle,
       gen.badge,
       gen.generatorTitle,
@@ -103,7 +103,7 @@ export const GeneratorsListView: React.FC<GeneratorsListViewProps> = ({ onNaviga
                 <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300">{gen.badge}</span>
               </div>
               <h2 className="text-lg font-black text-white group-hover:text-cyan-300 transition mb-2">{gen.title}</h2>
-              <p className="text-xs text-slate-400 leading-relaxed min-h-[48px] line-clamp-3">{getLocalizedGeneratorDescription(gen, settings.language)}</p>
+              <p className="text-xs text-slate-400 leading-relaxed min-h-[48px] line-clamp-3">{getLocalizedGeneratorDescription(gen, language)}</p>
             </div>
             <div className="pt-6 mt-4 border-t border-slate-800/80 flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-500 uppercase">{categoryLabel(gen.category, gen.category)}</span>

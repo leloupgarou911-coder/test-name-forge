@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomeView } from './views/HomeView';
-import { GeneratorsListView } from './views/GeneratorsListView';
-import { GeneratorDetailView } from './views/GeneratorDetailView';
-import { MyNamesView } from './views/MyNamesView';
-import { StyleStudioView } from './views/StyleStudioView';
+const GeneratorsListView = lazy(() => import('./views/GeneratorsListView').then((module) => ({ default: module.GeneratorsListView })));
+const GeneratorDetailView = lazy(() => import('./views/GeneratorDetailView').then((module) => ({ default: module.GeneratorDetailView })));
+const MyNamesView = lazy(() => import('./views/MyNamesView').then((module) => ({ default: module.MyNamesView })));
+const StyleStudioView = lazy(() => import('./views/StyleStudioView').then((module) => ({ default: module.StyleStudioView })));
 import { GeneratorId } from './types';
 import { GENERATORS_METADATA, ALL_GENERATORS_LIST } from './data/generators';
 import { applySettingsToDOM, getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from './services/settings';
@@ -184,13 +184,23 @@ export const App: React.FC = () => {
 
       <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>
         {currentView === 'home' && <HomeView onNavigate={handleNavigate} />}
-        {currentView === 'generators' && <GeneratorsListView onNavigate={handleNavigate} />}
-        {currentView === 'generator-detail' && (
-          <GeneratorDetailView generatorId={currentGenerator} onNavigate={handleNavigate} />
-        )}
-        {currentView === 'my-names' && <MyNamesView onNavigate={handleNavigate} />}
-        {currentView === 'style-studio' && (
-          <StyleStudioView onNavigate={handleNavigate} initialText={styleStudioText} />
+        {currentView !== 'home' && (
+          <Suspense
+            fallback={
+              <div className="flex min-h-[40vh] items-center justify-center px-6" role="status" aria-live="polite">
+                <span className="text-sm text-slate-500">Loading NameForge…</span>
+              </div>
+            }
+          >
+            {currentView === 'generators' && <GeneratorsListView onNavigate={handleNavigate} />}
+            {currentView === 'generator-detail' && (
+              <GeneratorDetailView generatorId={currentGenerator} onNavigate={handleNavigate} />
+            )}
+            {currentView === 'my-names' && <MyNamesView onNavigate={handleNavigate} />}
+            {currentView === 'style-studio' && (
+              <StyleStudioView onNavigate={handleNavigate} initialText={styleStudioText} />
+            )}
+          </Suspense>
         )}
       </main>
 

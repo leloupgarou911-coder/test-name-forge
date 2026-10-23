@@ -196,14 +196,17 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
   const handleCopyCss = async () => {
     const currentEffect = VISUAL_EFFECTS.find((e) => e.id === selectedEffect) || VISUAL_EFFECTS[0];
-    const cssCode = `/* NameForge Styled Typography: ${currentEffect.name} */
+    const currentTexture = TEXTURE_FILLS.find((texture) => texture.id === selectedTexture) || TEXTURE_FILLS[0];
+    const cssCode = `/* NameForge Styled Typography: ${currentEffect.name} + ${currentTexture.name} */
 .styled-text {
   font-family: ${fontFamily};
   font-size: ${fontSize}px;
   font-weight: 800;
   letter-spacing: ${letterSpacing}px;
-  background: ${currentEffect.gradientCSS};
+  background: ${currentTexture.cssBackground};
+  background-clip: text;
   -webkit-background-clip: text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(${currentEffect.textShadowCSS.split(',')[0]});
 }`;

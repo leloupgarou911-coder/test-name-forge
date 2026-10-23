@@ -145,9 +145,9 @@ try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
     const pageErrors = [];
     page.on('pageerror', (error) => pageErrors.push(error.message));
-    await page.addInitScript((selectedLanguage) => {
-      localStorage.setItem('nameforge_settings', JSON.stringify({ language: selectedLanguage, theme, defaultGenLanguage: 'auto', textSize: 'normal' }));
-    }, language);
+    await page.addInitScript(({ selectedLanguage, selectedTheme }) => {
+      localStorage.setItem('nameforge_settings', JSON.stringify({ language: selectedLanguage, theme: selectedTheme, defaultGenLanguage: 'auto', textSize: 'normal' }));
+    }, { selectedLanguage: language, selectedTheme: theme });
     const response = await page.goto(baseUrl, { waitUntil: 'networkidle', timeout: 45000 });
     await page.waitForTimeout(300);
     const state = await page.evaluate(() => ({ text: (document.body?.innerText || '').trim(), width: document.documentElement.scrollWidth, viewport: window.innerWidth }));

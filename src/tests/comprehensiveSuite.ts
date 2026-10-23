@@ -3,6 +3,7 @@ import { SUBCATEGORIES_DATA } from '../data/subcategories';
 import { generateNames, isTooSimilar, calculateLevenshteinDistance, scoreCandidate } from '../services/generatorEngine';
 import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
+import { normalizeSearchText } from '../services/search';
 
 declare const process: { exit: (code: number) => void };
 
@@ -598,6 +599,20 @@ assert(
     !literaryPrefixes.some((prefix) => incompleteLiteraryPrefixes.includes(prefix)),
   'Default literary titles use complete, grammatically compatible templates',
   `Prefixes: ${literaryPrefixes.length}; suffixes: ${literarySuffixes.length}`
+);
+
+// Search regressions: accents, case, and separators should not block discovery.
+assert(
+  normalizeSearchText('Prénoms de bébé') === normalizeSearchText('PRENOMS DE BEBE'),
+  'Catalogue search ignores accents and letter case'
+);
+assert(
+  normalizeSearchText('baby_name') === normalizeSearchText('Baby name'),
+  'Catalogue search treats underscores and spaces consistently'
+);
+assert(
+  normalizeSearchText('dragon-fantasy') === normalizeSearchText('Dragon fantasy'),
+  'Catalogue search treats hyphens and spaces consistently'
 );
 
 // -----------------------------------------------------------------------------

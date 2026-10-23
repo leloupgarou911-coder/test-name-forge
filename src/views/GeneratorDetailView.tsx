@@ -66,6 +66,17 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   const [selectedGenLanguage, setSelectedGenLanguage] = useState<GenLanguageCode>(
     settings.defaultGenLanguage || 'auto'
   );
+  const previousDefaultGenLanguage = useRef<GenLanguageCode>(settings.defaultGenLanguage || 'auto');
+
+  // The interface language and the generated-name language are independent.
+  // Only update the generator selector when its dedicated preference changes.
+  useEffect(() => subscribeToSettings((next) => {
+    const nextDefault = next.defaultGenLanguage || 'auto';
+    if (nextDefault !== previousDefaultGenLanguage.current) {
+      previousDefaultGenLanguage.current = nextDefault;
+      setSelectedGenLanguage(nextDefault);
+    }
+  }), []);
   const [quantity, setQuantity] = useState(9);
   const [keyword, setKeyword] = useState('');
   const [results, setResults] = useState<GeneratedName[]>([]);

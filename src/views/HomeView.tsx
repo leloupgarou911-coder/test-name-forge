@@ -226,8 +226,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     return localizedFaq.filter((item) => item.category === faqCategory);
   }, [faqCategory, localizedFaq]);
 
+  const isRtlLanguage = ['ar', 'he', 'fa', 'ur', 'ps'].includes(settings.language);
+
   return (
-    <div className="space-y-24 pb-20 overflow-hidden">
+    <div dir={isRtlLanguage ? 'rtl' : 'ltr'} lang={settings.language} className="space-y-24 pb-20 overflow-hidden">
       {/* ========================================================
           1. SECTION HERO & INTRODUCTION
       ========================================================= */}

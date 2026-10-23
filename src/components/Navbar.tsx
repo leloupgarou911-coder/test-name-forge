@@ -72,7 +72,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               setMobileMenuOpen(false);
             }}
             className="cursor-pointer text-left focus:outline-none py-1"
-            aria-label="NameForge Accueil"
+            aria-label={settings.language === 'fr' ? 'NameForge Accueil' : 'NameForge Home'}
           >
             <Logo size="lg" />
           </button>
@@ -171,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Search className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Catalogue</span>
+              <span>{settings.language === 'fr' ? 'Catalogue' : 'Catalog'}</span>
             </button>
 
             {/* Random Generator Quick Button */}
@@ -184,7 +184,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               title={settings.language === 'fr' ? `Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}` : `Open a random generator from ${ALL_GENERATORS_LIST.length}`}
             >
               <Dices className="w-3.5 h-3.5 text-amber-400" />
-              <span>🎲 Aléatoire</span>
+              <span>🎲 {settings.language === 'fr' ? 'Aléatoire' : 'Random'}</span>
             </button>
 
             {/* Typography / Style Studio */}
@@ -226,7 +226,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setShowLangModal(true)}
               className="h-10 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700/80 text-xs sm:text-sm font-bold text-slate-200 hover:text-white flex items-center gap-2 transition cursor-pointer shadow-sm hover:border-purple-500/60"
               title={settings.language === 'fr' ? `Changer la langue (${SUPPORTED_LANGUAGES.length} langues disponibles)` : `Change language (${SUPPORTED_LANGUAGES.length} languages available)`}
-              aria-label="Changer la langue"
+              aria-label={settings.language === 'fr' ? 'Changer la langue' : 'Change language'}
             >
               <Globe className="w-4 h-4 text-cyan-400" />
               <span className="text-base">{currentLangMeta.flag}</span>
@@ -302,7 +302,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-full text-left py-2 px-3 rounded-xl text-sm font-semibold text-amber-300 hover:bg-slate-800 flex items-center gap-2"
             >
               <Dices className="w-4 h-4 text-amber-400" />
-              <span>Générateur Aléatoire (🎲 Surprenez-moi)</span>
+              <span>{settings.language === 'fr' ? 'Générateur aléatoire (🎲 Surprenez-moi)' : 'Random generator (🎲 Surprise me)'}</span>
             </button>
 
             <button
@@ -343,10 +343,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <span className="flex items-center gap-2">
                 <Globe className="w-4 h-4 text-cyan-400" />
-                <span>Langue : {currentLangMeta.flag} {currentLangMeta.native}</span>
+                <span>{settings.language === 'fr' ? 'Langue :' : 'Language:'} {currentLangMeta.flag} {currentLangMeta.native}</span>
               </span>
               <span className="text-xs bg-cyan-600/20 text-cyan-300 px-2 py-0.5 rounded-full font-bold">
-                80 langues
+                {SUPPORTED_LANGUAGES.length} {settings.language === 'fr' ? 'langues' : 'languages'}
               </span>
             </button>
 

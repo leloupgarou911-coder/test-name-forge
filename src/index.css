@@ -101,6 +101,39 @@
     border-color: #e2e8f0 !important;
   }
 
+  /* Additional dark surfaces used by the Studio and generator panels */
+  html.light [class~="bg-[#0d1424]"],
+  html.light [class~="bg-[#0d1424]/95"],
+  html.light [class~="bg-[#0d1424]/90"],
+  html.light [class~="bg-[#0d1422]"],
+  html.light [class~="bg-[#0d1422]/90"],
+  html.light [class~="bg-[#111827]"],
+  html.light [class~="bg-[#111827]/80"],
+  html.light [class~="bg-[#090e1c]"],
+  html.light [class~="bg-[#090e1c]/90"] {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.05) !important;
+  }
+
+  /* Dark utility text must remain readable on light surfaces */
+  html.light [class~="text-white"],
+  html.light [class~="text-slate-50"] {
+    color: #1e293b;
+  }
+
+  /* Keep white foreground only on explicitly saturated primary actions */
+  html.light button[class*="bg-purple-600"],
+  html.light button[class*="bg-indigo-600"],
+  html.light button[class*="bg-cyan-600"],
+  html.light a[class*="bg-purple-600"],
+  html.light a[class*="bg-indigo-600"],
+  html.light a[class*="bg-cyan-600"],
+  html.light [class*="bg-gradient-to-r"].text-white {
+    color: #ffffff !important;
+  }
+
   /* Inputs and dropdowns */
   html.light input,
   html.light select,

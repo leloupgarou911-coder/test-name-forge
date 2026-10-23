@@ -836,14 +836,26 @@ export function renderStyledTextToCanvas(
     ctx.strokeText(text, posX, posY);
   }
 
-  // Create clipping mask using pattern
+  // Base color comes from the selected visual effect, not a fixed neon gradient.
+  // Parse the preset's CSS hex colors so Canvas and the preview/export share the same palette.
+  const gradient = ctx.createLinearGradient(0, 0, width, height);
+  const gradientStops = effect.gradientCSS.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
+  gradientStops.forEach((color, index) => {
+    gradient.addColorStop(gradientStops.length === 1 ? 0 : index / (gradientStops.length - 1), color);
+  });
+  ctx.fillStyle = gradient;
+  ctx.fillText(text, posX, posY);
+
+  // Apply the selected texture as a subtle clipped overlay inside the glyphs.
+  // source-atop keeps the texture within the text shape, preserving transparent backgrounds.
   const pattern = ctx.createPattern(offscreen, 'no-repeat');
   if (pattern) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.globalAlpha = 0.32;
     ctx.fillStyle = pattern;
     ctx.fillText(text, posX, posY);
-  } else {
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(text, posX, posY);
+    ctx.restore();
   }
 
   // Specular top highlight pass

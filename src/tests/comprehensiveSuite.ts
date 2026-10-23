@@ -47,6 +47,12 @@ assert(faqGerman.every((item) => item.q.trim() && item.a.trim()), 'Every German 
 assert(faqGerman[0].q.startsWith('Wie funktioniert'), 'German FAQ does not display French or English source text');
 assert(faqGerman.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does')), 'German FAQ avoids French and English fallback entries');
 
+const faqItalian = getLocalizedFaq('it');
+assert(faqItalian.length === 18, 'Italian FAQ preserves all 18 FAQ entries', `Found ${faqItalian.length}`);
+assert(faqItalian.every((item) => item.q.trim() && item.a.trim()), 'Every Italian FAQ entry has a question and answer');
+assert(faqItalian[0].q.startsWith('Come funziona'), 'Italian FAQ does not display French or English source text');
+assert(faqItalian.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('Wie funktioniert')), 'Italian FAQ avoids French, English, and German fallback entries');
+
 console.log('=====================================================');
 console.log('NAMEFORGE COMPREHENSIVE AUTOMATED TEST SUITE (33+ LOTS)');
 console.log('=====================================================\n');

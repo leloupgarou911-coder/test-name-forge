@@ -517,7 +517,7 @@ export function scoreCandidate(
 
   // Apply Latin phonetic heuristics only when the name contains Latin letters.
   // Vowel ratios are not meaningful for Arabic, Chinese, Japanese, etc.
-  const hasLatinLetters = /\\p{Script=Latin}/u.test(name);
+  const hasLatinLetters = /\p{Script=Latin}/u.test(name);
   if (hasLatinLetters) {
     const vowels = (name.match(/[aeiouyAEIOUYà-ÿ]/gi) || []).length;
     const consonants = (name.match(/[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]/gi) || []).length;

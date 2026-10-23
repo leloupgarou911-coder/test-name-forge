@@ -297,7 +297,8 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
     quantity,
   ]);
 
-  const isRtlLanguage = language === 'ar' || language === 'he';
+  // Keep all supported right-to-left scripts aligned with the app's language registry.
+  const isRtlLanguage = ['ar', 'he', 'fa', 'ur', 'ps'].includes(language);
 
   return (
     <div dir={isRtlLanguage ? 'rtl' : 'ltr'} lang={language} className="space-y-16 pb-20">

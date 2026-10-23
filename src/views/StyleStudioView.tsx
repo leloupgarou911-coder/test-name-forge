@@ -91,6 +91,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   const [inputText, setInputText] = useState(initialText);
   const [activeTab, setActiveTab] = useState<'unicode' | 'effects' | 'textures' | 'export'>('unicode');
   const [selectedEffect, setSelectedEffect] = useState(VISUAL_EFFECTS[0].id);
+  const [selectedUnicodeStyle, setSelectedUnicodeStyle] = useState<string | null>(null);
   const [selectedTexture, setSelectedTexture] = useState(TEXTURE_FILLS[0].id);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedGeneral, setCopiedGeneral] = useState(false);
@@ -119,11 +120,15 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
     }
   }, [initialText]);
 
+  // Keep Unicode styling, visual effects, textures and HD exports on one shared text source.
+  const selectedUnicode = UNICODE_STYLES.find((style) => style.id === selectedUnicodeStyle);
+  const canvasText = selectedUnicode ? selectedUnicode.transform(inputText || 'NameForge') : (inputText || 'NameForge');
+
   // Redraw canvas whenever parameters change
   useEffect(() => {
     if (!canvasRef.current) return;
     renderStyledTextToCanvas(canvasRef.current, {
-      text: inputText || 'NameForge',
+      text: canvasText,
       fontSize,
       fontFamily,
       letterSpacing,
@@ -132,7 +137,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       isTransparentBg: isTransparent,
       scale: exportScale,
     });
-  }, [inputText, fontSize, fontFamily, letterSpacing, selectedEffect, selectedTexture, isTransparent, exportScale, activeTab]);
+  }, [canvasText, fontSize, fontFamily, letterSpacing, selectedEffect, selectedTexture, isTransparent, exportScale, activeTab]);
 
   const handleCopyText = async (textToCopy: string, id: string) => {
     try {
@@ -172,7 +177,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
   const handleCopySvg = async () => {
     const code = generateSvgCode(
-      inputText || 'NameForge',
+      canvasText,
       fontSize,
       fontFamily,
       selectedEffect,
@@ -391,18 +396,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
               return (
                 <div
                   key={style.id}
-                  onClick={() => handleCopyText(styledText, style.id)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      void handleCopyText(styledText, style.id);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${getStudioLabel(settings.language, 'clickToCopy')}: ${style.name}`}
-                  aria-describedby={`studio-style-${style.id}-preview`}
-                  className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
+                  className={`p-5 rounded-2xl bg-[#0f172a] border transition-all group flex flex-col justify-between shadow-md ${selectedUnicodeStyle === style.id ? 'border-purple-500 ring-2 ring-purple-500/30' : 'border-slate-800 hover:border-purple-500/70'}`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
@@ -419,29 +413,24 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                    <span className="text-slate-500 group-hover:text-slate-400 font-medium">
-                      {getStudioLabel(settings.language, 'clickToCopy')}
-                    </span>
-                    <span aria-hidden="true"
-                      className={`px-3 py-1 rounded-xl font-bold flex items-center gap-1.5 transition ${
-                        isCopied
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                          : 'bg-purple-600/20 text-purple-300 group-hover:bg-purple-600 group-hover:text-white'
-                      }`}
+                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => void handleCopyText(styledText, style.id)}
+                      className={`px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 transition ${isCopied ? 'bg-emerald-500/20 text-emerald-700 border border-emerald-500/40' : 'bg-purple-600/20 text-purple-300 hover:bg-purple-600 hover:text-white'}`}
                     >
-                      {isCopied ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>{getStudioLabel(settings.language, 'copied')}</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>{getStudioLabel(settings.language, 'copy')}</span>
-                        </>
-                      )}
-                    </span>
+                      {isCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{isCopied ? getStudioLabel(settings.language, 'copied') : getStudioLabel(settings.language, 'copy')}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setSelectedUnicodeStyle(style.id); setActiveTab('export'); }}
+                      aria-pressed={selectedUnicodeStyle === style.id}
+                      className="px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 bg-cyan-600/20 text-cyan-700 hover:bg-cyan-600 hover:text-white border border-cyan-500/30 transition"
+                    >
+                      <Wand2 className="w-3.5 h-3.5" />
+                      <span>{getStudioLabel(settings.language, 'applyToCanvas')}</span>
+                    </button>
                   </div>
                 </div>
               );

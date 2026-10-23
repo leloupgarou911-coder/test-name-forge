@@ -198,6 +198,31 @@ assert(
   'Baby names in classic mode are certified historical with isAttested: true'
 );
 
+// Test: Baby-name keyword filters must never silently return unrelated names.
+const impossibleBabyKeyword = generateNames({
+  generatorId: 'baby_name',
+  keyword: 'NameForgeKeywordThatCannotMatchAnyAttestedEntry',
+  quantity: 5,
+});
+assert(
+  impossibleBabyKeyword.length === 0,
+  'Baby-name keyword search returns no unrelated fallback names when there are no matches',
+  `Unexpected names: ${impossibleBabyKeyword.map((b) => b.name).join(', ')}`
+);
+
+// Test: Gender filters remain enforced even when the preferred length has no matches.
+const strictGenderBabies = generateNames({
+  generatorId: 'baby_name',
+  gender: 'female',
+  length: 'long',
+  quantity: 8,
+});
+assert(
+  strictGenderBabies.every((b) => b.gender !== 'male'),
+  'Baby-name fallback may relax length only, never the selected gender',
+  `Unexpected male names: ${strictGenderBabies.filter((b) => b.gender === 'male').map((b) => b.name).join(', ')}`
+);
+
 // Test 16: Quantity parameter accuracy for 1, 5, 12, 18
 const q1 = generateNames({ generatorId: 'fantasy', quantity: 1 });
 const q5 = generateNames({ generatorId: 'fantasy', quantity: 5 });

@@ -720,8 +720,12 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
     if (pool.length === 0) pool = semanticPool;
     if (pool.length === 0) return [];
 
-    // Shuffle and pick unique names
-    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    // Unbiased Fisher–Yates shuffle; Array.sort(Math.random) is not a valid shuffle.
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
 
     for (const item of shuffled) {
       if (out.length >= quantity) break;
@@ -783,6 +787,11 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
       addGenerationHistory(out);
       return out;
     }
+
+    // Never fall through to invented-name strategies for the baby-name category.
+    // If every matching attested name is in recent history, return an honest empty
+    // result rather than presenting a procedural invention as a real given name.
+    return [];
   }
 
   // =========================================================================

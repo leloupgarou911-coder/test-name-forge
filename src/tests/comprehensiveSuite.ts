@@ -288,6 +288,24 @@ assert(
   'isTooSimilar does not falsely reject distinct candidates that share the requested keyword'
 );
 
+// Unicode normalization, punctuation, and whitespace should not bypass duplicate detection.
+assert(
+  isTooSimilar('Café Nova', ['Café Nova']) === true,
+  'Similarity filtering recognizes canonically equivalent accented text'
+);
+assert(
+  isTooSimilar('Aero-Vance', ['Aero Vance']) === true,
+  'Similarity filtering recognizes punctuation-only name variants'
+);
+assert(
+  isTooSimilar('星辰', ['星辰']) === true && isTooSimilar('星辰', ['星月']) === false,
+  'Similarity filtering distinguishes exact CJK matches from distinct names'
+);
+assert(
+  calculateLevenshteinDistance('Café', 'Café') === 0,
+  'Levenshtein distance normalizes combining accents before comparison'
+);
+
 // -----------------------------------------------------------------------------
 // LOT 4: FULL CATALOG AUDIT OF ALL 234 GENERATORS (Tests 26 - 33)
 // -----------------------------------------------------------------------------

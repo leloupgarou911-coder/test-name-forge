@@ -71,6 +71,12 @@ assert(faqTurkish.every((item) => item.q.trim() && item.a.trim()), 'Every Turkis
 assert(faqTurkish[0].q.startsWith('NameForge gibi'), 'Turkish FAQ does not display French or English source text');
 assert(faqTurkish.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('Wie funktioniert') && !item.q.startsWith('Come funziona') && !item.q.startsWith('Hoe werkt')), 'Turkish FAQ avoids known untranslated fallback entries');
 
+const faqArabic = getLocalizedFaq('ar');
+assert(faqArabic.length === 18, 'Arabic FAQ preserves all 18 FAQ entries', `Found ${faqArabic.length}`);
+assert(faqArabic.every((item) => item.q.trim() && item.a.trim()), 'Every Arabic FAQ entry has a question and answer');
+assert(faqArabic[0].q.startsWith('كيف يعمل'), 'Arabic FAQ does not display French or English source text');
+assert(faqArabic.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('NameForge gibi')), 'Arabic FAQ avoids known untranslated fallback entries');
+
 console.log('=====================================================');
 console.log('NAMEFORGE COMPREHENSIVE AUTOMATED TEST SUITE (33+ LOTS)');
 console.log('=====================================================\n');

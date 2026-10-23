@@ -15,7 +15,7 @@ import {
   LengthOption,
   SavedNameEntry,
 } from '../types';
-import { getAppSettings } from '../services/settings';
+import { getAppSettings, subscribeToSettings } from '../services/settings';
 
 interface GeneratorDetailViewProps {
   generatorId: GeneratorId;
@@ -28,6 +28,23 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
 }) => {
   const meta = GENERATORS_METADATA[generatorId] || GENERATORS_METADATA.fantasy;
   const settings = getAppSettings();
+  const [language, setLanguage] = useState(settings.language);
+
+  useEffect(() => subscribeToSettings((next) => setLanguage(next.language)), []);
+
+  const ui: Record<string, Record<string, string>> = {
+    en: { back: 'Back to all generators', proposals: 'names generated', inspired: 'Inspired by:', copyAllTitle: 'Copy the full list with descriptions', copiedBatch: 'Batch copied!', copyBatch: 'Copy batch', exportTextTitle: 'Download this batch as text', exportCsvTitle: 'Download this batch as CSV spreadsheet', tip: 'Tip: Press', tipEnd: 'to forge a new batch instantly.', leaderboard: 'INDEPENDENT LEADERBOARD', bestNames: 'Your Top Rated Names', leaderboardDesc: 'Ranked strictly by your 1–5 star ratings for this category.', ratedCount: 'rated suggestion(s)', stars: 'stars', copied: 'Copied', copy: 'Copy', noRatings: 'No ratings yet for', noRatingsDesc: 'Rate the names above to build your personal leaderboard for this generator.', advantages: 'Key Advantages', limits: 'Points to Consider', explore: 'Explore other categories' },
+    fr: { back: 'Retour à tous les générateurs', proposals: 'propositions façonnées', inspired: 'Inspiré de :', copyAllTitle: 'Copier toute la liste avec descriptions', copiedBatch: 'Lot copié !', copyBatch: 'Copier tout le lot', exportTextTitle: 'Télécharger ce lot au format texte', exportCsvTitle: 'Télécharger ce lot au format tableur CSV', tip: 'Astuce : appuyez sur', tipEnd: 'pour forger un nouveau lot instantanément.', leaderboard: 'PALMARÈS INDÉPENDANT', bestNames: 'Vos meilleurs noms évalués', leaderboardDesc: 'Classement basé sur vos notes de 1 à 5 étoiles pour cette catégorie.', ratedCount: 'proposition(s) notée(s)', stars: 'étoiles', copied: 'Copié', copy: 'Copier', noRatings: 'Pas encore d’évaluation pour', noRatingsDesc: 'Attribuez des étoiles aux noms générés ci-dessus pour bâtir votre palmarès personnel.', advantages: 'Avantages clés', limits: 'Points de vigilance', explore: '{text.explore}' },
+    ar: { back: 'العودة إلى جميع المولدات', proposals: 'أسماء تم إنشاؤها', inspired: 'مستوحى من:', copyAllTitle: 'نسخ القائمة كاملة مع الأوصاف', copiedBatch: 'تم نسخ المجموعة!', copyBatch: 'نسخ المجموعة', exportTextTitle: 'تنزيل المجموعة كملف نصي', exportCsvTitle: 'تنزيل المجموعة كجدول CSV', tip: 'نصيحة: اضغط على', tipEnd: 'لإنشاء مجموعة جديدة فورًا.', leaderboard: 'قائمة التقييم المستقلة', bestNames: 'الأسماء الأعلى تقييمًا', leaderboardDesc: 'ترتيب وفق تقييماتك من نجمة إلى خمس نجوم لهذه الفئة.', ratedCount: 'اقتراحات مقيّمة', stars: 'نجوم', copied: 'تم النسخ', copy: 'نسخ', noRatings: 'لا توجد تقييمات بعد لـ', noRatingsDesc: 'قيّم الأسماء أعلاه لبناء قائمتك الشخصية لهذا المولد.', advantages: 'المزايا الرئيسية', limits: 'نقاط يجب مراعاتها', explore: 'استكشف فئات أخرى' },
+    es: { back: 'Volver a todos los generadores', proposals: 'nombres generados', inspired: 'Inspirado en:', copyAllTitle: 'Copiar la lista completa con descripciones', copiedBatch: '¡Lote copiado!', copyBatch: 'Copiar lote', exportTextTitle: 'Descargar este lote como texto', exportCsvTitle: 'Descargar este lote como hoja CSV', tip: 'Consejo: pulsa', tipEnd: 'para crear un lote nuevo al instante.', leaderboard: 'CLASIFICACIÓN INDEPENDIENTE', bestNames: 'Tus nombres mejor valorados', leaderboardDesc: 'Clasificación basada en tus valoraciones de 1 a 5 estrellas para esta categoría.', ratedCount: 'propuesta(s) valorada(s)', stars: 'estrellas', copied: 'Copiado', copy: 'Copiar', noRatings: 'Aún no hay valoraciones para', noRatingsDesc: 'Valora los nombres anteriores para crear tu clasificación personal.', advantages: 'Ventajas principales', limits: 'Aspectos a tener en cuenta', explore: 'Explorar otras categorías' },
+    de: { back: 'Zurück zu allen Generatoren', proposals: 'Namen erstellt', inspired: 'Inspiriert von:', copyAllTitle: 'Gesamte Liste mit Beschreibungen kopieren', copiedBatch: 'Stapel kopiert!', copyBatch: 'Stapel kopieren', exportTextTitle: 'Stapel als Text herunterladen', exportCsvTitle: 'Stapel als CSV-Tabelle herunterladen', tip: 'Tipp: Drücke', tipEnd: ', um sofort einen neuen Stapel zu erstellen.', leaderboard: 'UNABHÄNGIGE RANGLISTE', bestNames: 'Deine bestbewerteten Namen', leaderboardDesc: 'Rangliste anhand deiner Bewertungen von 1 bis 5 Sternen für diese Kategorie.', ratedCount: 'bewertete Vorschläge', stars: 'Sterne', copied: 'Kopiert', copy: 'Kopieren', noRatings: 'Noch keine Bewertungen für', noRatingsDesc: 'Bewerte die Namen oben, um deine persönliche Rangliste aufzubauen.', advantages: 'Wichtige Vorteile', limits: 'Zu beachten', explore: 'Weitere Kategorien entdecken' },
+    it: { back: 'Torna a tutti i generatori', proposals: 'nomi generati', inspired: 'Ispirato da:', copyAllTitle: 'Copiare l’elenco completo con descrizioni', copiedBatch: 'Lotto copiato!', copyBatch: 'Copia lotto', exportTextTitle: 'Scarica il lotto come testo', exportCsvTitle: 'Scarica il lotto come foglio CSV', tip: 'Suggerimento: premi', tipEnd: 'per creare subito un nuovo lotto.', leaderboard: 'CLASSIFICA INDIPENDENTE', bestNames: 'I tuoi nomi più votati', leaderboardDesc: 'Classifica basata sulle tue valutazioni da 1 a 5 stelle per questa categoria.', ratedCount: 'proposta/e valutata/e', stars: 'stelle', copied: 'Copiato', copy: 'Copia', noRatings: 'Ancora nessuna valutazione per', noRatingsDesc: 'Valuta i nomi qui sopra per creare la tua classifica personale.', advantages: 'Vantaggi principali', limits: 'Aspetti da considerare', explore: 'Esplora altre categorie' },
+    pt: { back: 'Voltar a todos os geradores', proposals: 'nomes gerados', inspired: 'Inspirado em:', copyAllTitle: 'Copiar a lista completa com descrições', copiedBatch: 'Lote copiado!', copyBatch: 'Copiar lote', exportTextTitle: 'Baixar este lote como texto', exportCsvTitle: 'Baixar este lote como planilha CSV', tip: 'Dica: pressione', tipEnd: 'para criar um novo lote instantaneamente.', leaderboard: 'CLASSIFICAÇÃO INDEPENDENTE', bestNames: 'Seus nomes mais bem avaliados', leaderboardDesc: 'Classificação baseada nas suas avaliações de 1 a 5 estrelas nesta categoria.', ratedCount: 'sugestão(ões) avaliada(s)', stars: 'estrelas', copied: 'Copiado', copy: 'Copiar', noRatings: 'Ainda sem avaliações para', noRatingsDesc: 'Avalie os nomes acima para criar sua classificação pessoal.', advantages: 'Principais vantagens', limits: 'Pontos de atenção', explore: 'Explorar outras categorias' },
+    tr: { back: 'Tüm oluşturuculara dön', proposals: 'oluşturulan ad', inspired: 'Şundan ilham aldı:', copyAllTitle: 'Açıklamalarla tüm listeyi kopyala', copiedBatch: 'Liste kopyalandı!', copyBatch: 'Listeyi kopyala', exportTextTitle: 'Listeyi metin olarak indir', exportCsvTitle: 'Listeyi CSV tablosu olarak indir', tip: 'İpucu: Yeni bir liste oluşturmak için', tipEnd: 'tuşuna basın.', leaderboard: 'BAĞIMSIZ SIRALAMA', bestNames: 'En yüksek puanlı adlarınız', leaderboardDesc: 'Bu kategori için 1–5 yıldız puanlarınıza göre sıralanır.', ratedCount: 'puanlanan öneri', stars: 'yıldız', copied: 'Kopyalandı', copy: 'Kopyala', noRatings: 'Henüz puan yok:', noRatingsDesc: 'Kişisel sıralamanızı oluşturmak için yukarıdaki adları puanlayın.', advantages: 'Temel avantajlar', limits: 'Dikkat edilmesi gerekenler', explore: 'Diğer kategorileri keşfet' },
+    ja: { back: 'すべてのジェネレーターに戻る', proposals: '件の名前を生成', inspired: '着想元：', copyAllTitle: '説明付きのリスト全体をコピー', copiedBatch: '一括コピーしました！', copyBatch: '一括コピー', exportTextTitle: 'テキスト形式でダウンロード', exportCsvTitle: 'CSV形式でダウンロード', tip: 'ヒント：', tipEnd: 'キーを押すとすぐに新しい候補を生成できます。', leaderboard: '独立ランキング', bestNames: '高評価の名前', leaderboardDesc: 'このカテゴリでの1〜5つ星評価に基づくランキングです。', ratedCount: '件の評価済み候補', stars: 'つ星', copied: 'コピー済み', copy: 'コピー', noRatings: 'まだ評価がありません：', noRatingsDesc: '上の名前を評価して、自分だけのランキングを作成しましょう。', advantages: '主なメリット', limits: '注意点', explore: 'ほかのカテゴリを探す' },
+    ko: { back: '모든 생성기로 돌아가기', proposals: '개 생성된 이름', inspired: '영감来源:', copyAllTitle: '설명이 포함된 전체 목록 복사', copiedBatch: '목록 복사 완료!', copyBatch: '목록 복사', exportTextTitle: '텍스트 파일로 다운로드', exportCsvTitle: 'CSV 스프레드시트로 다운로드', tip: '팁: ', tipEnd: ' 키를 누르면 새 목록을 바로 생성합니다.', leaderboard: '독립 순위표', bestNames: '최고 평점 이름', leaderboardDesc: '이 카테고리의 1~5점 별점 평가를 기준으로 합니다.', ratedCount: '개 평가된 제안', stars: '개 별', copied: '복사됨', copy: '복사', noRatings: '아직 평가가 없습니다:', noRatingsDesc: '위의 이름에 별점을 주어 개인 순위표를 만들어 보세요.', advantages: '주요 장점', limits: '유의 사항', explore: '다른 카테고리 둘러보기' },
+  };
+  const text = ui[language] || ui.en;
 
   const [selectedStyle, setSelectedStyle] = useState('default');
   const [selectedLength, setSelectedLength] = useState<LengthOption>('medium');
@@ -229,7 +246,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-purple-300 transition mb-6 cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Retour à tous les générateurs</span>
+          <span>{text.back}</span>
         </button>
 
         <div className="text-center max-w-4xl mx-auto">
@@ -299,10 +316,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-5 p-3 rounded-2xl bg-[#090f1e]/90 border border-slate-800">
             <div className="flex items-center gap-2 text-xs text-slate-300 font-semibold">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
-              <span>{results.length} propositions façonnées</span>
+              <span>{results.length} {text.proposals}</span>
               {keyword && (
                 <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px]">
-                  Inspiré de : « {keyword} »
+                  {text.inspired} « {keyword} »
                 </span>
               )}
             </div>
@@ -311,17 +328,17 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <button
                 onClick={handleCopyBatch}
                 className="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border border-slate-700/80"
-                title="Copier toute la liste avec descriptions"
+                title={text.copyAllTitle}
               >
                 {batchCopied ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-300">Lot copié !</span>
+                    <span className="text-emerald-300">{text.copiedBatch}</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Copier tout le lot</span>
+                    <span>{text.copyBatch}</span>
                   </>
                 )}
               </button>
@@ -329,7 +346,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <button
                 onClick={handleExportBatchTXT}
                 className="py-1.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1 cursor-pointer border border-slate-700/60"
-                title="Télécharger ce lot au format texte"
+                title={text.exportTextTitle}
               >
                 <Download className="w-3 h-3 text-cyan-400" />
                 <span>Export .TXT</span>
@@ -338,7 +355,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <button
                 onClick={handleExportBatchCSV}
                 className="py-1.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-medium transition flex items-center gap-1 cursor-pointer border border-slate-700/60"
-                title="Télécharger ce lot au format tableur CSV"
+                title={text.exportCsvTitle}
               >
                 <Download className="w-3 h-3 text-purple-400" />
                 <span>Export .CSV</span>
@@ -361,7 +378,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           </div>
 
           <div className="text-center mt-8 text-xs text-slate-500">
-            Astuce : Appuyez sur la touche <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] border border-slate-700">G</kbd> pour forger un nouveau lot instantanément.
+            {text.tip} <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] border border-slate-700">G</kbd> {text.tipEnd}
           </div>
         </div>
       </section>
@@ -373,17 +390,17 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
-                <span>PALMARÈS INDÉPENDANT • {meta.shortTitle.toUpperCase()}</span>
+                <span>{text.leaderboard} • {meta.shortTitle.toUpperCase()}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                Vos Meilleurs Noms Évalués ({meta.shortTitle})
+                {text.bestNames} ({meta.shortTitle})
               </h2>
               <p className="text-xs text-slate-400 mt-1">
-                Classement basé strictement sur vos attributions d’étoiles (1 à 5★) pour cette catégorie spécifique.
+                {text.leaderboardDesc}
               </p>
             </div>
             <div className="text-[11px] text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
-              <span>{categoryTopRated.length} proposition(s) notée(s)</span>
+              <span>{categoryTopRated.length} {text.ratedCount}</span>
             </div>
           </div>
 
@@ -398,7 +415,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1">
                         <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                        <span>{item.rating || 5}/5 étoiles</span>
+                        <span>{item.rating || 5}/5 {text.stars}</span>
                       </span>
                       <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">
                         {item.style}
@@ -423,12 +440,12 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
                       {copiedTopName === item.name ? (
                         <>
                           <Check className="w-3 h-3 text-emerald-400" />
-                          <span>Copié</span>
+                          <span>{text.copied}</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-3 h-3" />
-                          <span>Copier</span>
+                          <span>{text.copy}</span>
                         </>
                       )}
                     </button>
@@ -441,9 +458,9 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 mx-auto flex items-center justify-center">
                 <Star className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-bold text-white">Pas encore d’évaluation pour {meta.shortTitle}</h4>
+              <h4 className="text-sm font-bold text-white">{text.noRatings} {meta.shortTitle}</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Attribuez des étoiles aux noms générés ci-dessus pour bâtir votre palmarès personnel pour ce générateur.
+                {text.noRatingsDesc}
               </p>
             </div>
           )}
@@ -496,7 +513,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <div className="p-5 rounded-2xl bg-[#0e1628] border border-emerald-500/30">
                 <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-400" />
-                  <span>Avantages Clés</span>
+                  <span>{text.advantages}</span>
                 </h3>
                 <ul className="space-y-1.5 text-xs text-slate-300">
                   {meta.advantages.map((adv, idx) => (
@@ -513,7 +530,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <div className="p-5 rounded-2xl bg-[#0e1628] border border-amber-500/30">
                 <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <ShieldAlert className="w-4 h-4 text-amber-400" />
-                  <span>Points de Vigilance</span>
+                  <span>{text.limits}</span>
                 </h3>
                 <ul className="space-y-1.5 text-xs text-slate-300">
                   {meta.limits.map((lim, idx) => (

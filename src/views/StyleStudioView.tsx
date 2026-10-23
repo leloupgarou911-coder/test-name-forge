@@ -354,6 +354,15 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 <div
                   key={style.id}
                   onClick={() => handleCopyText(styledText, style.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      void handleCopyText(styledText, style.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${getStudioLabel(settings.language, 'clickToCopy')}: ${style.name}`}
                   className="p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
                 >
                   <div>
@@ -419,6 +428,16 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 <div
                   key={effect.id}
                   onClick={() => setSelectedEffect(effect.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelectedEffect(effect.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={effect.name}
                   className={`p-6 rounded-3xl border transition-all cursor-pointer relative overflow-hidden ${
                     isSelected
                       ? 'border-purple-500 shadow-2xl shadow-purple-950/50 bg-[#0d1424]'
@@ -486,6 +505,16 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 <div
                   key={texture.id}
                   onClick={() => setSelectedTexture(texture.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelectedTexture(texture.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={texture.name}
                   className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
                       ? 'border-pink-500 shadow-2xl shadow-pink-950/40 bg-[#101526]'

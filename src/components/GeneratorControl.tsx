@@ -71,16 +71,16 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
     hi:{placeholder:'💡 प्रेरणा के लिए वैकल्पिक कीवर्ड या मूल शब्द (जैसे Aero, Luna, Zen, Nova)…',clear:'कीवर्ड हटाएँ'},
     nl:{placeholder:'💡 Optioneel trefwoord of woordstam ter inspiratie (bijv. Aero, Wolf, Luna, Zen, Cyber, Nova)…',clear:'Zoekwoord wissen'},
     pl:{placeholder:'💡 Opcjonalne słowo kluczowe lub rdzeń jako inspiracja (np. Aero, Luna, Zen, Nova)…',clear:'Wyczyść słowo kluczowe'},
-    sv:{placeholder:'💡 Valfritt inspirationsord eller ordstam (t.ex. Aero, Luna, Zen, Nova)...',clear:'Rensa nyckelord'},
-    vi:{placeholder:'💡 Từ khóa hoặc gốc cảm hứng tùy chọn (ví dụ: Aero, Luna, Zen, Nova)...',clear:'Xóa từ khóa'},
-    id:{placeholder:'💡 Kata kunci atau akar inspirasi opsional (mis. Aero, Luna, Zen, Nova)...',clear:'Hapus kata kunci'},
-    th:{placeholder:'💡 คำหลักหรือรากคำสร้างแรงบันดาลใจ (ไม่บังคับ) เช่น Aero, Luna, Zen, Nova...',clear:'ล้างคำหลัก'},
-    el:{placeholder:'💡 Προαιρετική λέξη-κλειδί έμπνευσης ή ρίζα (π.χ. Aero, Luna, Zen, Nova)...',clear:'Εκκαθάριση λέξης-κλειδιού'},
-    he:{placeholder:'💡 מילת מפתח או שורש השראה אופציונליים (למשל Aero, Luna, Zen, Nova)...',clear:'נקה מילת מפתח'},
-    cs:{placeholder:'💡 Volitelné inspirační klíčové slovo nebo kořen (např. Aero, Luna, Zen, Nova)...',clear:'Vymazat klíčové slovo'},
-    ro:{placeholder:'💡 Cuvânt-cheie sau rădăcină de inspirație opțională (de ex. Aero, Luna, Zen, Nova)...',clear:'Șterge cuvântul-cheie'},
-    da:{placeholder:'💡 Valgfrit inspirationssøgeord eller rod (f.eks. Aero, Luna, Zen, Nova)...',clear:'Ryd søgeord'},
-    fi:{placeholder:'💡 Valinnainen inspiraation avainsana tai sananrunko (esim. Aero, Luna, Zen, Nova)...',clear:'Tyhjennä avainsana'}
+    sv:{placeholder:'💡 Valfritt inspirationsord eller en ordstam (t.ex. Aero, Luna, Zen, Nova)…',clear:'Rensa nyckelord'},
+    vi:{placeholder:'💡 Từ khóa hoặc gốc từ tùy chọn để lấy cảm hứng (ví dụ: Aero, Luna, Zen, Nova)…',clear:'Xóa từ khóa'},
+    id:{placeholder:'💡 Kata kunci atau akar kata opsional sebagai inspirasi (misalnya Aero, Luna, Zen, Nova)…',clear:'Hapus kata kunci'},
+    th:{placeholder:'💡 คำหลักหรือรากศัพท์สำหรับเป็นแรงบันดาลใจ (ไม่บังคับ) เช่น Aero, Luna, Zen, Nova…',clear:'ล้างคำหลัก'},
+    el:{placeholder:'💡 Προαιρετική λέξη-κλειδί ή ρίζα ως πηγή έμπνευσης (π.χ. Aero, Luna, Zen, Nova)…',clear:'Εκκαθάριση λέξης-κλειδιού'},
+    he:{placeholder:'💡 מילת מפתח או שורש אופציונליים להשראה (למשל Aero, Luna, Zen, Nova)…',clear:'נקה מילת מפתח'},
+    cs:{placeholder:'💡 Volitelné inspirativní klíčové slovo nebo slovní kořen (např. Aero, Luna, Zen, Nova)…',clear:'Vymazat klíčové slovo'},
+    ro:{placeholder:'💡 Cuvânt-cheie sau rădăcină opțională pentru inspirație (de exemplu, Aero, Luna, Zen, Nova)…',clear:'Șterge cuvântul-cheie'},
+    da:{placeholder:'💡 Valgfrit inspirationsord eller en ordstamme (f.eks. Aero, Luna, Zen, Nova)…',clear:'Ryd søgeord'},
+    fi:{placeholder:'💡 Valinnainen inspiraatiosana tai sanan vartalo (esim. Aero, Luna, Zen, Nova)…',clear:'Tyhjennä avainsana'}
   };
   const keywordLabels = keywordCopy[settings.language] || keywordCopy.en;
 

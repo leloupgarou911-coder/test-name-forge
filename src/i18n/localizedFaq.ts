@@ -224,9 +224,29 @@ const KO_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
 {q:'결과가 마음에 들지 않으면 어떻게 하나요?',a:'새 이름 생성을 선택하거나 G를 누르세요. 유형, 길이, 생성 언어도 바꿀 수 있습니다.'},
 {q:'문제를 신고하거나 개선안을 제안하려면?',a:'프로젝트 저장소에서 의견을 공유하거나 다음 버전에 반영할 새로운 유형을 제안할 수 있습니다.'}
 ];
+const ZH_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'NameForge 这样的名称生成器如何工作？',a:'NameForge 会结合语言词根、和谐音节和构词规则，为奇幻、科技、品牌与故事等领域生成名称，并考虑节奏、发音和主题契合度。'},
+{q:'如何为项目选择合适的名称？',a:'先确定想要的感觉，再大声读出名称检查听感。移动应用适合短名称，书籍系列可以选择更有叙事感的名称。'},
+{q:'如何创造独特且容易记住的名称？',a:'尝试新颖的音节组合或自然的词语融合，避免陈旧表达和多余数字。'},
+{q:'如何避免多次生成时出现相似名称？',a:'NameForge 会在浏览器本地记住最近生成的100个名称，并在后续生成时过滤近期结果。'},
+{q:'可以用不同语言和声音风格生成名称吗？',a:'可以。可选择法语、英语、日系动漫、阿拉伯/东方、拉丁/精灵、北欧或科技风格，不会改变网站界面语言。'},
+{q:'风格和长度设置如何工作？',a:'短名称通常有一到两个音节，中等长度倾向两个或三个音节，长名称更偏向复合或叙事形式。风格会改变主要音感。'},
+{q:'如何复制、保存并再次找到名称？',a:'名称卡提供一键复制、收藏和点赞按钮。保存的名称可在导航中的“我的名称”里找到。'},
+{q:'收藏、合集和私人备注如何使用？',a:'你可以按项目创建主题合集，并为单个名称添加私人备注，记录想法或用途。'},
+{q:'星级评分和最佳名称排名如何计算？',a:'你可以给每个建议评一到五星。列表会显示你在当前工作区评分最高的名称，不会虚构投票。'},
+{q:'可以导出或导入名称列表吗？',a:'可以导出包含备注和合集的 JSON，或用于表格的 CSV，也可以恢复之前的 JSON 备份。'},
+{q:'个人数据会保存在我的设备上吗？',a:'NameForge 在本地运行，无需账号或密码。名称、备注和偏好会保留在浏览器存储中。'},
+{q:'能保证名称在全球独一无二吗？',a:'不能。系统会组合多个词根，但名称可能已经存在于另一种语言中。'},
+{q:'生成的名称可以用于公司或产品吗？',a:'建议可用于创作。商业使用前，请查询相关商标注册信息，例如 EUIPO 或 USPTO。'},
+{q:'如何检查互联网域名是否可注册？',a:'在域名注册商处搜索名称，确认 .com、.cn 或 .io 等后缀是否可注册。'},
+{q:'使用名称前需要检查注册商标吗？',a:'需要。在投资品牌、标志或公司注册前进行检查很重要。NameForge 不保证法律上的可用性。'},
+{q:'网站能在手机和平板上使用吗？',a:'可以。响应式界面适用于手机、平板和桌面屏幕。'},
+{q:'如果我不喜欢生成结果怎么办？',a:'点击生成新名称或按 G，也可以更改类型、长度或生成语言。'},
+{q:'如何报告问题或提出改进建议？',a:'你可以在项目仓库中分享建议，或提出未来版本可以考虑的新类型。'}
+];
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -234,4 +254,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh'] as const;

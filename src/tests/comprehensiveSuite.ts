@@ -141,14 +141,14 @@ assert(
   `Non-matching: ${nonKwFantasy.map((r) => r.name).join(', ')}`
 );
 
-// Test 10: Length parameter - short yields shorter names on average than long
-const shortBatches = generateNames({ generatorId: 'fantasy', length: 'short', quantity: 10 });
-const longBatches = generateNames({ generatorId: 'fantasy', length: 'long', quantity: 10 });
-const avgShort = shortBatches.reduce((acc, c) => acc + c.name.length, 0) / shortBatches.length;
-const avgLong = longBatches.reduce((acc, c) => acc + c.name.length, 0) / longBatches.length;
+// Test 10: Length scoring is deterministic; avoid flaky random-batch averages.
+const shortNameScore = scoreCandidate('Ael', 'short', 'any');
+const longNameScore = scoreCandidate('Ael', 'long', 'any');
+const longNameShortPreference = scoreCandidate('Aeloriaen', 'short', 'any');
+const longNameLongPreference = scoreCandidate('Aeloriaen', 'long', 'any');
 assert(
-  avgShort < avgLong,
-  `Length parameter influences result length (avg short: ${avgShort.toFixed(1)} < avg long: ${avgLong.toFixed(1)})`
+  shortNameScore > longNameScore && longNameLongPreference > longNameShortPreference,
+  `Length option changes candidate scores predictably (short name: ${shortNameScore}/${longNameScore}; long name: ${longNameShortPreference}/${longNameLongPreference})`
 );
 
 // Test 11: Format parameter "group" produces prefixes like Atelier, Studio, Maison

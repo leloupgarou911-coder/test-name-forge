@@ -444,7 +444,7 @@ assert(
 
 // Test 44: Core Studio labels are translated for all 25 priority languages.
 const priorityStudioLanguages = ['fr', 'en', 'ar', 'tr', 'es', 'de', 'it', 'pt', 'ja', 'ko', 'zh', 'ru', 'hi', 'nl', 'pl', 'sv', 'vi', 'id', 'th', 'el', 'he', 'cs', 'ro', 'da', 'fi'];
-const studioKeys = ['title', 'inputLabel', 'inputPlaceholder', 'copyPlain', 'quickPresets', 'unicodeTab', 'effectsTab', 'texturesTab', 'exportTab', 'fontFamily', 'fontSize', 'letterSpacing', 'visualEffect', 'textureMask', 'transparentBg', 'exportQuality', 'exportPng', 'copySvg', 'copyCss'] as const;
+const studioKeys = ['title', 'inputLabel', 'inputPlaceholder', 'copyPlain', 'quickPresets', 'unicodeTab', 'effectsTab', 'texturesTab', 'exportTab', 'fontFamily', 'fontSize', 'letterSpacing', 'visualEffect', 'textureMask', 'transparentBg', 'exportQuality', 'exportPng', 'copySvg', 'copyCss', 'copy', 'copied', 'clickToCopy', 'reset', 'typographySettings', 'chooseTexture', 'textureActive', 'clickToApply', 'openCanvas', 'backHome', 'svgCopied', 'cssCopied'] as const;
 const studioLabelsComplete = priorityStudioLanguages.every((language) => studioKeys.every((key) => getStudioLabel(language, key).trim().length > 0));
 assert(
   studioLabelsComplete,

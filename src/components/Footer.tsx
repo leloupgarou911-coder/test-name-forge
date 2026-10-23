@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const settings = getAppSettings();
   const t = getTranslations(settings.language).footer;
   const footerLabels: Record<string, { studio: string; favorites: string; catalog: string; home: string; all: string; names: string; generators: string; styles: string; free: string }> = {
-    fr: { studio: '{labels.studio}', favorites: '{labels.favorites}', catalog: 'Catalogue', home: 'Accueil', all: 'Tous les générateurs', names: 'Mes noms', generators: 'Générateurs', styles: 'Styles', free: '100 % Gratuit & local' },
+    fr: { studio: 'Studio de style (Unicode & Canvas)', favorites: 'Favoris et notes', catalog: 'Catalogue', home: 'Accueil', all: 'Tous les générateurs', names: 'Mes noms', generators: 'Générateurs', styles: 'Styles', free: '100 % Gratuit & local' },
     en: { studio: 'Style Studio (Unicode & Canvas)', favorites: 'Favorites & Notes', catalog: 'Catalog', home: 'Home', all: 'All generators', names: 'My names', generators: 'Generators', styles: 'Styles', free: '100% Free & local' },
     ar: { studio: 'استوديو الأنماط (Unicode وCanvas)', favorites: 'المفضلة والملاحظات', catalog: 'الفهرس', home: 'الرئيسية', all: 'جميع المولدات', names: 'أسمائي', generators: 'مولدات الأسماء', styles: 'أنماط', free: 'مجاني ومحلي 100٪' },
     es: { studio: 'Estudio de estilo (Unicode y Canvas)', favorites: 'Favoritos y notas', catalog: 'Catálogo', home: 'Inicio', all: 'Todos los generadores', names: 'Mis nombres', generators: 'Generadores', styles: 'Estilos', free: '100 % gratis y local' },
@@ -26,20 +26,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     ko: { studio: '스타일 스튜디오 (Unicode & Canvas)', favorites: '즐겨찾기 및 메모', catalog: '카탈로그', home: '홈', all: '모든 생성기', names: '내 이름', generators: '생성기', styles: '스타일', free: '100% 무료 및 로컬' },
   };
   const labels = footerLabels[settings.language] || footerLabels.en;
+  const isRtlLanguage = ['ar', 'he', 'fa', 'ur', 'ps'].includes(settings.language);
 
   const fantasyGens = ALL_GENERATORS_LIST.filter((g) => g.category === 'fantasy').slice(0, 5);
   const businessGens = ALL_GENERATORS_LIST.filter((g) => g.category === 'business').slice(0, 5);
   const creativeGens = ALL_GENERATORS_LIST.filter((g) => g.category === 'creative').slice(0, 5);
 
   return (
-    <footer className="border-t border-white/5 bg-[#05070e] py-14 mt-20 text-slate-400">
+    <footer lang={settings.language} dir={isRtlLanguage ? 'rtl' : 'ltr'} className="border-t border-white/5 bg-[#05070e] py-14 mt-20 text-slate-400">
       <div className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
           {/* Brand Col */}
           <div className="md:col-span-2 space-y-4">
             <button
               onClick={() => onNavigate('home')}
-              className="cursor-pointer text-left focus:outline-none"
+              className="cursor-pointer text-start focus:outline-none"
             >
               <Logo size="lg" />
             </button>

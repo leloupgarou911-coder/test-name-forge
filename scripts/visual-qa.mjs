@@ -85,9 +85,7 @@ try {
         // Expand every FAQ answer so each accordion's content and light/dark styling
         // is actually rendered, not only represented by its collapsed heading.
         if (view.name === 'home') {
-          const faqSection = page.locator('section').filter({
-            has: page.getByRole('heading', { name: /Foire Aux Questions/i }),
-          }).last();
+          const faqSection = page.getByTestId('home-faq-section');
           const faqItems = faqSection.locator('div.space-y-3 > div');
           const faqButtons = faqItems.locator('button');
           const faqCount = await faqButtons.count();

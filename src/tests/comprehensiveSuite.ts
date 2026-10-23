@@ -1,6 +1,7 @@
 import { ALL_GENERATORS_LIST, GENERATORS_METADATA } from '../data/generators';
 import { SUBCATEGORIES_DATA } from '../data/subcategories';
 import { generateNames, isTooSimilar, calculateLevenshteinDistance } from '../services/generatorEngine';
+import { generateSvgCode } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 
 declare const process: { exit: (code: number) => void };
@@ -377,6 +378,17 @@ const frNames = generateNames({ generatorId: 'fantasy', genLanguage: 'fr', quant
 assert(
   frNames.length === 5 && frNames.every((n) => n.name.length > 0),
   'French phonetic profile generates 5 consistent names'
+);
+
+// SVG export must preserve letter spacing and Unicode content.
+const spacedSvg = generateSvgCode('星😀辰', 48, 'Arial', 'cyber-neon', 'cosmic-nebula-texture', true, 3);
+assert(
+  spacedSvg.includes('letter-spacing="3px"'),
+  'SVG export preserves the selected letter spacing'
+);
+assert(
+  spacedSvg.includes('星😀辰'),
+  'SVG export preserves multilingual and supplementary Unicode text'
 );
 
 // -----------------------------------------------------------------------------

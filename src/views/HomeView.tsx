@@ -828,7 +828,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
       {/* ========================================================
           8. SECTION FAQ RÉÉCRITE (18 QUESTIONS COMPLÈTES)
       ========================================================= */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6">
+      <section data-testid="home-faq-section" className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-2">
             <HelpCircle className="w-3.5 h-3.5" />

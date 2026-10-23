@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, ChevronDown, Check, ArrowLeft, ShieldAlert, Star, Award, Copy, Download, Layers } from 'lucide-react';
 import { GeneratorControl } from '../components/GeneratorControl';
 import { NameCard } from '../components/NameCard';
@@ -40,6 +40,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   const [keyword, setKeyword] = useState('');
   const [results, setResults] = useState<GeneratedName[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const generationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [batchCopied, setBatchCopied] = useState(false);
 
   // Note Modal state
@@ -142,9 +143,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   };
 
   const handleGenerate = () => {
+    if (generationTimeout.current) clearTimeout(generationTimeout.current);
     setIsGenerating(true);
     // Debounce rapid control/keyword edits so typing does not trigger a full batch for every keystroke.
-    setTimeout(() => {
+    generationTimeout.current = setTimeout(() => {
       const generated = generateNames({
         generator: generatorId,
         style: selectedStyle,
@@ -157,6 +159,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
       });
       setResults(generated);
       setIsGenerating(false);
+      generationTimeout.current = null;
     }, 280);
   };
 

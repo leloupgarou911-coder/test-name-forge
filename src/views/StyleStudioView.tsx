@@ -449,7 +449,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
                   <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                     <span className="text-xs font-semibold text-slate-400">
-                      {isSelected ? `✓ ${getStudioLabel(settings.language, 'typographySettings')}` : getStudioLabel(settings.language, 'clickToApply')}
+                      {isSelected ? `✓ ${getStudioLabel(settings.language, 'selectedForStudio')}` : getStudioLabel(settings.language, 'clickToApply')}
                     </span>
                     <button
                       onClick={(e) => {

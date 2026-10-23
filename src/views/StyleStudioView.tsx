@@ -227,7 +227,11 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
               placeholder={getStudioLabel(settings.language, 'inputPlaceholder')}
               className={`w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner ${isRtl ? 'text-right pl-12' : 'text-left pr-12'}`}
               maxLength={60}
+              aria-describedby="styler-input-counter"
             />
+            <span id="styler-input-counter" aria-live="polite" className="absolute bottom-1 right-4 text-[10px] text-slate-500">
+              {inputText.length}/60
+            </span>
             {inputText && (
               <button
                 onClick={() => setInputText('')}
@@ -365,7 +369,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                   tabIndex={0}
                   aria-label={`${getStudioLabel(settings.language, 'clickToCopy')}: ${style.name}`}
                   aria-describedby={`studio-style-${style.id}-preview`}
-                  className="p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
+                  className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">

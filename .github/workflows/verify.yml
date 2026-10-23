@@ -3,7 +3,9 @@ name: Verify NameForge
 on:
   push:
     branches:
+      - main
       - "fix/nameforge-professional-sync"
+      - "fix/audit-ci-and-interface"
   pull_request:
     branches:
       - main
@@ -23,6 +25,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
         run: npm install

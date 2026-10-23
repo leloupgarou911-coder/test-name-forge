@@ -165,8 +165,25 @@ export function saveAppSettings(newSettings: Partial<AppSettings>): AppSettings 
   }
 }
 
+let systemThemeListenerRegistered = false;
+
 export function applySettingsToDOM(settings: AppSettings): void {
   if (typeof document === 'undefined') return;
+
+  // Keep "System" mode live when the operating system theme changes mid-session.
+  if (!systemThemeListenerRegistered && typeof window !== 'undefined' && window.matchMedia) {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const syncSystemTheme = () => {
+      if (getAppSettings().theme === 'system') applySettingsToDOM(getAppSettings());
+    };
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', syncSystemTheme);
+    } else {
+      // Compatibility with older Safari versions.
+      media.addListener(syncSystemTheme);
+    }
+    systemThemeListenerRegistered = true;
+  }
   const root = document.documentElement;
 
   // Language & Direction

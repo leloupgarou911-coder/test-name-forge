@@ -178,7 +178,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           className="text-xs sm:text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{settings.language === 'fr' ? 'Retour à l’accueil' : settings.language === 'en' ? 'Back to Home' : t.nav.home}</span>
+          <span>{getStudioLabel(settings.language, 'backHome')}</span>
         </button>
 
         <div className="flex items-center gap-2">
@@ -251,7 +251,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {copiedId === 'input-raw' ? (
               <>
                 <Check className="w-4 h-4 text-emerald-300" />
-                <span>{settings.language === 'fr' ? 'Copié !' : 'Copied!'}</span>
+                <span>{getStudioLabel(settings.language, 'copied')}</span>
               </>
             ) : (
               <>
@@ -371,7 +371,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
                   <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
                     <span className="text-slate-500 group-hover:text-slate-400 font-medium">
-                      {settings.language === 'fr' ? 'Cliquer pour copier' : 'Click to copy'}
+                      {getStudioLabel(settings.language, 'clickToCopy')}
                     </span>
                     <button
                       className={`px-3 py-1 rounded-xl font-bold flex items-center gap-1.5 transition ${
@@ -388,7 +388,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       ) : (
                         <>
                           <Copy className="w-3.5 h-3.5" />
-                          <span>{settings.language === 'fr' ? 'Copier' : 'Copy'}</span>
+                          <span>{getStudioLabel(settings.language, 'copy')}</span>
                         </>
                       )}
                     </button>
@@ -449,7 +449,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
                   <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                     <span className="text-xs font-semibold text-slate-400">
-                      {isSelected ? (settings.language === 'fr' ? '✓ Sélectionné pour le Studio' : '✓ Selected for Studio') : (settings.language === 'fr' ? 'Cliquer pour appliquer' : 'Click to apply')}
+                      {isSelected ? `✓ ${getStudioLabel(settings.language, 'typographySettings')}` : getStudioLabel(settings.language, 'clickToApply')}
                     </span>
                     <button
                       onClick={(e) => {
@@ -459,7 +459,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       }}
                       className="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
                     >
-                      <span>{settings.language === 'fr' ? 'Ouvrir dans le Canvas →' : 'Open in Canvas →'}</span>
+                      <span>{getStudioLabel(settings.language, 'openCanvas')}</span>
                     </button>
                   </div>
                 </div>
@@ -522,7 +522,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
                   <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
                     <span className="text-slate-400">
-                      {isSelected ? (settings.language === 'fr' ? '✓ Texture active' : '✓ Texture active') : (settings.language === 'fr' ? 'Choisir cette texture' : 'Choose this texture')}
+                      {isSelected ? `✓ ${getStudioLabel(settings.language, 'textureActive')}` : getStudioLabel(settings.language, 'chooseTexture')}
                     </span>
                     <button
                       onClick={(e) => {
@@ -552,7 +552,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-cyan-400" />
-                <span>{settings.language === 'fr' ? 'Paramètres typographiques' : 'Typography Settings'}</span>
+                <span>{getStudioLabel(settings.language, 'typographySettings')}</span>
               </h3>
               <button
                 onClick={() => {
@@ -563,10 +563,10 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                   setExportScale(2);
                 }}
                 className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 cursor-pointer"
-                title={settings.language === 'fr' ? "Réinitialiser" : "Reset settings"}
+                title={getStudioLabel(settings.language, 'reset')}
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset</span>
+                <span>{getStudioLabel(settings.language, 'reset')}</span>
               </button>
             </div>
 
@@ -726,7 +726,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 {svgCopied ? (
                   <>
                     <Check className="w-4 h-4 text-emerald-400" />
-                    <span>{settings.language === 'fr' ? 'SVG copié !' : 'SVG copied!'}</span>
+                    <span>{getStudioLabel(settings.language, 'svgCopied')}</span>
                   </>
                 ) : (
                   <>
@@ -743,7 +743,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 {cssCopied ? (
                   <>
                     <Check className="w-4 h-4 text-emerald-400" />
-                    <span>{settings.language === 'fr' ? 'CSS copié !' : 'CSS copied!'}</span>
+                    <span>{getStudioLabel(settings.language, 'cssCopied')}</span>
                   </>
                 ) : (
                   <>

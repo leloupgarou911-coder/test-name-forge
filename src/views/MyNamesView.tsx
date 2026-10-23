@@ -238,7 +238,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
       setSelectedForCompare(selectedForCompare.filter((n) => n !== name));
     } else {
       if (selectedForCompare.length >= 4) {
-        alert('Vous pouvez comparer jusqu\'à 4 noms simultanément.');
+        alert(controls.compareLimit);
         return;
       }
       setSelectedForCompare([...selectedForCompare, name]);

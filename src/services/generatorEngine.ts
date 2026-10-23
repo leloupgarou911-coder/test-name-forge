@@ -501,7 +501,7 @@ export function scoreCandidate(
 
   // Count Unicode letters instead of Latin-only characters so names in Arabic,
   // CJK, Cyrillic and other scripts receive fair length scoring.
-  const len = Array.from(name.normalize('NFC').matchAll(/[\\p{L}\\p{M}]/gu)).length;
+  const len = Array.from(name.normalize('NFC').matchAll(/[\p{L}\p{M}]/gu)).length;
 
   // Length compliance bonus/penalty
   if (lengthOpt === 'short') {

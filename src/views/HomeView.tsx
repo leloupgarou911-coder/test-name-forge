@@ -222,10 +222,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               onNavigate('generator-detail', randomGen.id);
             }}
             className="w-full sm:w-auto h-13 px-6 rounded-2xl bg-gradient-to-r from-amber-500/20 to-purple-600/20 hover:from-amber-500/30 hover:to-purple-600/30 text-amber-300 font-extrabold text-sm border border-amber-500/40 hover:border-amber-400 transition flex items-center justify-center gap-2 cursor-pointer"
-            title={`Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}`}
+            title={quickCopy.randomTitle || `Open a random generator from ${ALL_GENERATORS_LIST.length}`}
           >
             <Dices className="w-4 h-4 text-amber-400" />
-            <span>🎲 Surprenez-moi !</span>
+            <span>{quickCopy.random}</span>
           </button>
 
           <button
@@ -266,10 +266,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 <span>{quickCopy.badge}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                Essayez NameForge en 1 clic
+                {quickCopy.title}
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Sélectionnez un univers, tapez un mot-clé (optionnel) et forgez 3 identités en direct.
+                {quickCopy.description}
               </p>
             </div>
 

@@ -233,8 +233,8 @@ assert(
 );
 
 // Male-ending heuristic must match suffixes, not individual characters.
-const masculineSuffixScore = scoreCandidate('Aldor', 'medium', 'male');
-const neutralSuffixScore = scoreCandidate('Aldox', 'medium', 'male');
+const masculineSuffixScore = scoreCandidate('Aldor', 'long', 'male');
+const neutralSuffixScore = scoreCandidate('Aldox', 'long', 'male');
 assert(
   masculineSuffixScore > neutralSuffixScore,
   'Gender heuristic recognizes complete suffixes rather than single ending characters',

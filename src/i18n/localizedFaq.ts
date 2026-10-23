@@ -264,9 +264,50 @@ const RU_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
 {q:'Что делать, если результат не нравится?',a:'Выберите создание новых имён или нажмите G. Также можно изменить архетип, длину и язык генерации.'},
 {q:'Как сообщить о проблеме или предложить улучшение?',a:'Оставьте предложение в репозитории проекта или предложите новый архетип для будущих версий.'}
 ];
+const HI_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'NameForge जैसा नाम जनरेटर कैसे काम करता है?',a:'NameForge फैंटेसी, तकनीक, ब्रांड और कहानियों के लिए भाषाई मूल, मधुर अक्षर-खंड और शब्द-रचना के नियम जोड़ता है। यह लय, उच्चारण और विषय से मेल पर भी ध्यान देता है।'},
+{q:'अपने प्रोजेक्ट के लिए सही नाम कैसे चुनूँ?',a:'पहले मनचाहा भाव तय करें और नाम को बोलकर सुनें। मोबाइल ऐप के लिए छोटा नाम और पुस्तक-श्रृंखला के लिए अधिक वर्णनात्मक नाम चुनें।'},
+{q:'मौलिक और याद रहने वाला नाम कैसे बनाऊँ?',a:'नए अक्षर-खंडों के मेल या शब्दों के सहज संयोजन आज़माएँ। घिसे-पिटे विचारों और बेकार अंकों से बचें।'},
+{q:'बार-बार नाम बनाते समय समान नामों से कैसे बचूँ?',a:'NameForge हाल में बनाए गए 100 नाम ब्राउज़र में रखता है और अगली बार हाल के सुझाव छाँटता है।'},
+{q:'क्या अलग-अलग भाषाओं और ध्वनियों में नाम बना सकता हूँ?',a:'हाँ। फ़्रेंच, अंग्रेज़ी, जापानी/एनीमे, अरबी/पूर्वी, लैटिन/एल्फ़, नॉर्डिक और तकनीकी ध्वनियाँ चुनें। वेबसाइट की इंटरफ़ेस भाषा नहीं बदलती।'},
+{q:'शैली और लंबाई की सेटिंग कैसे काम करती हैं?',a:'छोटी लंबाई में आम तौर पर एक-दो अक्षर-खंड, मध्यम में दो-तीन और लंबी में संयुक्त नाम मिलते हैं। शैली प्रमुख ध्वनियों को बदलती है।'},
+{q:'नाम कॉपी, सहेजकर फिर कैसे ढूँढूँ?',a:'नाम कार्ड से कॉपी, पसंदीदा में सहेजने और पसंद जताने के बटन इस्तेमाल करें। सहेजे नाम “मेरे नाम” में मिलेंगे।'},
+{q:'पसंदीदा, संग्रह और निजी नोट कैसे काम करते हैं?',a:'“मेरे नाम” में परियोजनानुसार संग्रह बनाएँ और हर नाम के साथ निजी नोट जोड़ें।'},
+{q:'स्टार रेटिंग और श्रेष्ठ नामों की सूची कैसे बनती है?',a:'हर सुझाव को एक से पाँच स्टार दें। सूची आपके सबसे ऊँचे रेटिंग वाले नाम दिखाती है, नकली वोट नहीं।'},
+{q:'नामों की सूची निर्यात या आयात कर सकता हूँ?',a:'नाम, नोट और संग्रह JSON में या स्प्रेडशीट के लिए CSV में निर्यात करें। JSON बैकअप बहाल भी कर सकते हैं।'},
+{q:'क्या निजी डेटा मेरे उपकरण पर रहता है?',a:'NameForge स्थानीय रूप से चलता है और खाते की ज़रूरत नहीं। सहेजे नाम, नोट और पसंद ब्राउज़र में रहते हैं।'},
+{q:'क्या बने नाम पूरी दुनिया में अनोखे होने की गारंटी है?',a:'नहीं। कोई एल्गोरिदम विश्वव्यापी विशिष्टता की गारंटी नहीं देता; वही नाम दूसरी भाषा में हो सकता है।'},
+{q:'क्या बने नाम को कंपनी या उत्पाद के लिए इस्तेमाल कर सकता हूँ?',a:'रचनात्मक उपयोग संभव है। व्यावसायिक उपयोग से पहले EUIPO या USPTO जैसे ट्रेडमार्क रजिस्टर जाँचें।'},
+{q:'डोमेन उपलब्ध है या नहीं, कैसे जाँचूँ?',a:'डोमेन रजिस्ट्रार पर नाम खोजकर .com, .in या .io जैसे एक्सटेंशन जाँचें।'},
+{q:'नाम इस्तेमाल करने से पहले ट्रेडमार्क जाँचना चाहिए?',a:'हाँ। ब्रांड, लोगो या कंपनी पंजीकरण से पहले जाँचें। NameForge कानूनी उपलब्धता प्रमाणित नहीं करता।'},
+{q:'क्या वेबसाइट फोन और टैबलेट पर चलती है?',a:'हाँ। इंटरफ़ेस स्मार्टफोन, टैबलेट और डेस्कटॉप के अनुकूल है।'},
+{q:'परिणाम पसंद न आए तो क्या करूँ?',a:'नए नाम बनाएँ चुनें या G दबाएँ। शैली, लंबाई या जनरेशन भाषा भी बदल सकते हैं।'},
+{q:'समस्या या सुधार का सुझाव कैसे दूँ?',a:'प्रोजेक्ट रिपॉज़िटरी में सुझाव दें या भविष्य के लिए नए नाम-रूप प्रस्तावित करें।'}
+];
+const PL_FAQ: Array<Pick<FAQItem, 'q' | 'a'>> = [
+{q:'Jak działa generator nazw NameForge?',a:'NameForge łączy rdzenie językowe, harmonijne sylaby i reguły słowotwórcze dla fantasy, technologii, marek i opowieści. Uwzględnia rytm, wymowę oraz zgodność z tematem.'},
+{q:'Jak wybrać nazwę pasującą do projektu?',a:'Określ pożądany charakter i wypowiedz nazwę na głos. Krótka nazwa pasuje do aplikacji, a bardziej opisowa do serii książek.'},
+{q:'Jak stworzyć oryginalną i zapamiętywalną nazwę?',a:'Wypróbuj nieoczekiwane połączenia sylab i naturalne zlepienia słów. Unikaj klisz i zbędnych cyfr.'},
+{q:'Jak unikać podobnych nazw przy kolejnych generowaniach?',a:'NameForge przechowuje lokalnie 100 ostatnich nazw i filtruje niedawne propozycje przy kolejnych próbach.'},
+{q:'Czy mogę tworzyć nazwy o różnym brzmieniu?',a:'Tak. Wybierz brzmienie francuskie, angielskie, japońskie/anime, arabskie/orientalne, łacińskie/elfickie, nordyckie lub technologiczne. Język interfejsu się nie zmieni.'},
+{q:'Jak działają ustawienia stylu i długości?',a:'Krótka długość zwykle daje jedną lub dwie sylaby, średnia dwie lub trzy, a długa sprzyja nazwom złożonym. Styl zmienia dominujące brzmienie.'},
+{q:'Jak kopiować, zapisywać i odnajdywać nazwy?',a:'Użyj przycisków kopiowania, zapisu do ulubionych i polubienia. Zapisane nazwy znajdziesz w sekcji Moje nazwy.'},
+{q:'Jak działają ulubione, kolekcje i notatki?',a:'Twórz kolekcje tematyczne dla projektów i dodawaj prywatne notatki do poszczególnych nazw.'},
+{q:'Jak obliczane są oceny i ranking najlepszych nazw?',a:'Oceń propozycję od jednej do pięciu gwiazdek. Ranking pokazuje Twoje najwyżej ocenione nazwy, bez fikcyjnych głosów.'},
+{q:'Czy mogę eksportować lub importować listy nazw?',a:'Eksportuj zapisane dane z notatkami do JSON lub CSV, a także przywróć wcześniejszą kopię JSON.'},
+{q:'Czy dane osobowe są przechowywane na urządzeniu?',a:'NameForge działa lokalnie bez konta. Nazwy, notatki i ustawienia pozostają w pamięci przeglądarki.'},
+{q:'Czy nazwy są gwarantowanie unikalne na świecie?',a:'Nie. Żaden algorytm nie gwarantuje pełnej unikalności; nazwa może już istnieć w innym języku.'},
+{q:'Czy mogę użyć nazwy dla firmy lub produktu?',a:'Propozycje nadają się do twórczych zastosowań. Przed użyciem komercyjnym sprawdź rejestry znaków, np. EUIPO lub USPTO.'},
+{q:'Jak sprawdzić dostępność domeny?',a:'Wyszukaj nazwę u rejestratora i sprawdź rozszerzenia takie jak .com, .pl lub .io.'},
+{q:'Czy przed użyciem nazwy trzeba sprawdzić znaki towarowe?',a:'Tak, szczególnie przed inwestycją w markę lub firmę. NameForge nie potwierdza prawnej dostępności.'},
+{q:'Czy strona działa na telefonach i tabletach?',a:'Tak. Interfejs dopasowuje się do smartfonów, tabletów i komputerów.'},
+{q:'Co zrobić, jeśli wynik mi się nie podoba?',a:'Wygeneruj nowe nazwy lub naciśnij G. Możesz też zmienić archetyp, długość i język generowania.'},
+{q:'Jak zgłosić problem lub zaproponować ulepszenie?',a:'Podziel się sugestią w repozytorium projektu albo zaproponuj nowy archetyp na przyszłość.'}
+];
+
 export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   if (language === 'fr') return COMPREHENSIVE_FAQ_LIST;
-  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : language === 'ru' ? RU_FAQ : null;
+  const translations = language === 'en' ? EN_FAQ : language === 'es' ? ES_FAQ : language === 'de' ? DE_FAQ : language === 'it' ? IT_FAQ : language === 'pt' ? PT_FAQ : language === 'nl' ? NL_FAQ : language === 'tr' ? TR_FAQ : language === 'ar' ? AR_FAQ : language === 'ja' ? JA_FAQ : language === 'ko' ? KO_FAQ : language === 'zh' ? ZH_FAQ : language === 'ru' ? RU_FAQ : language === 'hi' ? HI_FAQ : language === 'pl' ? PL_FAQ : null;
   if (!translations) return COMPREHENSIVE_FAQ_LIST;
   return COMPREHENSIVE_FAQ_LIST.map((item, index) => ({
     ...item,
@@ -274,4 +315,4 @@ export function getLocalizedFaq(language: LanguageCode): FAQItem[] {
   }));
 }
 
-export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh', 'ru'] as const;
+export const FAQ_TRANSLATED_LANGUAGES = ['en', 'es', 'de', 'it', 'pt', 'nl', 'tr', 'ar', 'ja', 'ko', 'zh', 'ru', 'hi', 'pl'] as const;

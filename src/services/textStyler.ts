@@ -865,7 +865,7 @@ export function downloadCanvasAsPng(canvas: HTMLCanvasElement, filename: string)
     const url = canvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${filename.replace(/[^\\p{L}\\p{N}_-]/gu, '_') || 'nameforge'}_styled.png`;
+    a.download = `${filename.replace(/[^\p{L}\p{N}_-]/gu, '_') || 'nameforge'}_styled.png`;
     document.body.appendChild(a);
     a.click();
     a.remove();

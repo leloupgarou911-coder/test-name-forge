@@ -138,6 +138,29 @@ try {
       }
     }
   }
+
+  const primaryLanguages = ['fr','en','ar','tr','es','de','it','pt','ja','ko','zh','ru','hi','nl','pl','sv','vi','id','th','el','he','cs','ro','da','fi'];
+  for (const language of primaryLanguages) {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+    const pageErrors = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    await page.addInitScript((selectedLanguage) => {
+      localStorage.setItem('nameforge_settings', JSON.stringify({ language: selectedLanguage, theme: 'light', defaultGenLanguage: 'auto', textSize: 'normal' }));
+    }, language);
+    const response = await page.goto(baseUrl, { waitUntil: 'networkidle', timeout: 45000 });
+    await page.waitForTimeout(300);
+    const state = await page.evaluate(() => ({ text: (document.body?.innerText || '').trim(), width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
+    const label = 'locale-' + language;
+    const screenshotPath = outputDir + '/' + label + '.png';
+    await page.screenshot({ path: screenshotPath, fullPage: true, animations: 'disabled' });
+    if (!response || response.status() >= 400) failures.push(label + ': HTTP response failed');
+    if (state.text.length < 100) failures.push(label + ': likely blank Home page');
+    if (state.width > state.viewport + 2) failures.push(label + ': horizontal overflow');
+    if (pageErrors.length) failures.push(label + ': JavaScript page errors: ' + pageErrors.join(' | '));
+    if (!(await page.getByTestId('home-faq-section').count())) failures.push(label + ': FAQ section missing');
+    results.push({ view: 'home-localization', language, theme: 'light', viewport: 'desktop', status: response?.status() ?? null, textCharacters: state.text.length, documentWidth: state.width, viewportWidth: state.viewport, pageErrors, screenshot: screenshotPath });
+    await page.close();
+  }
 } finally {
   if (browser) await browser.close();
   server.kill('SIGTERM');

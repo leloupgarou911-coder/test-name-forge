@@ -71,7 +71,7 @@ export const NameCard: React.FC<NameCardProps> = ({
   const handleLikeToggle = () => {
     const newState = toggleLikeName(item.name, item.generatorId, item.style);
     setIsLiked(newState);
-    if (onUpdate) onUpdate();
+    if (onDataChange) onDataChange();
   };
 
   const handleRate = (r: number) => {

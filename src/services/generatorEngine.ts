@@ -40,8 +40,12 @@ function normalize(s: string): string {
 ===================================================================== */
 
 export function calculateLevenshteinDistance(a: string, b: string): number {
-  const al = a.length;
-  const bl = b.length;
+  // Work on Unicode code points, not UTF-16 code units, so emoji and other
+  // supplementary characters count as one character each.
+  const left = Array.from(String(a ?? ''), (character) => character.toLocaleLowerCase());
+  const right = Array.from(String(b ?? ''), (character) => character.toLocaleLowerCase());
+  const al = left.length;
+  const bl = right.length;
   if (al === 0) return bl;
   if (bl === 0) return al;
 
@@ -55,9 +59,9 @@ export function calculateLevenshteinDistance(a: string, b: string): number {
 
   for (let i = 1; i <= al; i++) {
     for (let j = 1; j <= bl; j++) {
-      const cost = a[i - 1].toLowerCase() === b[j - 1].toLowerCase() ? 0 : 1;
+      const cost = left[i - 1] === right[j - 1] ? 0 : 1;
       matrix[i][j] = Math.min(
-        matrix[i - 1][j] + 1, // suppression
+        matrix[i - 1][j] + 1, // deletion
         matrix[i][j - 1] + 1, // insertion
         matrix[i - 1][j - 1] + cost // substitution
       );

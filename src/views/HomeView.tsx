@@ -174,6 +174,36 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     }
   };
 
+
+  const faqUi: Record<string, { badge: string; title: string; description: string; all: string; general: string; features: string; technical: string; legal: string }> = {
+    fr: { badge: 'RÉPONSES CLAIRES & HONNÊTES', title: 'Foire aux questions', description: 'Tout ce que vous devez savoir sur le moteur, les usages légaux et vos données.', all: 'Toutes les questions (18)', general: 'Principes généraux', features: 'Fonctionnalités', technical: 'Technique & vie privée', legal: 'Aspects légaux & marques' },
+    en: { badge: 'CLEAR & HONEST ANSWERS', title: 'Frequently Asked Questions', description: 'Everything you need to know about the engine, legal use, and your data.', all: 'All questions (18)', general: 'General', features: 'Features', technical: 'Technical & privacy', legal: 'Legal & trademarks' },
+    ar: { badge: 'إجابات واضحة وصادقة', title: 'الأسئلة الشائعة', description: 'كل ما تحتاج إلى معرفته عن المحرك والاستخدام القانوني وبياناتك.', all: 'كل الأسئلة (18)', general: 'معلومات عامة', features: 'الميزات', technical: 'التقنية والخصوصية', legal: 'القانون والعلامات التجارية' },
+    tr: { badge: 'AÇIK VE DÜRÜST YANITLAR', title: 'Sıkça Sorulan Sorular', description: 'Motor, yasal kullanım ve verileriniz hakkında bilmeniz gerekenler.', all: 'Tüm sorular (18)', general: 'Genel bilgiler', features: 'Özellikler', technical: 'Teknik ve gizlilik', legal: 'Hukuk ve markalar' },
+    es: { badge: 'RESPUESTAS CLARAS Y HONESTAS', title: 'Preguntas frecuentes', description: 'Todo lo que necesitas saber sobre el motor, el uso legal y tus datos.', all: 'Todas las preguntas (18)', general: 'Información general', features: 'Funciones', technical: 'Técnica y privacidad', legal: 'Legal y marcas' },
+    de: { badge: 'KLARE UND EHRLICHE ANTWORTEN', title: 'Häufig gestellte Fragen', description: 'Alles Wissenswerte über die Engine, die rechtliche Nutzung und deine Daten.', all: 'Alle Fragen (18)', general: 'Allgemeines', features: 'Funktionen', technical: 'Technik & Datenschutz', legal: 'Recht & Marken' },
+    it: { badge: 'RISPOSTE CHIARE E ONESTE', title: 'Domande frequenti', description: 'Tutto ciò che devi sapere sul motore, sull’uso legale e sui tuoi dati.', all: 'Tutte le domande (18)', general: 'Informazioni generali', features: 'Funzionalità', technical: 'Tecnica e privacy', legal: 'Aspetti legali e marchi' },
+    pt: { badge: 'RESPOSTAS CLARAS E HONESTAS', title: 'Perguntas frequentes', description: 'Tudo o que precisa saber sobre o motor, o uso legal e os seus dados.', all: 'Todas as perguntas (18)', general: 'Informações gerais', features: 'Funcionalidades', technical: 'Técnica e privacidade', legal: 'Questões legais e marcas' },
+    ja: { badge: '明確で誠実な回答', title: 'よくある質問', description: '生成エンジン、法的な利用、データについて知っておきたいこと。', all: 'すべての質問（18）', general: '一般', features: '機能', technical: '技術とプライバシー', legal: '法律と商標' },
+    ko: { badge: '명확하고 솔직한 답변', title: '자주 묻는 질문', description: '이름 생성 엔진, 합법적 사용, 데이터에 대해 알아야 할 모든 내용입니다.', all: '전체 질문 (18)', general: '일반', features: '기능', technical: '기술 및 개인정보', legal: '법률 및 상표' },
+    zh: { badge: '清晰诚实的解答', title: '常见问题', description: '了解命名引擎、合法使用和数据隐私所需的一切信息。', all: '全部问题（18）', general: '常规问题', features: '功能', technical: '技术与隐私', legal: '法律与商标' },
+    ru: { badge: 'ЧЕСТНЫЕ И ПОНЯТНЫЕ ОТВЕТЫ', title: 'Часто задаваемые вопросы', description: 'Всё о движке, законном использовании и ваших данных.', all: 'Все вопросы (18)', general: 'Общие вопросы', features: 'Возможности', technical: 'Техника и конфиденциальность', legal: 'Право и товарные знаки' },
+    hi: { badge: 'स्पष्ट और ईमानदार जवाब', title: 'अक्सर पूछे जाने वाले प्रश्न', description: 'नाम इंजन, कानूनी उपयोग और आपके डेटा के बारे में ज़रूरी जानकारी।', all: 'सभी प्रश्न (18)', general: 'सामान्य', features: 'सुविधाएँ', technical: 'तकनीक और गोपनीयता', legal: 'कानून और ट्रेडमार्क' },
+    nl: { badge: 'DUIDELIJKE EN EERLIJKE ANTWOORDEN', title: 'Veelgestelde vragen', description: 'Alles over de naamgenerator, legaal gebruik en je gegevens.', all: 'Alle vragen (18)', general: 'Algemeen', features: 'Functies', technical: 'Techniek en privacy', legal: 'Juridisch en merken' },
+    pl: { badge: 'JASNE I UCZCIWE ODPOWIEDZI', title: 'Często zadawane pytania', description: 'Wszystko o generatorze, legalnym użyciu i Twoich danych.', all: 'Wszystkie pytania (18)', general: 'Ogólne', features: 'Funkcje', technical: 'Technika i prywatność', legal: 'Prawo i znaki towarowe' },
+    sv: { badge: 'TYDLIGA OCH ÄRLIGA SVAR', title: 'Vanliga frågor', description: 'Allt du behöver veta om motorn, laglig användning och dina data.', all: 'Alla frågor (18)', general: 'Allmänt', features: 'Funktioner', technical: 'Teknik och integritet', legal: 'Juridik och varumärken' },
+    vi: { badge: 'CÂU TRẢ LỜI RÕ RÀNG VÀ TRUNG THỰC', title: 'Câu hỏi thường gặp', description: 'Thông tin về công cụ tạo tên, việc sử dụng hợp pháp và dữ liệu của bạn.', all: 'Tất cả câu hỏi (18)', general: 'Tổng quan', features: 'Tính năng', technical: 'Kỹ thuật và quyền riêng tư', legal: 'Pháp lý và nhãn hiệu' },
+    id: { badge: 'JAWABAN JELAS DAN JUJUR', title: 'Pertanyaan yang Sering Diajukan', description: 'Semua yang perlu diketahui tentang mesin, penggunaan legal, dan data Anda.', all: 'Semua pertanyaan (18)', general: 'Umum', features: 'Fitur', technical: 'Teknis dan privasi', legal: 'Hukum dan merek dagang' },
+    th: { badge: 'คำตอบที่ชัดเจนและตรงไปตรงมา', title: 'คำถามที่พบบ่อย', description: 'ทุกสิ่งที่ควรรู้เกี่ยวกับระบบ การใช้งานอย่างถูกกฎหมาย และข้อมูลของคุณ', all: 'คำถามทั้งหมด (18)', general: 'ทั่วไป', features: 'คุณสมบัติ', technical: 'เทคนิคและความเป็นส่วนตัว', legal: 'กฎหมายและเครื่องหมายการค้า' },
+    el: { badge: 'ΣΑΦΕΙΣ ΚΑΙ ΕΙΛΙΚΡΙΝΕΙΣ ΑΠΑΝΤΗΣΕΙΣ', title: 'Συχνές ερωτήσεις', description: 'Όλα όσα πρέπει να γνωρίζετε για τη μηχανή, τη νόμιμη χρήση και τα δεδομένα σας.', all: 'Όλες οι ερωτήσεις (18)', general: 'Γενικά', features: 'Λειτουργίες', technical: 'Τεχνικά και απόρρητο', legal: 'Νομικά και εμπορικά σήματα' },
+    he: { badge: 'תשובות ברורות וכנות', title: 'שאלות נפוצות', description: 'כל מה שחשוב לדעת על המנוע, שימוש חוקי והנתונים שלך.', all: 'כל השאלות (18)', general: 'כללי', features: 'תכונות', technical: 'טכנולוגיה ופרטיות', legal: 'משפט וסימני מסחר' },
+    cs: { badge: 'JASNÉ A UPŘÍMNÉ ODPOVĚDI', title: 'Často kladené otázky', description: 'Vše o generátoru, legálním použití a vašich datech.', all: 'Všechny otázky (18)', general: 'Obecné', features: 'Funkce', technical: 'Technika a soukromí', legal: 'Právo a ochranné známky' },
+    ro: { badge: 'RĂSPUNSURI CLARE ȘI SINCERE', title: 'Întrebări frecvente', description: 'Tot ce trebuie să știi despre motor, utilizarea legală și datele tale.', all: 'Toate întrebările (18)', general: 'General', features: 'Funcții', technical: 'Tehnic și confidențialitate', legal: 'Legal și mărci comerciale' },
+    da: { badge: 'KLARE OG ÆRLIGE SVAR', title: 'Ofte stillede spørgsmål', description: 'Alt, du bør vide om motoren, lovlig brug og dine data.', all: 'Alle spørgsmål (18)', general: 'Generelt', features: 'Funktioner', technical: 'Teknik og privatliv', legal: 'Jura og varemærker' },
+    fi: { badge: 'SELKEÄT JA REHELLISET VASTAUKSET', title: 'Usein kysytyt kysymykset', description: 'Kaikki olennainen generaattorista, laillisesta käytöstä ja tiedoistasi.', all: 'Kaikki kysymykset (18)', general: 'Yleistä', features: 'Ominaisuudet', technical: 'Tekniikka ja tietosuoja', legal: 'Laki ja tavaramerkit' },
+  };
+  const faqLabels = faqUi[settings.language] || faqUi.en;
+
   // Filtered FAQ
   const localizedFaq = useMemo(() => getLocalizedFaq(settings.language), [settings.language]);
   const filteredFaq = useMemo(() => {
@@ -802,23 +832,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase tracking-wider mb-2">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>RÉPONSES CLAIRES & HONNÊTES</span>
+            <span>{faqLabels.badge}</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight mb-3">
-            Foire Aux Questions
+            {faqLabels.title}
           </h2>
           <p className="text-sm text-slate-400">
-            Tout ce que vous devez savoir sur le fonctionnement du moteur, la propriété légale et vos données.
+            {faqLabels.description}
           </p>
 
           {/* Category Filter Pills for FAQ */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
             {[
-              { id: 'all', label: 'Toutes les questions (18)' },
-              { id: 'general', label: 'Principes Généraux' },
-              { id: 'features', label: 'Fonctionnalités' },
-              { id: 'technical', label: 'Technique & Vie Privée' },
-              { id: 'legal', label: 'Légal & Marques' },
+              { id: 'all', label: faqLabels.all },
+              { id: 'general', label: faqLabels.general },
+              { id: 'features', label: faqLabels.features },
+              { id: 'technical', label: faqLabels.technical },
+              { id: 'legal', label: faqLabels.legal },
             ].map((cat) => (
               <button
                 key={cat.id}

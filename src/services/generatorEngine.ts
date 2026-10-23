@@ -29,7 +29,7 @@ function cap(v: string): string {
 function normalize(s: string): string {
   return cap(
     String(s || '')
-      .replace(/[^A-Za-zÀ-ÿ0-9'’& -]/g, '')
+      .replace(/[^\p{L}\p{M}\p{N}'’& -]/gu, '')
       .replace(/\s+/g, ' ')
       .trim()
   );
@@ -673,12 +673,12 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
   const out: GeneratedName[] = [];
   const seenInBatch: string[] = [];
   const recentNames = getRecentNames();
-  const cleanKw = keyword.trim().replace(/[^a-zA-ZÀ-ÿ0-9-]/g, '');
+  const cleanKw = keyword.trim().replace(/[^\p{L}\p{M}\p{N}-]/gu, '');
 
   // =========================================================================
   // SPECIALIZED PIPELINE: REAL ATTESTED BABY NAMES (Priorité Absolue Qualité)
   // =========================================================================
-  if (targetGenerator === 'baby_name' && targetStyle !== 'creative') {
+  if (targetGenerator === 'baby_name') {
     const attestedSource =
       resolved.attestedItems && resolved.attestedItems.length > 0
         ? resolved.attestedItems
@@ -963,11 +963,8 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
     seenInBatch.push(cand.name);
     usedStrategies.add(cand.strategy);
 
-    const isCreativeBaby = targetGenerator === 'baby_name';
-    const desc = isCreativeBaby
-      ? '✨ Création phonétique originale (mode inventif, non issu des répertoires historiques).'
-      : ((randomItem(resolved.descriptions) as string) ||
-        '✨ Un nom exclusif façonné avec soin par la forge NameForge.');
+    const desc = (randomItem(resolved.descriptions) as string) ||
+      '✨ Un nom exclusif façonné avec soin par la forge NameForge.';
 
     const meta = buildProfessionalMetadata(cand.name, targetGenerator, resolved.label || targetStyle, length);
 
@@ -984,7 +981,7 @@ export function generateNames(options: GenerateOptions): GeneratedName[] {
       watchouts: meta.watchouts,
       disclaimer: meta.disclaimer,
       origin: meta.origin,
-      isAttested: isCreativeBaby ? false : undefined,
+      isAttested: targetGenerator === 'baby_name' ? true : undefined,
     });
   }
 

@@ -109,6 +109,14 @@ assert(
   `Non-matching: ${nonKwBrand.map((r) => r.name).join(', ')}`
 );
 
+// Test 47: Unicode keywords in non-Latin scripts survive cleaning and generation.
+const unicodeKeywordNames = generateNames({ generatorId: 'brand', keyword: '星辰', quantity: 3 });
+assert(
+  unicodeKeywordNames.length === 3 && unicodeKeywordNames.every((entry) => entry.name.includes('星辰')),
+  'Chinese keyword characters are preserved in generated names',
+  `Generated: ${unicodeKeywordNames.map((entry) => entry.name).join(', ')}`
+);
+
 // Test 9: Keyword parameter in fantasy generator
 const kwResultsFantasy = generateNames({ generatorId: 'fantasy', keyword: 'Val', quantity: 5 });
 const nonKwFantasy = kwResultsFantasy.filter((r) => !r.name.toLowerCase().includes('val'));
@@ -157,12 +165,14 @@ assert(
   `Female names found: ${nonMale.map((n) => n.name).join(', ')}`
 );
 
-// Test 14: Baby names creative style explicitly marks isAttested: false
+// Test 14: Baby-name styles always return real attested names, including creative mode
 const creativeBabies = generateNames({ generatorId: 'baby_name', style: 'creative', quantity: 5 });
-const allMarkedFalse = creativeBabies.every((b) => b.isAttested === false);
+const allMarkedAttested = creativeBabies.length === 5 && creativeBabies.every(
+  (b) => b.isAttested === true && ATTESTED_BABY_NAMES.some((item) => item.name === b.name)
+);
 assert(
-  allMarkedFalse,
-  'Baby names in creative mode are honestly tagged with isAttested: false'
+  allMarkedAttested,
+  'Baby-name styles always return names from the attested-name database'
 );
 
 // Test 15: Baby names classic style marks isAttested: true
@@ -362,6 +372,7 @@ console.log('\n--- LOT 5: TEXT STYLER, UNICODE & RTL ---');
 
 import { UNICODE_STYLES, VISUAL_EFFECTS, TEXTURE_FILLS, generateSvgCode } from '../services/textStyler';
 import { SUPPORTED_LANGUAGES, getAppSettings } from '../services/settings';
+import { getStudioLabel } from '../i18n/studio';
 
 // Test 34: Unicode styles library count
 assert(
@@ -380,6 +391,15 @@ assert(
   Boolean(transformedBold && transformedBold !== sampleWord && transformedFraktur && transformedScript && transformedInverted),
   'Unicode transformations accurately map standard characters to stylistic mathematical blocks',
   `Bold: ${transformedBold}, Fraktur: ${transformedFraktur}`
+);
+
+// Test 46: Unicode transformations preserve supplementary-plane emoji and symbols.
+const emojiInput = 'Forge 🚀 𐐒';
+const emojiBold = UNICODE_STYLES.find((style) => style.id === 'bold-sans')?.transform(emojiInput) || '';
+const emojiInverted = UNICODE_STYLES.find((style) => style.id === 'inverted')?.transform(emojiInput) || '';
+assert(
+  emojiBold.includes('🚀') && emojiBold.includes('𐐒') && emojiInverted.includes('🚀') && emojiInverted.includes('𐐒'),
+  'Unicode transforms preserve supplementary-plane characters without splitting surrogate pairs'
 );
 
 // Test 36: Visual effects presets integrity
@@ -415,6 +435,52 @@ const allHaveRtl = rtlMeta.length === rtlCodes.length && rtlMeta.every((l) => l.
 assert(
   allHaveRtl,
   'All Middle Eastern / RTL languages (ar, he, fa, ur, ps) have dir="rtl" defined'
+);
+
+// Test 41: SVG safely escapes user-supplied markup.
+const escapedSvg = generateSvgCode('<script>alert("x")</script>', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+assert(
+  escapedSvg.includes('&lt;script&gt;') && !escapedSvg.includes('<script>'),
+  'SVG export escapes user text so markup is rendered as text, not injected elements'
+);
+
+// Test 42: SVG includes a texture overlay clipped to the glyph shape.
+const texturedSvg = generateSvgCode('NameForge', 48, 'sans-serif', 'pure-gold', 'brushed-gold', true);
+assert(
+  texturedSvg.includes('clip-path="url(#nf-text-clip)"') && texturedSvg.includes('nf-pattern-brushed-gold'),
+  'SVG export applies the selected texture as a clipped overlay inside the text'
+);
+
+// Test 43: SVG width expands for longer text instead of staying fixed.
+const shortSvg = generateSvgCode('Hi', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+const longSvg = generateSvgCode('A very long NameForge studio title', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
+const shortWidth = Number(shortSvg.match(/viewBox="0 0 (\d+)/)?.[1] || 0);
+const longWidth = Number(longSvg.match(/viewBox="0 0 (\d+)/)?.[1] || 0);
+assert(
+  longWidth > shortWidth,
+  'SVG export dynamically expands its canvas for longer text'
+);
+
+// Test 44: Core Studio labels are translated for all 25 priority languages.
+const priorityStudioLanguages = ['fr', 'en', 'ar', 'tr', 'es', 'de', 'it', 'pt', 'ja', 'ko', 'zh', 'ru', 'hi', 'nl', 'pl', 'sv', 'vi', 'id', 'th', 'el', 'he', 'cs', 'ro', 'da', 'fi'];
+const studioKeys = ['title', 'inputLabel', 'inputPlaceholder', 'copyPlain', 'quickPresets', 'unicodeTab', 'effectsTab', 'texturesTab', 'exportTab', 'fontFamily', 'fontSize', 'letterSpacing', 'visualEffect', 'textureMask', 'transparentBg', 'exportQuality', 'exportPng', 'copySvg', 'copyCss', 'copy', 'copied', 'clickToCopy', 'reset', 'typographySettings', 'chooseTexture', 'textureActive', 'clickToApply', 'openCanvas', 'backHome', 'svgCopied', 'cssCopied', 'selectedForStudio', 'heroTitle', 'heroAccent', 'heroDescription', 'unicodeHint', 'effectsHint', 'texturesHint', 'clearInput'] as const;
+const studioLabelsComplete = priorityStudioLanguages.every((language) => studioKeys.every((key) => getStudioLabel(language, key).trim().length > 0));
+assert(
+  studioLabelsComplete,
+  'Core Style Studio controls have translated labels for all 25 priority languages',
+  `Checked ${priorityStudioLanguages.length} languages and ${studioKeys.length} labels`
+);
+
+// Test 45: Supported language registry has unique, complete metadata.
+const languageCodes = SUPPORTED_LANGUAGES.map((language) => language.code);
+const uniqueLanguageCodes = new Set(languageCodes);
+const invalidLanguageMeta = SUPPORTED_LANGUAGES.filter(
+  (language) => !language.label.trim() || !language.native.trim() || !['ltr', 'rtl'].includes(language.dir)
+);
+assert(
+  uniqueLanguageCodes.size === SUPPORTED_LANGUAGES.length && invalidLanguageMeta.length === 0,
+  'Every supported language has a unique code, visible names, and a valid reading direction',
+  `Languages: ${SUPPORTED_LANGUAGES.length}; duplicate codes: ${languageCodes.length - uniqueLanguageCodes.size}; incomplete metadata: ${invalidLanguageMeta.length}`
 );
 
 // -----------------------------------------------------------------------------

@@ -101,6 +101,42 @@
     border-color: #e2e8f0 !important;
   }
 
+  /* Additional dark surfaces used by the Studio and generator panels */
+  html.light [class~="bg-[#0d1424]"],
+  html.light [class~="bg-[#0d1424]/95"],
+  html.light [class~="bg-[#0d1424]/90"],
+  html.light [class~="bg-[#0d1422]"],
+  html.light [class~="bg-[#0d1422]/90"],
+  html.light [class~="bg-[#111827]"],
+  html.light [class~="bg-[#111827]/80"],
+  html.light [class~="bg-[#090e1c]"],
+  html.light [class~="bg-[#090e1c]/90"] {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    box-shadow: 0 4px 18px -2px rgba(15, 23, 42, 0.05) !important;
+  }
+
+  /* Dark utility text must remain readable on Studio panels converted to light surfaces */
+  html.light [class~="bg-[#0d1424]"] [class~="text-white"],
+  html.light [class~="bg-[#0d1424]/95"] [class~="text-white"],
+  html.light [class~="bg-[#0d1424]/90"] [class~="text-white"],
+  html.light [class~="bg-[#090e1c]"] [class~="text-white"],
+  html.light [class~="bg-[#090e1c]/90"] [class~="text-white"] {
+    color: #1e293b !important;
+  }
+
+  /* Keep white foreground only on explicitly saturated primary actions */
+  html.light button[class*="bg-purple-600"],
+  html.light button[class*="bg-indigo-600"],
+  html.light button[class*="bg-cyan-600"],
+  html.light a[class*="bg-purple-600"],
+  html.light a[class*="bg-indigo-600"],
+  html.light a[class*="bg-cyan-600"],
+  html.light [class*="bg-gradient-to-r"].text-white {
+    color: #ffffff !important;
+  }
+
   /* Inputs and dropdowns */
   html.light input,
   html.light select,
@@ -136,6 +172,30 @@
   html.light .bg-\[\#101a2c\] {
     background-color: #f8fafc !important;
     color: #1e293b !important;
+  }
+
+  /* Re-map the most common fixed dark surfaces used by cards and panels. */
+  html.light .bg-\[\#0e1627\],
+  html.light .bg-\[\#0f1629\],
+  html.light .bg-\[\#101a2c\] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  html.light .bg-\[\#131b2e\],
+  html.light .bg-\[\#0d1424\],
+  html.light .bg-\[\#080d19\],
+  html.light .bg-\[\#060611\] {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  html.light [class*="from-\[\#131b2e\]"],
+  html.light [class*="via-\[\#0d1424\]"],
+  html.light [class*="to-\[\#080d19\]"] {
+    background-image: linear-gradient(135deg, #ffffff, #f1f5f9, #e2e8f0) !important;
   }
 
   /* Typography Contrast in Light Mode */

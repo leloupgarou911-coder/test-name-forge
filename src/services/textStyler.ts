@@ -92,8 +92,7 @@ function mapChars(
   const config = CHAR_MAPS[styleKey];
   const exceptions = UNICODE_EXCEPTIONS[styleKey] || {};
 
-  return text
-    .split('')
+  return Array.from(text)
     .map((char) => {
       if (exceptions[char]) return exceptions[char];
       if (fallbackMap) {
@@ -153,8 +152,7 @@ const SMALL_CAPS_MAP: Record<string, string> = {
 
 // Circled characters
 function toCircled(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => {
       const code = c.charCodeAt(0);
       if (code >= 65 && code <= 90) return String.fromCodePoint(0x24b6 + (code - 65));
@@ -168,8 +166,7 @@ function toCircled(text: string): string {
 
 // Squared characters
 function toSquared(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => {
       const code = c.toUpperCase().charCodeAt(0);
       if (code >= 65 && code <= 90) return String.fromCodePoint(0x1f130 + (code - 65));
@@ -250,8 +247,7 @@ const INVERTED_MAP: Record<string, string> = {
 };
 
 function toInverted(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .reverse()
     .map((c) => INVERTED_MAP[c] || c)
     .join('');
@@ -260,16 +256,14 @@ function toInverted(text: string): string {
 // Combining marks (Strikethrough, Underline, Slash)
 function toCombining(text: string, markCode: number): string {
   const mark = String.fromCodePoint(markCode);
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => (c === ' ' ? ' ' : `${c}${mark}`))
     .join('');
 }
 
 // Fullwidth Vaporwave
 function toFullwidth(text: string): string {
-  return text
-    .split('')
+  return Array.from(text)
     .map((c) => {
       const code = c.charCodeAt(0);
       if (code === 32) return '　';
@@ -356,9 +350,7 @@ export const UNICODE_STYLES: UnicodeStyleOption[] = [
     category: 'formal',
     sample: 'ꜱᴍᴀʟʟ ᴄᴀᴘɪᴛᴀʟꜱ',
     transform: (t) =>
-      t
-        .toLowerCase()
-        .split('')
+      Array.from(t.toLowerCase())
         .map((c) => SMALL_CAPS_MAP[c] || c)
         .join(''),
   },
@@ -766,12 +758,12 @@ export function renderStyledTextToCanvas(
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  const fontStr = `bold ${fontSize * scale}px "${fontFamily}", system-ui, sans-serif`;
+  const fontStr = `bold ${fontSize * scale}px ${fontFamily}, system-ui, sans-serif`;
   ctx.font = fontStr;
 
   // Measure text
   const metrics = ctx.measureText(text);
-  const textWidth = metrics.width + (text.length - 1) * letterSpacing * scale;
+  const textWidth = metrics.width + Math.max(0, Array.from(text).length - 1) * letterSpacing * scale;
   const paddingX = 60 * scale;
   const paddingY = 50 * scale;
   const width = Math.max(300 * scale, Math.ceil(textWidth + paddingX * 2));
@@ -836,14 +828,26 @@ export function renderStyledTextToCanvas(
     ctx.strokeText(text, posX, posY);
   }
 
-  // Create clipping mask using pattern
+  // Base color comes from the selected visual effect, not a fixed neon gradient.
+  // Parse the preset's CSS hex colors so Canvas and the preview/export share the same palette.
+  const gradient = ctx.createLinearGradient(0, 0, width, height);
+  const gradientStops = effect.gradientCSS.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
+  gradientStops.forEach((color, index) => {
+    gradient.addColorStop(gradientStops.length === 1 ? 0 : index / (gradientStops.length - 1), color);
+  });
+  ctx.fillStyle = gradient;
+  ctx.fillText(text, posX, posY);
+
+  // Apply the selected texture as a subtle clipped overlay inside the glyphs.
+  // source-atop keeps the texture within the text shape, preserving transparent backgrounds.
   const pattern = ctx.createPattern(offscreen, 'no-repeat');
   if (pattern) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.globalAlpha = 0.32;
     ctx.fillStyle = pattern;
     ctx.fillText(text, posX, posY);
-  } else {
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(text, posX, posY);
+    ctx.restore();
   }
 
   // Specular top highlight pass
@@ -861,7 +865,7 @@ export function downloadCanvasAsPng(canvas: HTMLCanvasElement, filename: string)
     const url = canvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${filename.replace(/[^a-zA-Z0-9_-]/g, '_')}_styled.png`;
+    a.download = `${filename.replace(/[^\p{L}\p{N}_-]/gu, '_') || 'nameforge'}_styled.png`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -882,18 +886,46 @@ export function generateSvgCode(
   isTransparentBg: boolean
 ): string {
   const effect = VISUAL_EFFECTS.find((e) => e.id === effectId) || VISUAL_EFFECTS[0];
-  const width = 800;
-  const height = 240;
+  const texture = TEXTURE_FILLS.find((t) => t.id === textureId) || TEXTURE_FILLS[0];
+  // Estimate a canvas wide enough for long labels instead of clipping them in a fixed 800px SVG.
+  const width = Math.max(320, Math.ceil(text.length * fontSize * 0.78 + 120));
+  const height = Math.max(160, Math.ceil(fontSize * 2.8));
+  const colors = effect.gradientCSS.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
+  const stops = colors.map((color, index) =>
+    `<stop offset="${colors.length === 1 ? 0 : Math.round((index / (colors.length - 1)) * 100)}%" stop-color="${color}" />`
+  ).join('\\n      ');
+  const safeText = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+  const safeFontFamily = fontFamily.replace(/["<>]/g, '');
+  const safeTextureId = texture.id.replace(/[^a-zA-Z0-9_-]/g, '');
+  const textureColors = texture.previewGradient.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
+  const textureStops = textureColors.map((color, index) =>
+    `<stop offset="${textureColors.length === 1 ? 0 : Math.round((index / (textureColors.length - 1)) * 100)}%" stop-color="${color}" />`
+  ).join('\\n      ');
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
   <defs>
     <linearGradient id="nf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00f0ff" />
-      <stop offset="50%" stop-color="#d946ef" />
-      <stop offset="100%" stop-color="#8b5cf6" />
+      ${stops}
     </linearGradient>
-    <filter id="nf-glow" x="-20%" y="-20%" width="140%" height="140%">
+    <linearGradient id="nf-texture-${safeTextureId}" x1="0%" y1="0%" x2="100%" y2="100%">
+      ${textureStops}
+    </linearGradient>
+    <pattern id="nf-pattern-${safeTextureId}" width="18" height="18" patternUnits="userSpaceOnUse">
+      <rect width="18" height="18" fill="url(#nf-texture-${safeTextureId})" />
+      <path d="M-4 4 L4 -4 M0 18 L18 0 M14 22 L22 14" stroke="#ffffff" stroke-opacity="0.28" stroke-width="1.5" />
+    </pattern>
+    <clipPath id="nf-text-clip">
+      <text x="50%" y="53%" font-family="${safeFontFamily}, system-ui, sans-serif"
+        font-size="${fontSize}px" font-weight="900" text-anchor="middle"
+        dominant-baseline="middle">${safeText}</text>
+    </clipPath>
+    <filter id="nf-glow" x="-25%" y="-25%" width="150%" height="150%">
       <feGaussianBlur stdDeviation="8" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
@@ -902,18 +934,10 @@ export function generateSvgCode(
     </filter>
   </defs>
   ${!isTransparentBg ? `<rect width="100%" height="100%" fill="${effect.bgColor}" />` : ''}
-  <text 
-    x="50%" 
-    y="55%" 
-    font-family="${fontFamily}, system-ui, sans-serif" 
-    font-size="${fontSize}px" 
-    font-weight="900" 
-    text-anchor="middle" 
-    dominant-baseline="middle" 
-    fill="url(#nf-grad)"
-    filter="url(#nf-glow)"
-  >
-    ${text}
-  </text>
+  <text x="50%" y="53%" font-family="${safeFontFamily}, system-ui, sans-serif"
+    font-size="${fontSize}px" font-weight="900" text-anchor="middle"
+    dominant-baseline="middle" fill="url(#nf-grad)" filter="url(#nf-glow)">${safeText}</text>
+  <rect width="100%" height="100%" fill="url(#nf-pattern-${safeTextureId})"
+    clip-path="url(#nf-text-clip)" opacity="0.32" />
 </svg>`.trim();
 }

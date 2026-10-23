@@ -24,8 +24,9 @@ import {
   generateSvgCode,
 } from '../services/textStyler';
 import { GeneratorId } from '../types';
-import { getAppSettings } from '../services/settings';
+import { getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from '../services/settings';
 import { getTranslations } from '../i18n';
+import { getStudioLabel } from '../i18n/studio';
 
 interface StyleStudioViewProps {
   initialText?: string;
@@ -43,12 +44,44 @@ const PRESET_SAMPLE_NAMES = [
   'Apex Studio',
 ];
 
+// 30+ built-in font stacks: no network font download required. Actual glyphs depend
+// on fonts installed on the user's device; Unicode styles remain available separately.
 const FONT_OPTIONS = [
-  { id: 'sans', name: 'Modern Sans (Inter / System)', family: 'system-ui, -apple-system, sans-serif' },
-  { id: 'serif', name: 'Classic Serif (Georgia / Editorial)', family: 'Georgia, Cambria, serif' },
-  { id: 'mono', name: 'Futuristic Mono (JetBrains / Fira)', family: 'monospace' },
-  { id: 'display', name: 'Impact Display (Heavy Black)', family: 'Impact, Arial Black, sans-serif' },
-  { id: 'cursive', name: 'Script Calligraphy (Brush)', family: 'cursive, "Brush Script MT", sans-serif' },
+  { id: 'sans', name: '01 · Modern Sans', family: 'system-ui, -apple-system, sans-serif' },
+  { id: 'serif', name: '02 · Classic Serif', family: 'Georgia, Cambria, serif' },
+  { id: 'mono', name: '03 · Monospace', family: 'ui-monospace, SFMono-Regular, Consolas, monospace' },
+  { id: 'display', name: '04 · Impact Display', family: 'Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif' },
+  { id: 'cursive', name: '05 · Calligraphy', family: 'cursive, "Brush Script MT", sans-serif' },
+  { id: 'arial', name: '06 · Arial', family: 'Arial, Helvetica, sans-serif' },
+  { id: 'verdana', name: '07 · Verdana', family: 'Verdana, Geneva, sans-serif' },
+  { id: 'tahoma', name: '08 · Tahoma', family: 'Tahoma, Geneva, sans-serif' },
+  { id: 'trebuchet', name: '09 · Trebuchet', family: '"Trebuchet MS", sans-serif' },
+  { id: 'gill', name: '10 · Gill Sans', family: '"Gill Sans", "Gill Sans MT", sans-serif' },
+  { id: 'optima', name: '11 · Optima', family: 'Optima, "Segoe UI", sans-serif' },
+  { id: 'futura', name: '12 · Geometric', family: 'Futura, "Century Gothic", sans-serif' },
+  { id: 'rounded', name: '13 · Rounded', family: '"Arial Rounded MT Bold", "Trebuchet MS", sans-serif' },
+  { id: 'narrow', name: '14 · Condensed', family: '"Arial Narrow", "Roboto Condensed", sans-serif' },
+  { id: 'georgia', name: '15 · Georgia Editorial', family: 'Georgia, serif' },
+  { id: 'times', name: '16 · Times', family: '"Times New Roman", Times, serif' },
+  { id: 'palatino', name: '17 · Palatino', family: 'Palatino, "Book Antiqua", serif' },
+  { id: 'garamond', name: '18 · Garamond', family: 'Garamond, "EB Garamond", serif' },
+  { id: 'baskerville', name: '19 · Baskerville', family: 'Baskerville, "Times New Roman", serif' },
+  { id: 'didot', name: '20 · Didot', family: 'Didot, "Bodoni MT", serif' },
+  { id: 'rockwell', name: '21 · Slab Serif', family: 'Rockwell, "Roboto Slab", serif' },
+  { id: 'consolas', name: '22 · Consolas', family: 'Consolas, "Courier New", monospace' },
+  { id: 'courier', name: '23 · Courier', family: '"Courier New", Courier, monospace' },
+  { id: 'monaco', name: '24 · Monaco', family: 'Monaco, "Lucida Console", monospace' },
+  { id: 'lucida', name: '25 · Lucida', family: '"Lucida Console", "Lucida Sans Typewriter", monospace' },
+  { id: 'comic', name: '26 · Comic', family: '"Comic Sans MS", "Comic Sans", cursive' },
+  { id: 'script', name: '27 · Script', family: '"Segoe Script", "Brush Script MT", cursive' },
+  { id: 'zapf', name: '28 · Decorative Script', family: '"Apple Chancery", "URW Chancery L", cursive' },
+  { id: 'fantasy', name: '29 · Fantasy', family: 'Papyrus, Herculanum, fantasy' },
+  { id: 'emoji', name: '30 · Emoji-friendly', family: 'system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif' },
+  { id: 'math', name: '31 · Math & Symbols', family: '"Cambria Math", "STIX Two Math", "DejaVu Sans", serif' },
+  { id: 'cjk', name: '32 · CJK Fallback', family: '"Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' },
+  { id: 'arabic', name: '33 · Arabic Fallback', family: '"Noto Naskh Arabic", "Traditional Arabic", Tahoma, serif' },
+  { id: 'devanagari', name: '34 · Indic Fallback', family: '"Nirmala UI", "Noto Sans Devanagari", sans-serif' },
+  { id: 'symbol', name: '35 · Symbol Fallback', family: '"Segoe UI Symbol", "DejaVu Sans", sans-serif' },
 ];
 
 export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
@@ -72,8 +105,12 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   const [cssCopied, setCssCopied] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const settings = getAppSettings();
+  const [settings, setSettings] = useState(getAppSettings);
   const t = getTranslations(settings.language);
+  const isRtl = SUPPORTED_LANGUAGES.find((language) => language.code === settings.language)?.dir === 'rtl';
+
+  // Keep the studio's labels and direction in sync while it remains open.
+  useEffect(() => subscribeToSettings(setSettings), []);
 
   // When initialText changes, update input
   useEffect(() => {
@@ -99,16 +136,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
   const handleCopyText = async (textToCopy: string, id: string) => {
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(textToCopy);
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = textToCopy;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-      }
+      await copyToClipboard(textToCopy);
       setCopiedId(id);
       setTimeout(() => setCopiedId(null), 1500);
     } catch (e) {
@@ -121,6 +149,27 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
     downloadCanvasAsPng(canvasRef.current, inputText || 'styled_name');
   };
 
+  const copyToClipboard = async (value: string): Promise<void> => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return;
+    }
+
+    // Clipboard API may be unavailable on older browsers or non-secure origins.
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    if (!copied) {
+      throw new Error('Clipboard copy is not supported in this browser.');
+    }
+  };
+
   const handleCopySvg = async () => {
     const code = generateSvgCode(
       inputText || 'NameForge',
@@ -131,13 +180,11 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       isTransparent
     );
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(code);
-      }
+      await copyToClipboard(code);
       setSvgCopied(true);
       setTimeout(() => setSvgCopied(false), 1500);
     } catch (e) {
-      console.error(e);
+      console.error('Failed to copy SVG', e);
     }
   };
 
@@ -155,9 +202,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   filter: drop-shadow(${currentEffect.textShadowCSS.split(',')[0]});
 }`;
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(cssCode);
-      }
+      await copyToClipboard(cssCode);
       setCssCopied(true);
       setTimeout(() => setCssCopied(false), 1500);
     } catch (e) {
@@ -166,7 +211,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
   };
 
   return (
-    <div className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-12 animate-fade-in">
+    <div lang={settings.language} dir={isRtl ? 'rtl' : 'ltr'} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-12 animate-fade-in">
       {/* Top Breadcrumb & Return */}
       <div className="flex items-center justify-between gap-4 mb-6">
         <button
@@ -174,13 +219,13 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           className="text-xs sm:text-sm font-semibold text-slate-400 hover:text-white flex items-center gap-1.5 transition cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>{settings.language === 'fr' ? 'Retour à l’accueil' : 'Back to Home'}</span>
+          <span>{getStudioLabel(settings.language, 'backHome')}</span>
         </button>
 
         <div className="flex items-center gap-2">
           <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/15 border border-purple-400/30 text-purple-300 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>{settings.language === 'fr' ? 'Atelier de Stylisation Typographique' : 'Typography & Style Studio'}</span>
+            <span>{getStudioLabel(settings.language, 'title')}</span>
           </span>
         </div>
       </div>
@@ -188,26 +233,13 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       {/* Hero Title */}
       <div className="text-center max-w-3xl mx-auto mb-10">
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-          {settings.language === 'fr' ? (
-            <>
-              Forge Typographique &{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
-                Effets Visuels
-              </span>
-            </>
-          ) : (
-            <>
-              Typography Forge &{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
-                Visual Studio
-              </span>
-            </>
-          )}
+          {getStudioLabel(settings.language, 'heroTitle')}{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
+            {getStudioLabel(settings.language, 'heroAccent')}
+          </span>
         </h1>
         <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
-          {settings.language === 'fr'
-            ? 'Transformez vos noms en créations visuelles uniques : polices Unicode copiables partout (Discord, Twitter, jeux), effets néon, or brossé, textures magma et masques d’écrêtage exportables en HD.'
-            : 'Transform your names into standout creations: copy-pasteable Unicode styles for Discord, games, and socials, plus glowing neon, metallic gold, texture fills, and HD image exports.'}
+          {getStudioLabel(settings.language, 'heroDescription')}
         </p>
       </div>
 
@@ -216,22 +248,27 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
           <div className="flex-1 relative">
             <label htmlFor="styler-input" className="sr-only">
-              {settings.language === 'fr' ? 'Nom à styliser' : 'Name to style'}
+              {getStudioLabel(settings.language, 'inputLabel')}
             </label>
             <input
               id="styler-input"
               type="text"
+              dir={isRtl ? 'rtl' : 'ltr'}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder={settings.language === 'fr' ? 'Entrez un nom ou une marque...' : 'Enter a name or brand...'}
-              className="w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner"
+              placeholder={getStudioLabel(settings.language, 'inputPlaceholder')}
+              className={`w-full px-5 py-4 rounded-2xl bg-[#090d19] border border-slate-700 text-lg sm:text-xl font-bold text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition shadow-inner ${isRtl ? 'text-right pl-12' : 'text-left pr-12'}`}
               maxLength={60}
+              aria-describedby="styler-input-counter"
             />
+            <span id="styler-input-counter" aria-live="polite" className="absolute bottom-1 right-4 text-[10px] text-slate-500">
+              {inputText.length}/60
+            </span>
             {inputText && (
               <button
                 onClick={() => setInputText('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1"
-                title="Effacer"
+                className={`absolute top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 hover:text-slate-300 p-1 ${isRtl ? 'left-4' : 'right-4'}`}
+                title={getStudioLabel(settings.language, 'clearInput')}
               >
                 ✕
               </button>
@@ -240,18 +277,19 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
           {/* Quick copy input button */}
           <button
+            aria-live="polite"
             onClick={() => handleCopyText(inputText, 'input-raw')}
             className="px-6 py-4 rounded-2xl font-bold text-sm bg-purple-600 hover:bg-purple-500 text-white transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-purple-900/30"
           >
             {copiedId === 'input-raw' ? (
               <>
                 <Check className="w-4 h-4 text-emerald-300" />
-                <span>{settings.language === 'fr' ? 'Copié !' : 'Copied!'}</span>
+                <span>{getStudioLabel(settings.language, 'copied')}</span>
               </>
             ) : (
               <>
                 <Copy className="w-4 h-4" />
-                <span>{settings.language === 'fr' ? 'Copier Texte Brut' : 'Copy Plain'}</span>
+                <span>{getStudioLabel(settings.language, 'copyPlain')}</span>
               </>
             )}
           </button>
@@ -260,7 +298,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         {/* Preset sample names quick pills */}
         <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           <span className="text-xs font-semibold text-slate-400 shrink-0">
-            {settings.language === 'fr' ? 'Exemples rapides :' : 'Quick Presets:'}
+            {`${getStudioLabel(settings.language, 'quickPresets')}:`}
           </span>
           {PRESET_SAMPLE_NAMES.map((name) => (
             <button
@@ -275,8 +313,10 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto scrollbar-none">
+      <div role="tablist" aria-label={getStudioLabel(settings.language, 'title')} className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto scrollbar-none">
         <button
+          role="tab"
+          aria-selected={activeTab === 'unicode'}
           onClick={() => setActiveTab('unicode')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'unicode'
@@ -285,10 +325,12 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Type className="w-4 h-4 text-purple-400" />
-          <span>{settings.language === 'fr' ? '1. Polices Unicode Copiables (22)' : '1. Copyable Unicode Fonts (22)'}</span>
+          <span>{getStudioLabel(settings.language, 'unicodeTab')}</span>
         </button>
 
         <button
+          role="tab"
+          aria-selected={activeTab === 'effects'}
           onClick={() => setActiveTab('effects')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'effects'
@@ -297,10 +339,12 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Palette className="w-4 h-4 text-cyan-400" />
-          <span>{settings.language === 'fr' ? '2. Effets Visuels & Néons' : '2. Visual Effects & Glows'}</span>
+          <span>{getStudioLabel(settings.language, 'effectsTab')}</span>
         </button>
 
         <button
+          role="tab"
+          aria-selected={activeTab === 'textures'}
           onClick={() => setActiveTab('textures')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'textures'
@@ -309,10 +353,12 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Layers className="w-4 h-4 text-pink-400" />
-          <span>{settings.language === 'fr' ? '3. Textures & Masques d’Écrêtage' : '3. Texture Fills & Masks'}</span>
+          <span>{getStudioLabel(settings.language, 'texturesTab')}</span>
         </button>
 
         <button
+          role="tab"
+          aria-selected={activeTab === 'export'}
           onClick={() => setActiveTab('export')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'export'
@@ -321,7 +367,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
           }`}
         >
           <Sliders className="w-4 h-4 text-emerald-400" />
-          <span>{settings.language === 'fr' ? '4. Studio Canvas & Export HD' : '4. Canvas HD Export Studio'}</span>
+          <span>{getStudioLabel(settings.language, 'exportTab')}</span>
         </button>
       </div>
 
@@ -332,9 +378,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <p className="text-xs sm:text-sm text-slate-400">
-              {settings.language === 'fr'
-                ? 'Cliquez sur n’importe quel style pour le copier instantanément dans votre presse-papiers.'
-                : 'Click any style card to copy directly to your clipboard for instant use.'}
+              {getStudioLabel(settings.language, 'unicodeHint')}
             </p>
           </div>
 
@@ -347,7 +391,17 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 <div
                   key={style.id}
                   onClick={() => handleCopyText(styledText, style.id)}
-                  className="p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      void handleCopyText(styledText, style.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${getStudioLabel(settings.language, 'clickToCopy')}: ${style.name}`}
+                  aria-describedby={`studio-style-${style.id}-preview`}
+                  className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 p-5 rounded-2xl bg-[#0f172a] hover:bg-[#131d36] border border-slate-800 hover:border-purple-500/70 transition-all cursor-pointer group flex flex-col justify-between shadow-md hover:-translate-y-1"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
@@ -359,16 +413,16 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       </span>
                     </div>
 
-                    <div className="text-xl sm:text-2xl font-medium text-white break-words py-2 group-hover:text-cyan-200 transition">
+                    <div id={`studio-style-${style.id}-preview`} className="text-xl sm:text-2xl font-medium text-white break-words py-2 group-hover:text-cyan-200 transition">
                       {styledText}
                     </div>
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
                     <span className="text-slate-500 group-hover:text-slate-400 font-medium">
-                      {settings.language === 'fr' ? 'Cliquer pour copier' : 'Click to copy'}
+                      {getStudioLabel(settings.language, 'clickToCopy')}
                     </span>
-                    <button
+                    <span aria-hidden="true"
                       className={`px-3 py-1 rounded-xl font-bold flex items-center gap-1.5 transition ${
                         isCopied
                           ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
@@ -378,15 +432,15 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       {isCopied ? (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          <span>{settings.language === 'fr' ? 'Copié !' : 'Copied!'}</span>
+                          <span>{getStudioLabel(settings.language, 'copied')}</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-3.5 h-3.5" />
-                          <span>{settings.language === 'fr' ? 'Copier' : 'Copy'}</span>
+                          <span>{getStudioLabel(settings.language, 'copy')}</span>
                         </>
                       )}
-                    </button>
+                    </span>
                   </div>
                 </div>
               );
@@ -401,9 +455,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       {activeTab === 'effects' && (
         <div className="space-y-6">
           <p className="text-xs sm:text-sm text-slate-400">
-            {settings.language === 'fr'
-              ? 'Sélectionnez un effet pour voir le rendu en direct avec dégradés, halos électroluminescents et ombrages 3D.'
-              : 'Select a visual style to preview lighting shaders, specular glows, and metallic finishes.'}
+            {getStudioLabel(settings.language, 'effectsHint')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -414,6 +466,16 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 <div
                   key={effect.id}
                   onClick={() => setSelectedEffect(effect.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelectedEffect(effect.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={effect.name}
                   className={`p-6 rounded-3xl border transition-all cursor-pointer relative overflow-hidden ${
                     isSelected
                       ? 'border-purple-500 shadow-2xl shadow-purple-950/50 bg-[#0d1424]'
@@ -444,7 +506,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
                   <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                     <span className="text-xs font-semibold text-slate-400">
-                      {isSelected ? '✓ Sélectionné pour le Studio' : 'Cliquer pour appliquer'}
+                      {isSelected ? `✓ ${getStudioLabel(settings.language, 'selectedForStudio')}` : getStudioLabel(settings.language, 'clickToApply')}
                     </span>
                     <button
                       onClick={(e) => {
@@ -454,7 +516,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                       }}
                       className="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
                     >
-                      <span>Ouvrir dans le Canvas →</span>
+                      <span>{getStudioLabel(settings.language, 'openCanvas')}</span>
                     </button>
                   </div>
                 </div>
@@ -470,9 +532,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       {activeTab === 'textures' && (
         <div className="space-y-6">
           <p className="text-xs sm:text-sm text-slate-400">
-            {settings.language === 'fr'
-              ? 'Les masques d’écrêtage remplissent les lettres avec des motifs graphiques procéduraux (fibre de carbone, magma, or brossé, nacre).'
-              : 'Clipping masks inject procedural patterns and materials directly into the glyph vector paths.'}
+            {getStudioLabel(settings.language, 'texturesHint')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -483,6 +543,16 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 <div
                   key={texture.id}
                   onClick={() => setSelectedTexture(texture.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setSelectedTexture(texture.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
+                  aria-label={texture.name}
                   className={`p-6 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
                       ? 'border-pink-500 shadow-2xl shadow-pink-950/40 bg-[#101526]'
@@ -517,7 +587,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
                   <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
                     <span className="text-slate-400">
-                      {isSelected ? '✓ Texture active' : 'Choisir cette texture'}
+                      {isSelected ? `✓ ${getStudioLabel(settings.language, 'textureActive')}` : getStudioLabel(settings.language, 'chooseTexture')}
                     </span>
                     <button
                       onClick={(e) => {
@@ -547,7 +617,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-cyan-400" />
-                <span>Paramètres Typographiques</span>
+                <span>{getStudioLabel(settings.language, 'typographySettings')}</span>
               </h3>
               <button
                 onClick={() => {
@@ -558,16 +628,16 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                   setExportScale(2);
                 }}
                 className="text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1 cursor-pointer"
-                title="Réinitialiser"
+                title={getStudioLabel(settings.language, 'reset')}
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset</span>
+                <span>{getStudioLabel(settings.language, 'reset')}</span>
               </button>
             </div>
 
             {/* Font Family */}
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300">Famille de Police :</label>
+              <label className="text-xs font-bold text-slate-300">{getStudioLabel(settings.language, 'fontFamily')}</label>
               <select
                 value={fontFamily}
                 onChange={(e) => setFontFamily(e.target.value)}
@@ -584,7 +654,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Font Size Slider */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
-                <span className="text-slate-300">Taille de Police :</span>
+                <span className="text-slate-300">{getStudioLabel(settings.language, 'fontSize')}</span>
                 <span className="text-cyan-400">{fontSize}px</span>
               </div>
               <input
@@ -601,7 +671,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Letter Spacing */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs font-bold">
-                <span className="text-slate-300">Espacement des Lettres :</span>
+                <span className="text-slate-300">{getStudioLabel(settings.language, 'letterSpacing')}</span>
                 <span className="text-cyan-400">{letterSpacing}px</span>
               </div>
               <input
@@ -618,7 +688,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Active Effect & Texture Pickers */}
             <div className="grid grid-cols-2 gap-3 pt-2">
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">Effet Visuel :</label>
+                <label className="text-[11px] font-bold text-slate-400 block mb-1">{getStudioLabel(settings.language, 'visualEffect')}</label>
                 <select
                   value={selectedEffect}
                   onChange={(e) => setSelectedEffect(e.target.value)}
@@ -633,7 +703,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-400 block mb-1">Texture / Masque :</label>
+                <label className="text-[11px] font-bold text-slate-400 block mb-1">{getStudioLabel(settings.language, 'textureMask')}</label>
                 <select
                   value={selectedTexture}
                   onChange={(e) => setSelectedTexture(e.target.value)}
@@ -651,7 +721,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
             {/* Transparent vs Dark Backing Toggle */}
             <div className="flex items-center justify-between pt-2">
               <label htmlFor="transparent-toggle" className="text-xs font-bold text-slate-300">
-                Fond Transparent (PNG Découpé) :
+                {getStudioLabel(settings.language, 'transparentBg')}
               </label>
               <input
                 id="transparent-toggle"
@@ -664,7 +734,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
             {/* Resolution multiplier */}
             <div className="flex items-center justify-between pt-1">
-              <span className="text-xs font-bold text-slate-300">Qualité d’Export :</span>
+              <span className="text-xs font-bold text-slate-300">{getStudioLabel(settings.language, 'exportQuality')}</span>
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3].map((s) => (
                   <button
@@ -711,7 +781,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 className="py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-purple-950/40 transition"
               >
                 <Download className="w-4 h-4" />
-                <span>Exporter Image PNG HD</span>
+                <span>{getStudioLabel(settings.language, 'exportPng')}</span>
               </button>
 
               <button
@@ -721,12 +791,12 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 {svgCopied ? (
                   <>
                     <Check className="w-4 h-4 text-emerald-400" />
-                    <span>SVG Copié !</span>
+                    <span>{getStudioLabel(settings.language, 'svgCopied')}</span>
                   </>
                 ) : (
                   <>
                     <ImageIcon className="w-4 h-4 text-pink-400" />
-                    <span>Copier Code SVG</span>
+                    <span>{getStudioLabel(settings.language, 'copySvg')}</span>
                   </>
                 )}
               </button>
@@ -738,12 +808,12 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
                 {cssCopied ? (
                   <>
                     <Check className="w-4 h-4 text-emerald-400" />
-                    <span>CSS Copié !</span>
+                    <span>{getStudioLabel(settings.language, 'cssCopied')}</span>
                   </>
                 ) : (
                   <>
                     <Code className="w-4 h-4 text-cyan-400" />
-                    <span>Copier Styles CSS</span>
+                    <span>{getStudioLabel(settings.language, 'copyCss')}</span>
                   </>
                 )}
               </button>

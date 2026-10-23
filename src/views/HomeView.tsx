@@ -54,6 +54,19 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   const [quickGenerating, setQuickGenerating] = useState(false);
 
   const t = getTranslations(settings.language);
+  const quickForgeCopy: Record<string, { badge: string; title: string; description: string; regenerate: string; categories: string[] }> = {
+    fr: { badge: 'FORGE EXPRESS DIRECTE', title: 'Essayez NameForge en 1 clic', description: 'Sélectionnez un univers, tapez un mot-clé (optionnel) et forgez 3 identités en direct.', regenerate: 'Forger à nouveau', categories: ['Marque & Business', 'Fantasy & Héros', 'Startup & Tech', 'Dragon & Mythe', 'Noms & Prénoms', 'Pseudo & Gamer', 'Resto & Café', 'Agent & IA'] },
+    en: { badge: 'QUICK NAME FORGE', title: 'Try NameForge in one click', description: 'Choose a universe, enter an optional keyword, and forge 3 identities instantly.', regenerate: 'Forge again', categories: ['Brand & Business', 'Fantasy & Heroes', 'Startup & Tech', 'Dragon & Myth', 'Baby Names', 'Gamertags', 'Restaurant & Café', 'AI Agent'] },
+    es: { badge: 'GENERADOR RÁPIDO', title: 'Prueba NameForge con un clic', description: 'Elige un universo, escribe una palabra opcional y genera 3 identidades al instante.', regenerate: 'Generar de nuevo', categories: ['Marca y negocios', 'Fantasía y héroes', 'Startup y tecnología', 'Dragón y mito', 'Nombres', 'Gamertags', 'Restaurante y café', 'Agente IA'] },
+    de: { badge: 'SCHNELLGENERATOR', title: 'NameForge mit einem Klick testen', description: 'Wähle ein Universum, gib optional ein Stichwort ein und erstelle sofort 3 Namen.', regenerate: 'Erneut generieren', categories: ['Marke & Business', 'Fantasy & Helden', 'Startup & Technik', 'Drache & Mythos', 'Vornamen', 'Gamertags', 'Restaurant & Café', 'KI-Agent'] },
+    ar: { badge: 'توليد سريع للأسماء', title: 'جرّب NameForge بنقرة واحدة', description: 'اختر عالمًا واكتب كلمة اختيارية وأنشئ 3 هويات فورًا.', regenerate: 'أنشئ من جديد', categories: ['العلامات والأعمال', 'الخيال والأبطال', 'الشركات والتقنية', 'التنين والأساطير', 'أسماء الأطفال', 'أسماء اللاعبين', 'مطعم ومقهى', 'وكيل ذكاء اصطناعي'] },
+    pt: { badge: 'GERADOR RÁPIDO', title: 'Experimente o NameForge com um clique', description: 'Escolha um universo, digite uma palavra opcional e gere 3 identidades na hora.', regenerate: 'Gerar novamente', categories: ['Marca e negócios', 'Fantasia e heróis', 'Startup e tecnologia', 'Dragão e mito', 'Nomes próprios', 'Gamertags', 'Restaurante e café', 'Agente de IA'] },
+    it: { badge: 'GENERATORE RAPIDO', title: 'Prova NameForge con un clic', description: 'Scegli un universo, inserisci una parola facoltativa e crea subito 3 identità.', regenerate: 'Genera di nuovo', categories: ['Brand e business', 'Fantasy ed eroi', 'Startup e tecnologia', 'Drago e mito', 'Nomi propri', 'Gamertag', 'Ristorante e caffè', 'Agente IA'] },
+    tr: { badge: 'HIZLI İSİM ÜRETİCİ', title: 'NameForge’u tek tıkla dene', description: 'Bir evren seç, isteğe bağlı anahtar kelime gir ve anında 3 kimlik oluştur.', regenerate: 'Yeniden oluştur', categories: ['Marka ve iş', 'Fantastik kahramanlar', 'Girişim ve teknoloji', 'Ejderha ve mit', 'İsimler', 'Oyuncu adları', 'Restoran ve kafe', 'Yapay zekâ ajanı'] },
+    ja: { badge: 'クイック生成', title: 'ワンクリックでNameForgeを試す', description: '世界観を選び、任意のキーワードを入力すると、3つの名前をすぐに生成します。', regenerate: 'もう一度生成', categories: ['ブランド・ビジネス', 'ファンタジー・英雄', 'スタートアップ・技術', 'ドラゴン・神話', '名前', 'ゲーム名', 'レストラン・カフェ', 'AIエージェント'] },
+    ko: { badge: '빠른 이름 생성', title: '한 번의 클릭으로 NameForge 체험', description: '세계관을 선택하고 선택적으로 키워드를 입력하면 이름 3개를 즉시 만듭니다.', regenerate: '다시 생성', categories: ['브랜드·비즈니스', '판타지·영웅', '스타트업·기술', '용·신화', '이름', '게임 닉네임', '식당·카페', 'AI 에이전트'] },
+  };
+  const quickCopy = quickForgeCopy[settings.language] || quickForgeCopy.en;
 
   const refreshSaved = () => {
     setSavedEntries(getSavedNames());
@@ -241,7 +254,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-black uppercase tracking-wider mb-2">
                 <Zap className="w-3.5 h-3.5 text-cyan-400" />
-                <span>FORGE EXPRESS DIRECTE</span>
+                <span>{quickCopy.badge}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                 Essayez NameForge en 1 clic
@@ -262,7 +275,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 ) : (
                   <Sparkles className="w-3.5 h-3.5" />
                 )}
-                <span>Forger à nouveau</span>
+                <span>{quickCopy.regenerate}</span>
               </button>
             </div>
           </div>
@@ -271,14 +284,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           <div className="space-y-3">
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
-                { id: 'brand' as GeneratorId, label: '🏢 Marque & Business', icon: '🏢' },
-                { id: 'fantasy' as GeneratorId, label: '✨ Fantasy & Héros', icon: '🧙' },
-                { id: 'startup' as GeneratorId, label: '🚀 Startup & Tech', icon: '🚀' },
-                { id: 'dragon' as GeneratorId, label: '🐉 Dragon & Mythe', icon: '🐉' },
-                { id: 'baby_name' as GeneratorId, label: '👶 Noms & Prénoms', icon: '👶' },
-                { id: 'gamertag' as GeneratorId, label: '🎮 Pseudo & Gamer', icon: '🎯' },
-                { id: 'restaurant' as GeneratorId, label: '🍽️ Resto & Café', icon: '🍽️' },
-                { id: 'ai_bot' as GeneratorId, label: '🤖 Agent & IA', icon: '🤖' },
+                { id: 'brand' as GeneratorId, label: `🏢 ${quickCopy.categories[0]}`, icon: '🏢' },
+                { id: 'fantasy' as GeneratorId, label: `✨ ${quickCopy.categories[1]}`, icon: '🧙' },
+                { id: 'startup' as GeneratorId, label: `🚀 ${quickCopy.categories[2]}`, icon: '🚀' },
+                { id: 'dragon' as GeneratorId, label: `🐉 ${quickCopy.categories[3]}`, icon: '🐉' },
+                { id: 'baby_name' as GeneratorId, label: `👶 ${quickCopy.categories[4]}`, icon: '👶' },
+                { id: 'gamertag' as GeneratorId, label: `🎮 ${quickCopy.categories[5]}`, icon: '🎯' },
+                { id: 'restaurant' as GeneratorId, label: `🍽️ ${quickCopy.categories[6]}`, icon: '🍽️' },
+                { id: 'ai_bot' as GeneratorId, label: `🤖 ${quickCopy.categories[7]}`, icon: '🤖' },
               ].map((chip) => (
                 <button
                   key={chip.id}

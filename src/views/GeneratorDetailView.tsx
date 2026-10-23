@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Sparkles, ChevronDown, Check, ArrowLeft, ShieldAlert, Star, Award, Copy, Download, Layers } from 'lucide-react';
 import { GeneratorControl } from '../components/GeneratorControl';
 import { NameCard } from '../components/NameCard';
@@ -40,6 +40,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   const [keyword, setKeyword] = useState('');
   const [results, setResults] = useState<GeneratedName[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const generationTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [batchCopied, setBatchCopied] = useState(false);
 
   // Note Modal state
@@ -52,6 +53,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   // Category-specific top-rated names based on real star ratings
   const [categoryTopRated, setCategoryTopRated] = useState<SavedNameEntry[]>([]);
   const [copiedTopName, setCopiedTopName] = useState<string | null>(null);
+
+  useEffect(() => () => {
+    if (generationTimeout.current) clearTimeout(generationTimeout.current);
+  }, []);
 
   const refreshCategoryTopRated = () => {
     setCategoryTopRated(getTopRatedNamesByCategory(generatorId, 6));
@@ -142,8 +147,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   };
 
   const handleGenerate = () => {
+    if (generationTimeout.current) clearTimeout(generationTimeout.current);
     setIsGenerating(true);
-    setTimeout(() => {
+    // Debounce rapid control/keyword edits so typing does not trigger a full batch for every keystroke.
+    generationTimeout.current = setTimeout(() => {
       const generated = generateNames({
         generator: generatorId,
         style: selectedStyle,
@@ -156,11 +163,20 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
       });
       setResults(generated);
       setIsGenerating(false);
-    }, 120);
+      generationTimeout.current = null;
+    }, 280);
   };
 
   useEffect(() => {
     handleGenerate();
+    // Cancel pending work when controls change or this generator page unmounts.
+    // This prevents stale batches from updating a page the user has already left.
+    return () => {
+      if (generationTimeout.current) {
+        clearTimeout(generationTimeout.current);
+        generationTimeout.current = null;
+      }
+    };
   }, [
     generatorId,
     selectedStyle,

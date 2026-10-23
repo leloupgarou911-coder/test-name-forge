@@ -165,8 +165,25 @@ export function saveAppSettings(newSettings: Partial<AppSettings>): AppSettings 
   }
 }
 
+let systemThemeListenerRegistered = false;
+
 export function applySettingsToDOM(settings: AppSettings): void {
   if (typeof document === 'undefined') return;
+
+  // Keep "System" mode live when the operating system theme changes mid-session.
+  if (!systemThemeListenerRegistered && typeof window !== 'undefined' && window.matchMedia) {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const syncSystemTheme = () => {
+      if (getAppSettings().theme === 'system') applySettingsToDOM(getAppSettings());
+    };
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', syncSystemTheme);
+    } else {
+      // Compatibility with older Safari versions.
+      media.addListener(syncSystemTheme);
+    }
+    systemThemeListenerRegistered = true;
+  }
   const root = document.documentElement;
 
   // Language & Direction
@@ -206,8 +223,21 @@ export function applySettingsToDOM(settings: AppSettings): void {
 
 export function subscribeToSettings(callback: (settings: AppSettings) => void): () => void {
   const handler = () => callback(getAppSettings());
+  const storageHandler = (event: StorageEvent) => {
+    // Synchronize settings changed in another tab without reacting to unrelated storage writes.
+    if (event.key === SETTINGS_KEY || event.key === null) {
+      const settings = getAppSettings();
+      applySettingsToDOM(settings);
+      callback(settings);
+    }
+  };
+
   window.addEventListener('nameforge:settings', handler);
-  return () => window.removeEventListener('nameforge:settings', handler);
+  window.addEventListener('storage', storageHandler);
+  return () => {
+    window.removeEventListener('nameforge:settings', handler);
+    window.removeEventListener('storage', storageHandler);
+  };
 }
 
 function notifySettingsChange() {

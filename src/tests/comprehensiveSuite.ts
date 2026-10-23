@@ -4,6 +4,7 @@ import { generateNames, isTooSimilar, calculateLevenshteinDistance, scoreCandida
 import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 import { normalizeSearchText } from '../services/search';
+import { getLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
 
 declare const process: { exit: (code: number) => void };
 
@@ -613,6 +614,25 @@ assert(
 assert(
   normalizeSearchText('dragon-fantasy') === normalizeSearchText('Dragon fantasy'),
   'Catalogue search treats hyphens and spaces consistently'
+);
+
+// Generator descriptions must be available in each of the 25 priority UI languages.
+const descriptionSamples = ['fantasy', 'brand', 'book', 'sci-fi']
+  .map((id) => GENERATORS_METADATA[id as keyof typeof GENERATORS_METADATA])
+  .filter(Boolean);
+const descriptionCoverageFailures: string[] = [];
+for (const lang of LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES) {
+  for (const meta of descriptionSamples) {
+    const localized = getLocalizedGeneratorDescription(meta, lang as any);
+    if (!localized.trim() || (lang !== 'fr' && localized === meta.description)) {
+      descriptionCoverageFailures.push(`${lang}/${meta.id}`);
+    }
+  }
+}
+assert(
+  LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length === 25 && descriptionCoverageFailures.length === 0,
+  'Generator descriptions have non-empty localized summaries for all 25 priority languages',
+  descriptionCoverageFailures.join(', ') || `${LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length} languages checked`
 );
 
 // -----------------------------------------------------------------------------

@@ -577,6 +577,29 @@ assert(
   `Languages: ${SUPPORTED_LANGUAGES.length}; duplicate codes: ${languageCodes.length - uniqueLanguageCodes.size}; incomplete metadata: ${invalidLanguageMeta.length}`
 );
 
+// Test 46: French restaurant and bakery suffixes avoid gender-agreement traps.
+const restaurantSuffixes = SUBCATEGORIES_DATA.restaurant?.bistro?.suffixes || [];
+const bakerySuffixes = SUBCATEGORIES_DATA.bakery?.artisan?.suffixes || [];
+const knownAgreementTraps = new Set(['Doré', 'Gourmand', 'Sauvage', 'Voisin', 'Sincère', 'Pur', 'Bleu', 'Blanc', 'Étoilé', 'Minéral', 'Silencieux', 'Fidèle', 'Rustique']);
+const remainingAgreementTraps = [...restaurantSuffixes, ...bakerySuffixes].filter((suffix) => knownAgreementTraps.has(suffix));
+assert(
+  remainingAgreementTraps.length === 0,
+  'Restaurant and bakery templates avoid suffixes that disagree with feminine/masculine prefixes',
+  remainingAgreementTraps.join(', ') || 'No known agreement traps'
+);
+
+// Test 47: Literary title templates no longer pair a fixed article with incompatible endings.
+const literaryDefault = SUBCATEGORIES_DATA.book?.default;
+const literaryPrefixes = literaryDefault?.prefixes || [];
+const literarySuffixes = literaryDefault?.suffixes || [];
+const incompleteLiteraryPrefixes = ['Le Jour où le', 'Mémoire d’un', 'Au Bord du'];
+assert(
+  literaryPrefixes.length > 0 && literarySuffixes.length > 0 &&
+    !literaryPrefixes.some((prefix) => incompleteLiteraryPrefixes.includes(prefix)),
+  'Default literary titles use complete, grammatically compatible templates',
+  `Prefixes: ${literaryPrefixes.length}; suffixes: ${literarySuffixes.length}`
+);
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

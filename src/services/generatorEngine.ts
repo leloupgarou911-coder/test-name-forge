@@ -45,7 +45,7 @@ function comparisonKey(value: string): string {
   return String(value ?? '')
     .normalize('NFC')
     .toLocaleLowerCase()
-    .replace(/[^\p{L}\p{M}\p{N}]+/gu, ' ')
+    .replace(/[^\p{L}\p{M}\p{N}\p{S}]+/gu, ' ')
     .trim()
     .replace(/\s+/g, ' ');
 }
@@ -97,6 +97,10 @@ export function isTooSimilar(candidate: string, existingList: string[], keyword?
     if (cLength >= 4 && eLength >= 4 && (cComp.includes(eComp) || eComp.includes(cComp))) {
       return true;
     }
+
+    // Short names (especially CJK names) have little room for safe fuzzy matching.
+    // Keep exact matching for 1–2 character candidates; don't discard valid alternatives.
+    if (Math.min(cLength, eLength) <= 2) continue;
 
     const dist = calculateLevenshteinDistance(cComp, eComp);
     if (Math.max(cLength, eLength) <= 5 && dist <= 1) return true;

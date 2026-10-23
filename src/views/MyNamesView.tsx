@@ -299,7 +299,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
   const isRtlLanguage = ['ar', 'he', 'fa', 'ur', 'ps'].includes(currentLanguage);
 
   return (
-    <div dir={isRtlLanguage ? 'rtl' : 'ltr'} lang={currentLanguage} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-10 space-y-8 text-left">
+    <div dir={isRtlLanguage ? 'rtl' : 'ltr'} lang={currentLanguage} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-10 space-y-8 text-start">
       {/* Hidden file input for import */}
       <input
         type="file"

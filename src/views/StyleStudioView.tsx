@@ -104,16 +104,7 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
 
   const handleCopyText = async (textToCopy: string, id: string) => {
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(textToCopy);
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = textToCopy;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-      }
+      await copyToClipboard(textToCopy);
       setCopiedId(id);
       setTimeout(() => setCopiedId(null), 1500);
     } catch (e) {
@@ -286,8 +277,10 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto scrollbar-none">
+      <div role="tablist" aria-label={getStudioLabel(settings.language, 'title')} className="flex items-center gap-2 border-b border-slate-800 pb-4 mb-8 overflow-x-auto scrollbar-none">
         <button
+          role="tab"
+          aria-selected={activeTab === 'unicode'}
           onClick={() => setActiveTab('unicode')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'unicode'
@@ -300,6 +293,8 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         </button>
 
         <button
+          role="tab"
+          aria-selected={activeTab === 'effects'}
           onClick={() => setActiveTab('effects')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'effects'
@@ -312,6 +307,8 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         </button>
 
         <button
+          role="tab"
+          aria-selected={activeTab === 'textures'}
           onClick={() => setActiveTab('textures')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'textures'
@@ -324,6 +321,8 @@ export const StyleStudioView: React.FC<StyleStudioViewProps> = ({
         </button>
 
         <button
+          role="tab"
+          aria-selected={activeTab === 'export'}
           onClick={() => setActiveTab('export')}
           className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition cursor-pointer shrink-0 border ${
             activeTab === 'export'

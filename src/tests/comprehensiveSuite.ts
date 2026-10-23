@@ -477,6 +477,13 @@ assert(
   'SVG export applies the selected texture as a clipped overlay inside the text'
 );
 
+// Grapheme-safe handling for accents, emoji modifiers, ZWJ sequences, and flags.
+const graphemeSamples = ['e\\u0301', '👍🏽', '👩‍💻', '🇩🇿'];
+assert(
+  graphemeSamples.every((sample) => splitGraphemes(sample).length === 1),
+  'Canvas spacing and SVG sizing treat multi-code-point visible characters as one grapheme'
+);
+
 // Test 43: SVG width expands for longer text instead of staying fixed.
 const shortSvg = generateSvgCode('Hi', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);
 const longSvg = generateSvgCode('A very long NameForge studio title', 48, 'sans-serif', 'cyber-neon', 'carbon-weave', true);

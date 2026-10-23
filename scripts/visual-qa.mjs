@@ -70,6 +70,7 @@ try {
           viewportWidth: window.innerWidth,
           documentWidth: document.documentElement.scrollWidth,
           mainCount: document.querySelectorAll('main').length,
+          articleCount: document.querySelectorAll('article').length,
           images: [...document.images].map((img) => ({
             src: img.currentSrc || img.src,
             loaded: img.complete && img.naturalWidth > 0,
@@ -78,12 +79,43 @@ try {
 
         const label = viewport.name + '-' + theme + '-' + view.name;
         const screenshotPath = outputDir + '/' + label + '.png';
+
         await page.screenshot({ path: screenshotPath, fullPage: true, animations: 'disabled' });
+
+        // Expand every FAQ answer so each accordion's content and light/dark styling
+        // is actually rendered, not only represented by its collapsed heading.
+        if (view.name === 'home') {
+          const faqSection = page.locator('section').filter({
+            has: page.getByRole('heading', { name: /Foire Aux Questions/i }),
+          }).last();
+          const faqItems = faqSection.locator('div.space-y-3 > div');
+          const faqButtons = faqItems.locator('button');
+          const faqCount = await faqButtons.count();
+          if (faqCount < 10) failures.push(label + ': expected a substantial FAQ list, found ' + faqCount + ' items');
+          for (let index = 0; index < faqCount; index++) {
+            const item = faqItems.nth(index);
+            const button = item.locator('button');
+            const answer = item.locator('div.px-5.pb-5.pt-1');
+            await button.scrollIntoViewIfNeeded();
+            if (!(await answer.isVisible())) await button.click();
+            if (!(await answer.isVisible())) {
+              failures.push(label + ': FAQ answer ' + (index + 1) + ' did not open');
+              continue;
+            }
+            const answerText = (await answer.innerText()).trim();
+            if (answerText.length < 10) failures.push(label + ': FAQ answer ' + (index + 1) + ' is empty or too short');
+            if (viewport.name === 'desktop') {
+              const faqShot = outputDir + '/faq-' + theme + '-' + String(index + 1).padStart(2, '0') + '.png';
+              await item.screenshot({ path: faqShot, animations: 'disabled' });
+            }
+          }
+        }
 
         if (!response || response.status() >= 400) failures.push(label + ': HTTP response failed (' + (response?.status() ?? 'none') + ')');
         if (state.bodyTextLength < 100) failures.push(label + ': likely blank/incomplete page (' + state.bodyTextLength + ' text characters)');
         if (!state.htmlClass.includes(theme === 'light' ? 'light' : 'dark')) failures.push(label + ': requested theme class missing; html class=' + state.htmlClass);
         if (state.documentWidth > state.viewportWidth + 2) failures.push(label + ': horizontal overflow (' + state.documentWidth + 'px content vs ' + state.viewportWidth + 'px viewport)');
+        if (view.name === 'catalog' && state.articleCount !== 234) failures.push(label + ': expected 234 generator cards, found ' + state.articleCount);
         if (pageErrors.length) failures.push(label + ': JavaScript page errors: ' + pageErrors.join(' | '));
         const brokenImages = state.images.filter((img) => !img.loaded && !img.src.startsWith('data:'));
         if (brokenImages.length) failures.push(label + ': broken images: ' + brokenImages.map((img) => img.src).join(', '));
@@ -98,6 +130,7 @@ try {
           htmlClass: state.htmlClass,
           viewportWidth: state.viewportWidth,
           documentWidth: state.documentWidth,
+          articleCount: state.articleCount,
           imageCount: state.images.length,
           brokenImageCount: brokenImages.length,
           pageErrors,

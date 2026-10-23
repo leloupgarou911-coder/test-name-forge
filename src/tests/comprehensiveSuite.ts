@@ -452,6 +452,18 @@ assert(
   `Checked ${priorityStudioLanguages.length} languages and ${studioKeys.length} labels`
 );
 
+// Test 45: Supported language registry has unique, complete metadata.
+const languageCodes = SUPPORTED_LANGUAGES.map((language) => language.code);
+const uniqueLanguageCodes = new Set(languageCodes);
+const invalidLanguageMeta = SUPPORTED_LANGUAGES.filter(
+  (language) => !language.label.trim() || !language.native.trim() || !['ltr', 'rtl'].includes(language.dir)
+);
+assert(
+  uniqueLanguageCodes.size === SUPPORTED_LANGUAGES.length && invalidLanguageMeta.length === 0,
+  'Every supported language has a unique code, visible names, and a valid reading direction',
+  `Languages: ${SUPPORTED_LANGUAGES.length}; duplicate codes: ${languageCodes.length - uniqueLanguageCodes.size}; incomplete metadata: ${invalidLanguageMeta.length}`
+);
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

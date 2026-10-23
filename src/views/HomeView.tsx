@@ -598,7 +598,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                  {gen.description}
+                  {getLocalizedGeneratorDescription(gen, settings.language)}
                 </p>
               </div>
             </div>

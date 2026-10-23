@@ -1,7 +1,7 @@
 import { ALL_GENERATORS_LIST, GENERATORS_METADATA } from '../data/generators';
 import { SUBCATEGORIES_DATA } from '../data/subcategories';
 import { generateNames, isTooSimilar, calculateLevenshteinDistance } from '../services/generatorEngine';
-import { generateSvgCode } from '../services/textStyler';
+import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 
 declare const process: { exit: (code: number) => void };

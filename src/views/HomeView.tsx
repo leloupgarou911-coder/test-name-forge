@@ -54,7 +54,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   const [quickGenerating, setQuickGenerating] = useState(false);
 
   const t = getTranslations(settings.language);
-  const quickForgeCopy: Record<string, { badge: string; title: string; description: string; regenerate: string; categories: string[] }> = {
+  const quickForgeCopy: Record<string, { badge: string; title: string; description: string; regenerate: string; categories: string[]; random?: string; randomTitle?: string }> = {
     fr: { badge: 'FORGE EXPRESS DIRECTE', title: 'Essayez NameForge en 1 clic', description: 'Sélectionnez un univers, tapez un mot-clé (optionnel) et forgez 3 identités en direct.', regenerate: 'Forger à nouveau', categories: ['Marque & Business', 'Fantasy & Héros', 'Startup & Tech', 'Dragon & Mythe', 'Noms & Prénoms', 'Pseudo & Gamer', 'Resto & Café', 'Agent & IA'] },
     en: { badge: 'QUICK NAME FORGE', title: 'Try NameForge in one click', description: 'Choose a universe, enter an optional keyword, and forge 3 identities instantly.', regenerate: 'Forge again', categories: ['Brand & Business', 'Fantasy & Heroes', 'Startup & Tech', 'Dragon & Myth', 'Baby Names', 'Gamertags', 'Restaurant & Café', 'AI Agent'] },
     es: { badge: 'GENERADOR RÁPIDO', title: 'Prueba NameForge con un clic', description: 'Elige un universo, escribe una palabra opcional y genera 3 identidades al instante.', regenerate: 'Generar de nuevo', categories: ['Marca y negocios', 'Fantasía y héroes', 'Startup y tecnología', 'Dragón y mito', 'Nombres', 'Gamertags', 'Restaurante y café', 'Agente IA'] },
@@ -222,10 +222,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               onNavigate('generator-detail', randomGen.id);
             }}
             className="w-full sm:w-auto h-13 px-6 rounded-2xl bg-gradient-to-r from-amber-500/20 to-purple-600/20 hover:from-amber-500/30 hover:to-purple-600/30 text-amber-300 font-extrabold text-sm border border-amber-500/40 hover:border-amber-400 transition flex items-center justify-center gap-2 cursor-pointer"
-            title={quickCopy.randomTitle || `Open a random generator from ${ALL_GENERATORS_LIST.length}`}
+            title={quickCopy.randomTitle || (settings.language === 'fr' ? `Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}` : `Open a random generator from ${ALL_GENERATORS_LIST.length}`)}
           >
             <Dices className="w-4 h-4 text-amber-400" />
-            <span>{quickCopy.random}</span>
+            <span>{quickCopy.random || (settings.language === 'fr' ? '🎲 Surprenez-moi !' : '🎲 Surprise me!')}</span>
           </button>
 
           <button

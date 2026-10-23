@@ -26,7 +26,7 @@ import {
   Wand2,
 } from 'lucide-react';
 import { ALL_GENERATORS_LIST, GENERATOR_FAMILIES_CONFIG, GENERATORS_METADATA } from '../data/generators';
-import { COMPREHENSIVE_FAQ_LIST } from '../data/faqData';
+import { getLocalizedFaq } from '../i18n/localizedFaq';
 import { GeneratedName, GeneratorFamily, GeneratorId, SavedNameEntry } from '../types';
 import { getSavedNames, subscribeToStorage } from '../services/storage';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
@@ -175,10 +175,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   };
 
   // Filtered FAQ
+  const localizedFaq = useMemo(() => getLocalizedFaq(settings.language), [settings.language]);
   const filteredFaq = useMemo(() => {
-    if (faqCategory === 'all') return COMPREHENSIVE_FAQ_LIST;
-    return COMPREHENSIVE_FAQ_LIST.filter((item) => item.category === faqCategory);
-  }, [faqCategory]);
+    if (faqCategory === 'all') return localizedFaq;
+    return localizedFaq.filter((item) => item.category === faqCategory);
+  }, [faqCategory, localizedFaq]);
 
   return (
     <div className="space-y-24 pb-20 overflow-hidden">

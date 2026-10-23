@@ -48,6 +48,13 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
   const settings = getAppSettings();
   const t = getTranslations(settings.language).generatorControl;
   const styles = getStyleOptions(generatorId);
+  const quantityWord: Record<string, string> = {
+    en: 'names', fr: 'noms', es: 'nombres', de: 'Namen', it: 'nomi', pt: 'nomes',
+    ar: 'أسماء', tr: 'isim', ja: '個', ko: '개', zh: '个名称', ru: 'имён', hi: 'नाम',
+    nl: 'namen', pl: 'nazw', sv: 'namn', vi: 'tên', id: 'nama', th: 'ชื่อ', el: 'ονόματα',
+    he: 'שמות', cs: 'jmen', ro: 'nume', da: 'navne', fi: 'nimeä'
+  };
+  const namesLabel = quantityWord[settings.language] || 'names';
 
   // If the current selected style doesn't exist in the new options list, pick the first
   React.useEffect(() => {
@@ -154,10 +161,10 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
             onChange={(e) => onQuantityChange && onQuantityChange(Number(e.target.value))}
             className="w-full h-11 px-3 py-2 bg-[#0a0f1d] border border-slate-700/80 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 cursor-pointer shadow-inner"
           >
-            <option value={6} className="bg-[#0e1627]">6 noms</option>
-            <option value={9} className="bg-[#0e1627]">9 noms</option>
-            <option value={12} className="bg-[#0e1627]">12 noms</option>
-            <option value={18} className="bg-[#0e1627]">18 noms</option>
+            <option value={6} className="bg-[#0e1627]">{`6 ${namesLabel}`}</option>
+            <option value={9} className="bg-[#0e1627]">{`9 ${namesLabel}`}</option>
+            <option value={12} className="bg-[#0e1627]">{`12 ${namesLabel}`}</option>
+            <option value={18} className="bg-[#0e1627]">{`18 ${namesLabel}`}</option>
           </select>
         </div>
       </div>

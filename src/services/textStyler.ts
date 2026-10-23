@@ -766,7 +766,7 @@ export function renderStyledTextToCanvas(
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  const fontStr = `bold ${fontSize * scale}px "${fontFamily}", system-ui, sans-serif`;
+  const fontStr = `bold ${fontSize * scale}px ${fontFamily}, system-ui, sans-serif`;
   ctx.font = fontStr;
 
   // Measure text
@@ -894,12 +894,14 @@ export function generateSvgCode(
   isTransparentBg: boolean
 ): string {
   const effect = VISUAL_EFFECTS.find((e) => e.id === effectId) || VISUAL_EFFECTS[0];
-  const width = 800;
-  const height = 240;
+  const texture = TEXTURE_FILLS.find((t) => t.id === textureId) || TEXTURE_FILLS[0];
+  // Estimate a canvas wide enough for long labels instead of clipping them in a fixed 800px SVG.
+  const width = Math.max(320, Math.ceil(text.length * fontSize * 0.78 + 120));
+  const height = Math.max(160, Math.ceil(fontSize * 2.8));
   const colors = effect.gradientCSS.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
   const stops = colors.map((color, index) =>
     `<stop offset="${colors.length === 1 ? 0 : Math.round((index / (colors.length - 1)) * 100)}%" stop-color="${color}" />`
-  ).join('\n      ');
+  ).join('\\n      ');
   const safeText = text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -907,6 +909,11 @@ export function generateSvgCode(
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
   const safeFontFamily = fontFamily.replace(/["<>]/g, '');
+  const safeTextureId = texture.id.replace(/[^a-zA-Z0-9_-]/g, '');
+  const textureColors = texture.previewGradient.match(/#[0-9a-fA-F]{3,8}/g) || ['#ffffff', '#8b5cf6'];
+  const textureStops = textureColors.map((color, index) =>
+    `<stop offset="${textureColors.length === 1 ? 0 : Math.round((index / (textureColors.length - 1)) * 100)}%" stop-color="${color}" />`
+  ).join('\\n      ');
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
@@ -914,6 +921,18 @@ export function generateSvgCode(
     <linearGradient id="nf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
       ${stops}
     </linearGradient>
+    <linearGradient id="nf-texture-${safeTextureId}" x1="0%" y1="0%" x2="100%" y2="100%">
+      ${textureStops}
+    </linearGradient>
+    <pattern id="nf-pattern-${safeTextureId}" width="18" height="18" patternUnits="userSpaceOnUse">
+      <rect width="18" height="18" fill="url(#nf-texture-${safeTextureId})" />
+      <path d="M-4 4 L4 -4 M0 18 L18 0 M14 22 L22 14" stroke="#ffffff" stroke-opacity="0.28" stroke-width="1.5" />
+    </pattern>
+    <clipPath id="nf-text-clip">
+      <text x="50%" y="53%" font-family="${safeFontFamily}, system-ui, sans-serif"
+        font-size="${fontSize}px" font-weight="900" text-anchor="middle"
+        dominant-baseline="middle">${safeText}</text>
+    </clipPath>
     <filter id="nf-glow" x="-25%" y="-25%" width="150%" height="150%">
       <feGaussianBlur stdDeviation="8" result="blur" />
       <feMerge>
@@ -923,8 +942,10 @@ export function generateSvgCode(
     </filter>
   </defs>
   ${!isTransparentBg ? `<rect width="100%" height="100%" fill="${effect.bgColor}" />` : ''}
-  <text x="50%" y="55%" font-family="${safeFontFamily}, system-ui, sans-serif"
+  <text x="50%" y="53%" font-family="${safeFontFamily}, system-ui, sans-serif"
     font-size="${fontSize}px" font-weight="900" text-anchor="middle"
     dominant-baseline="middle" fill="url(#nf-grad)" filter="url(#nf-glow)">${safeText}</text>
+  <rect width="100%" height="100%" fill="url(#nf-pattern-${safeTextureId})"
+    clip-path="url(#nf-text-clip)" opacity="0.32" />
 </svg>`.trim();
 }

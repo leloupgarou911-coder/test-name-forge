@@ -755,7 +755,7 @@ function drawTextWithLetterSpacing(
 
   const widths = characters.map((character) => ctx.measureText(character).width);
   const totalWidth = widths.reduce((sum, width) => sum + width, 0)
-    + letterSpacing * characters.length;
+    + letterSpacing * (characters.length - 1);
   let cursorX = x - totalWidth / 2;
   const previousAlign = ctx.textAlign;
   ctx.textAlign = 'left';
@@ -968,7 +968,7 @@ export function generateSvgCode(
   </defs>
   ${!isTransparentBg ? `<rect width="100%" height="100%" fill="${effect.bgColor}" />` : ''}
   <text x="50%" y="53%" font-family="${safeFontFamily}, system-ui, sans-serif"
-    font-size="${fontSize}px" font-weight="900" text-anchor="middle"
+    font-size="${fontSize}px" letter-spacing="${letterSpacing}px" font-weight="900" text-anchor="middle"
     dominant-baseline="middle" fill="url(#nf-grad)" filter="url(#nf-glow)">${safeText}</text>
   <rect width="100%" height="100%" fill="url(#nf-pattern-${safeTextureId})"
     clip-path="url(#nf-text-clip)" opacity="0.32" />

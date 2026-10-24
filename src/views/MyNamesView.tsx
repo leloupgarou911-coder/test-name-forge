@@ -859,7 +859,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           <Heart
                             className={`w-3.5 h-3.5 ${item.liked ? 'fill-current text-pink-400' : ''}`}
                           />
-                          <span>{item.liked ? 'Favori' : 'Aimer'}</span>
+                          <span>{actions.like}</span>
                         </button>
                       </div>
 
@@ -976,7 +976,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         }}
                         className="text-xs font-bold text-cyan-400 hover:underline cursor-pointer"
                       >
-                        Voir les noms ({count}) →
+                        {`${controls.compare === 'Compare' ? 'View names' : controls.compare === 'Comparer' ? 'Voir les noms' : controls.compare} (${count}) →`}
                       </button>
 
                       <div className="flex items-center gap-1.5">
@@ -985,7 +985,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer"
                           title={actions.editCollection}
                         >
-                          Éditer
+                          {actions.editCollection}
                         </button>
                         <button
                           onClick={() => {

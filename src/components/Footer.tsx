@@ -4,7 +4,7 @@ import { GeneratorId } from '../types';
 import { Logo } from './Logo';
 import { getAppSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
-import { ShieldAlert } from 'lucide-react';
+import { ShieldAlert, Facebook } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (view: string, generatorId?: GeneratorId) => void;
@@ -62,6 +62,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               {t.tagline}
             </p>
+
+            <a
+              href="https://web.facebook.com/profile.php?id=61593116982219"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="NameForge on Facebook (opens in a new tab)"
+              className="inline-flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-blue-300 transition hover:border-blue-400/60 hover:bg-blue-500/20 hover:text-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            >
+              <Facebook className="h-4 w-4" aria-hidden="true" />
+              <span>Facebook</span>
+              <span className="sr-only"> — NameForge</span>
+            </a>
             <div className="text-xs text-purple-400 font-semibold pt-1">
               ✨ {ALL_GENERATORS_LIST.length} {labels.generators} • 300+ {labels.styles} • {labels.free}
             </div>

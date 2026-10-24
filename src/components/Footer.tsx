@@ -4,6 +4,7 @@ import { GeneratorId } from '../types';
 import { Logo } from './Logo';
 import { getAppSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
+import { getLocalizedGeneratorTitle } from '../i18n/generatorTitles';
 import { ShieldAlert, Facebook } from 'lucide-react';
 
 interface FooterProps {
@@ -97,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-start"
                   >
                     <span>{gen.icon}</span>
-                    <span>{gen.shortTitle}</span>
+                    <span>{getLocalizedGeneratorTitle(gen.id, settings.language, gen.shortTitle)}</span>
                   </button>
                 </li>
               ))}
@@ -117,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-start"
                   >
                     <span>{gen.icon}</span>
-                    <span>{gen.shortTitle}</span>
+                    <span>{getLocalizedGeneratorTitle(gen.id, settings.language, gen.shortTitle)}</span>
                   </button>
                 </li>
               ))}
@@ -137,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     className="hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer text-start"
                   >
                     <span>{gen.icon}</span>
-                    <span>{gen.shortTitle}</span>
+                    <span>{getLocalizedGeneratorTitle(gen.id, settings.language, gen.shortTitle)}</span>
                   </button>
                 </li>
               ))}

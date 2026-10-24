@@ -728,6 +728,16 @@ assert(
   petDescriptionFailures.join(', ') || '25 languages checked'
 );
 
+// Gaming aliases have dedicated, reviewed descriptions across all priority locales.
+const gamingDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('gaming', lang)
+);
+assert(
+  gamingDescriptionFailures.length === 0,
+  'Gaming-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  gamingDescriptionFailures.join(', ') || '25 languages checked'
+);
+
 const additionalFaqChecks = [
   ['ko', 'NameForge 같은', 'Korean'],
   ['zh', 'NameForge 这样的', 'Chinese'],

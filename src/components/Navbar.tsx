@@ -9,6 +9,7 @@ import { LanguageSelectorModal } from './LanguageSelectorModal';
 import { getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from '../services/settings';
 import { getTranslations } from '../i18n';
 import { getShellLabels } from '../i18n/shell';
+import { getLocalizedGeneratorTitle } from '../i18n/generatorTitles';
 
 interface NavbarProps {
   currentView: string;
@@ -177,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                   className="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition flex items-center gap-2 cursor-pointer"
                                 >
                                   <span>{gen.icon}</span>
-                                  <span className="truncate">{gen.shortTitle}</span>
+                                  <span className="truncate">{getLocalizedGeneratorTitle(gen.id, settings.language, gen.shortTitle)}</span>
                                 </button>
                               ))}
                             </div>

@@ -411,10 +411,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               onNavigate('generator-detail', randomGen.id);
             }}
             className="w-full sm:w-auto h-13 px-6 rounded-2xl bg-gradient-to-r from-amber-500/20 to-purple-600/20 hover:from-amber-500/30 hover:to-purple-600/30 text-amber-300 font-extrabold text-sm border border-amber-500/40 hover:border-amber-400 transition flex items-center justify-center gap-2 cursor-pointer"
-            title={quickCopy.randomTitle || (settings.language === 'fr' ? `Ouvrir un générateur aléatoire parmi les ${ALL_GENERATORS_LIST.length}` : `Open a random generator from ${ALL_GENERATORS_LIST.length}`)}
+            title={quickCopy.randomTitle || getShellLabels(settings.language).randomGeneratorTitle.replace('{count}', String(ALL_GENERATORS_LIST.length))}
           >
             <Dices className="w-4 h-4 text-amber-400" />
-            <span>{quickCopy.random || (settings.language === 'fr' ? '🎲 Surprenez-moi !' : '🎲 Surprise me!')}</span>
+            <span>{quickCopy.random || getShellLabels(settings.language).surpriseMe}</span>
           </button>
 
           <button

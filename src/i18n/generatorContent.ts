@@ -185,7 +185,7 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     ro: "Creează nume pentru eroi fantasy, popoare mitice, locuri fermecate, creaturi și aventuri epice.",
     da: "Skab navne til fantasyhelte, mytiske folk, fortryllede steder, væsner og episke eventyr.",
     fi: "Luo nimiä fantasiansankareille, myyttisille kansoille, lumotuille paikoille, olennoille ja eeppisille seikkailuille.",
-  }
+  },
   baby_name: {
     en: 'Explore baby names with attention to real-world usage, pronunciation, cultural origins, and meanings where available.',
     fr: 'Explorez des prénoms de bébé en tenant compte de leur usage réel, de leur prononciation, de leur origine culturelle et de leur signification lorsqu’elle est connue.',
@@ -320,7 +320,7 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     ro: "Generează nume memorabile de produse care comunică scopul, publicul și caracteristicile distinctive.",
     da: "Skab mindeværdige produktnavne, der formidler produktets formål, målgruppe og særlige egenskaber.",
     fi: "Luo mieleenpainuvia tuotenimiä, jotka kertovat tuotteen tarkoituksesta, kohderyhmästä ja erityispiirteistä.",
-  }
+  },
   startup: {
     en: 'Explore concise, distinctive startup names for emerging ventures; check domain, company-register, and trademark availability before launch.',
     fr: 'Explorez des noms courts et distinctifs pour une startup ; vérifiez les domaines, les registres d’entreprises et les marques avant le lancement.',
@@ -428,7 +428,7 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     ro: "Creează nume inspirate de anime pentru personaje, echipe, abilități și lumi fictive, potrivite tonului și genului dorit.",
     da: "Skab anime-inspirerede navne til figurer, hold, evner og fiktive verdener, der passer til den ønskede stemning og genre.",
     fi: "Luo anime-henkisiä nimiä hahmoille, ryhmille, kyvyille ja kuvitteellisille maailmoille halutun tunnelman ja lajityypin mukaan.",
-  }
+  },
   restaurant: {
     en: 'Explore restaurant-name ideas that fit the cuisine, atmosphere, location, and audience; check local businesses and trademark availability before choosing.',
     fr: 'Trouvez des noms de restaurants adaptés à la cuisine, à l’ambiance, au lieu et à la clientèle ; vérifiez les commerces existants et les marques avant de choisir.',

@@ -1081,6 +1081,18 @@ for (const generatorId of ['kingdom', 'vampire', 'warrior'] as const) {
   );
 }
 
+// Sci-fi, wizard, and guild descriptions must cover all priority locales.
+for (const generatorId of ['sci-fi', 'wizard', 'guild'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

@@ -996,7 +996,7 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     ro: "Creează nume clare și memorabile pentru brutării, evocând pâine proaspătă, produse de patiserie, măiestrie și personalitatea magazinului.",
     da: "Skab tydelige og mindeværdige bagerinavne, der vækker associationer til frisk brød, bagværk, håndværk og butikkens særpræg.",
     fi: "Luo selkeitä ja mieleenpainuvia leipomonimiä, jotka tuovat mieleen tuoreen leivän, leivonnaiset, käsityötaidon ja liikkeen persoonan."
-  },,
+  },
   kingdom: {
     en: "Create names for kingdoms, royal houses, capitals, dynasties, and realms with a coherent fantasy identity.",
     fr: "Créez des noms pour des royaumes, maisons royales, capitales, dynasties et territoires à l’identité fantasy cohérente.",

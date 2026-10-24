@@ -1485,6 +1485,34 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     fi: "Luo kutsuvia hotellinimiä, jotka kertovat majoituskokemuksesta, sijainnista, mukavuudesta ja tavoitelluista vieraista.",
   },
 
+  clothing_brand: {
+    en: "Create distinctive clothing-brand names that fit the label's style, audience, quality, and market position.",
+    fr: "Créez des noms de marques de vêtements adaptés au style, au public, à la qualité et au positionnement de la marque.",
+    es: "Crea nombres de marcas de ropa acordes con su estilo, público, calidad y posicionamiento en el mercado.",
+    de: "Finde Modemarken-Namen, die Stil, Zielgruppe, Qualität und Marktposition widerspiegeln.",
+    it: "Crea nomi per marchi di abbigliamento coerenti con stile, pubblico, qualità e posizionamento.",
+    pt: "Crie nomes para marcas de roupas alinhados ao estilo, público, qualidade e posicionamento no mercado.",
+    ar: "أنشئ أسماء لعلامات الملابس تناسب أسلوبها وجمهورها وجودتها ومكانتها في السوق.",
+    tr: "Markanın tarzına, hedef kitlesine, kalitesine ve pazardaki konumuna uyan giyim markası adları oluşturun.",
+    ja: "ブランドのスタイル、対象層、品質、市場での位置づけに合うアパレルブランド名を作成します。",
+    ko: "브랜드의 스타일, 고객층, 품질, 시장 내 위치에 어울리는 의류 브랜드 이름을 만드세요.",
+    zh: "为服装品牌创作名称，契合品牌风格、受众、品质和市场定位。",
+    ru: "Создавайте названия брендов одежды, соответствующие стилю, аудитории, качеству и позиционированию.",
+    hi: "ऐसे कपड़ों के ब्रांड नाम बनाएँ जो शैली, ग्राहकों, गुणवत्ता और बाज़ार में स्थिति से मेल खाते हों।",
+    nl: "Bedenk kledingmerknamen die passen bij de stijl, doelgroep, kwaliteit en marktpositie.",
+    pl: "Twórz nazwy marek odzieżowych dopasowane do stylu, odbiorców, jakości i pozycji rynkowej.",
+    sv: "Skapa klädmärkesnamn som passar märkets stil, målgrupp, kvalitet och marknadsposition.",
+    vi: "Tạo tên thương hiệu thời trang phù hợp với phong cách, khách hàng, chất lượng và định vị thị trường.",
+    id: "Buat nama merek pakaian yang sesuai dengan gaya, audiens, kualitas, dan posisi pasar.",
+    th: "สร้างชื่อแบรนด์เสื้อผ้าที่สอดคล้องกับสไตล์ กลุ่มลูกค้า คุณภาพ และตำแหน่งทางการตลาด",
+    el: "Δημιουργήστε ονόματα για μάρκες ένδυσης που ταιριάζουν στο ύφος, το κοινό, την ποιότητα και τη θέση τους στην αγορά.",
+    he: "צרו שמות למותגי לבוש שמתאימים לסגנון, לקהל, לאיכות ולמיצוב בשוק.",
+    cs: "Vytvářejte názvy oděvních značek odpovídající stylu, publiku, kvalitě a postavení na trhu.",
+    ro: "Creează nume pentru branduri vestimentare potrivite stilului, publicului, calității și poziției pe piață.",
+    da: "Skab tøjmærkenavne, der passer til mærkets stil, målgruppe, kvalitet og markedsposition.",
+    fi: "Luo vaatebrändien nimiä, jotka sopivat brändin tyyliin, kohderyhmään, laatuun ja markkina-asemaan.",
+  },
+
 };
 
 export const LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES = Object.keys(LOCALIZED_DESCRIPTIONS);

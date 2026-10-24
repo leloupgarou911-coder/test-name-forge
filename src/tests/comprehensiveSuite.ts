@@ -758,6 +758,16 @@ assert(
   restaurantDescriptionFailures.join(', ') || '25 languages checked'
 );
 
+// Startup-name descriptions cover all priority locales and include availability cautions.
+const startupDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('startup', lang)
+);
+assert(
+  startupDescriptionFailures.length === 0,
+  'Startup-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  startupDescriptionFailures.join(', ') || '25 languages checked'
+);
+
 const additionalFaqChecks = [
   ['ko', 'NameForge 같은', 'Korean'],
   ['zh', 'NameForge 这样的', 'Chinese'],

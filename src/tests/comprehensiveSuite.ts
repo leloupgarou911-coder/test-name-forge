@@ -1117,6 +1117,18 @@ for (const generatorId of ['handle', 'community', 'placename'] as const) {
   );
 }
 
+// Project, framework, event, and culinary descriptions must cover all priority locales.
+for (const generatorId of ['project', 'framework', 'event', 'culinary'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

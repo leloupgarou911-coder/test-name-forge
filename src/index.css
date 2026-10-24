@@ -724,3 +724,79 @@
     opacity: 1;
   }
 }
+
+
+/* NameForge — refined light theme: crisp white surfaces and visible sky-blue accents.
+   Scoped to html.light so the dark theme remains unchanged. */
+html.light {
+  color-scheme: light;
+  --nf-page: #f0f7ff;
+  --nf-surface: #ffffff;
+  --nf-surface-soft: #e8f3ff;
+  --nf-border: #b8d8f5;
+  --nf-ink: #132b46;
+  --nf-muted: #49647e;
+  --bg-main: #f0f7ff;
+  --text-main: #132b46;
+  --card-bg: #ffffff;
+  --card-border: #c4def5;
+  background-color: #f0f7ff;
+  color: #132b46;
+}
+
+html.light body {
+  color: #132b46 !important;
+  background-color: #f0f7ff !important;
+  background-image:
+    radial-gradient(ellipse at 8% 0%, rgba(147, 197, 253, 0.28), transparent 38%),
+    radial-gradient(ellipse at 95% 12%, rgba(186, 230, 253, 0.30), transparent 34%),
+    linear-gradient(180deg, #f7fbff 0%, #edf6ff 52%, #f5f9ff 100%) !important;
+}
+
+html.light :is(main, section, aside, nav, header, footer) {
+  border-color: #c7def2;
+}
+
+html.light :is(.rounded-xl, .rounded-2xl, .rounded-3xl, [class*="card"], [class*="panel"], [class*="sidebar"]) {
+  border-color: #c5dcf2;
+}
+
+html.light :is(input, select, textarea) {
+  color: #173653 !important;
+  background-color: #ffffff !important;
+  border-color: #a9cbea !important;
+  box-shadow: 0 1px 2px rgba(30, 78, 121, 0.05);
+}
+
+html.light :is(input, select, textarea):hover {
+  border-color: #73b3e8 !important;
+}
+
+html.light :is(input, select, textarea):focus {
+  border-color: #2583cc !important;
+  box-shadow: 0 0 0 3px rgba(56, 145, 220, 0.16) !important;
+}
+
+html.light :is(button, a):not([class*="bg-blue-"]):not([class*="bg-sky-"]):not([class*="from-blue-"]):not([class*="to-blue-"]) {
+  border-color: #c1d9ef;
+}
+
+html.light :is(button, a):not([class*="bg-blue-"]):not([class*="bg-sky-"]):not([class*="from-blue-"]):not([class*="to-blue-"]):hover {
+  border-color: #82b9e6;
+}
+
+html.light :is(.text-slate-400, .text-slate-500, .text-gray-400, .text-gray-500) {
+  color: #526b84 !important;
+}
+
+html.light :is(.bg-slate-800, .bg-slate-900, .bg-gray-800, .bg-gray-900, [class*="bg-[#070912"], [class*="bg-[#090d1c"]) {
+  background-color: #ffffff !important;
+}
+
+html.light :is(.border-slate-700, .border-slate-800, .border-gray-700, .border-gray-800) {
+  border-color: #c5dcf2 !important;
+}
+
+html.light :is(button, a, input, select, textarea):focus-visible {
+  outline-color: #1976c9 !important;
+}

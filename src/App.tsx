@@ -9,6 +9,7 @@ const StyleStudioView = lazy(() => import('./views/StyleStudioView').then((modul
 import { GeneratorId } from './types';
 import { GENERATORS_METADATA, ALL_GENERATORS_LIST } from './data/generators';
 import { applySettingsToDOM, getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from './services/settings';
+import { getShellLabels } from './i18n/shell';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<string>('home');
@@ -143,26 +144,18 @@ export const App: React.FC = () => {
 
   // Keep page titles useful and consistent with the selected interface language.
   useEffect(() => {
-    const isFrench = settings.language === 'fr';
-    const titles = {
-      home: isFrench
-        ? `NameForge — ${ALL_GENERATORS_LIST.length} générateurs de noms gratuits`
-        : `NameForge — ${ALL_GENERATORS_LIST.length} Free Name Generators`,
-      generators: isFrench
-        ? `Catalogue des ${ALL_GENERATORS_LIST.length} générateurs — NameForge`
-        : `Browse ${ALL_GENERATORS_LIST.length} Name Generators — NameForge`,
-      'my-names': isFrench
-        ? 'Mes noms enregistrés, favoris et notes — NameForge'
-        : 'Saved Names, Favorites & Notes — NameForge',
-      'style-studio': isFrench
-        ? 'Atelier de style et polices Unicode — NameForge'
-        : 'Typography & Unicode Style Studio — NameForge',
+    const labels = getShellLabels(settings.language);
+    const titles: Record<string, string> = {
+      home: `NameForge — ${ALL_GENERATORS_LIST.length} ${labels.pageTitles.home}`,
+      generators: `${labels.pageTitles.generators} (${ALL_GENERATORS_LIST.length}) — NameForge`,
+      'my-names': `${labels.pageTitles.myNames} — NameForge`,
+      'style-studio': `${labels.pageTitles.styleStudio} — NameForge`,
     };
     if (currentView === 'generator-detail') {
       const meta = GENERATORS_METADATA[currentGenerator];
-      document.title = `${meta ? meta.title : (isFrench ? 'Générateur de noms' : 'Name Generator')} | NameForge`;
+      document.title = `${meta ? meta.title : labels.pageTitles.generator} | NameForge`;
     } else {
-      document.title = titles[currentView as keyof typeof titles] || 'NameForge — Name Generators';
+      document.title = titles[currentView] || 'NameForge';
     }
   }, [currentView, currentGenerator, settings.language]);
 
@@ -173,7 +166,7 @@ export const App: React.FC = () => {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-xl focus:shadow-xl focus:outline-none"
       >
-        Passer au contenu principal
+        {getShellLabels(settings.language).skipToMain}
       </a>
 
       <Navbar
@@ -188,7 +181,7 @@ export const App: React.FC = () => {
           <Suspense
             fallback={
               <div className="flex min-h-[40vh] items-center justify-center px-6" role="status" aria-live="polite">
-                <span className="text-sm text-slate-500">Loading NameForge…</span>
+                <span className="text-sm text-slate-500">{getShellLabels(settings.language).loading}</span>
               </div>
             }
           >

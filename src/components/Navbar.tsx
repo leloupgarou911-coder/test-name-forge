@@ -8,6 +8,7 @@ import { SettingsModal } from './SettingsModal';
 import { LanguageSelectorModal } from './LanguageSelectorModal';
 import { getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from '../services/settings';
 import { getTranslations } from '../i18n';
+import { getShellLabels } from '../i18n/shell';
 
 interface NavbarProps {
   currentView: string;
@@ -85,13 +86,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               setMobileMenuOpen(false);
             }}
             className="cursor-pointer text-left focus:outline-none py-1"
-            aria-label={settings.language === 'fr' ? 'NameForge Accueil' : 'NameForge Home'}
+            aria-label={`NameForge ${t.home}`}
           >
             <Logo size="lg" />
           </button>
 
           {/* Desktop Nav */}
-          <nav aria-label={settings.language === 'fr' ? 'Navigation principale' : 'Main navigation'} className="hidden md:flex items-center gap-6">
+          <nav aria-label={getShellLabels(settings.language).mainNavigation} className="hidden md:flex items-center gap-6">
             <button
               onClick={() => onNavigate('home')}
               className={`text-sm font-semibold transition cursor-pointer ${
@@ -194,7 +195,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onNavigate('generator-detail', randomGen.id);
               }}
               className="text-xs font-bold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer"
-              title={settings.language === 'fr' ? `${navText.randomTitle} parmi les ${ALL_GENERATORS_LIST.length}` : `${navText.randomTitle} · ${ALL_GENERATORS_LIST.length}`}
+              title={`${navText.randomTitle} · ${ALL_GENERATORS_LIST.length}`}
             >
               <Dices className="w-3.5 h-3.5 text-amber-400" />
               <span>🎲 {navText.random}</span>
@@ -238,8 +239,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => setShowLangModal(true)}
               className="h-10 px-3.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700/80 text-xs sm:text-sm font-bold text-slate-200 hover:text-white flex items-center gap-2 transition cursor-pointer shadow-sm hover:border-purple-500/60"
-              title={settings.language === 'fr' ? `Changer la langue (${SUPPORTED_LANGUAGES.length} langues disponibles)` : `Change language (${SUPPORTED_LANGUAGES.length} languages available)`}
-              aria-label={settings.language === 'fr' ? 'Changer la langue' : 'Change language'}
+              title={getShellLabels(settings.language).changeLanguageTitle.replace('{count}', String(SUPPORTED_LANGUAGES.length))}
+              aria-label={getShellLabels(settings.language).changeLanguage}
             >
               <Globe className="w-4 h-4 text-cyan-400" />
               <span className="text-base">{currentLangMeta.flag}</span>

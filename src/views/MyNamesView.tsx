@@ -531,7 +531,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             }`}
           >
             <Folder className="w-3.5 h-3.5" />
-            <span>{libraryText.collections} ({collections.length})</span>
+            <span>{copy.collections} ({collections.length})</span>
           </button>
 
           <button
@@ -1042,7 +1042,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <History className="w-12 h-12 text-slate-500 mx-auto" />
               <h3 className="text-base font-bold text-white">{controls.emptyHistory}</h3>
               <p className="text-xs text-slate-400">
-                {libraryText.emptyDescription}
+                {copy.emptyDescription}
               </p>
             </div>
           ) : (

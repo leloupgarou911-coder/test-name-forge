@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ALL_GENERATORS_LIST, GENERATOR_FAMILIES_CONFIG } from '../data/generators';
 import { GeneratorId } from '../types';
 import { Logo } from './Logo';
-import { getAppSettings } from '../services/settings';
+import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
 import { getLocalizedGeneratorShortTitle } from '../i18n/generatorTitles';
 import { ShieldAlert, Facebook } from 'lucide-react';
@@ -12,7 +12,10 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const settings = getAppSettings();
+  const [settings, setSettings] = useState(getAppSettings());
+
+  useEffect(() => subscribeToSettings(setSettings), []);
+
   const t = getTranslations(settings.language).footer;
   const footerLabels: Record<string, { studio: string; favorites: string; catalog: string; home: string; all: string; names: string; generators: string; styles: string; free: string }> = {
     fr: { studio: 'Studio de style (Unicode & Canvas)', favorites: 'Favoris et notes', catalog: 'Catalogue', home: 'Accueil', all: 'Tous les générateurs', names: 'Mes noms', generators: 'Générateurs', styles: 'Styles', free: '100 % gratuit et local' },

@@ -748,6 +748,16 @@ assert(
   bookDescriptionFailures.join(', ') || '25 languages checked'
 );
 
+// Restaurant-name descriptions are specific and localized across priority locales.
+const restaurantDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('restaurant', lang)
+);
+assert(
+  restaurantDescriptionFailures.length === 0,
+  'Restaurant-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  restaurantDescriptionFailures.join(', ') || '25 languages checked'
+);
+
 const additionalFaqChecks = [
   ['ko', 'NameForge 같은', 'Korean'],
   ['zh', 'NameForge 这样的', 'Chinese'],

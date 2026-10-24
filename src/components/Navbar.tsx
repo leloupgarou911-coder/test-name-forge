@@ -8,6 +8,7 @@ import { SettingsModal } from './SettingsModal';
 import { LanguageSelectorModal } from './LanguageSelectorModal';
 import { getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from '../services/settings';
 import { getTranslations } from '../i18n';
+import { getShellLabels } from '../i18n/shell';
 
 interface NavbarProps {
   currentView: string;
@@ -85,13 +86,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               setMobileMenuOpen(false);
             }}
             className="cursor-pointer text-left focus:outline-none py-1"
-            aria-label={settings.language === 'fr' ? 'NameForge Accueil' : 'NameForge Home'}
+            aria-label={`NameForge ${t.home}`}
           >
             <Logo size="lg" />
           </button>
 
           {/* Desktop Nav */}
-          <nav aria-label={settings.language === 'fr' ? 'Navigation principale' : 'Main navigation'} className="hidden md:flex items-center gap-6">
+          <nav aria-label={getShellLabels(settings.language).mainNavigation} className="hidden md:flex items-center gap-6">
             <button
               onClick={() => onNavigate('home')}
               className={`text-sm font-semibold transition cursor-pointer ${

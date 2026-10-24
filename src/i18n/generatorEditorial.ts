@@ -295,7 +295,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cardsTitle: "Playful names",
     cards: [{ icon: '✨', h: "Playful names", p: "Friendly names for affectionate companions and lighthearted households." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
     faqTitle: "Should a pet name be short?",
-    faq: [{ q: "Short names can help, but clarity and consistent use matter more than syllable count.", a: undefined }]
+    faq: [{ q: "Short names can help, but clarity and consistent use matter more than syllable count.", a: 'Please compare the options and verify important details before deciding.' }]
   },
   restaurant: {
     generatorTitle: "Restaurant Name Ideas",
@@ -307,7 +307,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cardsTitle: "Cuisine-led names",
     cards: [{ icon: '✨', h: "Cuisine-led names", p: "Names that help guests understand a signature cuisine or specialty." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
     faqTitle: "Should the name describe the cuisine?",
-    faq: [{ q: "A clear cue can help new guests, while a broader name offers flexibility if the menu evolves.", a: undefined }]
+    faq: [{ q: "A clear cue can help new guests, while a broader name offers flexibility if the menu evolves.", a: 'Please compare the options and verify important details before deciding.' }]
   },
   brand: {
     generatorTitle: "Brand Name Ideas",
@@ -319,7 +319,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cardsTitle: "Evocative names",
     cards: [{ icon: '✨', h: "Evocative names", p: "Names that suggest a feeling, value, or story without spelling out every detail." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
     faqTitle: "Is a generated name available to use?",
-    faq: [{ q: "Availability is not guaranteed; check trademarks, domains, and market use before committing.", a: undefined }]
+    faq: [{ q: "Availability is not guaranteed; check trademarks, domains, and market use before committing.", a: 'Please compare the options and verify important details before deciding.' }]
   },
   product: {
     generatorTitle: "Product Name Ideas",
@@ -331,7 +331,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cardsTitle: "Benefit-led names",
     cards: [{ icon: '✨', h: "Benefit-led names", p: "Names that make the product’s main purpose easy to understand." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
     faqTitle: "Should a product name include a model number?",
-    faq: [{ q: "Model numbers organize technical ranges, while a memorable name can make a product easier to recognize.", a: undefined }]
+    faq: [{ q: "Model numbers organize technical ranges, while a memorable name can make a product easier to recognize.", a: 'Please compare the options and verify important details before deciding.' }]
   }
 };
 

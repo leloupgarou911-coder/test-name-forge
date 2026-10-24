@@ -370,6 +370,11 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed">
             {getLocalizedGeneratorDescription(meta, language)}
           </p>
+          {editorial?.generatorSubtitle && (
+            <p className="text-xs sm:text-sm text-cyan-200/90 max-w-2xl mx-auto leading-relaxed mt-3">
+              {editorial.generatorSubtitle}
+            </p>
+          )}
 
           {/* Legal disclaimer if applicable */}
           {meta.legalDisclaimer && (

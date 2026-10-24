@@ -272,7 +272,67 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cards: [{ icon: '🎙️', h: 'Topic-led shows', p: 'Clear titles for education, news, hobbies, and specialist discussions.' }, { icon: '🎧', h: 'Personality-led shows', p: 'Flexible names for interviews, co-host chemistry, and broader creative formats.' }],
     faqTitle: 'Podcast-name questions',
     faq: [{ q: 'Should the podcast title include keywords?', a: 'A useful topic clue can help discovery, but clarity and memorability matter more than awkward keyword stuffing.' }]
+  },,
+  baby_name: {
+    generatorTitle: "Baby Name Ideas",
+    generatorSubtitle: "Explore meaningful baby names and compare their sound, origins, and everyday usability.",
+    advantages: ['Supports focused brainstorming for the intended audience', 'Creates a useful starting point for a consistent identity'],
+    limits: ['Generated ideas are not a substitute for research or clearance', 'Check spelling, context, and existing uses before committing'],
+    guideTitle: "Choose a name that grows with the child",
+    guide: [{ h: "Test the full name", p: "Say first, middle, and family names together, then check initials and likely nicknames." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
+    cardsTitle: "Timeless names",
+    cards: [{ icon: '✨', h: "Timeless names", p: "Familiar options with established usage and straightforward pronunciation." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
+    faqTitle: "Are suggested meanings guaranteed?",
+    faq: [{ q: "No. Verify name origins with reliable references because sources may disagree.", a: undefined }]
   },
+  pet_name: {
+    generatorTitle: "Pet Name Ideas",
+    generatorSubtitle: "Find memorable pet names that suit an animal, household, and daily routine.",
+    advantages: ['Supports focused brainstorming for the intended audience', 'Creates a useful starting point for a consistent identity'],
+    limits: ['Generated ideas are not a substitute for research or clearance', 'Check spelling, context, and existing uses before committing'],
+    guideTitle: "Pick a name that works aloud",
+    guide: [{ h: "Try calling it", p: "Choose a name that is easy to say clearly and does not sound like a training cue." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
+    cardsTitle: "Playful names",
+    cards: [{ icon: '✨', h: "Playful names", p: "Friendly names for affectionate companions and lighthearted households." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
+    faqTitle: "Should a pet name be short?",
+    faq: [{ q: "Short names can help, but clarity and consistent use matter more than syllable count.", a: undefined }]
+  },
+  restaurant: {
+    generatorTitle: "Restaurant Name Ideas",
+    generatorSubtitle: "Develop a name aligned with cuisine, service style, price point, and atmosphere.",
+    advantages: ['Supports focused brainstorming for the intended audience', 'Creates a useful starting point for a consistent identity'],
+    limits: ['Generated ideas are not a substitute for research or clearance', 'Check spelling, context, and existing uses before committing'],
+    guideTitle: "Match the name to the dining experience",
+    guide: [{ h: "Define the concept", p: "Clarify cuisine, service format, audience, and atmosphere before choosing a naming style." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
+    cardsTitle: "Cuisine-led names",
+    cards: [{ icon: '✨', h: "Cuisine-led names", p: "Names that help guests understand a signature cuisine or specialty." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
+    faqTitle: "Should the name describe the cuisine?",
+    faq: [{ q: "A clear cue can help new guests, while a broader name offers flexibility if the menu evolves.", a: undefined }]
+  },
+  brand: {
+    generatorTitle: "Brand Name Ideas",
+    generatorSubtitle: "Explore distinctive brand names that balance memorability, audience fit, and room to grow.",
+    advantages: ['Supports focused brainstorming for the intended audience', 'Creates a useful starting point for a consistent identity'],
+    limits: ['Generated ideas are not a substitute for research or clearance', 'Check spelling, context, and existing uses before committing'],
+    guideTitle: "Build a name around brand strategy",
+    guide: [{ h: "Define the brand promise", p: "List the audience, main benefit, personality, and qualities the name should signal." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
+    cardsTitle: "Evocative names",
+    cards: [{ icon: '✨', h: "Evocative names", p: "Names that suggest a feeling, value, or story without spelling out every detail." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
+    faqTitle: "Is a generated name available to use?",
+    faq: [{ q: "Availability is not guaranteed; check trademarks, domains, and market use before committing.", a: undefined }]
+  },
+  product: {
+    generatorTitle: "Product Name Ideas",
+    generatorSubtitle: "Generate product names that communicate a benefit and stand out on a shelf or screen.",
+    advantages: ['Supports focused brainstorming for the intended audience', 'Creates a useful starting point for a consistent identity'],
+    limits: ['Generated ideas are not a substitute for research or clearance', 'Check spelling, context, and existing uses before committing'],
+    guideTitle: "Name the benefit without overpromising",
+    guide: [{ h: "Identify the use case", p: "Define the problem solved, target customer, and most meaningful product difference." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
+    cardsTitle: "Benefit-led names",
+    cards: [{ icon: '✨', h: "Benefit-led names", p: "Names that make the product’s main purpose easy to understand." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
+    faqTitle: "Should a product name include a model number?",
+    faq: [{ q: "Model numbers organize technical ranges, while a memorable name can make a product easier to recognize.", a: undefined }]
+  }
 };
 
 export function getLocalizedGeneratorEditorial(meta: GeneratorMeta, language: LanguageCode): Editorial | null {

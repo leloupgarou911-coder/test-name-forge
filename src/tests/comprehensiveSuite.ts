@@ -764,15 +764,17 @@ assert(
   specificDescriptionFailures.join(', ')
 );
 // Baby-name guidance is reviewed in every priority locale, not merely category-fallback text.
-const babyNameDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter((lang) => {
-  const localized = getLocalizedGeneratorDescription(GENERATORS_METADATA.baby_name, lang as any);
-  return !hasLocalizedGeneratorDescription('baby_name', lang as any) || !localized.trim();
-});
-assert(
-  babyNameDescriptionFailures.length === 0,
-  'Baby-name guidance has a generator-specific description in all 25 priority languages',
-  babyNameDescriptionFailures.join(', ')
-);
+for (const generatorId of ['baby_name', 'brand'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter((lang) => {
+    const localized = getLocalizedGeneratorDescription(GENERATORS_METADATA[generatorId], lang as any);
+    return !hasLocalizedGeneratorDescription(generatorId, lang as any) || !localized.trim();
+  });
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ')
+  );
+}
 
 // -----------------------------------------------------------------------------
 // SUMMARY

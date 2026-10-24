@@ -14,6 +14,7 @@ import { getNameDetailsLabels } from '../i18n/nameDetails';
 import { getCollectionModalLabels } from '../i18n/collectionModal';
 import { getCompareModalLabels } from '../i18n/compareModal';
 import { getGeneratorDetailSectionLabels, PRIORITY_GENERATOR_DETAIL_LOCALES } from '../i18n/generatorDetailSections';
+import { getLocalizedGeneratorEditorial, hasLocalizedGeneratorEditorial } from '../i18n/generatorEditorial';
 
 declare const process: { exit: (code: number) => void };
 
@@ -115,6 +116,26 @@ for (const locale of PRIORITY_LOCALES) {
     missingTitles.join(', ') || `${LOCALIZED_GENERATOR_TITLE_IDS.length} core generators checked`
   );
 }
+
+// Editorial localization must preserve category-specific guidance, examples, benefits, limits, and FAQs.
+const editorialBatchOne = ['food_truck', 'hotel_name', 'clothing_brand', 'jewelry_brand', 'cosmetics_brand', 'fitness_studio', 'travel_agency', 'real_estate', 'architecture_studio', 'interior_decor'] as const;
+const editorialCoverageFailures: string[] = [];
+for (const generatorId of editorialBatchOne) {
+  const meta = GENERATORS_METADATA[generatorId];
+  const editorial = getLocalizedGeneratorEditorial(meta, 'en');
+  if (!editorial || !editorial.generatorSubtitle.trim() || !editorial.generatorTitle.trim() ||
+      !editorial.guideTitle.trim() || !editorial.guide.length || !editorial.cardsTitle.trim() ||
+      !editorial.cards.length || !editorial.faqTitle.trim() || !editorial.faq.length ||
+      !editorial.advantages?.length || !editorial.limits?.length ||
+      !hasLocalizedGeneratorEditorial(generatorId, 'en')) {
+    editorialCoverageFailures.push(generatorId);
+  }
+}
+assert(
+  editorialCoverageFailures.length === 0,
+  'First 10 business categories have specific English subtitles, guides, examples, advantages, limits, and FAQs',
+  editorialCoverageFailures.join(', ') || '10 category-specific editorial records checked'
+);
 
 // Language selector modal must expose translated core controls for every priority locale.
 for (const locale of PRIORITY_LOCALES) {

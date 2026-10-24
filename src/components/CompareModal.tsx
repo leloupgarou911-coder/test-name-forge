@@ -190,7 +190,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
                         key={star}
                         onClick={() => handleRate(item.name, star, item.rating)}
                         className="p-0.5 text-slate-600 hover:text-amber-400 transition cursor-pointer"
-                        title={`Noter ${star} étoiles`}
+                        title={t.rate.replace('{count}', String(star))}
                       >
                         <Star
                           className={`w-3.5 h-3.5 ${

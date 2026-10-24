@@ -10,6 +10,8 @@ import { getShellLabels } from '../i18n/shell';
 import { getMyNamesAuditLabels } from '../i18n/myNames';
 import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle, LOCALIZED_GENERATOR_TITLE_IDS } from '../i18n/generatorTitles';
 import { getLanguageModalLabels } from '../i18n/languageModal';
+import { getNameDetailsLabels } from '../i18n/nameDetails';
+import { getCollectionModalLabels } from '../i18n/collectionModal';
 
 declare const process: { exit: (code: number) => void };
 
@@ -107,6 +109,41 @@ for (const locale of PRIORITY_LOCALES) {
   assert(
     locale === 'fr' || labels.title !== 'Choisir la langue',
     `Language selector title is not left in French for ${locale}`
+  );
+}
+
+// Name analysis modal labels must be available in all 25 priority locales.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getNameDetailsLabels(locale);
+  assert(
+    Boolean(labels.header.trim() && labels.listen.trim() && labels.archetype.trim() &&
+      labels.phonetics.trim() && labels.rating.trim() && labels.length.trim() &&
+      labels.whyFits.trim() && labels.attested.trim() && labels.invented.trim() &&
+      labels.etymology.trim() && labels.variants.trim() && labels.transparency.trim() &&
+      labels.strengths.trim() && labels.watchouts.trim() && labels.chooseTip.trim() &&
+      labels.style.trim() && labels.copy.trim() && labels.copied.trim() && labels.close.trim() &&
+      labels.save.trim() && labels.saved.trim() && labels.like.trim() && labels.liked.trim() && labels.adviceText.trim() && labels.fallbackStrength.trim() && labels.fallbackWatchout.trim()),
+    `Name analysis modal labels exist for ${locale}`
+  );
+  assert(
+    locale === 'fr' || labels.header !== 'Fiche d’analyse linguistique •',
+    `Name analysis modal header is localized for ${locale}`
+  );
+}
+
+// Collection modal controls must be translated in all 25 priority locales.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getCollectionModalLabels(locale);
+  assert(
+    Boolean(labels.titleNew.trim() && labels.titleEdit.trim() && labels.intro.trim() &&
+      labels.nameLabel.trim() && labels.namePlaceholder.trim() && labels.descriptionLabel.trim() &&
+      labels.descriptionPlaceholder.trim() && labels.colorLabel.trim() && labels.cancel.trim() &&
+      labels.save.trim() && labels.saved.trim() && labels.close.trim()),
+    `Collection modal labels exist for ${locale}`
+  );
+  assert(
+    locale === 'fr' || labels.titleNew !== 'Nouvelle collection personnalisée',
+    `Collection modal title is localized for ${locale}`
   );
 }
 

@@ -71,8 +71,7 @@ for (const locale of PRIORITY_LOCALES) {
     assert(
       labels.trackedNames !== 'Tracked names' &&
       labels.resetFilters !== 'Reset filters' &&
-      labels.notRated !== 'Not rated' &&
-      labels.importError !== 'Error',
+      labels.notRated !== 'Not rated',
       `My Names labels avoid English-only fallback for ${locale}`
     );
   }

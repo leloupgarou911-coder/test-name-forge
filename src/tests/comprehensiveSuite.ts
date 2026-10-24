@@ -93,6 +93,24 @@ for (const locale of PRIORITY_LOCALES) {
   );
 }
 
+// Name analysis modal labels must be available in all 25 priority locales.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getNameDetailsLabels(locale);
+  assert(
+    Boolean(labels.header.trim() && labels.listen.trim() && labels.archetype.trim() &&
+      labels.phonetics.trim() && labels.rating.trim() && labels.length.trim() &&
+      labels.whyFits.trim() && labels.attested.trim() && labels.invented.trim() &&
+      labels.etymology.trim() && labels.variants.trim() && labels.transparency.trim() &&
+      labels.strengths.trim() && labels.watchouts.trim() && labels.chooseTip.trim() &&
+      labels.style.trim() && labels.copy.trim() && labels.copied.trim() && labels.close.trim()),
+    `Name analysis modal labels exist for ${locale}`
+  );
+  assert(
+    locale === 'fr' || labels.header !== 'Fiche d’analyse linguistique •',
+    `Name analysis modal header is localized for ${locale}`
+  );
+}
+
 // FAQ localization regression checks
 const faqEnglish = getLocalizedFaq('en');
 assert(faqEnglish.length === 18, 'English FAQ preserves all 18 FAQ entries', `Found ${faqEnglish.length}`);

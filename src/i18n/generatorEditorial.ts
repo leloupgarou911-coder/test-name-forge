@@ -272,7 +272,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cards: [{ icon: '🎙️', h: 'Topic-led shows', p: 'Clear titles for education, news, hobbies, and specialist discussions.' }, { icon: '🎧', h: 'Personality-led shows', p: 'Flexible names for interviews, co-host chemistry, and broader creative formats.' }],
     faqTitle: 'Podcast-name questions',
     faq: [{ q: 'Should the podcast title include keywords?', a: 'A useful topic clue can help discovery, but clarity and memorability matter more than awkward keyword stuffing.' }]
-  },,
+  },
   baby_name: {
     generatorTitle: "Baby Name Ideas",
     generatorSubtitle: "Explore meaningful baby names and compare their sound, origins, and everyday usability.",
@@ -283,7 +283,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cardsTitle: "Timeless names",
     cards: [{ icon: '✨', h: "Timeless names", p: "Familiar options with established usage and straightforward pronunciation." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
     faqTitle: "Are suggested meanings guaranteed?",
-    faq: [{ q: "No. Verify name origins with reliable references because sources may disagree.", a: undefined }]
+    faq: [{ q: "No. Verify name origins with reliable references because sources may disagree.", a: 'Review the options carefully and verify important details with reliable sources before making a final choice.' }]
   },
   pet_name: {
     generatorTitle: "Pet Name Ideas",

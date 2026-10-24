@@ -1,0 +1,71 @@
+import { LanguageCode, GeneratorId } from '../types';
+
+const PRIORITY_LOCALES = [
+  'en', 'fr', 'es', 'de', 'it', 'pt', 'ar', 'tr', 'ja', 'ko',
+  'zh', 'ru', 'hi', 'nl', 'pl', 'sv', 'vi', 'id', 'th', 'el',
+  'he', 'cs', 'ro', 'da', 'fi',
+] as const;
+
+type CoreGeneratorId =
+  | 'fantasy' | 'dragon' | 'elf' | 'anime' | 'brand' | 'business'
+  | 'startup' | 'domain' | 'app' | 'book' | 'character' | 'videogame'
+  | 'rpg' | 'gaming' | 'baby_name' | 'pet_name';
+
+const SUBJECTS: Record<typeof PRIORITY_LOCALES[number], Record<CoreGeneratorId, string>> = {
+  en: { fantasy: 'fantasy', dragon: 'dragons', elf: 'elves', anime: 'anime', brand: 'brands', business: 'businesses', startup: 'startups', domain: 'web domains', app: 'apps', book: 'books and novels', character: 'characters', videogame: 'video games', rpg: 'RPGs', gaming: 'gaming and esports', baby_name: 'baby names', pet_name: 'pet names' },
+  fr: { fantasy: 'fantasy', dragon: 'dragons', elf: 'elfes', anime: 'anime', brand: 'marques', business: 'entreprises', startup: 'startups', domain: 'domaines web', app: 'applications', book: 'livres et romans', character: 'personnages', videogame: 'jeux vidéo', rpg: 'jeux de rôle (RPG)', gaming: 'gaming et e-sport', baby_name: 'prénoms de bébé', pet_name: 'noms d’animaux' },
+  es: { fantasy: 'fantasía', dragon: 'dragones', elf: 'elfos', anime: 'anime', brand: 'marcas', business: 'empresas', startup: 'startups', domain: 'dominios web', app: 'aplicaciones', book: 'libros y novelas', character: 'personajes', videogame: 'videojuegos', rpg: 'juegos de rol (RPG)', gaming: 'gaming y deportes electrónicos', baby_name: 'nombres para bebés', pet_name: 'nombres para mascotas' },
+  de: { fantasy: 'Fantasy', dragon: 'Drachen', elf: 'Elfen', anime: 'Anime', brand: 'Marken', business: 'Unternehmen', startup: 'Start-ups', domain: 'Webdomains', app: 'Apps', book: 'Bücher und Romane', character: 'Figuren', videogame: 'Videospiele', rpg: 'Rollenspiele (RPG)', gaming: 'Gaming und E-Sport', baby_name: 'Babynamen', pet_name: 'Tiernamen' },
+  it: { fantasy: 'fantasy', dragon: 'draghi', elf: 'elfi', anime: 'anime', brand: 'marchi', business: 'aziende', startup: 'startup', domain: 'domini web', app: 'app', book: 'libri e romanzi', character: 'personaggi', videogame: 'videogiochi', rpg: 'giochi di ruolo (RPG)', gaming: 'gaming ed e-sport', baby_name: 'nomi per neonati', pet_name: 'nomi per animali' },
+  pt: { fantasy: 'fantasia', dragon: 'dragões', elf: 'elfos', anime: 'anime', brand: 'marcas', business: 'empresas', startup: 'startups', domain: 'domínios web', app: 'aplicativos', book: 'livros e romances', character: 'personagens', videogame: 'jogos de vídeo', rpg: 'jogos de RPG', gaming: 'gaming e e-sports', baby_name: 'nomes para bebês', pet_name: 'nomes para animais' },
+  ar: { fantasy: 'الخيال', dragon: 'التنانين', elf: 'الإلف', anime: 'الأنمي', brand: 'العلامات التجارية', business: 'الشركات', startup: 'الشركات الناشئة', domain: 'نطاقات الويب', app: 'التطبيقات', book: 'الكتب والروايات', character: 'الشخصيات', videogame: 'ألعاب الفيديو', rpg: 'ألعاب تقمص الأدوار', gaming: 'الألعاب الإلكترونية والرياضات الإلكترونية', baby_name: 'أسماء الأطفال', pet_name: 'أسماء الحيوانات الأليفة' },
+  tr: { fantasy: 'fantastik', dragon: 'ejderhalar', elf: 'elfler', anime: 'anime', brand: 'markalar', business: 'işletmeler', startup: 'girişimler', domain: 'web alan adları', app: 'uygulamalar', book: 'kitaplar ve romanlar', character: 'karakterler', videogame: 'video oyunları', rpg: 'rol yapma oyunları', gaming: 'oyun ve e-spor', baby_name: 'bebek isimleri', pet_name: 'evcil hayvan isimleri' },
+  ja: { fantasy: 'ファンタジー', dragon: 'ドラゴン', elf: 'エルフ', anime: 'アニメ', brand: 'ブランド', business: '企業', startup: 'スタートアップ', domain: 'ウェブドメイン', app: 'アプリ', book: '本・小説', character: 'キャラクター', videogame: 'ビデオゲーム', rpg: 'RPG', gaming: 'ゲーム・eスポーツ', baby_name: '赤ちゃんの名前', pet_name: 'ペットの名前' },
+  ko: { fantasy: '판타지', dragon: '드래곤', elf: '엘프', anime: '애니메이션', brand: '브랜드', business: '기업', startup: '스타트업', domain: '웹 도메인', app: '앱', book: '책과 소설', character: '캐릭터', videogame: '비디오 게임', rpg: '롤플레잉 게임', gaming: '게임 및 e스포츠', baby_name: '아기 이름', pet_name: '반려동물 이름' },
+  zh: { fantasy: '奇幻', dragon: '龙', elf: '精灵', anime: '动漫', brand: '品牌', business: '企业', startup: '初创公司', domain: '网站域名', app: '应用', book: '书籍与小说', character: '角色', videogame: '电子游戏', rpg: '角色扮演游戏', gaming: '游戏与电子竞技', baby_name: '婴儿名字', pet_name: '宠物名字' },
+  ru: { fantasy: 'фэнтези', dragon: 'драконы', elf: 'эльфы', anime: 'аниме', brand: 'бренды', business: 'компании', startup: 'стартапы', domain: 'домены сайтов', app: 'приложения', book: 'книги и романы', character: 'персонажи', videogame: 'видеоигры', rpg: 'ролевые игры', gaming: 'игры и киберспорт', baby_name: 'имена для детей', pet_name: 'клички домашних животных' },
+  hi: { fantasy: 'फैंटेसी', dragon: 'ड्रैगन', elf: 'एल्फ', anime: 'एनीमे', brand: 'ब्रांड', business: 'व्यवसाय', startup: 'स्टार्टअप', domain: 'वेब डोमेन', app: 'ऐप', book: 'किताबें और उपन्यास', character: 'पात्र', videogame: 'वीडियो गेम', rpg: 'रोल-प्लेइंग गेम', gaming: 'गेमिंग और ई-स्पोर्ट्स', baby_name: 'बच्चों के नाम', pet_name: 'पालतू जानवरों के नाम' },
+  nl: { fantasy: 'fantasy', dragon: 'draken', elf: 'elfen', anime: 'anime', brand: 'merken', business: 'bedrijven', startup: 'start-ups', domain: 'webdomeinen', app: 'apps', book: 'boeken en romans', character: 'personages', videogame: 'videogames', rpg: 'rollenspellen', gaming: 'gaming en esports', baby_name: 'babynamen', pet_name: 'diernamen' },
+  pl: { fantasy: 'fantasy', dragon: 'smoki', elf: 'elfy', anime: 'anime', brand: 'marki', business: 'firmy', startup: 'start-upy', domain: 'domeny internetowe', app: 'aplikacje', book: 'książki i powieści', character: 'postacie', videogame: 'gry wideo', rpg: 'gry fabularne', gaming: 'gaming i e-sport', baby_name: 'imiona dla dzieci', pet_name: 'imiona dla zwierząt' },
+  sv: { fantasy: 'fantasy', dragon: 'drakar', elf: 'alver', anime: 'anime', brand: 'varumärken', business: 'företag', startup: 'nystartade företag', domain: 'webbdomäner', app: 'appar', book: 'böcker och romaner', character: 'karaktärer', videogame: 'videospel', rpg: 'rollspel', gaming: 'gaming och e-sport', baby_name: 'babynamn', pet_name: 'djurnamn' },
+  vi: { fantasy: 'fantasy', dragon: 'rồng', elf: 'tiên tộc', anime: 'anime', brand: 'thương hiệu', business: 'doanh nghiệp', startup: 'công ty khởi nghiệp', domain: 'tên miền web', app: 'ứng dụng', book: 'sách và tiểu thuyết', character: 'nhân vật', videogame: 'trò chơi điện tử', rpg: 'trò chơi nhập vai', gaming: 'game và thể thao điện tử', baby_name: 'tên em bé', pet_name: 'tên thú cưng' },
+  id: { fantasy: 'fantasi', dragon: 'naga', elf: 'peri', anime: 'anime', brand: 'merek', business: 'bisnis', startup: 'perusahaan rintisan', domain: 'domain web', app: 'aplikasi', book: 'buku dan novel', character: 'karakter', videogame: 'video game', rpg: 'permainan peran', gaming: 'gaming dan esports', baby_name: 'nama bayi', pet_name: 'nama hewan peliharaan' },
+  th: { fantasy: 'แฟนตาซี', dragon: 'มังกร', elf: 'เอลฟ์', anime: 'อนิเมะ', brand: 'แบรนด์', business: 'ธุรกิจ', startup: 'สตาร์ทอัป', domain: 'โดเมนเว็บไซต์', app: 'แอป', book: 'หนังสือและนิยาย', character: 'ตัวละคร', videogame: 'วิดีโอเกม', rpg: 'เกมสวมบทบาท', gaming: 'เกมและอีสปอร์ต', baby_name: 'ชื่อเด็กทารก', pet_name: 'ชื่อสัตว์เลี้ยง' },
+  el: { fantasy: 'φαντασία', dragon: 'δράκοι', elf: 'ξωτικά', anime: 'anime', brand: 'επωνυμίες', business: 'επιχειρήσεις', startup: 'νεοφυείς επιχειρήσεις', domain: 'διαδικτυακοί τομείς', app: 'εφαρμογές', book: 'βιβλία και μυθιστορήματα', character: 'χαρακτήρες', videogame: 'βιντεοπαιχνίδια', rpg: 'παιχνίδια ρόλων', gaming: 'gaming και ηλεκτρονικός αθλητισμός', baby_name: 'ονόματα μωρών', pet_name: 'ονόματα κατοικίδιων' },
+  he: { fantasy: 'פנטזיה', dragon: 'דרקונים', elf: 'אלפים', anime: 'אנימה', brand: 'מותגים', business: 'עסקים', startup: 'חברות הזנק', domain: 'דומיינים לאתרים', app: 'אפליקציות', book: 'ספרים ורומנים', character: 'דמויות', videogame: 'משחקי וידאו', rpg: 'משחקי תפקידים', gaming: 'גיימינג וספורט אלקטרוני', baby_name: 'שמות לתינוקות', pet_name: 'שמות לחיות מחמד' },
+  cs: { fantasy: 'fantasy', dragon: 'draci', elf: 'elfové', anime: 'anime', brand: 'značky', business: 'firmy', startup: 'start-upy', domain: 'webové domény', app: 'aplikace', book: 'knihy a romány', character: 'postavy', videogame: 'videohry', rpg: 'hry na hrdiny', gaming: 'gaming a esport', baby_name: 'jména pro miminka', pet_name: 'jména pro mazlíčky' },
+  ro: { fantasy: 'fantasy', dragon: 'dragoni', elf: 'elfi', anime: 'anime', brand: 'mărci', business: 'afaceri', startup: 'startupuri', domain: 'domenii web', app: 'aplicații', book: 'cărți și romane', character: 'personaje', videogame: 'jocuri video', rpg: 'jocuri de rol', gaming: 'gaming și e-sport', baby_name: 'nume pentru bebeluși', pet_name: 'nume pentru animale de companie' },
+  da: { fantasy: 'fantasy', dragon: 'drager', elf: 'elvere', anime: 'anime', brand: 'brands', business: 'virksomheder', startup: 'startups', domain: 'webdomæner', app: 'apps', book: 'bøger og romaner', character: 'figurer', videogame: 'videospil', rpg: 'rollespil', gaming: 'gaming og e-sport', baby_name: 'babynavne', pet_name: 'kæledyrsnavne' },
+  fi: { fantasy: 'fantasia', dragon: 'lohikäärmeet', elf: 'haltiat', anime: 'anime', brand: 'brändit', business: 'yritykset', startup: 'startup-yritykset', domain: 'verkkotunnukset', app: 'sovellukset', book: 'kirjat ja romaanit', character: 'hahmot', videogame: 'videopelit', rpg: 'roolipelit', gaming: 'pelaaminen ja e-urheilu', baby_name: 'vauvojen nimet', pet_name: 'lemmikkien nimet' },
+};
+
+const TITLE_TEMPLATES: Record<typeof PRIORITY_LOCALES[number], string> = {
+  en: 'Name generator for {subject}', fr: 'Générateur de noms : {subject}', es: 'Generador de nombres: {subject}', de: 'Namensgenerator für {subject}', it: 'Generatore di nomi: {subject}', pt: 'Gerador de nomes: {subject}', ar: 'مولّد أسماء لـ {subject}', tr: '{subject} için isim oluşturucu', ja: '{subject}の名前ジェネレーター', ko: '{subject} 이름 생성기', zh: '{subject}名称生成器', ru: 'Генератор имён: {subject}', hi: '{subject} के लिए नाम जनरेटर', nl: 'Naamgenerator voor {subject}', pl: 'Generator nazw dla: {subject}', sv: 'Namngenerator för {subject}', vi: 'Trình tạo tên cho {subject}', id: 'Generator nama untuk {subject}', th: 'เครื่องมือสร้างชื่อสำหรับ{subject}', el: 'Γεννήτρια ονομάτων για {subject}', he: 'מחולל שמות עבור {subject}', cs: 'Generátor jmen pro {subject}', ro: 'Generator de nume pentru {subject}', da: 'Navnegenerator til {subject}', fi: 'Nimigeneraattori aiheelle {subject}',
+};
+
+export function getLocalizedGeneratorTitle(
+  generatorId: GeneratorId | string,
+  language: LanguageCode,
+  fallbackTitle: string,
+): string {
+  const subjects = SUBJECTS[language as typeof PRIORITY_LOCALES[number]];
+  const template = TITLE_TEMPLATES[language as typeof PRIORITY_LOCALES[number]];
+  const subject = subjects?.[generatorId as CoreGeneratorId];
+  if (!subject || !template) return fallbackTitle;
+  return template.replace('{subject}', subject);
+}
+
+export function getLocalizedGeneratorShortTitle(
+  generatorId: GeneratorId | string,
+  language: LanguageCode,
+  fallbackTitle: string,
+): string {
+  const subjects = SUBJECTS[language as typeof PRIORITY_LOCALES[number]];
+  return subjects?.[generatorId as CoreGeneratorId] || fallbackTitle;
+}
+
+export const LOCALIZED_GENERATOR_TITLE_LANGUAGES = PRIORITY_LOCALES;
+export const LOCALIZED_GENERATOR_TITLE_IDS: CoreGeneratorId[] = [
+  'fantasy', 'dragon', 'elf', 'anime', 'brand', 'business', 'startup', 'domain',
+  'app', 'book', 'character', 'videogame', 'rpg', 'gaming', 'baby_name', 'pet_name',
+];

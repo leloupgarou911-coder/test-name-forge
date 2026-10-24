@@ -274,6 +274,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     fi: { title: 'Mille haluaisit keksiä nimen?', featuredBadge: 'NOSTOT', featuredTitle: 'Suositut generaattorit', catalog: `Näytä koko luettelo (${ALL_GENERATORS_LIST.length})` },
   };
   const homeSearchLabels = homeSearchUi[settings.language] || homeSearchUi.en;
+  const searchFeedbackUi: Record<string, { found: (count: number) => string; noResults: string }> = {
+    en: { found: (count) => `${count} generator(s) found`, noResults: 'No exact matches; try different keywords' },
+    fr: { found: (count) => `${count} générateur(s) trouvé(s)`, noResults: "Aucun résultat exact, essayez d'autres mots-clés" },
+    es: { found: (count) => `${count} generador(es) encontrado(s)`, noResults: 'No hay coincidencias exactas; prueba otras palabras clave' },
+    de: { found: (count) => `${count} Generator(en) gefunden`, noResults: 'Keine genauen Treffer; versuche andere Suchbegriffe' },
+    it: { found: (count) => `${count} generatori trovati`, noResults: 'Nessuna corrispondenza esatta; prova altre parole chiave' },
+    pt: { found: (count) => `${count} gerador(es) encontrado(s)`, noResults: 'Nenhuma correspondência exata; tente outras palavras-chave' },
+    ar: { found: (count) => `تم العثور على ${count} مولّد(ات)`, noResults: 'لا توجد نتائج مطابقة تمامًا؛ جرّب كلمات مفتاحية أخرى' },
+    tr: { found: (count) => `${count} oluşturucu bulundu`, noResults: 'Tam eşleşme yok; farklı anahtar kelimeler deneyin' },
+    ja: { found: (count) => `${count} 件のジェネレーターが見つかりました`, noResults: '一致する結果がありません。別のキーワードをお試しください' },
+    ko: { found: (count) => `${count}개의 생성기를 찾았습니다`, noResults: '일치하는 결과가 없습니다. 다른 검색어를 시도해 보세요' },
+    zh: { found: (count) => `找到 ${count} 个生成器`, noResults: '没有完全匹配的结果，请尝试其他关键词' },
+    ru: { found: (count) => `Найдено генераторов: ${count}`, noResults: 'Точных совпадений нет; попробуйте другие ключевые слова' },
+    hi: { found: (count) => `${count} जनरेटर मिले`, noResults: 'सटीक परिणाम नहीं मिले; दूसरे कीवर्ड आज़माएँ' },
+    nl: { found: (count) => `${count} generator(s) gevonden`, noResults: 'Geen exacte overeenkomsten; probeer andere zoekwoorden' },
+    pl: { found: (count) => `Znaleziono generatorów: ${count}`, noResults: 'Brak dokładnych wyników; spróbuj innych słów kluczowych' },
+    sv: { found: (count) => `${count} generator(er) hittades`, noResults: 'Inga exakta träffar; prova andra sökord' },
+    vi: { found: (count) => `Tìm thấy ${count} công cụ tạo tên`, noResults: 'Không có kết quả khớp chính xác; hãy thử từ khóa khác' },
+    id: { found: (count) => `Ditemukan ${count} generator`, noResults: 'Tidak ada kecocokan tepat; coba kata kunci lain' },
+    th: { found: (count) => `พบเครื่องมือสร้างชื่อ ${count} รายการ`, noResults: 'ไม่พบผลลัพธ์ที่ตรงกัน ลองใช้คำค้นหาอื่น' },
+    el: { found: (count) => `Βρέθηκαν ${count} γεννήτριες`, noResults: 'Δεν βρέθηκαν ακριβείς αντιστοιχίες· δοκιμάστε άλλες λέξεις-κλειδιά' },
+    he: { found: (count) => `נמצאו ${count} מחוללים`, noResults: 'לא נמצאו התאמות מדויקות; נסו מילות מפתח אחרות' },
+    cs: { found: (count) => `Nalezeno generátorů: ${count}`, noResults: 'Žádné přesné shody; zkuste jiná klíčová slova' },
+    ro: { found: (count) => `Au fost găsite ${count} generatoare`, noResults: 'Nicio potrivire exactă; încearcă alte cuvinte-cheie' },
+    da: { found: (count) => `Fandt ${count} generatorer`, noResults: 'Ingen præcise match; prøv andre søgeord' },
+    fi: { found: (count) => `Löytyi ${count} generaattoria`, noResults: 'Tarkkoja osumia ei löytynyt; kokeile muita hakusanoja' },
+  };
+  const searchFeedback = searchFeedbackUi[settings.language] || searchFeedbackUi.en;
 
   // Filtered FAQ
   const localizedFaq = useMemo(() => getLocalizedFaq(settings.language), [settings.language]);
@@ -552,9 +580,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           {searchQuery.trim() && (
             <div className="pt-2 animate-fade-in space-y-2">
               <div className="text-xs font-bold text-slate-400 flex items-center justify-between">
-                <span>{settings.language === 'fr' ? `${searchedGenerators.length} générateur(s) trouvé(s)` : `${searchedGenerators.length} generator(s) found`}</span>
+                <span>{searchFeedback.found(searchedGenerators.length)}</span>
                 {searchedGenerators.length === 0 && (
-                  <span className="text-rose-400">{settings.language === 'fr' ? "Aucun résultat exact, essayez d'autres mots-clés" : settings.language === 'en' ? 'No exact matches; try different keywords' : t.topRated.emptyText}</span>
+                  <span className="text-rose-400">{searchFeedback.noResults}</span>
                 )}
               </div>
 

@@ -6,6 +6,7 @@ import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 import { normalizeSearchText } from '../services/search';
 import { getLocalizedGeneratorDescription, hasLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
 import { getLocalizedFaq } from '../i18n/localizedFaq';
+import { getShellLabels } from '../i18n/shell';
 
 declare const process: { exit: (code: number) => void };
 
@@ -27,6 +28,34 @@ function assert(condition: boolean, description: string, details?: string) {
   } else {
     results.push({ num: currentNum, description, passed: false, error: details || 'Assertion failed' });
     console.error(`  ✗ Test ${currentNum} FAILED: ${description} - ${details || ''}`);
+  }
+}
+
+// Global shell localization regression checks (25 priority locales).
+const PRIORITY_LOCALES = [
+  'en', 'fr', 'es', 'de', 'it', 'pt', 'ar', 'tr', 'ja', 'ko',
+  'zh', 'ru', 'hi', 'nl', 'pl', 'sv', 'vi', 'id', 'th', 'el',
+  'he', 'cs', 'ro', 'da', 'fi',
+] as const;
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getShellLabels(locale);
+  assert(
+    Boolean(labels.skipToMain.trim() && labels.loading.trim()),
+    `Shell accessibility and loading labels exist for ${locale}`
+  );
+  assert(
+    Object.values(labels.pageTitles).every((value) => value.trim().length > 0),
+    `All page-title labels exist for ${locale}`
+  );
+  assert(
+    Object.values(labels.families).every((value) => value.trim().length > 0),
+    `All generator-family labels exist for ${locale}`
+  );
+  if (locale !== 'en') {
+    assert(
+      labels.skipToMain !== 'Skip to main content' && labels.loading !== 'Loading NameForge…',
+      `Shell labels do not silently fall back to English for ${locale}`
+    );
   }
 }
 

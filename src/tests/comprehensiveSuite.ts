@@ -11,6 +11,7 @@ import { getMyNamesAuditLabels } from '../i18n/myNames';
 import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle, LOCALIZED_GENERATOR_TITLE_IDS } from '../i18n/generatorTitles';
 import { getLanguageModalLabels } from '../i18n/languageModal';
 import { getNameDetailsLabels } from '../i18n/nameDetails';
+import { getCollectionModalLabels } from '../i18n/collectionModal';
 
 declare const process: { exit: (code: number) => void };
 
@@ -127,6 +128,22 @@ for (const locale of PRIORITY_LOCALES) {
   assert(
     locale === 'fr' || labels.header !== 'Fiche d’analyse linguistique •',
     `Name analysis modal header is localized for ${locale}`
+  );
+}
+
+// Collection modal controls must be translated in all 25 priority locales.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getCollectionModalLabels(locale);
+  assert(
+    Boolean(labels.titleNew.trim() && labels.titleEdit.trim() && labels.intro.trim() &&
+      labels.nameLabel.trim() && labels.namePlaceholder.trim() && labels.descriptionLabel.trim() &&
+      labels.descriptionPlaceholder.trim() && labels.colorLabel.trim() && labels.cancel.trim() &&
+      labels.save.trim() && labels.saved.trim() && labels.close.trim()),
+    `Collection modal labels exist for ${locale}`
+  );
+  assert(
+    locale === 'fr' || labels.titleNew !== 'Nouvelle collection personnalisée',
+    `Collection modal title is localized for ${locale}`
   );
 }
 

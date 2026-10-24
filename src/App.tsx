@@ -166,7 +166,7 @@ export const App: React.FC = () => {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-xl focus:shadow-xl focus:outline-none"
       >
-        Passer au contenu principal
+        {getShellLabels(settings.language).skipToMain}
       </a>
 
       <Navbar

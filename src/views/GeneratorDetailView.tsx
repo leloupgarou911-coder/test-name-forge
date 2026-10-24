@@ -333,9 +333,8 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-4">
-            {meta.h1a}{' '}
             <span className="bg-gradient-to-r from-white via-cyan-300 to-purple-400 bg-clip-text text-transparent">
-              {meta.h1b}
+              {localizedTitle}
             </span>
           </h1>
 

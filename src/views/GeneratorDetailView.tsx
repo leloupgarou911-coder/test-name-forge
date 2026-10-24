@@ -17,6 +17,7 @@ import {
 } from '../types';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getLocalizedGeneratorDescription } from '../i18n/generatorContent';
+import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle } from '../i18n/generatorTitles';
 
 interface GeneratorDetailViewProps {
   generatorId: GeneratorId;
@@ -30,6 +31,9 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   const meta = GENERATORS_METADATA[generatorId] || GENERATORS_METADATA.fantasy;
   const settings = getAppSettings();
   const [language, setLanguage] = useState(settings.language);
+  const localizedTitle = getLocalizedGeneratorTitle(generatorId, language, meta.title);
+  const localizedShortTitle = getLocalizedGeneratorShortTitle(generatorId, language, meta.shortTitle);
+  const localizedDescription = getLocalizedGeneratorDescription(meta, language);
 
   useEffect(() => subscribeToSettings((next) => setLanguage(next.language)), []);
 
@@ -198,7 +202,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
     if (!results.length) return;
     const content = [
       `========================================================`,
-      `NameForge — ${exportText[9]} (${meta.title})`,
+      `NameForge — ${exportText[9]} (${localizedTitle})`,
       `${exportText[0]}: ${new Date().toLocaleString(language)}`,
       `${exportText[1]}: ${generatorId} | ${exportText[2]}: ${selectedStyle}`,
       `========================================================\n`,
@@ -356,10 +360,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
                 <span>{meta.icon}</span>
-                <span>{meta.generatorTitle}</span>
+                <span>{localizedTitle}</span>
               </h2>
               <p className="text-xs sm:text-sm text-slate-400 mt-1">
-                {meta.generatorSubtitle}
+                {localizedDescription}
               </p>
             </div>
           </div>
@@ -464,10 +468,10 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
-                <span>{text.leaderboard} • {meta.shortTitle.toUpperCase()}</span>
+                <span>{text.leaderboard} • {localizedShortTitle.toUpperCase()}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                {text.bestNames} ({meta.shortTitle})
+                {text.bestNames} ({localizedShortTitle})
               </h2>
               <p className="text-xs text-slate-400 mt-1">
                 {text.leaderboardDesc}
@@ -532,7 +536,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 mx-auto flex items-center justify-center">
                 <Star className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-bold text-white">{text.noRatings} {meta.shortTitle}</h4>
+              <h4 className="text-sm font-bold text-white">{text.noRatings} {localizedShortTitle}</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 {text.noRatingsDesc}
               </p>
@@ -650,7 +654,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               className="py-1.5 px-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-purple-500 text-xs font-semibold text-slate-300 hover:text-white transition cursor-pointer flex items-center gap-1.5"
             >
               <span>{g.icon}</span>
-              <span>{g.shortTitle}</span>
+              <span>{getLocalizedGeneratorShortTitle(g.id, language, g.shortTitle)}</span>
             </button>
           ))}
         </div>

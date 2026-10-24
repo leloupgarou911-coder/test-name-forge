@@ -1410,7 +1410,7 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     de: "Erstelle appetitliche Namen für Gerichte, Rezepte, Menüs und kulinarische Konzepte, passend zu Zutaten und Stil.",
     it: "Crea nomi invitanti per piatti, ricette, menu e concept culinari, coerenti con ingredienti e stile.",
     pt: "Crie nomes apetitosos para pratos, receitas, cardápios e conceitos culinários, de acordo com ingredientes e estilo.",
-    ar: "أنشئ أسماء شهية للأطباق والوصفات والقوائم والأفكار culinaria بما يناسب مكوناتها وأسلوبها.",
+    ar: "أنشئ أسماء شهية للأطباق والوصفات والقوائم والأفكار المتعلقة بالطهي بما يناسب مكوناتها وأسلوبها.",
     tr: "Malzemelerine ve tarzına uygun, yemekler, tarifler, menüler ve mutfak konseptleri için iştah açıcı adlar oluşturun.",
     ja: "食材やスタイルに合った、料理、レシピ、メニュー、食のコンセプトの魅力的な名前を作成します。",
     ko: "재료와 스타일에 어울리는 요리, 레시피, 메뉴, 미식 콘셉트의 식욕을 돋우는 이름을 만드세요.",

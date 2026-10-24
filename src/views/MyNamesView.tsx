@@ -221,11 +221,11 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
       const res = importDataJSON(content);
       if (res.success) {
         setImportStatus(
-          `Importation réussie : ${res.added} ajoutés, ${res.updated} mis à jour, ${res.skipped} ignorés.`
+          currentLanguage === 'fr' ? `Importation réussie : ${res.added} ajoutés, ${res.updated} mis à jour, ${res.skipped} ignorés.` : `Import successful: ${res.added} added, ${res.updated} updated, ${res.skipped} skipped.`
         );
         reloadData();
       } else {
-        setImportStatus(`Erreur : ${res.errors.join(', ')}`);
+        setImportStatus(`${currentLanguage === 'fr' ? 'Erreur' : 'Error'}: ${res.errors.join(', ')}`);
       }
       setTimeout(() => setImportStatus(null), 5000);
     };
@@ -797,7 +797,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           <Bookmark
                             className={`w-3.5 h-3.5 ${item.saved ? 'fill-current text-purple-400' : ''}`}
                           />
-                          <span>{item.saved ? 'Enregistré' : 'Enregistrer'}</span>
+                          <span>{item.saved ? (currentLanguage === 'fr' ? 'Enregistré' : 'Saved') : actions.save}</span>
                         </button>
 
                         <button
@@ -894,7 +894,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 onClick={() => setEditingCollection(null)}
                 className="mt-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition cursor-pointer"
               >
-                + Nouvelle Collection
+                + {currentLanguage === 'fr' ? 'Nouvelle collection' : 'New collection'}
               </button>
             </div>
           ) : (
@@ -973,7 +973,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             <div>
               <h2 className="text-xl font-bold text-white">{controls.recentHistory}</h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Les 50 dernières propositions générées en cours de session.
+                {currentLanguage === 'fr' ? 'Les 50 dernières propositions générées pendant cette session.' : 'The 50 most recent names generated during this session.'}
               </p>
             </div>
             {history.length > 0 && (
@@ -992,7 +992,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <History className="w-12 h-12 text-slate-500 mx-auto" />
               <h3 className="text-base font-bold text-white">{controls.emptyHistory}</h3>
               <p className="text-xs text-slate-400">
-                Générez des noms sur le site pour qu'ils s'enregistrent automatiquement ici.
+                {currentLanguage === 'fr' ? "Générez des noms sur le site pour qu'ils s'enregistrent automatiquement ici." : 'Generate names on the site and they will automatically appear here.'}
               </p>
             </div>
           ) : (

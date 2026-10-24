@@ -19,6 +19,7 @@ import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getLocalizedGeneratorDescription } from '../i18n/generatorContent';
 import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle } from '../i18n/generatorTitles';
 import { getGeneratorDetailSectionLabels } from '../i18n/generatorDetailSections';
+import { getLocalizedGeneratorEditorial } from '../i18n/generatorEditorial';
 
 interface GeneratorDetailViewProps {
   generatorId: GeneratorId;
@@ -36,6 +37,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
   const localizedShortTitle = getLocalizedGeneratorShortTitle(generatorId, language, meta.shortTitle);
   const localizedDescription = getLocalizedGeneratorDescription(meta, language);
   const sectionLabels = getGeneratorDetailSectionLabels(language);
+  const editorial = getLocalizedGeneratorEditorial(meta, language);
 
   useEffect(() => subscribeToSettings((next) => setLanguage(next.language)), []);
 
@@ -578,7 +580,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
             {`${sectionLabels.guide} · ${localizedShortTitle}`}
           </h2>
           <div className="space-y-4">
-            {meta.guide.map((step, idx) => (
+            {(editorial?.guide ?? meta.guide).map((step, idx) => (
               <div key={idx} className="space-y-1">
                 <h3 className="text-sm font-bold text-cyan-300">{step.h}</h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{step.p}</p>
@@ -594,7 +596,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
           {`${sectionLabels.examples} · ${localizedShortTitle}`}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {meta.cards.map((card, idx) => (
+          {(editorial?.cards ?? meta.cards).map((card, idx) => (
             <div
               key={idx}
               className="p-6 rounded-2xl bg-[#0f172a] border border-slate-800 hover:border-purple-500/50 transition-all shadow-lg flex flex-col justify-between"
@@ -613,14 +615,14 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
       {(meta.advantages || meta.limits) && (
         <section className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {meta.advantages && (
+            {(editorial?.advantages ?? meta.advantages) && (
               <div className="p-5 rounded-2xl bg-[#0e1628] border border-emerald-500/30">
                 <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-emerald-400" />
                   <span>{text.advantages}</span>
                 </h3>
                 <ul className="space-y-1.5 text-xs text-slate-300">
-                  {meta.advantages.map((adv, idx) => (
+                  {(editorial?.advantages ?? meta.advantages ?? []).map((adv, idx) => (
                     <li key={idx} className="flex items-start gap-1.5">
                       <span className="text-emerald-400">•</span>
                       <span>{adv}</span>
@@ -630,7 +632,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
               </div>
             )}
 
-            {meta.limits && (
+            {(editorial?.limits ?? meta.limits) && (
               <div className="p-5 rounded-2xl bg-[#0e1628] border border-amber-500/30">
                 <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <ShieldAlert className="w-4 h-4 text-amber-400" />
@@ -657,7 +659,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
             {`${sectionLabels.faq} · ${localizedShortTitle}`}
           </h2>
           <div className="space-y-3">
-            {meta.faq.map((item, idx) => (
+            {(editorial?.faq ?? meta.faq).map((item, idx) => (
               <div key={idx} className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800">
                 <h3 className="text-sm font-bold text-white mb-1.5">{item.q}</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">{item.a}</p>

@@ -41,7 +41,7 @@ const PRIORITY_LOCALES = [
 for (const locale of PRIORITY_LOCALES) {
   const labels = getShellLabels(locale);
   assert(
-    Boolean(labels.skipToMain.trim() && labels.loading.trim() && labels.mainNavigation.trim() && labels.randomGeneratorTitle.trim() && labels.surpriseMe.trim()),
+    Boolean(labels.skipToMain.trim() && labels.loading.trim() && labels.mainNavigation.trim() && labels.randomGeneratorTitle.trim() && labels.surpriseMe.trim() && labels.changeLanguage.trim() && labels.changeLanguageTitle.trim()),
     `Shell accessibility and loading labels exist for ${locale}`
   );
   assert(
@@ -54,7 +54,7 @@ for (const locale of PRIORITY_LOCALES) {
   );
   if (locale !== 'en') {
     assert(
-      labels.skipToMain !== 'Skip to main content' && labels.loading !== 'Loading NameForge…' && labels.surpriseMe !== '🎲 Surprise me!',
+      labels.skipToMain !== 'Skip to main content' && labels.loading !== 'Loading NameForge…' && labels.surpriseMe !== '🎲 Surprise me!' && labels.changeLanguage !== 'Change language',
       `Shell labels do not silently fall back to English for ${locale}`
     );
   }

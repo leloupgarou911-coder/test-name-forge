@@ -989,7 +989,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         </button>
                         <button
                           onClick={() => {
-                            if (confirm(`Supprimer la collection "${col.name}" ?`)) {
+                            if (confirm(`${actions.deleteCollectionConfirm}\n\n${col.name}`)) {
                               deleteCollection(col.id);
                               reloadData();
                             }

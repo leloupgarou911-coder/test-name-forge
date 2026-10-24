@@ -32,6 +32,7 @@ import { getSavedNames, subscribeToStorage } from '../services/storage';
 import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
 import { getLocalizedGeneratorDescription } from '../i18n/generatorContent';
+import { getShellLabels } from '../i18n/shell';
 import { NameCard } from '../components/NameCard';
 
 interface HomeViewProps {
@@ -54,6 +55,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   const [quickGenerating, setQuickGenerating] = useState(false);
 
   const t = getTranslations(settings.language);
+  const familyLabels = getShellLabels(settings.language).families;
   const quickForgeCopy: Record<string, { badge: string; title: string; description: string; regenerate: string; categories: string[]; random?: string; randomTitle?: string }> = {
     fr: { badge: 'FORGE EXPRESS DIRECTE', title: 'Essayez NameForge en 1 clic', description: 'Sélectionnez un univers, tapez un mot-clé (optionnel) et forgez 3 identités en direct.', regenerate: 'Forger à nouveau', categories: ['Marque & Business', 'Fantasy & Héros', 'Startup & Tech', 'Dragon & Mythe', 'Noms & Prénoms', 'Pseudo & Gamer', 'Resto & Café', 'Agent & IA'] },
     en: { badge: 'QUICK NAME FORGE', title: 'Try NameForge in one click', description: 'Choose a universe, enter an optional keyword, and forge 3 identities instantly.', regenerate: 'Forge again', categories: ['Brand & Business', 'Fantasy & Heroes', 'Startup & Tech', 'Dragon & Myth', 'Baby Names', 'Gamertags', 'Restaurant & Café', 'AI Agent'] },
@@ -758,7 +760,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 }`}
               >
                 <span>{fam.icon}</span>
-                <span>{fam.label} ({fam.count})</span>
+                <span>{familyLabels[fam.id as keyof typeof familyLabels]} ({fam.count})</span>
               </button>
             ))}
           </div>

@@ -9,6 +9,7 @@ import {
   saveAppSettings,
 } from '../services/settings';
 import { isLanguageFullyTranslated, FULL_TRANSLATION_LANGUAGES } from '../i18n';
+import { getLanguageModalLabels } from '../i18n/languageModal';
 
 interface LanguageSelectorModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
   const [activeTab, setActiveTab] = useState<'all' | 'full' | 'Europe' | 'Asie' | 'Moyen-Orient' | 'Afrique' | 'Inde & Asie du Sud'>('all');
   const [currentLang, setCurrentLang] = useState<LanguageCode>(getAppSettings().language);
   const inputRef = useRef<HTMLInputElement>(null);
+  const labels = getLanguageModalLabels(currentLang);
 
   useEffect(() => {
     if (isOpen) {
@@ -100,13 +102,13 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
             </div>
             <div>
               <h2 id="lang-modal-title" className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-                <span>Choisir la Langue</span>
+                <span>{labels.title}</span>
                 <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  {SUPPORTED_LANGUAGES.length} langues
+                  {SUPPORTED_LANGUAGES.length} {labels.count}
                 </span>
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                82 langues au catalogue : 25 traductions intégrales dédiées et 57 avec support & repli automatique • Prise en charge RTL native.
+                {labels.description}
               </p>
             </div>
           </div>
@@ -114,7 +116,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
           <button
             onClick={onClose}
             className="w-10 h-10 rounded-2xl bg-slate-800/80 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition cursor-pointer"
-            aria-label="Fermer"
+            aria-label={labels.close}
           >
             <X className="w-5 h-5" />
           </button>
@@ -127,7 +129,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
             <input
               ref={inputRef}
               type="text"
-              placeholder="Rechercher une langue par nom (ex. Français, English, 日本語, Arabic)..."
+              placeholder={labels.searchPlaceholder}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full h-12 pl-12 pr-10 bg-[#080d19] border border-slate-700/80 rounded-2xl text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 shadow-inner"
@@ -145,13 +147,13 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
           {/* Region Tabs */}
           <div className="flex items-center gap-1.5 flex-wrap">
             {[
-              { id: 'all', label: `Toutes (${SUPPORTED_LANGUAGES.length})` },
-              { id: 'full', label: `✨ 100% Traduites (${FULL_TRANSLATION_LANGUAGES.length})` },
-              { id: 'Europe', label: 'Europe' },
-              { id: 'Asie', label: 'Asie' },
-              { id: 'Moyen-Orient', label: 'Moyen-Orient & RTL' },
-              { id: 'Inde & Asie du Sud', label: 'Asie du Sud' },
-              { id: 'Afrique', label: 'Afrique' },
+              { id: 'all', label: `${labels.all} (${SUPPORTED_LANGUAGES.length})` },
+              { id: 'full', label: `✨ ${labels.fullyTranslated} (${FULL_TRANSLATION_LANGUAGES.length})` },
+              { id: 'Europe', label: labels.europe },
+              { id: 'Asie', label: labels.asia },
+              { id: 'Moyen-Orient', label: labels.middleEast },
+              { id: 'Inde & Asie du Sud', label: labels.southAsia },
+              { id: 'Afrique', label: labels.africa },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -204,7 +206,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
                               : 'text-slate-400 bg-slate-800/80 border-slate-700/40'
                           }`}
                         >
-                          {isFull ? 'Intégrale' : 'Repli EN'}
+                          {isFull ? labels.complete : labels.fallback}
                         </span>
                       </div>
                     </div>
@@ -222,7 +224,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 
           {filteredLanguages.length === 0 && (
             <div className="text-center py-12 text-slate-400 space-y-2">
-              <p className="text-sm font-semibold">Aucune langue ne correspond à « {search} ».</p>
+              <p className="text-sm font-semibold">{labels.noResults} « {search} ».</p>
               <button
                 onClick={() => {
                   setSearch('');
@@ -230,7 +232,7 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
                 }}
                 className="text-xs text-purple-400 hover:underline cursor-pointer"
               >
-                Réinitialiser la recherche
+                {labels.reset}
               </button>
             </div>
           )}
@@ -238,8 +240,8 @@ export const LanguageSelectorModal: React.FC<LanguageSelectorModalProps> = ({
 
         {/* Footer info */}
         <div className="p-3.5 px-6 border-t border-slate-800 bg-[#090e1c] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
-          <span>Active : <strong className="text-white">{SUPPORTED_LANGUAGES.find(l => l.code === currentLang)?.native || currentLang}</strong> {isLanguageFullyTranslated(currentLang) ? '(✨ Traduction intégrale)' : '(Support standard • Repli anglais)'}</span>
-          <span className="text-slate-500">25 intégrales • 57 repli • UTF-8 & RTL</span>
+          <span>{labels.active} <strong className="text-white">{SUPPORTED_LANGUAGES.find(l => l.code === currentLang)?.native || currentLang}</strong> {isLanguageFullyTranslated(currentLang) ? '({labels.completeStatus})' : '({labels.standardStatus})'}</span>
+          <span className="text-slate-500">25 {labels.fullCount} • 57 {labels.fallbackCount} • UTF-8 & RTL</span>
         </div>
       </div>
     </div>

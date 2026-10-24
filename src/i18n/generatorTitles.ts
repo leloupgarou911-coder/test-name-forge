@@ -67,5 +67,5 @@ export function getLocalizedGeneratorShortTitle(
 export const LOCALIZED_GENERATOR_TITLE_LANGUAGES = PRIORITY_LOCALES;
 export const LOCALIZED_GENERATOR_TITLE_IDS: CoreGeneratorId[] = [
   'fantasy', 'dragon', 'elf', 'anime', 'brand', 'business', 'startup', 'domain',
-  'app', 'book', 'character', 'videogame', 'rpg', 'gaming', 'baby_name', 'pet_name',
+  'app', 'book', 'character', 'videogame', 'rpg', 'gaming', 'baby_name', 'pet_name', 'coffee_shop', 'bakery',
 ];

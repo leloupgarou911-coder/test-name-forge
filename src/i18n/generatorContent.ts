@@ -160,11 +160,32 @@ const LOCALIZED_DESCRIPTIONS: Record<string, Record<string, string>> = {
  */
 const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = {
   fantasy: {
-    en: 'Forge names for fantasy heroes, magical lineages, legendary realms, and original worlds for your stories or games.',
-    fr: 'Forgez des noms pour des héros fantastiques, des lignées magiques, des royaumes légendaires et des univers originaux.',
-    es: 'Crea nombres para héroes fantásticos, linajes mágicos, reinos legendarios y mundos originales para tus historias o juegos.',
-    de: 'Erschaffe Namen für Fantasy-Helden, magische Blutlinien, legendäre Reiche und eigene Welten für Geschichten oder Spiele.'
-  },
+    en: "Create names for fantasy heroes, mythical peoples, enchanted places, creatures, and epic adventures.",
+    fr: "Créez des noms pour des héros de fantasy, des peuples mythiques, des lieux enchantés, des créatures et des aventures épiques.",
+    es: "Crea nombres para héroes de fantasía, pueblos míticos, lugares encantados, criaturas y aventuras épicas.",
+    de: "Erstelle Namen für Fantasyhelden, mythische Völker, verzauberte Orte, Kreaturen und epische Abenteuer.",
+    it: "Crea nomi per eroi fantasy, popoli mitici, luoghi incantati, creature e avventure epiche.",
+    pt: "Crie nomes para heróis de fantasia, povos míticos, lugares encantados, criaturas e aventuras épicas.",
+    ar: "أنشئ أسماء لأبطال الفانتازيا والشعوب الأسطورية والأماكن المسحورة والمخلوقات والمغامرات الملحمية.",
+    tr: "Fantastik kahramanlar, mitolojik halklar, büyülü yerler, yaratıklar ve destansı maceralar için isimler oluşturun.",
+    ja: "ファンタジーの英雄、神話の民、魔法の場所、幻想生物、壮大な冒険の名前を作成します。",
+    ko: "판타지 영웅, 신화 속 종족, 마법의 장소, 생명체와 장대한 모험에 어울리는 이름을 만드세요.",
+    zh: "为奇幻英雄、神话族群、魔法之地、奇异生物和史诗冒险创作名称。",
+    ru: "Создавайте имена для героев фэнтези, мифических народов, зачарованных мест, существ и эпических приключений.",
+    hi: "फैंटेसी नायकों, पौराणिक जातियों, जादुई स्थानों, जीवों और महाकाव्य रोमांच के लिए नाम बनाएँ।",
+    nl: "Bedenk namen voor fantasyhelden, mythische volken, betoverde plaatsen, wezens en epische avonturen.",
+    pl: "Twórz nazwy bohaterów fantasy, mitycznych ludów, zaczarowanych miejsc, stworzeń i epickich przygód.",
+    sv: "Skapa namn för fantasyhjältar, mytiska folk, förtrollade platser, varelser och episka äventyr.",
+    vi: "Tạo tên cho anh hùng giả tưởng, tộc người thần thoại, địa điểm phép thuật, sinh vật và cuộc phiêu lưu sử thi.",
+    id: "Buat nama untuk pahlawan fantasi, bangsa mitologis, tempat ajaib, makhluk, dan petualangan epik.",
+    th: "สร้างชื่อสำหรับวีรบุรุษแฟนตาซี เผ่าพันธุ์ในตำนาน สถานที่ต้องมนตร์ สิ่งมีชีวิต และการผจญภัยสุดยิ่งใหญ่",
+    el: "Δημιουργήστε ονόματα για ήρωες φαντασίας, μυθικούς λαούς, μαγεμένους τόπους, πλάσματα και επικές περιπέτειες.",
+    he: "צרו שמות לגיבורי פנטזיה, עמים מיתיים, מקומות מכושפים, יצורים והרפתקאות אפיות.",
+    cs: "Vytvářejte jména pro fantasy hrdiny, mytické národy, kouzelná místa, bytosti a epická dobrodružství.",
+    ro: "Creează nume pentru eroi fantasy, popoare mitice, locuri fermecate, creaturi și aventuri epice.",
+    da: "Skab navne til fantasyhelte, mytiske folk, fortryllede steder, væsner og episke eventyr.",
+    fi: "Luo nimiä fantasiansankareille, myyttisille kansoille, lumotuille paikoille, olennoille ja eeppisille seikkailuille.",
+  }
   baby_name: {
     en: 'Explore baby names with attention to real-world usage, pronunciation, cultural origins, and meanings where available.',
     fr: 'Explorez des prénoms de bébé en tenant compte de leur usage réel, de leur prononciation, de leur origine culturelle et de leur signification lorsqu’elle est connue.',

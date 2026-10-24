@@ -644,7 +644,7 @@ export const GeneratorDetailView: React.FC<GeneratorDetailViewProps> = ({
                   <span>{text.limits}</span>
                 </h3>
                 <ul className="space-y-1.5 text-xs text-slate-300">
-                  {meta.limits.map((lim, idx) => (
+                  {(editorial?.limits ?? meta.limits ?? []).map((lim, idx) => (
                     <li key={idx} className="flex items-start gap-1.5">
                       <span className="text-amber-400">•</span>
                       <span>{lim}</span>

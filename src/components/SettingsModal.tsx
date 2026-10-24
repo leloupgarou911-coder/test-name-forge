@@ -21,6 +21,7 @@ import {
   saveAppSettings,
 } from '../services/settings';
 import { FULL_TRANSLATION_LANGUAGES, getTranslations, isLanguageFullyTranslated } from '../i18n';
+import { getLanguageModalLabels } from '../i18n/languageModal';
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -115,7 +116,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     <div className="truncate">
                       <div className="text-xs font-semibold leading-tight">{lang.native}</div>
                       <div className="text-[10px] text-slate-400">{lang.label}</div>
-                      {!isLanguageFullyTranslated(lang.code) && <div className="text-[9px] text-amber-500 font-semibold">English fallback</div>}
+                      {!isLanguageFullyTranslated(lang.code) && <div className="text-[9px] text-amber-500 font-semibold">{getLanguageModalLabels(settings.language).fallback}</div>}
                     </div>
                   </button>
                 );

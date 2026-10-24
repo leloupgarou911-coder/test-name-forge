@@ -9,6 +9,7 @@ import { getLocalizedFaq } from '../i18n/localizedFaq';
 import { getShellLabels } from '../i18n/shell';
 import { getMyNamesAuditLabels } from '../i18n/myNames';
 import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle, LOCALIZED_GENERATOR_TITLE_IDS } from '../i18n/generatorTitles';
+import { getLanguageModalLabels } from '../i18n/languageModal';
 
 declare const process: { exit: (code: number) => void };
 
@@ -90,6 +91,22 @@ for (const locale of PRIORITY_LOCALES) {
     missingTitles.length === 0,
     `Core generator titles and short labels are localized for ${locale}`,
     missingTitles.join(', ') || '16 core generators checked'
+  );
+}
+
+// Language selector modal must expose translated core controls for every priority locale.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getLanguageModalLabels(locale);
+  assert(
+    Boolean(labels.title.trim() && labels.close.trim() && labels.searchPlaceholder.trim() &&
+      labels.all.trim() && labels.fullyTranslated.trim() && labels.complete.trim() &&
+      labels.fallback.trim() && labels.noResults.trim() && labels.reset.trim() &&
+      labels.active.trim() && labels.completeStatus.trim() && labels.standardStatus.trim()),
+    `Language selector labels exist for ${locale}`
+  );
+  assert(
+    locale === 'fr' || labels.title !== 'Choisir la langue',
+    `Language selector title is not left in French for ${locale}`
   );
 }
 

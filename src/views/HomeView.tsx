@@ -33,6 +33,7 @@ import { getAppSettings, subscribeToSettings } from '../services/settings';
 import { getTranslations } from '../i18n';
 import { getLocalizedGeneratorDescription } from '../i18n/generatorContent';
 import { getShellLabels } from '../i18n/shell';
+import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle } from '../i18n/generatorTitles';
 import { NameCard } from '../components/NameCard';
 
 interface HomeViewProps {
@@ -156,8 +157,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     const q = searchQuery.toLowerCase().trim();
     return ALL_GENERATORS_LIST.filter(
       (gen) =>
-        gen.title.toLowerCase().includes(q) ||
-        gen.shortTitle.toLowerCase().includes(q) ||
+        getLocalizedGeneratorTitle(gen.id, settings.language, gen.title).toLowerCase().includes(q) || gen.title.toLowerCase().includes(q) ||
+        getLocalizedGeneratorShortTitle(gen.id, settings.language, gen.shortTitle).toLowerCase().includes(q) || gen.shortTitle.toLowerCase().includes(q) ||
         getLocalizedGeneratorDescription(gen, settings.language).toLowerCase().includes(q) || gen.description.toLowerCase().includes(q) ||
         gen.badge.toLowerCase().includes(q)
     );
@@ -655,7 +656,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                       <span className="text-xl">{gen.icon}</span>
                       <div className="truncate">
                         <div className="font-bold text-white text-xs group-hover:text-cyan-300 transition truncate">
-                          {gen.title}
+                          {getLocalizedGeneratorTitle(gen.id, settings.language, gen.title)}
                         </div>
                         <div className="text-[10px] text-slate-400 truncate">{gen.badge}</div>
                       </div>

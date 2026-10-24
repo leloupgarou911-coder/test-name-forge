@@ -294,8 +294,8 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     guide: [{ h: "Try calling it", p: "Choose a name that is easy to say clearly and does not sound like a training cue." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
     cardsTitle: "Playful names",
     cards: [{ icon: '✨', h: "Playful names", p: "Friendly names for affectionate companions and lighthearted households." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
-    faqTitle: "Should a pet name be short?",
-    faq: [{ q: "Short names can help, but clarity and consistent use matter more than syllable count.", a: 'Please compare the options and verify important details before deciding.' }]
+    faqTitle: "Pet-name questions",
+    faq: [{ q: "Should a pet name be short?", a: "Short names can help, but clarity and consistent use matter more than syllable count." }]
   },
   restaurant: {
     generatorTitle: "Restaurant Name Ideas",
@@ -306,8 +306,8 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     guide: [{ h: "Define the concept", p: "Clarify cuisine, service format, audience, and atmosphere before choosing a naming style." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
     cardsTitle: "Cuisine-led names",
     cards: [{ icon: '✨', h: "Cuisine-led names", p: "Names that help guests understand a signature cuisine or specialty." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
-    faqTitle: "Should the name describe the cuisine?",
-    faq: [{ q: "A clear cue can help new guests, while a broader name offers flexibility if the menu evolves.", a: 'Please compare the options and verify important details before deciding.' }]
+    faqTitle: "Restaurant-name questions",
+    faq: [{ q: "Should the name describe the cuisine?", a: "A clear cue can help new guests, while a broader name offers flexibility if the menu evolves." }]
   },
   brand: {
     generatorTitle: "Brand Name Ideas",
@@ -318,8 +318,8 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     guide: [{ h: "Define the brand promise", p: "List the audience, main benefit, personality, and qualities the name should signal." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
     cardsTitle: "Evocative names",
     cards: [{ icon: '✨', h: "Evocative names", p: "Names that suggest a feeling, value, or story without spelling out every detail." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
-    faqTitle: "Is a generated name available to use?",
-    faq: [{ q: "Availability is not guaranteed; check trademarks, domains, and market use before committing.", a: 'Please compare the options and verify important details before deciding.' }]
+    faqTitle: "Brand-name questions",
+    faq: [{ q: "Is a generated name available to use?", a: "Availability is not guaranteed; check trademarks, domains, and market use before committing." }]
   },
   product: {
     generatorTitle: "Product Name Ideas",
@@ -330,8 +330,8 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     guide: [{ h: "Identify the use case", p: "Define the problem solved, target customer, and most meaningful product difference." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
     cardsTitle: "Benefit-led names",
     cards: [{ icon: '✨', h: "Benefit-led names", p: "Names that make the product’s main purpose easy to understand." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
-    faqTitle: "Should a product name include a model number?",
-    faq: [{ q: "Model numbers organize technical ranges, while a memorable name can make a product easier to recognize.", a: 'Please compare the options and verify important details before deciding.' }]
+    faqTitle: "Product-name questions",
+    faq: [{ q: "Should a product name include a model number?", a: "Model numbers organize technical ranges, while a memorable name can make a product easier to recognize." }]
   }
 };
 

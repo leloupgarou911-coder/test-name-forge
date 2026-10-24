@@ -13,6 +13,7 @@ import { getLanguageModalLabels } from '../i18n/languageModal';
 import { getNameDetailsLabels } from '../i18n/nameDetails';
 import { getCollectionModalLabels } from '../i18n/collectionModal';
 import { getCompareModalLabels } from '../i18n/compareModal';
+import { getGeneratorDetailSectionLabels, PRIORITY_GENERATOR_DETAIL_LOCALES } from '../i18n/generatorDetailSections';
 
 declare const process: { exit: (code: number) => void };
 
@@ -82,6 +83,24 @@ for (const locale of PRIORITY_LOCALES) {
   }
 }
 
+// Generator detail section headings must be complete and localized for all priority locales.
+assert(PRIORITY_GENERATOR_DETAIL_LOCALES.length === PRIORITY_LOCALES.length, 'Generator detail section labels cover all 25 priority locales');
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getGeneratorDetailSectionLabels(locale);
+  assert(
+    Boolean(labels.guide.trim() && labels.examples.trim() && labels.faq.trim()),
+    `Generator detail section headings exist for ${locale}`
+  );
+  if (locale !== 'en') {
+    assert(
+      labels.guide !== getGeneratorDetailSectionLabels('en').guide &&
+      labels.examples !== getGeneratorDetailSectionLabels('en').examples &&
+      labels.faq !== getGeneratorDetailSectionLabels('en').faq,
+      `Generator detail section headings are translated for ${locale}`
+    );
+  }
+}
+
 // Core generator titles and short labels must be localized in all 25 priority locales.
 for (const locale of PRIORITY_LOCALES) {
   const missingTitles = LOCALIZED_GENERATOR_TITLE_IDS.filter((id) => {
@@ -93,7 +112,7 @@ for (const locale of PRIORITY_LOCALES) {
   assert(
     missingTitles.length === 0,
     `Core generator titles and short labels are localized for ${locale}`,
-    missingTitles.join(', ') || '16 core generators checked'
+    missingTitles.join(', ') || `${LOCALIZED_GENERATOR_TITLE_IDS.length} core generators checked`
   );
 }
 

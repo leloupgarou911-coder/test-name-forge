@@ -7,6 +7,7 @@ import { normalizeSearchText } from '../services/search';
 import { getLocalizedGeneratorDescription, hasLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
 import { getLocalizedFaq } from '../i18n/localizedFaq';
 import { getShellLabels } from '../i18n/shell';
+import { getMyNamesAuditLabels } from '../i18n/myNames';
 
 declare const process: { exit: (code: number) => void };
 
@@ -55,6 +56,24 @@ for (const locale of PRIORITY_LOCALES) {
     assert(
       labels.skipToMain !== 'Skip to main content' && labels.loading !== 'Loading NameForge…',
       `Shell labels do not silently fall back to English for ${locale}`
+    );
+  }
+}
+
+// My Names view-specific localization regression checks.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getMyNamesAuditLabels(locale);
+  assert(
+    Object.values(labels).every((value) => value.trim().length > 0),
+    `My Names audit labels exist for ${locale}`
+  );
+  if (locale !== 'en') {
+    assert(
+      labels.trackedNames !== 'Tracked names' &&
+      labels.resetFilters !== 'Reset filters' &&
+      labels.notRated !== 'Not rated' &&
+      labels.importError !== 'Error',
+      `My Names labels avoid English-only fallback for ${locale}`
     );
   }
 }

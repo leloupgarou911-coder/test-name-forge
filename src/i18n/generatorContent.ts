@@ -349,7 +349,28 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     en: 'Explore restaurant-name ideas that fit the cuisine, atmosphere, location, and audience; check local businesses and trademark availability before choosing.',
     fr: 'Trouvez des noms de restaurants adaptés à la cuisine, à l’ambiance, au lieu et à la clientèle ; vérifiez les commerces existants et les marques avant de choisir.',
     es: 'Explora nombres para restaurantes acordes con la cocina, el ambiente, la ubicación y el público; revisa negocios y marcas existentes antes de elegir.',
-    de: 'Finde Restaurantnamen passend zu Küche, Atmosphäre, Standort und Gästen. Prüfe vor der Entscheidung bestehende Betriebe und Marken.'
+    de: 'Finde Restaurantnamen passend zu Küche, Atmosphäre, Standort und Gästen. Prüfe vor der Entscheidung bestehende Betriebe und Marken.',
+    it: 'Esplora nomi per ristoranti adatti alla cucina, all’atmosfera, alla posizione e alla clientela; controlla le attività esistenti e i marchi prima di scegliere.',
+    pt: 'Explore nomes de restaurantes adequados à culinária, ao ambiente, à localização e ao público; verifique estabelecimentos e marcas existentes antes de escolher.',
+    ar: 'استكشف أسماء مطاعم تناسب نوع المطبخ والأجواء والموقع والجمهور، وتحقق من المطاعم القائمة والعلامات التجارية قبل الاختيار.',
+    tr: 'Mutfağa, atmosfere, konuma ve hedef kitleye uygun restoran adları bulun; seçim yapmadan önce mevcut işletmeleri ve markaları kontrol edin.',
+    ja: '料理の種類、雰囲気、場所、客層に合うレストラン名を考え、決定前に既存店舗や商標を確認しましょう。',
+    ko: '음식 종류, 분위기, 위치와 고객층에 어울리는 식당 이름을 찾아보세요. 선택하기 전에 기존 업체와 상표를 확인하세요.',
+    zh: '构思符合菜系、氛围、地点和目标顾客的餐厅名称；选择前请检查现有商家和商标。',
+    ru: 'Подбирайте названия ресторанов с учётом кухни, атмосферы, местоположения и аудитории; перед выбором проверьте существующие заведения и товарные знаки.',
+    hi: 'व्यंजन, माहौल, स्थान और ग्राहकों के अनुरूप रेस्तराँ के नाम खोजें; चुनने से पहले मौजूदा व्यवसायों और ट्रेडमार्क की जाँच करें।',
+    nl: 'Bedenk restaurantnamen die passen bij de keuken, sfeer, locatie en doelgroep; controleer bestaande zaken en handelsmerken voordat je kiest.',
+    pl: 'Szukaj nazw restauracji dopasowanych do kuchni, atmosfery, lokalizacji i klientów; przed wyborem sprawdź istniejące lokale i znaki towarowe.',
+    sv: 'Utforska restaurangnamn som passar köket, atmosfären, platsen och gästerna; kontrollera befintliga verksamheter och varumärken innan du väljer.',
+    vi: 'Tìm tên nhà hàng phù hợp với ẩm thực, không khí, địa điểm và khách hàng; hãy kiểm tra cơ sở kinh doanh và nhãn hiệu hiện có trước khi chọn.',
+    id: 'Jelajahi ide nama restoran yang sesuai dengan masakan, suasana, lokasi, dan pelanggan; periksa usaha serta merek dagang yang sudah ada sebelum memilih.',
+    th: 'ค้นหาไอเดียชื่อร้านอาหารที่เหมาะกับประเภทอาหาร บรรยากาศ ทำเล และกลุ่มลูกค้า พร้อมตรวจสอบร้านค้าและเครื่องหมายการค้าที่มีอยู่ก่อนเลือก',
+    el: 'Εξερευνήστε ονόματα εστιατορίων που ταιριάζουν στην κουζίνα, την ατμόσφαιρα, την τοποθεσία και το κοινό· ελέγξτε υπάρχουσες επιχειρήσεις και εμπορικά σήματα πριν επιλέξετε.',
+    he: 'גלו רעיונות לשמות מסעדות המתאימים למטבח, לאווירה, למיקום ולקהל; בדקו עסקים קיימים וסימני מסחר לפני הבחירה.',
+    cs: 'Hledejte názvy restaurací odpovídající kuchyni, atmosféře, místu a hostům; před výběrem ověřte existující podniky a ochranné známky.',
+    ro: 'Explorează nume de restaurante potrivite bucătăriei, atmosferei, locației și publicului; verifică localurile și mărcile existente înainte de alegere.',
+    da: 'Find restaurantnavne, der passer til køkken, atmosfære, beliggenhed og gæster; undersøg eksisterende virksomheder og varemærker før valget.',
+    fi: 'Etsi ravintolanimiä, jotka sopivat ruokaan, tunnelmaan, sijaintiin ja asiakkaisiin; tarkista olemassa olevat yritykset ja tavaramerkit ennen valintaa.'
   }
 };
 

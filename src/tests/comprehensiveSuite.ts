@@ -898,6 +898,18 @@ for (const generatorId of ['videogame', 'rpg'] as const) {
   );
 }
 
+// Podcast and planet generators must have dedicated text in all 25 priority locales.
+for (const generatorId of ['podcast', 'planet'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

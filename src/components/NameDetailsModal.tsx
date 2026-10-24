@@ -23,6 +23,9 @@ import {
   toggleSaveName,
 } from '../services/storage';
 import { GENERATORS_METADATA } from '../data/generators';
+import { getAppSettings } from '../services/settings';
+import { getNameDetailsLabels } from '../i18n/nameDetails';
+import { getLocalizedGeneratorTitle } from '../i18n/generatorTitles';
 
 interface NameDetailsModalProps {
   nameItem: GeneratedName;
@@ -40,6 +43,8 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
   const [isSaved, setIsSaved] = useState(existing?.saved || false);
   const [isLiked, setIsLiked] = useState(existing?.liked || false);
   const [rating, setRating] = useState<number>(getStoredRating(nameItem.name));
+  const language = getAppSettings().language;
+  const t = getNameDetailsLabels(language);
 
   const meta = GENERATORS_METADATA[nameItem.generatorId] || GENERATORS_METADATA.fantasy;
 
@@ -105,7 +110,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             </div>
             <div>
               <span className="text-[11px] font-bold text-purple-300 uppercase tracking-widest">
-                Fiche d’Analyse Linguistique • {meta.title}
+                {t.header} {getLocalizedGeneratorTitle(nameItem.generatorId, language, meta.title)}
               </span>
               <div className="flex items-center gap-2 mt-0.5">
                 <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
@@ -114,7 +119,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
                 <button
                   onClick={handleSpeak}
                   className="p-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-cyan-300 border border-purple-500/30 transition cursor-pointer"
-                  title="Écouter la prononciation"
+                  title={t.listen}
                 >
                   <Volume2 className="w-4 h-4" />
                 </button>
@@ -134,18 +139,18 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             <div className="p-3 rounded-2xl bg-[#10182e] border border-slate-800">
-              <span className="text-[10px] uppercase font-bold text-slate-400">Archétype</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400">{t.archetype}</span>
               <div className="font-bold text-white text-sm mt-0.5">{nameItem.style}</div>
             </div>
 
             <button
               onClick={handleSpeak}
               className="p-3 rounded-2xl bg-[#10182e] border border-slate-800 hover:border-cyan-500/50 transition cursor-pointer text-left group"
-              title="Cliquer pour écouter la prononciation"
+              title={t.listen}
             >
               <span className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
-                <span>Phonétique</span>
-                <span className="text-[9px] text-cyan-400 opacity-0 group-hover:opacity-100 transition">Écouter ▶</span>
+                <span>{t.phonetics}</span>
+                <span className="text-[9px] text-cyan-400 opacity-0 group-hover:opacity-100 transition">{t.listen} ▶</span>
               </span>
               <div className="font-bold text-cyan-300 text-sm mt-0.5 flex items-center gap-1">
                 <Volume2 className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition" />
@@ -154,7 +159,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             </button>
 
             <div className="p-3 rounded-2xl bg-[#10182e] border border-slate-800">
-              <span className="text-[10px] uppercase font-bold text-slate-400">Évaluation</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400">{t.rating}</span>
               <div className="flex items-center gap-0.5 mt-1">
                 {[1, 2, 3, 4, 5].map((s) => (
                   <button
@@ -173,9 +178,9 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             </div>
 
             <div className="p-3 rounded-2xl bg-[#10182e] border border-slate-800">
-              <span className="text-[10px] uppercase font-bold text-slate-400">Longueur</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400">{t.length}</span>
               <div className="font-bold text-purple-300 text-sm mt-0.5">
-                {nameItem.name.length} lettres
+                {nameItem.name.length} {t.letters}
               </div>
             </div>
           </div>
@@ -184,17 +189,17 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
           <div className="p-4 rounded-2xl bg-[#10182e] border border-purple-500/20 space-y-2">
             <div className="flex items-center gap-2 text-sm font-bold text-purple-300">
               <Sparkles className="w-4 h-4 text-purple-400" />
-              <span>Pourquoi ce nom convient à cet univers ?</span>
+              <span>{t.whyFits}</span>
             </div>
             <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
               {nameItem.description}
             </p>
             <div className="pt-2 flex flex-wrap gap-2 text-[11px]">
               <span className="px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-semibold">
-                Tonalité : {nameItem.tone}
+                {t.tone} {nameItem.tone}
               </span>
               <span className="px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-semibold">
-                Usage : {nameItem.bestFor}
+                {t.usage} {nameItem.bestFor}
               </span>
             </div>
           </div>
@@ -214,7 +219,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
                     className={`w-4 h-4 ${nameItem.isAttested ? 'text-emerald-400' : 'text-indigo-400'}`}
                   />
                   <span className={nameItem.isAttested ? 'text-emerald-300' : 'text-indigo-300'}>
-                    {nameItem.isAttested ? 'Prénom Réel Attesté à l’État Civil' : 'Création Phonétique (Mode Inventé)'}
+                    {nameItem.isAttested ? '{t.attested}' : '{t.invented}'}
                   </span>
                 </span>
                 {nameItem.origin && (
@@ -225,17 +230,17 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               </div>
               {nameItem.meaning && (
                 <div className="text-slate-200 text-xs">
-                  <strong className="text-white">Signification étymologique :</strong> « {nameItem.meaning} »
+                  <strong className="text-white">{t.etymology}</strong> « {nameItem.meaning} »
                 </div>
               )}
               {nameItem.variants && nameItem.variants.length > 0 && (
                 <div className="text-slate-400 text-[11px]">
-                  <strong>Variantes connues :</strong> {nameItem.variants.join(', ')}
+                  <strong>{t.variants}</strong> {nameItem.variants.join(', ')}
                 </div>
               )}
               {!nameItem.isAttested && (
                 <p className="text-[11px] text-slate-400 italic">
-                  Note de transparence NameForge : Cette proposition est une harmonie sonore originale, non issue des registres traditionnels d’état civil.
+                  {t.transparency}
                 </p>
               )}
             </div>
@@ -247,7 +252,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             <div className="p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-2">
               <div className="flex items-center gap-1.5 font-bold text-emerald-300 text-xs uppercase tracking-wider">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>Points Forts & Atouts</span>
+                <span>{t.strengths}</span>
               </div>
               <ul className="space-y-1.5 text-slate-300 text-[11px]">
                 {(nameItem.strengths && nameItem.strengths.length > 0
@@ -270,7 +275,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
             <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30 space-y-2">
               <div className="flex items-center gap-1.5 font-bold text-amber-300 text-xs uppercase tracking-wider">
                 <AlertCircle className="w-4 h-4 text-amber-400" />
-                <span>Points de Vigilance & Limites</span>
+                <span>{t.watchouts}</span>
               </div>
               <ul className="space-y-1.5 text-slate-300 text-[11px]">
                 {(nameItem.watchouts && nameItem.watchouts.length > 0
@@ -293,7 +298,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
           <div className="p-4 rounded-2xl bg-indigo-950/20 border border-indigo-500/30 space-y-2">
             <div className="flex items-center gap-2 font-bold text-indigo-300 text-xs uppercase tracking-wider">
               <Lightbulb className="w-4 h-4 text-indigo-400" />
-              <span>Conseil pour choisir entre plusieurs propositions</span>
+              <span>{t.chooseTip}</span>
             </div>
             <p className="text-slate-300 leading-relaxed text-[11px]">
               Prononcez le nom à voix haute dans une phrase type : « Bienvenue chez {nameItem.name} » ou « Voici {nameItem.name}, héros de notre histoire ». Le mot doit couler naturellement sans achopper sur la langue.
@@ -346,10 +351,10 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
                 );
               }}
               className="py-2 px-3.5 rounded-xl font-bold transition flex items-center gap-1.5 text-xs cursor-pointer border bg-pink-600/20 text-pink-300 border-pink-500/50 hover:bg-pink-600 hover:text-white"
-              title="Styliser ce nom dans l'Atelier Typographique"
+              title={t.style}
             >
               <Wand2 className="w-3.5 h-3.5" />
-              <span>Styliser</span>
+              <span>{t.style}</span>
             </button>
           </div>
 
@@ -365,12 +370,12 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5" />
-                  <span>✓ Copié !</span>
+                  <span>✓ {t.copied}</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5" />
-                  <span>Copier le nom</span>
+                  <span>{t.copy}</span>
                 </>
               )}
             </button>

@@ -257,11 +257,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               <ul className="space-y-1.5 text-slate-300 text-[11px]">
                 {(nameItem.strengths && nameItem.strengths.length > 0
                   ? nameItem.strengths
-                  : [
-                      'Haute mémorisation et sonorité percutante',
-                      'Excellente lisibilité typographique',
-                      'Résonance fidèle au genre',
-                    ]
+                  : [t.fallbackStrength, t.fallbackStrength, t.fallbackStrength]
                 ).map((s, idx) => (
                   <li key={idx} className="flex items-start gap-1.5">
                     <span className="text-emerald-400 mt-0.5">✓</span>
@@ -280,10 +276,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               <ul className="space-y-1.5 text-slate-300 text-[11px]">
                 {(nameItem.watchouts && nameItem.watchouts.length > 0
                   ? nameItem.watchouts
-                  : [
-                      'Vérifiez la disponibilité sur votre marché cible',
-                      'Testez la prononciation auprès de testeurs',
-                    ]
+                  : t.fallbackWatchout.split('; ')
                 ).map((w, idx) => (
                   <li key={idx} className="flex items-start gap-1.5">
                     <span className="text-amber-400 mt-0.5">•</span>
@@ -301,7 +294,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               <span>{t.chooseTip}</span>
             </div>
             <p className="text-slate-300 leading-relaxed text-[11px]">
-              Prononcez le nom à voix haute dans une phrase type : « Bienvenue chez {nameItem.name} » ou « Voici {nameItem.name}, héros de notre histoire ». Le mot doit couler naturellement sans achopper sur la langue.
+              {t.adviceText}
             </p>
           </div>
 

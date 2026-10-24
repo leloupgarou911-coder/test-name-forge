@@ -738,6 +738,16 @@ assert(
   gamingDescriptionFailures.join(', ') || '25 languages checked'
 );
 
+// Book-title descriptions are explicit and localized in all priority locales.
+const bookDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('book', lang)
+);
+assert(
+  bookDescriptionFailures.length === 0,
+  'Book-title generator has a reviewed, generator-specific description in all 25 priority languages',
+  bookDescriptionFailures.join(', ') || '25 languages checked'
+);
+
 const additionalFaqChecks = [
   ['ko', 'NameForge 같은', 'Korean'],
   ['zh', 'NameForge 这样的', 'Chinese'],

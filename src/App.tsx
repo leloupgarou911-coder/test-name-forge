@@ -10,6 +10,7 @@ import { GeneratorId } from './types';
 import { GENERATORS_METADATA, ALL_GENERATORS_LIST } from './data/generators';
 import { applySettingsToDOM, getAppSettings, subscribeToSettings, SUPPORTED_LANGUAGES } from './services/settings';
 import { getShellLabels } from './i18n/shell';
+import { getLocalizedGeneratorTitle } from './i18n/generatorTitles';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<string>('home');
@@ -153,7 +154,7 @@ export const App: React.FC = () => {
     };
     if (currentView === 'generator-detail') {
       const meta = GENERATORS_METADATA[currentGenerator];
-      document.title = `${meta ? meta.title : labels.pageTitles.generator} | NameForge`;
+      document.title = `${meta ? getLocalizedGeneratorTitle(currentGenerator, settings.language, meta.title) : labels.pageTitles.generator} | NameForge`;
     } else {
       document.title = titles[currentView] || 'NameForge';
     }

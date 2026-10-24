@@ -85,9 +85,7 @@ try {
         // Expand every FAQ answer so each accordion's content and light/dark styling
         // is actually rendered, not only represented by its collapsed heading.
         if (view.name === 'home') {
-          const faqSection = page.locator('section').filter({
-            has: page.getByRole('heading', { name: /Foire Aux Questions/i }),
-          }).last();
+          const faqSection = page.getByTestId('home-faq-section');
           const faqItems = faqSection.locator('div.space-y-3 > div');
           const faqButtons = faqItems.locator('button');
           const faqCount = await faqButtons.count();
@@ -138,6 +136,31 @@ try {
         });
         await page.close();
       }
+    }
+  }
+
+  const primaryLanguages = ['fr','en','ar','tr','es','de','it','pt','ja','ko','zh','ru','hi','nl','pl','sv','vi','id','th','el','he','cs','ro','da','fi'];
+  for (const language of primaryLanguages) {
+    for (const theme of themes) {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+    const pageErrors = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    await page.addInitScript(({ selectedLanguage, selectedTheme }) => {
+      localStorage.setItem('nameforge_settings', JSON.stringify({ language: selectedLanguage, theme: selectedTheme, defaultGenLanguage: 'auto', textSize: 'normal' }));
+    }, { selectedLanguage: language, selectedTheme: theme });
+    const response = await page.goto(baseUrl, { waitUntil: 'networkidle', timeout: 45000 });
+    await page.waitForTimeout(300);
+    const state = await page.evaluate(() => ({ text: (document.body?.innerText || '').trim(), width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
+    const label = 'locale-' + language + '-' + theme;
+    const screenshotPath = outputDir + '/' + label + '.png';
+    await page.screenshot({ path: screenshotPath, fullPage: true, animations: 'disabled' });
+    if (!response || response.status() >= 400) failures.push(label + ': HTTP response failed');
+    if (state.text.length < 100) failures.push(label + ': likely blank Home page');
+    if (state.width > state.viewport + 2) failures.push(label + ': horizontal overflow');
+    if (pageErrors.length) failures.push(label + ': JavaScript page errors: ' + pageErrors.join(' | '));
+    if (!(await page.getByTestId('home-faq-section').count())) failures.push(label + ': FAQ section missing');
+    results.push({ view: 'home-localization', language, theme, viewport: 'desktop', status: response?.status() ?? null, textCharacters: state.text.length, documentWidth: state.width, viewportWidth: state.viewport, pageErrors, screenshot: screenshotPath });
+    await page.close();
     }
   }
 } finally {

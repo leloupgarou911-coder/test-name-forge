@@ -48,6 +48,41 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
   const settings = getAppSettings();
   const t = getTranslations(settings.language).generatorControl;
   const styles = getStyleOptions(generatorId);
+  const quantityWord: Record<string, string> = {
+    en: 'names', fr: 'noms', es: 'nombres', de: 'Namen', it: 'nomi', pt: 'nomes',
+    ar: 'أسماء', tr: 'isim', ja: '個', ko: '개', zh: '个名称', ru: 'имён', hi: 'नाम',
+    nl: 'namen', pl: 'nazw', sv: 'namn', vi: 'tên', id: 'nama', th: 'ชื่อ', el: 'ονόματα',
+    he: 'שמות', cs: 'jmen', ro: 'nume', da: 'navne', fi: 'nimeä'
+  };
+  const namesLabel = quantityWord[settings.language] || 'names';
+  const keywordCopy: Record<string, { placeholder: string; clear: string }> = {
+    en:{placeholder:'💡 Optional inspiration keyword or root (e.g. Aero, Wolf, Luna, Zen, Cyber, Nova)...',clear:'Clear keyword'},
+    fr:{placeholder:'💡 Mot-clé ou racine d’inspiration optionnel (ex. Aero, Loup, Luna, Zen, Cyber, Nova)...',clear:'Effacer le mot-clé'},
+    es:{placeholder:'💡 Palabra clave o raíz opcional para inspirarte (p. ej., Aero, Lobo, Luna, Zen, Cyber, Nova)…',clear:'Borrar palabra clave'},
+    de:{placeholder:'💡 Optionales Stichwort oder eine Wortwurzel als Inspiration (z. B. Aero, Wolf, Luna, Zen, Cyber, Nova)…',clear:'Stichwort löschen'},
+    it:{placeholder:'💡 Parola chiave o radice facoltativa da usare come ispirazione (es. Aero, Lupo, Luna, Zen, Cyber, Nova)…',clear:'Cancella parola chiave'},
+    pt:{placeholder:'💡 Palavra-chave ou raiz opcional para inspiração (ex.: Aero, Lobo, Luna, Zen, Cyber, Nova)…',clear:'Limpar palavra-chave'},
+    ar:{placeholder:'💡 كلمة مفتاحية أو جذر اختياري للإلهام (مثل Aero وLuna وZen وNova)…',clear:'مسح الكلمة المفتاحية'},
+    tr:{placeholder:'💡 İsteğe bağlı ilham anahtar sözcüğü veya kökü (örn. Aero, Wolf, Luna, Zen, Cyber, Nova)…',clear:'Anahtar kelimeyi temizle'},
+    ja:{placeholder:'💡 任意のインスピレーション用キーワード（例：Aero、Luna、Zen、Nova）…',clear:'キーワードをクリア'},
+    ko:{placeholder:'💡 선택 사항인 영감 키워드 또는 어근 (예: Aero, Luna, Zen, Nova)…',clear:'키워드 지우기'},
+    zh:{placeholder:'💡 可选的灵感关键词或词根（例如 Aero、Luna、Zen、Nova）…',clear:'清除关键词'},
+    ru:{placeholder:'💡 Необязательное ключевое слово или корень для вдохновения (например, Aero, Luna, Zen, Nova)...',clear:'Очистить ключевое слово'},
+    hi:{placeholder:'💡 प्रेरणा के लिए वैकल्पिक कीवर्ड या मूल शब्द (जैसे Aero, Luna, Zen, Nova)…',clear:'कीवर्ड हटाएँ'},
+    nl:{placeholder:'💡 Optioneel trefwoord of woordstam ter inspiratie (bijv. Aero, Wolf, Luna, Zen, Cyber, Nova)…',clear:'Zoekwoord wissen'},
+    pl:{placeholder:'💡 Opcjonalne słowo kluczowe lub rdzeń jako inspiracja (np. Aero, Luna, Zen, Nova)…',clear:'Wyczyść słowo kluczowe'},
+    sv:{placeholder:'💡 Valfritt inspirationsord eller en ordstam (t.ex. Aero, Luna, Zen, Nova)…',clear:'Rensa nyckelord'},
+    vi:{placeholder:'💡 Từ khóa hoặc gốc từ tùy chọn để lấy cảm hứng (ví dụ: Aero, Luna, Zen, Nova)…',clear:'Xóa từ khóa'},
+    id:{placeholder:'💡 Kata kunci atau akar kata opsional sebagai inspirasi (misalnya Aero, Luna, Zen, Nova)…',clear:'Hapus kata kunci'},
+    th:{placeholder:'💡 คำหลักหรือรากศัพท์สำหรับเป็นแรงบันดาลใจ (ไม่บังคับ) เช่น Aero, Luna, Zen, Nova…',clear:'ล้างคำหลัก'},
+    el:{placeholder:'💡 Προαιρετική λέξη-κλειδί ή ρίζα ως πηγή έμπνευσης (π.χ. Aero, Luna, Zen, Nova)…',clear:'Εκκαθάριση λέξης-κλειδιού'},
+    he:{placeholder:'💡 מילת מפתח או שורש אופציונליים להשראה (למשל Aero, Luna, Zen, Nova)…',clear:'נקה מילת מפתח'},
+    cs:{placeholder:'💡 Volitelné inspirativní klíčové slovo nebo slovní kořen (např. Aero, Luna, Zen, Nova)…',clear:'Vymazat klíčové slovo'},
+    ro:{placeholder:'💡 Cuvânt-cheie sau rădăcină opțională pentru inspirație (de exemplu, Aero, Luna, Zen, Nova)…',clear:'Șterge cuvântul-cheie'},
+    da:{placeholder:'💡 Valgfrit inspirationsord eller en ordstamme (f.eks. Aero, Luna, Zen, Nova)…',clear:'Ryd søgeord'},
+    fi:{placeholder:'💡 Valinnainen inspiraatiosana tai sanan vartalo (esim. Aero, Luna, Zen, Nova)…',clear:'Tyhjennä avainsana'}
+  };
+  const keywordLabels = keywordCopy[settings.language] || keywordCopy.en;
 
   // If the current selected style doesn't exist in the new options list, pick the first
   React.useEffect(() => {
@@ -154,10 +189,10 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
             onChange={(e) => onQuantityChange && onQuantityChange(Number(e.target.value))}
             className="w-full h-11 px-3 py-2 bg-[#0a0f1d] border border-slate-700/80 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 cursor-pointer shadow-inner"
           >
-            <option value={6} className="bg-[#0e1627]">6 noms</option>
-            <option value={9} className="bg-[#0e1627]">9 noms</option>
-            <option value={12} className="bg-[#0e1627]">12 noms</option>
-            <option value={18} className="bg-[#0e1627]">18 noms</option>
+            <option value={6} className="bg-[#0e1627]">{`6 ${namesLabel}`}</option>
+            <option value={9} className="bg-[#0e1627]">{`9 ${namesLabel}`}</option>
+            <option value={12} className="bg-[#0e1627]">{`12 ${namesLabel}`}</option>
+            <option value={18} className="bg-[#0e1627]">{`18 ${namesLabel}`}</option>
           </select>
         </div>
       </div>
@@ -167,7 +202,7 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
         <div className="relative flex-1 w-full">
           <input
             type="text"
-            placeholder="💡 Mot-clé ou racine d'inspiration optionnel (ex: Aero, Loup, Luna, Zen, Cyber, Nova)..."
+            placeholder={keywordLabels.placeholder}
             value={keyword}
             onChange={(e) => onKeywordChange && onKeywordChange(e.target.value)}
             className="w-full h-11 px-4 bg-[#0a0f1d] border border-slate-700/80 rounded-xl text-xs font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 shadow-inner"
@@ -176,7 +211,7 @@ export const GeneratorControl: React.FC<GeneratorControlProps> = ({
             <button
               onClick={() => onKeywordChange('')}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs px-1.5 py-0.5 rounded cursor-pointer"
-              title="Effacer le mot-clé"
+              title={keywordLabels.clear}
             >
               ✕
             </button>

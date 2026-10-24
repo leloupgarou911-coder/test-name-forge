@@ -32,6 +32,34 @@ export const NameCard: React.FC<NameCardProps> = ({
 
   const settings = getAppSettings();
   const t = getTranslations(settings.language).nameCard;
+  const extraCopy: Record<string, { styleName: string; spoken: string; attested: string; creative: string; rating: string }> = {
+    en:{styleName:'Style this name (Unicode & Visual)',spoken:'Listen to pronunciation',attested:'Verified real name',creative:'Creative mode',rating:'Rating'},
+    fr:{styleName:'Styliser ce nom (Unicode & Visuel)',spoken:'Écouter la prononciation',attested:'Prénom réel attesté',creative:'Mode créatif',rating:'Note'},
+    es:{styleName:'Estilizar este nombre (Unicode y visual)',spoken:'Escuchar pronunciación',attested:'Nombre real verificado',creative:'Modo creativo',rating:'Valoración'},
+    de:{styleName:'Namen gestalten (Unicode und visuelle Effekte)',spoken:'Aussprache anhören',attested:'Belegter echter Name',creative:'Kreativmodus',rating:'Bewertung'},
+    it:{styleName:'Dai stile al nome (Unicode e visivo)',spoken:'Ascolta la pronuncia',attested:'Nome reale attestato',creative:'Modalità creativa',rating:'Valutazione'},
+    pt:{styleName:'Estilizar este nome (Unicode e visual)',spoken:'Ouvir pronúncia',attested:'Nome real comprovado',creative:'Modo criativo',rating:'Avaliação'},
+    ar:{styleName:'تنسيق الاسم (Unicode والتأثيرات البصرية)',spoken:'استمع إلى النطق',attested:'اسم حقيقي موثّق',creative:'الوضع الإبداعي',rating:'التقييم'},
+    tr:{styleName:'İsmi biçimlendir (Unicode ve görsel)',spoken:'Telaffuzu dinle',attested:'Doğrulanmış gerçek isim',creative:'Yaratıcı mod',rating:'Puan'},
+    ja:{styleName:'名前をスタイル設定（Unicode・ビジュアル）',spoken:'発音を聞く',attested:'実在が確認された名前',creative:'クリエイティブモード',rating:'評価'},
+    ko:{styleName:'이름 스타일 지정 (유니코드 및 시각 효과)',spoken:'발음 듣기',attested:'실재가 확인된 이름',creative:'창작 모드',rating:'평점'},
+    zh:{styleName:'设置名称样式（Unicode 与视觉效果）',spoken:'收听发音',attested:'有资料佐证的真实姓名',creative:'创意模式',rating:'评分'},
+    ru:{styleName:'Стилизовать имя (Unicode и визуальные эффекты)',spoken:'Прослушать произношение',attested:'Подтверждённое настоящее имя',creative:'Творческий режим',rating:'Оценка'},
+    hi:{styleName:'नाम की शैली बदलें (Unicode और दृश्य प्रभाव)',spoken:'उच्चारण सुनें',attested:'प्रमाणित वास्तविक नाम',creative:'रचनात्मक मोड',rating:'रेटिंग'},
+    nl:{styleName:'Geef deze naam een stijl (Unicode en visueel)',spoken:'Uitspraak beluisteren',attested:'Bevestigde echte naam',creative:'Creatieve modus',rating:'Beoordeling'},
+    pl:{styleName:'Stylizuj nazwę (Unicode i efekty wizualne)',spoken:'Odsłuchaj wymowę',attested:'Potwierdzone prawdziwe imię',creative:'Tryb kreatywny',rating:'Ocena'},
+    sv:{styleName:'Styla namnet (Unicode och visuellt)',spoken:'Lyssna på uttalet',attested:'Verifierat verkligt namn',creative:'Kreativt läge',rating:'Betyg'},
+    vi:{styleName:'Tạo kiểu tên (Unicode và hình ảnh)',spoken:'Nghe cách phát âm',attested:'Tên thật đã được xác nhận',creative:'Chế độ sáng tạo',rating:'Đánh giá'},
+    id:{styleName:'Tata gaya nama (Unicode dan visual)',spoken:'Dengarkan pelafalan',attested:'Nama asli terverifikasi',creative:'Mode kreatif',rating:'Penilaian'},
+    th:{styleName:'จัดรูปแบบชื่อ (Unicode และภาพ)',spoken:'ฟังการออกเสียง',attested:'ชื่อจริงที่ยืนยันแล้ว',creative:'โหมดสร้างสรรค์',rating:'คะแนน'},
+    el:{styleName:'Διαμόρφωση ονόματος (Unicode και οπτικά εφέ)',spoken:'Ακούστε την προφορά',attested:'Επιβεβαιωμένο πραγματικό όνομα',creative:'Δημιουργική λειτουργία',rating:'Αξιολόγηση'},
+    he:{styleName:'עיצוב השם (Unicode וחזותי)',spoken:'האזנה להגייה',attested:'שם אמיתי מאומת',creative:'מצב יצירתי',rating:'דירוג'},
+    cs:{styleName:'Stylizovat jméno (Unicode a vizuální efekty)',spoken:'Poslechnout výslovnost',attested:'Ověřené skutečné jméno',creative:'Kreativní režim',rating:'Hodnocení'},
+    ro:{styleName:'Stilizează numele (Unicode și vizual)',spoken:'Ascultă pronunția',attested:'Prenume real atestat',creative:'Mod creativ',rating:'Evaluare'},
+    da:{styleName:'Stilisér navnet (Unicode og visuelt)',spoken:'Lyt til udtalen',attested:'Bekræftet rigtigt navn',creative:'Kreativ tilstand',rating:'Bedømmelse'},
+    fi:{styleName:'Tyylittele nimi (Unicode ja visuaalisuus)',spoken:'Kuuntele ääntämys',attested:'Vahvistettu oikea nimi',creative:'Luova tila',rating:'Arvio'}
+  };
+  const extra = extraCopy[settings.language] || extraCopy.en;
 
   const handleSpeak = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -112,8 +140,8 @@ export const NameCard: React.FC<NameCardProps> = ({
                   );
                 }}
                 className="p-1.5 rounded-xl text-slate-400 hover:text-pink-300 bg-slate-800/80 hover:bg-slate-700 transition cursor-pointer"
-                title="Styliser ce nom (Unicode & Visuel)"
-                aria-label={`Styliser le nom ${item.name}`}
+                title={extra.styleName}
+                aria-label={`${extra.styleName}: ${item.name}`}
               >
                 <Wand2 className="w-4 h-4 text-pink-400" />
               </button>
@@ -122,8 +150,8 @@ export const NameCard: React.FC<NameCardProps> = ({
               <button
                 onClick={handleSpeak}
                 className="p-1.5 rounded-xl text-slate-400 hover:text-cyan-300 bg-slate-800/80 hover:bg-slate-700 transition cursor-pointer"
-                title="Écouter la prononciation"
-                aria-label={`Écouter la prononciation de ${item.name}`}
+                title={extra.spoken}
+                aria-label={`${extra.spoken}: ${item.name}`}
               >
                 <Volume2 className="w-4 h-4 text-cyan-400" />
               </button>
@@ -150,12 +178,12 @@ export const NameCard: React.FC<NameCardProps> = ({
             </span>
             {item.isAttested === true && (
               <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center gap-1">
-                <span>✓ Prénom Réel Attesté</span>
+                <span>✓ {extra.attested}</span>
               </span>
             )}
             {item.isAttested === false && item.generatorId === 'baby_name' && (
               <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 border border-indigo-400/40 text-indigo-300 flex items-center gap-1">
-                <span>✨ Mode Créatif</span>
+                <span>✨ {extra.creative}</span>
               </span>
             )}
           </div>
@@ -215,7 +243,7 @@ export const NameCard: React.FC<NameCardProps> = ({
                   key={starIndex}
                   onClick={() => handleRate(starIndex)}
                   className="p-1 text-slate-600 hover:text-amber-400 hover:scale-115 transition cursor-pointer"
-                  title={`Note ${starIndex}/5`}
+                  title={`${extra.rating} ${starIndex}/5`}
                 >
                   <Star
                     className={`w-4 h-4 ${

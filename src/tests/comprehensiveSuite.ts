@@ -4,7 +4,8 @@ import { generateNames, isTooSimilar, calculateLevenshteinDistance, scoreCandida
 import { generateSvgCode, splitGraphemes } from '../services/textStyler';
 import { ATTESTED_BABY_NAMES } from '../data/attestedBabyNames';
 import { normalizeSearchText } from '../services/search';
-import { getLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
+import { getLocalizedGeneratorDescription, hasLocalizedGeneratorDescription, LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES } from '../i18n/generatorContent';
+import { getLocalizedFaq } from '../i18n/localizedFaq';
 
 declare const process: { exit: (code: number) => void };
 
@@ -27,6 +28,87 @@ function assert(condition: boolean, description: string, details?: string) {
     results.push({ num: currentNum, description, passed: false, error: details || 'Assertion failed' });
     console.error(`  ✗ Test ${currentNum} FAILED: ${description} - ${details || ''}`);
   }
+}
+
+// FAQ localization regression checks
+const faqEnglish = getLocalizedFaq('en');
+assert(faqEnglish.length === 18, 'English FAQ preserves all 18 FAQ entries', `Found ${faqEnglish.length}`);
+assert(faqEnglish.every((item) => item.q.trim() && item.a.trim()), 'Every English FAQ entry has a question and answer');
+assert(faqEnglish[0].q.startsWith('How does a name generator'), 'English FAQ does not display the French source question');
+assert(getLocalizedFaq('fr')[0].q === 'Comment fonctionne un générateur de noms comme NameForge ?', 'French FAQ source remains unchanged');
+const faqSpanish = getLocalizedFaq('es');
+assert(faqSpanish.length === 18, 'Spanish FAQ preserves all 18 FAQ entries', `Found ${faqSpanish.length}`);
+assert(faqSpanish.every((item) => item.q.trim() && item.a.trim()), 'Every Spanish FAQ entry has a question and answer');
+assert(faqSpanish[0].q.startsWith('¿Cómo funciona un generador'), 'Spanish FAQ does not display French or English source text');
+assert(faqSpanish.every((item) => !item.q.startsWith('Comment ') && !item.a.startsWith('NameForge combine')), 'Spanish FAQ avoids French and English fallback entries');
+const faqGerman = getLocalizedFaq('de');
+assert(faqGerman.length === 18, 'German FAQ preserves all 18 FAQ entries', `Found ${faqGerman.length}`);
+assert(faqGerman.every((item) => item.q.trim() && item.a.trim()), 'Every German FAQ entry has a question and answer');
+assert(faqGerman[0].q.startsWith('Wie funktioniert'), 'German FAQ does not display French or English source text');
+assert(faqGerman.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does')), 'German FAQ avoids French and English fallback entries');
+
+const faqItalian = getLocalizedFaq('it');
+assert(faqItalian.length === 18, 'Italian FAQ preserves all 18 FAQ entries', `Found ${faqItalian.length}`);
+assert(faqItalian.every((item) => item.q.trim() && item.a.trim()), 'Every Italian FAQ entry has a question and answer');
+assert(faqItalian[0].q.startsWith('Come funziona'), 'Italian FAQ does not display French or English source text');
+assert(faqItalian.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('Wie funktioniert')), 'Italian FAQ avoids French, English, and German fallback entries');
+
+const faqPortuguese = getLocalizedFaq('pt');
+assert(faqPortuguese.length === 18, 'Portuguese FAQ preserves all 18 FAQ entries', `Found ${faqPortuguese.length}`);
+assert(faqPortuguese.every((item) => item.q.trim() && item.a.trim()), 'Every Portuguese FAQ entry has a question and answer');
+assert(faqPortuguese[0].q.startsWith('Como funciona'), 'Portuguese FAQ does not display French or English source text');
+assert(faqPortuguese.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('Wie funktioniert') && !item.q.startsWith('Come funziona')), 'Portuguese FAQ avoids French, English, German, and Italian fallback entries');
+
+const faqDutch = getLocalizedFaq('nl');
+assert(faqDutch.length === 18, 'Dutch FAQ preserves all 18 FAQ entries', `Found ${faqDutch.length}`);
+assert(faqDutch.every((item) => item.q.trim() && item.a.trim()), 'Every Dutch FAQ entry has a question and answer');
+assert(faqDutch[0].q.startsWith('Hoe werkt'), 'Dutch FAQ does not display French or English source text');
+assert(faqDutch.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('Wie funktioniert') && !item.q.startsWith('Come funziona') && !item.q.startsWith('Como funciona')), 'Dutch FAQ avoids French, English, German, Italian, and Portuguese fallback entries');
+
+const faqTurkish = getLocalizedFaq('tr');
+assert(faqTurkish.length === 18, 'Turkish FAQ preserves all 18 FAQ entries', `Found ${faqTurkish.length}`);
+assert(faqTurkish.every((item) => item.q.trim() && item.a.trim()), 'Every Turkish FAQ entry has a question and answer');
+assert(faqTurkish[0].q.startsWith('NameForge gibi'), 'Turkish FAQ does not display French or English source text');
+assert(faqTurkish.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('Wie funktioniert') && !item.q.startsWith('Come funziona') && !item.q.startsWith('Hoe werkt')), 'Turkish FAQ avoids known untranslated fallback entries');
+
+const faqArabic = getLocalizedFaq('ar');
+assert(faqArabic.length === 18, 'Arabic FAQ preserves all 18 FAQ entries', `Found ${faqArabic.length}`);
+assert(faqArabic.every((item) => item.q.trim() && item.a.trim()), 'Every Arabic FAQ entry has a question and answer');
+assert(faqArabic[0].q.startsWith('كيف يعمل'), 'Arabic FAQ does not display French or English source text');
+assert(faqArabic.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('NameForge gibi')), 'Arabic FAQ avoids known untranslated fallback entries');
+
+const faqJapanese = getLocalizedFaq('ja');
+assert(faqJapanese.length === 18, 'Japanese FAQ preserves all 18 FAQ entries', `Found ${faqJapanese.length}`);
+assert(faqJapanese.every((item) => item.q.trim() && item.a.trim()), 'Every Japanese FAQ entry has a question and answer');
+assert(faqJapanese[0].q.startsWith('NameForgeのような'), 'Japanese FAQ does not display French or English source text');
+assert(faqJapanese.every((item) => !item.q.startsWith('Comment ') && !item.q.startsWith('How does') && !item.q.startsWith('كيف يعمل')), 'Japanese FAQ avoids known untranslated fallback entries');
+
+
+for (const [language, prefix, label] of [
+  ['ko', 'NameForge 같은', 'Korean'],
+  ['zh', 'NameForge 这样的', 'Chinese'],
+  ['ru', 'Как работает', 'Russian'],
+  ['hi', 'NameForge जैसा', 'Hindi'],
+  ['pl', 'Jak działa', 'Polish'],
+] as const) {
+  const localized = getLocalizedFaq(language);
+  assert(localized.length === 18, `${label} FAQ preserves all 18 entries`, `Found ${localized.length}`);
+  assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
+  assert(localized[0].q.startsWith(prefix), `${label} FAQ does not fall back to the French source`);
+}
+
+
+for (const [language, prefix, label] of [
+  ['sv', 'Hur fungerar', 'Swedish'],
+  ['vi', 'Trình tạo tên', 'Vietnamese'],
+  ['id', 'Bagaimana generator', 'Indonesian'],
+  ['th', 'เครื่องมือสร้างชื่อ', 'Thai'],
+  ['el', 'Πώς λειτουργεί', 'Greek'],
+] as const) {
+  const localized = getLocalizedFaq(language);
+  assert(localized.length === 18, `${label} FAQ preserves all 18 entries`, `Found ${localized.length}`);
+  assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
+  assert(localized[0].q.startsWith(prefix), `${label} FAQ does not fall back to the French source`);
 }
 
 console.log('=====================================================');
@@ -616,13 +698,10 @@ assert(
   'Catalogue search treats hyphens and spaces consistently'
 );
 
-// Generator descriptions must be available in each of the 25 priority UI languages.
-const descriptionSamples = ['fantasy', 'brand', 'book', 'sci-fi']
-  .map((id) => GENERATORS_METADATA[id as keyof typeof GENERATORS_METADATA])
-  .filter(Boolean);
+// Every generator must have a non-empty localized category summary in all 25 priority languages.
 const descriptionCoverageFailures: string[] = [];
 for (const lang of LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES) {
-  for (const meta of descriptionSamples) {
+  for (const meta of ALL_GENERATORS_LIST) {
     const localized = getLocalizedGeneratorDescription(meta, lang as any);
     if (!localized.trim() || (lang !== 'fr' && localized === meta.description)) {
       descriptionCoverageFailures.push(`${lang}/${meta.id}`);
@@ -630,10 +709,218 @@ for (const lang of LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES) {
   }
 }
 assert(
-  LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length === 25 && descriptionCoverageFailures.length === 0,
-  'Generator descriptions have non-empty localized summaries for all 25 priority languages',
-  descriptionCoverageFailures.join(', ') || `${LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length} languages checked`
+  LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length === 25 &&
+    ALL_GENERATORS_LIST.length === 234 &&
+    descriptionCoverageFailures.length === 0,
+  'All 234 generators have non-empty localized summaries in all 25 priority languages',
+  descriptionCoverageFailures.slice(0, 30).join(', ') ||
+    `${ALL_GENERATORS_LIST.length} generators × ${LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.length} languages checked`
 );
+
+
+// Generator-specific descriptions must remain complete for all priority locales.
+const petDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('pet_name', lang)
+);
+assert(
+  petDescriptionFailures.length === 0,
+  'Pet-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  petDescriptionFailures.join(', ') || '25 languages checked'
+);
+
+// Gaming aliases have dedicated, reviewed descriptions across all priority locales.
+const gamingDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('gaming', lang)
+);
+assert(
+  gamingDescriptionFailures.length === 0,
+  'Gaming-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  gamingDescriptionFailures.join(', ') || '25 languages checked'
+);
+
+// Book-title descriptions are explicit and localized in all priority locales.
+const bookDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('book', lang)
+);
+assert(
+  bookDescriptionFailures.length === 0,
+  'Book-title generator has a reviewed, generator-specific description in all 25 priority languages',
+  bookDescriptionFailures.join(', ') || '25 languages checked'
+);
+
+// Restaurant-name descriptions are specific and localized across priority locales.
+const restaurantDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('restaurant', lang)
+);
+assert(
+  restaurantDescriptionFailures.length === 0,
+  'Restaurant-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  restaurantDescriptionFailures.join(', ') || '25 languages checked'
+);
+
+// Startup-name descriptions cover all priority locales and include availability cautions.
+const startupDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+  (lang) => !hasLocalizedGeneratorDescription('startup', lang)
+);
+assert(
+  startupDescriptionFailures.length === 0,
+  'Startup-name generator has a reviewed, generator-specific description in all 25 priority languages',
+  startupDescriptionFailures.join(', ') || '25 languages checked'
+);
+
+// Fantasy, product, and anime descriptions must cover every priority locale.
+for (const generatorId of ['fantasy', 'product', 'anime'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+const additionalFaqChecks = [
+  ['ko', 'NameForge 같은', 'Korean'],
+  ['zh', 'NameForge 这样的', 'Chinese'],
+  ['ru', 'Как работает', 'Russian'],
+  ['hi', 'NameForge जैसा', 'Hindi'],
+  ['pl', 'Jak działa', 'Polish'],
+  ['sv', 'Hur fungerar', 'Swedish'],
+  ['vi', 'Trình tạo tên', 'Vietnamese'],
+  ['id', 'Bagaimana generator', 'Indonesian'],
+  ['th', 'เครื่องมือสร้างชื่อ', 'Thai'],
+  ['el', 'Πώς λειτουργεί', 'Greek'],
+  ['ro', 'Cum funcționează', 'Romanian'],
+  ['da', 'Hvordan fungerer', 'Danish'],
+  ['fi', 'Miten NameForgen', 'Finnish'],
+  ['cs', 'Jak funguje', 'Czech'],
+  ['he', 'איך פועל', 'Hebrew'],
+] as const;
+for (const [language, prefix, label] of additionalFaqChecks) {
+  const localized = getLocalizedFaq(language);
+  assert(localized.length === 18, `${label} FAQ preserves all 18 entries`, `Found ${localized.length}`);
+  assert(localized.every((item) => item.q.trim() && item.a.trim()), `Every ${label} FAQ entry has a question and answer`);
+  assert(localized[0].q.startsWith(prefix), `${label} FAQ uses its own translation rather than French fallback`);
+}
+
+// Generator-specific descriptions must exist in each locale declared as reviewed.
+const reviewedGeneratorDescriptionLocales = ['en', 'fr', 'es', 'de'] as const;
+const reviewedGeneratorIds = [
+  'fantasy', 'baby_name', 'brand', 'business', 'product',
+  'startup', 'book', 'gaming', 'anime', 'restaurant',
+];
+const specificDescriptionFailures: string[] = [];
+for (const generatorId of reviewedGeneratorIds) {
+  const meta = GENERATORS_METADATA[generatorId];
+  for (const lang of reviewedGeneratorDescriptionLocales) {
+    const localized = getLocalizedGeneratorDescription(meta, lang);
+    if (!hasLocalizedGeneratorDescription(generatorId, lang) || !localized.trim()) {
+      specificDescriptionFailures.push(`${generatorId}/${lang}`);
+    }
+  }
+}
+assert(
+  specificDescriptionFailures.length === 0,
+  '10 core generators have specific descriptions in English, French, Spanish, and German',
+  specificDescriptionFailures.join(', ')
+);
+// Baby-name guidance is reviewed in every priority locale, not merely category-fallback text.
+for (const generatorId of ['baby_name', 'brand', 'business'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter((lang) => {
+    const localized = getLocalizedGeneratorDescription(GENERATORS_METADATA[generatorId], lang as any);
+    return !hasLocalizedGeneratorDescription(generatorId, lang as any) || !localized.trim();
+  });
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ')
+  );
+}
+
+// Dragon, elf, app, and domain descriptions must cover every priority locale.
+for (const generatorId of ['dragon', 'elf', 'app', 'domain'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Shop and slogan descriptions must cover every priority locale.
+for (const generatorId of ['shop', 'slogan'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Anime hero, indie game studio, and local association descriptions cover all priority locales.
+for (const generatorId of ['anime_hero', 'indie_game_studio', 'local_association'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Anime rivals, fictional mentors, and software tools cover all priority locales.
+for (const generatorId of ['anime_rival', 'fictional_mentor', 'software_tool'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Video game and role-playing generators have explicit descriptions in every priority locale.
+for (const generatorId of ['videogame', 'rpg'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Podcast and planet generators must have dedicated text in all 25 priority locales.
+for (const generatorId of ['podcast', 'planet'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Character and AI-assistant generators must have dedicated descriptions in every priority locale.
+for (const generatorId of ['character', 'ai_bot'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
 
 // -----------------------------------------------------------------------------
 // SUMMARY

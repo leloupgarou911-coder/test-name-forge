@@ -61,6 +61,21 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
     tr: { empty: 'Koleksiyonun boş', emptyDescription: 'Henüz isim kaydetmedin. Koleksiyonunu oluşturmak için oluşturucularda Kaydet veya Beğen seçeneklerini kullan.', generate: 'İsim oluştur', noResults: 'Aramanla eşleşen isim yok.', collections: 'Tematik koleksiyonların', collectionsDescription: 'İsimleri kitap, grup, kampanya veya takıma göre grupla.', create: 'Koleksiyon oluştur', noCollections: 'Henüz koleksiyon yok', noCollectionsDescription: 'İsimleri projeye veya kampanyaya göre düzenlemek için ilk koleksiyonunu oluştur.', clear: 'Tümünü sil' },
     ja: { empty: 'コレクションは空です', emptyDescription: 'まだ名前が保存されていません。ジェネレーターで保存またはいいねを使ってください。', generate: '名前を生成', noResults: '検索条件に一致する名前はありません。', collections: 'テーマ別コレクション', collectionsDescription: '本、陣営、キャンペーン、チームごとに名前を整理します。', create: 'コレクションを作成', noCollections: 'コレクションはありません', noCollectionsDescription: '最初のコレクションを作成して、プロジェクト別に名前を整理しましょう。', clear: 'すべて削除' },
     ko: { empty: '컬렉션이 비어 있습니다', emptyDescription: '아직 저장한 이름이 없습니다. 생성기에서 저장 또는 좋아요를 사용하세요.', generate: '이름 생성', noResults: '검색 조건과 일치하는 이름이 없습니다.', collections: '테마별 컬렉션', collectionsDescription: '책, 진영, 캠페인 또는 팀별로 이름을 묶으세요.', create: '컬렉션 만들기', noCollections: '생성된 컬렉션이 없습니다', noCollectionsDescription: '프로젝트나 캠페인별로 이름을 정리할 첫 컬렉션을 만드세요.', clear: '모두 삭제' },
+    zh: { empty: '你的收藏集为空', emptyDescription: '你还没有保存名称。请在生成器中使用保存或点赞来添加名称。', generate: '生成名称', noResults: '没有名称符合搜索条件。', collections: '主题收藏集', collectionsDescription: '按书籍、阵营、战役或团队整理名称。', create: '创建收藏集', noCollections: '尚无收藏集', noCollectionsDescription: '创建第一个收藏集，按项目或战役整理名称。', clear: '全部删除' },
+    ru: { empty: 'Ваша коллекция пуста', emptyDescription: 'Вы ещё не сохраняли имена. Используйте «Сохранить» или «Нравится» в генераторе.', generate: 'Создать имена', noResults: 'Нет имён, соответствующих поиску.', collections: 'Тематические коллекции', collectionsDescription: 'Группируйте имена по книгам, фракциям, кампаниям или командам.', create: 'Создать коллекцию', noCollections: 'Коллекций пока нет', noCollectionsDescription: 'Создайте первую коллекцию для организации имён по проектам.', clear: 'Удалить всё' },
+    hi: { empty: 'आपका संग्रह खाली है', emptyDescription: 'आपने अभी तक कोई नाम सहेजा नहीं है। नाम जोड़ने के लिए जनरेटर में सेव या लाइक करें।', generate: 'नाम बनाएँ', noResults: 'आपकी खोज से कोई नाम मेल नहीं खाता।', collections: 'विषयगत संग्रह', collectionsDescription: 'नामों को किताब, गुट, अभियान या टीम के अनुसार व्यवस्थित करें।', create: 'संग्रह बनाएँ', noCollections: 'कोई संग्रह नहीं', noCollectionsDescription: 'नामों को व्यवस्थित करने के लिए अपना पहला संग्रह बनाएँ।', clear: 'सभी हटाएँ' },
+    nl: { empty: 'Je collectie is leeg', emptyDescription: 'Je hebt nog geen namen opgeslagen. Gebruik Opslaan of Leuk in een generator.', generate: 'Namen genereren', noResults: 'Geen namen voldoen aan je zoekopdracht.', collections: 'Je themacollecties', collectionsDescription: 'Groepeer namen per boek, factie, campagne of team.', create: 'Collectie maken', noCollections: 'Nog geen collecties', noCollectionsDescription: 'Maak je eerste collectie om namen per project te ordenen.', clear: 'Alles verwijderen' },
+    pl: { empty: 'Twoja kolekcja jest pusta', emptyDescription: 'Nie zapisano jeszcze żadnych nazw. Użyj opcji Zapisz lub Polub w generatorze.', generate: 'Generuj nazwy', noResults: 'Brak nazw pasujących do wyszukiwania.', collections: 'Kolekcje tematyczne', collectionsDescription: 'Grupuj nazwy według książki, frakcji, kampanii lub zespołu.', create: 'Utwórz kolekcję', noCollections: 'Brak kolekcji', noCollectionsDescription: 'Utwórz pierwszą kolekcję, aby uporządkować nazwy według projektu.', clear: 'Usuń wszystko' },
+    sv: { empty: 'Din samling är tom', emptyDescription: 'Du har inte sparat några namn ännu. Använd Spara eller Gilla i en generator.', generate: 'Generera namn', noResults: 'Inga namn matchar din sökning.', collections: 'Dina temasamlingar', collectionsDescription: 'Gruppera namn efter bok, fraktion, kampanj eller lag.', create: 'Skapa samling', noCollections: 'Inga samlingar ännu', noCollectionsDescription: 'Skapa din första samling för att organisera namn efter projekt.', clear: 'Ta bort alla' },
+    vi: { empty: 'Bộ sưu tập của bạn đang trống', emptyDescription: 'Bạn chưa lưu tên nào. Hãy dùng Lưu hoặc Thích trong trình tạo.', generate: 'Tạo tên', noResults: 'Không có tên phù hợp với tìm kiếm.', collections: 'Bộ sưu tập theo chủ đề', collectionsDescription: 'Nhóm tên theo sách, phe phái, chiến dịch hoặc đội.', create: 'Tạo bộ sưu tập', noCollections: 'Chưa có bộ sưu tập', noCollectionsDescription: 'Tạo bộ sưu tập đầu tiên để sắp xếp tên theo dự án.', clear: 'Xóa tất cả' },
+    id: { empty: 'Koleksi Anda kosong', emptyDescription: 'Anda belum menyimpan nama. Gunakan Simpan atau Suka di generator.', generate: 'Buat nama', noResults: 'Tidak ada nama yang cocok dengan pencarian.', collections: 'Koleksi bertema', collectionsDescription: 'Kelompokkan nama berdasarkan buku, faksi, kampanye, atau tim.', create: 'Buat koleksi', noCollections: 'Belum ada koleksi', noCollectionsDescription: 'Buat koleksi pertama untuk mengatur nama berdasarkan proyek.', clear: 'Hapus semua' },
+    th: { empty: 'คอลเลกชันของคุณว่างเปล่า', emptyDescription: 'คุณยังไม่ได้บันทึกชื่อ ใช้บันทึกหรือถูกใจในตัวสร้างเพื่อเพิ่มชื่อ', generate: 'สร้างชื่อ', noResults: 'ไม่พบชื่อที่ตรงกับการค้นหา', collections: 'คอลเลกชันตามธีม', collectionsDescription: 'จัดกลุ่มชื่อตามหนังสือ ฝ่าย แคมเปญ หรือทีม', create: 'สร้างคอลเลกชัน', noCollections: 'ยังไม่มีคอลเลกชัน', noCollectionsDescription: 'สร้างคอลเลกชันแรกเพื่อจัดระเบียบชื่อตามโปรเจกต์', clear: 'ลบทั้งหมด' },
+    el: { empty: 'Η συλλογή σας είναι κενή', emptyDescription: 'Δεν έχετε αποθηκεύσει ονόματα ακόμη. Χρησιμοποιήστε Αποθήκευση ή Μου αρέσει σε μια γεννήτρια.', generate: 'Δημιουργία ονομάτων', noResults: 'Δεν βρέθηκαν ονόματα που να ταιριάζουν.', collections: 'Θεματικές συλλογές', collectionsDescription: 'Ομαδοποιήστε ονόματα ανά βιβλίο, παράταξη, εκστρατεία ή ομάδα.', create: 'Δημιουργία συλλογής', noCollections: 'Δεν υπάρχουν συλλογές', noCollectionsDescription: 'Δημιουργήστε την πρώτη συλλογή για να οργανώσετε ονόματα ανά έργο.', clear: 'Διαγραφή όλων' },
+    he: { empty: 'האוסף שלך ריק', emptyDescription: 'עדיין לא שמרת שמות. השתמש בשמירה או בלייק במחולל כדי להוסיף שמות.', generate: 'יצירת שמות', noResults: 'לא נמצאו שמות התואמים לחיפוש.', collections: 'אוספים לפי נושא', collectionsDescription: 'קבץ שמות לפי ספר, סיעה, מערכה או צוות.', create: 'יצירת אוסף', noCollections: 'אין עדיין אוספים', noCollectionsDescription: 'צור את האוסף הראשון כדי לארגן שמות לפי פרויקט.', clear: 'מחיקת הכול' },
+    cs: { empty: 'Vaše kolekce je prázdná', emptyDescription: 'Zatím jste neuložili žádná jména. Použijte Uložit nebo Líbí se mi v generátoru.', generate: 'Generovat jména', noResults: 'Žádná jména neodpovídají hledání.', collections: 'Tematické kolekce', collectionsDescription: 'Třiďte jména podle knihy, frakce, kampaně nebo týmu.', create: 'Vytvořit kolekci', noCollections: 'Zatím žádné kolekce', noCollectionsDescription: 'Vytvořte první kolekci a uspořádejte jména podle projektu.', clear: 'Smazat vše' },
+    ro: { empty: 'Colecția ta este goală', emptyDescription: 'Nu ai salvat încă nume. Folosește Salvează sau Îmi place într-un generator.', generate: 'Generează nume', noResults: 'Niciun nume nu corespunde căutării.', collections: 'Colecții tematice', collectionsDescription: 'Grupează numele după carte, facțiune, campanie sau echipă.', create: 'Creează o colecție', noCollections: 'Nu există colecții', noCollectionsDescription: 'Creează prima colecție pentru a organiza numele după proiect.', clear: 'Șterge tot' },
+    da: { empty: 'Din samling er tom', emptyDescription: 'Du har ikke gemt nogen navne endnu. Brug Gem eller Synes godt om i en generator.', generate: 'Generér navne', noResults: 'Ingen navne matcher din søgning.', collections: 'Temasamlinger', collectionsDescription: 'Gruppér navne efter bog, fraktion, kampagne eller hold.', create: 'Opret samling', noCollections: 'Ingen samlinger endnu', noCollectionsDescription: 'Opret din første samling for at organisere navne efter projekt.', clear: 'Slet alle' },
+    fi: { empty: 'Kokoelmasi on tyhjä', emptyDescription: 'Et ole vielä tallentanut nimiä. Lisää nimiä käyttämällä Tallenna- tai Tykkää-toimintoa generaattorissa.', generate: 'Luo nimiä', noResults: 'Hakua vastaavia nimiä ei löytynyt.', collections: 'Aihekokoelmat', collectionsDescription: 'Ryhmittele nimet kirjan, ryhmittymän, kampanjan tai tiimin mukaan.', create: 'Luo kokoelma', noCollections: 'Ei vielä kokoelmia', noCollectionsDescription: 'Luo ensimmäinen kokoelmasi järjestääksesi nimet projektin mukaan.', clear: 'Poista kaikki' },
   };
   const copy = libraryText[currentLanguage] || libraryText.en;
   const controlText: Record<string, {
@@ -78,6 +93,21 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
     tr: { compareLimit: "Aynı anda en fazla 4 ismi karşılaştırabilirsin.", localBadge: "YEREL KİŞİSEL ALAN", exportJson: "Tümünü JSON olarak yedekle", exportCsv: "CSV tablosu olarak dışa aktar", restore: "JSON dosyasını geri yükle", allCollections: "Tüm koleksiyonlar", noCollection: "Koleksiyon yok", allGenerators: "Tüm oluşturucular", searchPlaceholder: "İsim, not veya stile göre filtrele...", compare: "Karşılaştır", recentHistory: "Son oluşturma geçmişi", emptyHistory: "Geçmiş boş" },
     ja: { compareLimit: "一度に比較できる名前は最大4件です。", localBadge: "ローカル個人スペース", exportJson: "すべてJSONでバックアップ", exportCsv: "CSV表としてエクスポート", restore: "JSONファイルを復元", allCollections: "すべてのコレクション", noCollection: "コレクションなし", allGenerators: "すべてのジェネレーター", searchPlaceholder: "名前・メモ・スタイルで絞り込む...", compare: "比較", recentHistory: "最近の生成履歴", emptyHistory: "履歴は空です" },
     ko: { compareLimit: "한 번에 최대 4개의 이름을 비교할 수 있습니다.", localBadge: "로컬 개인 공간", exportJson: "모두 JSON으로 백업", exportCsv: "CSV 스프레드시트로 내보내기", restore: "JSON 파일 복원", allCollections: "모든 컬렉션", noCollection: "컬렉션 없음", allGenerators: "모든 생성기", searchPlaceholder: "이름, 메모 또는 스타일로 필터링...", compare: "비교", recentHistory: "최근 생성 기록", emptyHistory: "기록이 비어 있습니다" },
+    zh: { compareLimit: "一次最多可比较 4 个名称。", localBadge: "本地个人空间", exportJson: "备份为 JSON", exportCsv: "导出为 CSV 表格", restore: "恢复 JSON 文件", allCollections: "所有收藏集", noCollection: "未分类", allGenerators: "所有生成器", searchPlaceholder: "按名称、备注或风格筛选...", compare: "比较", recentHistory: "最近生成记录", emptyHistory: "记录为空" },
+    ru: { compareLimit: "Можно сравнить не более 4 имён одновременно.", localBadge: "ЛИЧНОЕ ЛОКАЛЬНОЕ ПРОСТРАНСТВО", exportJson: "Сохранить всё в JSON", exportCsv: "Экспортировать в CSV", restore: "Восстановить файл JSON", allCollections: "Все коллекции", noCollection: "Без коллекции", allGenerators: "Все генераторы", searchPlaceholder: "Поиск по имени, заметке или стилю...", compare: "Сравнить", recentHistory: "Недавняя история генераций", emptyHistory: "История пуста" },
+    hi: { compareLimit: "आप एक बार में अधिकतम 4 नामों की तुलना कर सकते हैं।", localBadge: "स्थानीय व्यक्तिगत स्थान", exportJson: "JSON में सबका बैकअप लें", exportCsv: "CSV के रूप में निर्यात करें", restore: "JSON फ़ाइल पुनर्स्थापित करें", allCollections: "सभी संग्रह", noCollection: "कोई संग्रह नहीं", allGenerators: "सभी जनरेटर", searchPlaceholder: "नाम, नोट या शैली से फ़िल्टर करें...", compare: "तुलना करें", recentHistory: "हाल के जनरेशन का इतिहास", emptyHistory: "इतिहास खाली है" },
+    nl: { compareLimit: "Je kunt maximaal 4 namen tegelijk vergelijken.", localBadge: "LOKALE PERSOONLIJKE RUIMTE", exportJson: "Alles als JSON back-uppen", exportCsv: "Exporteren als CSV", restore: "JSON-bestand herstellen", allCollections: "Alle collecties", noCollection: "Geen collectie", allGenerators: "Alle generators", searchPlaceholder: "Filter op naam, notitie of stijl...", compare: "Vergelijken", recentHistory: "Recente generatiegeschiedenis", emptyHistory: "Geschiedenis is leeg" },
+    pl: { compareLimit: "Możesz porównać maksymalnie 4 nazwy naraz.", localBadge: "LOKALNA PRZESTRZEŃ OSOBISTA", exportJson: "Zapisz kopię w JSON", exportCsv: "Eksportuj do CSV", restore: "Przywróć plik JSON", allCollections: "Wszystkie kolekcje", noCollection: "Bez kolekcji", allGenerators: "Wszystkie generatory", searchPlaceholder: "Filtruj według nazwy, notatki lub stylu...", compare: "Porównaj", recentHistory: "Ostatnia historia generowania", emptyHistory: "Historia jest pusta" },
+    sv: { compareLimit: "Du kan jämföra högst 4 namn åt gången.", localBadge: "LOKALT PERSONLIGT UTRYMME", exportJson: "Säkerhetskopiera som JSON", exportCsv: "Exportera som CSV", restore: "Återställ JSON-fil", allCollections: "Alla samlingar", noCollection: "Ingen samling", allGenerators: "Alla generatorer", searchPlaceholder: "Filtrera efter namn, anteckning eller stil...", compare: "Jämför", recentHistory: "Senaste genereringshistorik", emptyHistory: "Historiken är tom" },
+    vi: { compareLimit: "Bạn có thể so sánh tối đa 4 tên cùng lúc.", localBadge: "KHÔNG GIAN CÁ NHÂN CỤC BỘ", exportJson: "Sao lưu tất cả dưới dạng JSON", exportCsv: "Xuất bảng CSV", restore: "Khôi phục tệp JSON", allCollections: "Tất cả bộ sưu tập", noCollection: "Chưa phân loại", allGenerators: "Tất cả trình tạo", searchPlaceholder: "Lọc theo tên, ghi chú hoặc phong cách...", compare: "So sánh", recentHistory: "Lịch sử tạo gần đây", emptyHistory: "Lịch sử trống" },
+    id: { compareLimit: "Anda dapat membandingkan hingga 4 nama sekaligus.", localBadge: "RUANG PRIBADI LOKAL", exportJson: "Cadangkan semua sebagai JSON", exportCsv: "Ekspor sebagai CSV", restore: "Pulihkan file JSON", allCollections: "Semua koleksi", noCollection: "Tanpa koleksi", allGenerators: "Semua generator", searchPlaceholder: "Filter berdasarkan nama, catatan, atau gaya...", compare: "Bandingkan", recentHistory: "Riwayat pembuatan terbaru", emptyHistory: "Riwayat kosong" },
+    th: { compareLimit: "คุณสามารถเปรียบเทียบชื่อได้สูงสุด 4 ชื่อพร้อมกัน", localBadge: "พื้นที่ส่วนตัวในเครื่อง", exportJson: "สำรองทั้งหมดเป็น JSON", exportCsv: "ส่งออกเป็น CSV", restore: "กู้คืนไฟล์ JSON", allCollections: "คอลเลกชันทั้งหมด", noCollection: "ไม่มีคอลเลกชัน", allGenerators: "ตัวสร้างทั้งหมด", searchPlaceholder: "กรองตามชื่อ บันทึก หรือสไตล์...", compare: "เปรียบเทียบ", recentHistory: "ประวัติการสร้างล่าสุด", emptyHistory: "ประวัติว่างเปล่า" },
+    el: { compareLimit: "Μπορείτε να συγκρίνετε έως 4 ονόματα ταυτόχρονα.", localBadge: "ΤΟΠΙΚΟΣ ΠΡΟΣΩΠΙΚΟΣ ΧΩΡΟΣ", exportJson: "Αντίγραφο ασφαλείας σε JSON", exportCsv: "Εξαγωγή σε CSV", restore: "Επαναφορά αρχείου JSON", allCollections: "Όλες οι συλλογές", noCollection: "Χωρίς συλλογή", allGenerators: "Όλες οι γεννήτριες", searchPlaceholder: "Φιλτράρισμα με όνομα, σημείωση ή στυλ...", compare: "Σύγκριση", recentHistory: "Πρόσφατο ιστορικό δημιουργίας", emptyHistory: "Το ιστορικό είναι κενό" },
+    he: { compareLimit: "ניתן להשוות עד 4 שמות בו־זמנית.", localBadge: "מרחב אישי מקומי", exportJson: "גיבוי הכול כ־JSON", exportCsv: "ייצוא כטבלת CSV", restore: "שחזור קובץ JSON", allCollections: "כל האוספים", noCollection: "ללא אוסף", allGenerators: "כל המחוללים", searchPlaceholder: "סינון לפי שם, הערה או סגנון...", compare: "השוואה", recentHistory: "היסטוריית יצירה אחרונה", emptyHistory: "ההיסטוריה ריקה" },
+    cs: { compareLimit: "Najednou můžete porovnat až 4 jména.", localBadge: "MÍSTNÍ OSOBNÍ PROSTOR", exportJson: "Zálohovat vše do JSON", exportCsv: "Exportovat jako CSV", restore: "Obnovit soubor JSON", allCollections: "Všechny kolekce", noCollection: "Bez kolekce", allGenerators: "Všechny generátory", searchPlaceholder: "Filtrovat podle jména, poznámky nebo stylu...", compare: "Porovnat", recentHistory: "Nedávná historie generování", emptyHistory: "Historie je prázdná" },
+    ro: { compareLimit: "Poți compara cel mult 4 nume simultan.", localBadge: "SPAȚIU PERSONAL LOCAL", exportJson: "Fă backup în JSON", exportCsv: "Exportă ca tabel CSV", restore: "Restabilește fișierul JSON", allCollections: "Toate colecțiile", noCollection: "Fără colecție", allGenerators: "Toți generatorii", searchPlaceholder: "Filtrează după nume, notă sau stil...", compare: "Compară", recentHistory: "Istoricul generărilor recente", emptyHistory: "Istoricul este gol" },
+    da: { compareLimit: "Du kan sammenligne op til 4 navne ad gangen.", localBadge: "LOKALT PERSONLIGT OMRÅDE", exportJson: "Sikkerhedskopiér som JSON", exportCsv: "Eksportér som CSV", restore: "Gendan JSON-fil", allCollections: "Alle samlinger", noCollection: "Ingen samling", allGenerators: "Alle generatorer", searchPlaceholder: "Filtrér efter navn, note eller stil...", compare: "Sammenlign", recentHistory: "Seneste genereringshistorik", emptyHistory: "Historikken er tom" },
+    fi: { compareLimit: "Voit vertailla enintään neljää nimeä kerralla.", localBadge: "PAIKALLINEN HENKILÖKOHTAINEN TILA", exportJson: "Varmuuskopioi JSON-muodossa", exportCsv: "Vie CSV-taulukkona", restore: "Palauta JSON-tiedosto", allCollections: "Kaikki kokoelmat", noCollection: "Ei kokoelmaa", allGenerators: "Kaikki generaattorit", searchPlaceholder: "Suodata nimen, muistiinpanon tai tyylin mukaan...", compare: "Vertaa", recentHistory: "Viimeisin luontihistoria", emptyHistory: "Historia on tyhjä" },
   };
   const controls = controlText[currentLanguage] || controlText.en;
   const actionText: Record<string, {
@@ -95,6 +125,21 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
     tr: { deleteCollectionConfirm: "Tüm koleksiyon silinsin mi?", clearHistoryConfirm: "Oluşturma geçmişi temizlensin mi?", clearHistory: "Geçmişi temizle", assignFolder: "Bir klasöre yerleştir...", copyName: "İsmi kopyala", deleteForever: "Kalıcı olarak sil", editCollection: "Koleksiyonu düzenle", delete: "Sil", save: "Kaydet", like: "Beğen", recentHistoryShort: "Son geçmiş" },
     ja: { deleteCollectionConfirm: "コレクション全体を削除しますか？", clearHistoryConfirm: "生成履歴を消去しますか？", clearHistory: "履歴を消去", assignFolder: "フォルダーに分類...", copyName: "名前をコピー", deleteForever: "完全に削除", editCollection: "コレクションを編集", delete: "削除", save: "保存", like: "いいね", recentHistoryShort: "最近の履歴" },
     ko: { deleteCollectionConfirm: "컬렉션 전체를 삭제할까요?", clearHistoryConfirm: "생성 기록을 지울까요?", clearHistory: "기록 지우기", assignFolder: "폴더에 정리...", copyName: "이름 복사", deleteForever: "영구 삭제", editCollection: "컬렉션 편집", delete: "삭제", save: "저장", like: "좋아요", recentHistoryShort: "최근 기록" },
+    zh: { deleteCollectionConfirm: "删除整个收藏集？", clearHistoryConfirm: "清除生成历史记录？", clearHistory: "清除历史", assignFolder: "移至收藏集...", copyName: "复制名称", deleteForever: "永久删除", editCollection: "编辑收藏集", delete: "删除", save: "保存", like: "喜欢", recentHistoryShort: "最近记录" },
+    ru: { deleteCollectionConfirm: "Удалить всю коллекцию?", clearHistoryConfirm: "Очистить историю генераций?", clearHistory: "Очистить историю", assignFolder: "Переместить в коллекцию...", copyName: "Копировать имя", deleteForever: "Удалить навсегда", editCollection: "Изменить коллекцию", delete: "Удалить", save: "Сохранить", like: "Нравится", recentHistoryShort: "Недавняя история" },
+    hi: { deleteCollectionConfirm: "पूरा संग्रह हटाएँ?", clearHistoryConfirm: "जनरेशन इतिहास साफ़ करें?", clearHistory: "इतिहास साफ़ करें", assignFolder: "संग्रह में ले जाएँ...", copyName: "नाम कॉपी करें", deleteForever: "हमेशा के लिए हटाएँ", editCollection: "संग्रह संपादित करें", delete: "हटाएँ", save: "सहेजें", like: "पसंद", recentHistoryShort: "हाल का इतिहास" },
+    nl: { deleteCollectionConfirm: "Je volledige collectie verwijderen?", clearHistoryConfirm: "Generatiegeschiedenis wissen?", clearHistory: "Geschiedenis wissen", assignFolder: "Verplaatsen naar collectie...", copyName: "Naam kopiëren", deleteForever: "Definitief verwijderen", editCollection: "Collectie bewerken", delete: "Verwijderen", save: "Opslaan", like: "Leuk", recentHistoryShort: "Recente geschiedenis" },
+    pl: { deleteCollectionConfirm: "Usunąć całą kolekcję?", clearHistoryConfirm: "Wyczyścić historię generowania?", clearHistory: "Wyczyść historię", assignFolder: "Przenieś do kolekcji...", copyName: "Kopiuj nazwę", deleteForever: "Usuń na stałe", editCollection: "Edytuj kolekcję", delete: "Usuń", save: "Zapisz", like: "Lubię", recentHistoryShort: "Ostatnia historia" },
+    sv: { deleteCollectionConfirm: "Ta bort hela samlingen?", clearHistoryConfirm: "Rensa genereringshistoriken?", clearHistory: "Rensa historik", assignFolder: "Flytta till samling...", copyName: "Kopiera namn", deleteForever: "Ta bort permanent", editCollection: "Redigera samling", delete: "Ta bort", save: "Spara", like: "Gilla", recentHistoryShort: "Senaste historik" },
+    vi: { deleteCollectionConfirm: "Xóa toàn bộ bộ sưu tập?", clearHistoryConfirm: "Xóa lịch sử tạo tên?", clearHistory: "Xóa lịch sử", assignFolder: "Chuyển vào bộ sưu tập...", copyName: "Sao chép tên", deleteForever: "Xóa vĩnh viễn", editCollection: "Chỉnh sửa bộ sưu tập", delete: "Xóa", save: "Lưu", like: "Thích", recentHistoryShort: "Lịch sử gần đây" },
+    id: { deleteCollectionConfirm: "Hapus seluruh koleksi?", clearHistoryConfirm: "Hapus riwayat pembuatan?", clearHistory: "Hapus riwayat", assignFolder: "Pindahkan ke koleksi...", copyName: "Salin nama", deleteForever: "Hapus permanen", editCollection: "Edit koleksi", delete: "Hapus", save: "Simpan", like: "Suka", recentHistoryShort: "Riwayat terbaru" },
+    th: { deleteCollectionConfirm: "ลบคอลเลกชันทั้งหมดหรือไม่", clearHistoryConfirm: "ล้างประวัติการสร้างหรือไม่", clearHistory: "ล้างประวัติ", assignFolder: "ย้ายไปยังคอลเลกชัน...", copyName: "คัดลอกชื่อ", deleteForever: "ลบถาวร", editCollection: "แก้ไขคอลเลกชัน", delete: "ลบ", save: "บันทึก", like: "ถูกใจ", recentHistoryShort: "ประวัติล่าสุด" },
+    el: { deleteCollectionConfirm: "Να διαγραφεί ολόκληρη η συλλογή;", clearHistoryConfirm: "Να διαγραφεί το ιστορικό δημιουργίας;", clearHistory: "Εκκαθάριση ιστορικού", assignFolder: "Μετακίνηση σε συλλογή...", copyName: "Αντιγραφή ονόματος", deleteForever: "Οριστική διαγραφή", editCollection: "Επεξεργασία συλλογής", delete: "Διαγραφή", save: "Αποθήκευση", like: "Μου αρέσει", recentHistoryShort: "Πρόσφατο ιστορικό" },
+    he: { deleteCollectionConfirm: "למחוק את כל האוסף?", clearHistoryConfirm: "לנקות את היסטוריית היצירה?", clearHistory: "ניקוי היסטוריה", assignFolder: "העברה לאוסף...", copyName: "העתקת שם", deleteForever: "מחיקה לצמיתות", editCollection: "עריכת אוסף", delete: "מחיקה", save: "שמירה", like: "אהבתי", recentHistoryShort: "היסטוריה אחרונה" },
+    cs: { deleteCollectionConfirm: "Smazat celou kolekci?", clearHistoryConfirm: "Vymazat historii generování?", clearHistory: "Vymazat historii", assignFolder: "Přesunout do kolekce...", copyName: "Kopírovat jméno", deleteForever: "Trvale smazat", editCollection: "Upravit kolekci", delete: "Smazat", save: "Uložit", like: "Líbí se mi", recentHistoryShort: "Nedávná historie" },
+    ro: { deleteCollectionConfirm: "Ștergi întreaga colecție?", clearHistoryConfirm: "Ștergi istoricul generării?", clearHistory: "Șterge istoricul", assignFolder: "Mută în colecție...", copyName: "Copiază numele", deleteForever: "Șterge definitiv", editCollection: "Editează colecția", delete: "Șterge", save: "Salvează", like: "Îmi place", recentHistoryShort: "Istoric recent" },
+    da: { deleteCollectionConfirm: "Slet hele samlingen?", clearHistoryConfirm: "Rydde genereringshistorikken?", clearHistory: "Ryd historik", assignFolder: "Flyt til samling...", copyName: "Kopiér navn", deleteForever: "Slet permanent", editCollection: "Rediger samling", delete: "Slet", save: "Gem", like: "Synes godt om", recentHistoryShort: "Seneste historik" },
+    fi: { deleteCollectionConfirm: "Poistetaanko koko kokoelma?", clearHistoryConfirm: "Tyhjennetäänkö luontihistoria?", clearHistory: "Tyhjennä historia", assignFolder: "Siirrä kokoelmaan...", copyName: "Kopioi nimi", deleteForever: "Poista pysyvästi", editCollection: "Muokkaa kokoelmaa", delete: "Poista", save: "Tallenna", like: "Tykkää", recentHistoryShort: "Viimeisin historia" },
   };
   const actions = actionText[currentLanguage] || actionText.en;
   const [entries, setEntries] = useState<SavedNameEntry[]>([]);
@@ -221,11 +266,11 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
       const res = importDataJSON(content);
       if (res.success) {
         setImportStatus(
-          `Importation réussie : ${res.added} ajoutés, ${res.updated} mis à jour, ${res.skipped} ignorés.`
+          currentLanguage === 'fr' ? `Importation réussie : ${res.added} ajoutés, ${res.updated} mis à jour, ${res.skipped} ignorés.` : `Import successful: ${res.added} added, ${res.updated} updated, ${res.skipped} skipped.`
         );
         reloadData();
       } else {
-        setImportStatus(`Erreur : ${res.errors.join(', ')}`);
+        setImportStatus(`${currentLanguage === 'fr' ? 'Erreur' : 'Error'}: ${res.errors.join(', ')}`);
       }
       setTimeout(() => setImportStatus(null), 5000);
     };
@@ -296,8 +341,10 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
     return true;
   });
 
+  const isRtlLanguage = ['ar', 'he', 'fa', 'ur', 'ps'].includes(currentLanguage);
+
   return (
-    <div className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-10 space-y-8 text-left">
+    <div dir={isRtlLanguage ? 'rtl' : 'ltr'} lang={currentLanguage} className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8 py-10 space-y-8 text-start">
       {/* Hidden file input for import */}
       <input
         type="file"
@@ -345,21 +392,20 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <h3 className="text-base font-bold text-white">{actions.deleteCollectionConfirm}</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Cette action supprimera définitivement vos {entries.length} noms enregistrés, collections,
-              notes et évaluations de ce navigateur. Cette opération est irréversible.
+              {currentLanguage === 'fr' ? `Cette action supprimera définitivement vos ${entries.length} noms enregistrés, collections, notes et évaluations de ce navigateur. Cette opération est irréversible.` : `This will permanently delete your ${entries.length} saved names, collections, notes, and ratings from this browser. This action cannot be undone.`}
             </p>
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
                 onClick={() => setShowClearConfirm(false)}
                 className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-800 cursor-pointer"
               >
-                Annuler
+                {currentLanguage === 'fr' ? 'Annuler' : 'Cancel'}
               </button>
               <button
                 onClick={handleClearEverything}
                 className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-500 shadow-md shadow-red-600/30 cursor-pointer"
               >
-                Oui, Tout Supprimer
+                {currentLanguage === 'fr' ? 'Oui, tout supprimer' : 'Yes, delete everything'}
               </button>
             </div>
           </div>
@@ -375,8 +421,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <h3 className="text-base font-bold text-white">{actions.clearHistoryConfirm}</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Voulez-vous réinitialiser les 50 derniers noms générés récents ? Vos favoris enregistrés
-              ne seront pas affectés.
+              {currentLanguage === 'fr' ? 'Voulez-vous réinitialiser les 50 derniers noms générés ? Vos favoris enregistrés ne seront pas affectés.' : 'Clear the 50 most recent generated names? Your saved favorites will not be affected.'}
             </p>
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
@@ -389,7 +434,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 onClick={handleClearHistory}
                 className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-500 shadow-md cursor-pointer"
               >
-                Vider l'historique
+                {actions.clearHistory}
               </button>
             </div>
           </div>
@@ -403,11 +448,10 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <span>{controls.localBadge}</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-3">
-          Mes Noms, Collections & Historique
+          {currentLanguage === 'fr' ? 'Mes noms, collections et historique' : 'My Names, Collections & History'}
         </h1>
         <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-          Stockage 100% privé dans votre navigateur. Synchronisé entre vos onglets, exportable et
-          restaurable à tout moment.
+          {currentLanguage === 'fr' ? 'Stockage 100 % privé dans votre navigateur. Synchronisé entre vos onglets, exportable et restaurable à tout moment.' : '100% private storage in your browser. Synced across tabs, exportable, and restorable at any time.'}
         </p>
       </div>
 
@@ -423,19 +467,19 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
           <div className="text-xl sm:text-2xl font-black text-white">{stats.total}</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">
-            Noms Suivis
+            {currentLanguage === 'fr' ? 'Noms suivis' : 'Tracked Names'}
           </div>
         </div>
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
           <div className="text-xl sm:text-2xl font-black text-purple-400">{stats.saved}</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">
-            Enregistrés
+            {currentLanguage === 'fr' ? 'Enregistrés' : 'Saved'}
           </div>
         </div>
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
           <div className="text-xl sm:text-2xl font-black text-pink-400">{stats.liked}</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">
-            Favoris (Likes)
+            {currentLanguage === 'fr' ? 'Favoris (likes)' : 'Favorites (Likes)'}
           </div>
         </div>
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
@@ -470,7 +514,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             }`}
           >
             <Bookmark className="w-3.5 h-3.5" />
-            <span>Noms Enregistrés ({entries.length})</span>
+            <span>{currentLanguage === 'fr' ? 'Noms enregistrés' : 'Saved Names'} ({entries.length})</span>
           </button>
 
           <button
@@ -482,7 +526,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             }`}
           >
             <Folder className="w-3.5 h-3.5" />
-            <span>Dossiers & Collections ({collections.length})</span>
+            <span>{currentLanguage === 'fr' ? 'Dossiers et collections' : 'Folders & Collections'} ({collections.length})</span>
           </button>
 
           <button
@@ -620,17 +664,17 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                   <button
                     onClick={handleCopyAll}
                     className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
-                    title="Copier les noms filtrés"
+                    title={currentLanguage === 'fr' ? 'Copier les noms filtrés' : 'Copy filtered names'}
                   >
                     {copiedAll ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Copié {filteredEntries.length}</span>
+                        <span>{currentLanguage === 'fr' ? 'Copié' : 'Copied'} {filteredEntries.length}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Tout Copier ({filteredEntries.length})</span>
+                        <span>{currentLanguage === 'fr' ? 'Tout copier' : 'Copy all'} ({filteredEntries.length})</span>
                       </>
                     )}
                   </button>
@@ -679,7 +723,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 }}
                 className="mt-2 text-xs font-bold text-purple-400 hover:underline cursor-pointer"
               >
-                Réinitialiser les filtres
+                {currentLanguage === 'fr' ? 'Réinitialiser les filtres' : 'Reset filters'}
               </button>
             </div>
           ) : (
@@ -738,7 +782,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                             key={starIndex}
                             onClick={() => handleRate(item.name, starIndex, item.rating)}
                             className="p-0.5 text-slate-600 hover:text-amber-400 transition cursor-pointer"
-                            title={`Noter ${starIndex} étoiles`}
+                            title={currentLanguage === 'fr' ? `Noter ${starIndex} étoiles` : `Rate ${starIndex} stars`}
                           >
                             <Star
                               className={`w-3.5 h-3.5 ${
@@ -750,7 +794,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           </button>
                         ))}
                         <span className="text-[11px] text-slate-500 ml-1">
-                          {item.rating ? `${item.rating}/5` : 'Non noté'}
+                          {item.rating ? `${item.rating}/5` : currentLanguage === 'fr' ? 'Non noté' : 'Not rated'}
                         </span>
                       </div>
 
@@ -798,7 +842,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           <Bookmark
                             className={`w-3.5 h-3.5 ${item.saved ? 'fill-current text-purple-400' : ''}`}
                           />
-                          <span>{item.saved ? 'Enregistré' : 'Enregistrer'}</span>
+                          <span>{item.saved ? (currentLanguage === 'fr' ? 'Enregistré' : 'Saved') : actions.save}</span>
                         </button>
 
                         <button
@@ -815,7 +859,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           <Heart
                             className={`w-3.5 h-3.5 ${item.liked ? 'fill-current text-pink-400' : ''}`}
                           />
-                          <span>{item.liked ? 'Favori' : 'Aimer'}</span>
+                          <span>{actions.like}</span>
                         </button>
                       </div>
 
@@ -872,7 +916,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             <div>
               <h2 className="text-xl font-bold text-white">{copy.collections}</h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Regroupez vos noms par livre, faction, campagne ou équipe.
+                {copy.collectionsDescription}
               </p>
             </div>
             <button
@@ -895,7 +939,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 onClick={() => setEditingCollection(null)}
                 className="mt-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition cursor-pointer"
               >
-                + Nouvelle Collection
+                + {copy.create}
               </button>
             </div>
           ) : (
@@ -932,7 +976,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         }}
                         className="text-xs font-bold text-cyan-400 hover:underline cursor-pointer"
                       >
-                        Voir les noms ({count}) →
+                        {currentLanguage === 'fr' ? `Voir les noms (${count}) →` : `View names (${count}) →`}
                       </button>
 
                       <div className="flex items-center gap-1.5">
@@ -941,11 +985,11 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer"
                           title={actions.editCollection}
                         >
-                          Éditer
+                          {actions.editCollection}
                         </button>
                         <button
                           onClick={() => {
-                            if (confirm(`Supprimer la collection "${col.name}" ?`)) {
+                            if (confirm(`${actions.deleteCollectionConfirm}\n\n${col.name}`)) {
                               deleteCollection(col.id);
                               reloadData();
                             }
@@ -974,7 +1018,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             <div>
               <h2 className="text-xl font-bold text-white">{controls.recentHistory}</h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Les 50 dernières propositions générées en cours de session.
+                {currentLanguage === 'fr' ? 'Les 50 dernières propositions générées pendant cette session.' : 'The 50 most recent names generated during this session.'}
               </p>
             </div>
             {history.length > 0 && (
@@ -993,7 +1037,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <History className="w-12 h-12 text-slate-500 mx-auto" />
               <h3 className="text-base font-bold text-white">{controls.emptyHistory}</h3>
               <p className="text-xs text-slate-400">
-                Générez des noms sur le site pour qu'ils s'enregistrent automatiquement ici.
+                {currentLanguage === 'fr' ? "Générez des noms sur le site pour qu'ils s'enregistrent automatiquement ici." : 'Generate names on the site and they will automatically appear here.'}
               </p>
             </div>
           ) : (
@@ -1061,12 +1105,12 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         {copiedName === item.name ? (
                           <>
                             <Check className="w-3.5 h-3.5 text-emerald-400" />
-                            <span>Copié</span>
+                            <span>{currentLanguage === 'fr' ? 'Copié' : 'Copied'}</span>
                           </>
                         ) : (
                           <>
                             <Copy className="w-3.5 h-3.5" />
-                            <span>Copier</span>
+                            <span>{currentLanguage === 'fr' ? 'Copier' : 'Copy'}</span>
                           </>
                         )}
                       </button>

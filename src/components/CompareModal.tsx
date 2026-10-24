@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { X, Copy, Check, Star, Plus, Scale } from 'lucide-react';
 import { findSavedEntry, getGenerationHistory, getSavedNames, setStoredRating } from '../services/storage';
+import { getAppSettings } from '../services/settings';
+import { getCompareModalLabels } from '../i18n/compareModal';
+import { getNameDetailsLabels } from '../i18n/nameDetails';
 
 interface CompareModalProps {
   initialNames: string[];
@@ -16,6 +19,9 @@ export const CompareModal: React.FC<CompareModalProps> = ({
   const [comparedNames, setComparedNames] = useState<string[]>(initialNames.slice(0, 4));
   const [copiedName, setCopiedName] = useState<string | null>(null);
 
+  const language = getAppSettings().language;
+  const t = getCompareModalLabels(language);
+  const common = getNameDetailsLabels(language);
   const allSaved = getSavedNames();
   const allHistory = getGenerationHistory();
 
@@ -28,9 +34,9 @@ export const CompareModal: React.FC<CompareModalProps> = ({
       name,
       generator: saved?.generator || hist?.generator || 'fantasy',
       style: saved?.style || hist?.style || 'warrior',
-      tone: hist?.tone || 'Distinctive • memorable • thematic',
-      description: hist?.description || '✨ Nom façonné pour cet univers.',
-      bestFor: hist?.bestFor || 'Personnages et mondes imaginaires',
+      tone: hist?.tone || t.fallbackTone,
+      description: hist?.description || t.fallbackDescription,
+      bestFor: hist?.bestFor || t.fallbackBestFor,
       rating: saved?.rating || 0,
       note: saved?.note || '',
       saved: !!saved?.saved,
@@ -84,10 +90,10 @@ export const CompareModal: React.FC<CompareModalProps> = ({
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-white">
-                Comparateur de Noms (2 à 4)
+                {t.title}
               </h2>
               <p className="text-xs text-slate-400">
-                Analysez vos options côte-à-côte pour choisir l'identité parfaite.
+                {t.subtitle}
               </p>
             </div>
           </div>
@@ -95,7 +101,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
           <button
             onClick={onClose}
             className="p-2 text-slate-400 hover:text-white rounded-xl bg-slate-800/80 hover:bg-slate-800 transition cursor-pointer"
-            aria-label="Fermer le comparateur"
+            aria-label={common.close}
           >
             <X className="w-5 h-5" />
           </button>
@@ -106,7 +112,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
           <div className="mb-6 flex items-center gap-2.5 p-3 rounded-xl bg-[#090f1e] border border-slate-800">
             <Plus className="w-4 h-4 text-purple-400" />
             <span className="text-xs text-slate-300 font-semibold">
-              Ajouter un nom à comparer :
+              {t.addName}
             </span>
             <select
               onChange={(e) => {
@@ -119,7 +125,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
               className="h-8 px-2 bg-[#10182b] border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-purple-500"
             >
               <option value="" disabled>
-                Sélectionner parmi vos favoris...
+                {t.selectFavorite}
               </option>
               {availableToAdd.map((n) => (
                 <option key={n} value={n}>
@@ -133,7 +139,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
         {/* Comparison Columns */}
         {comparedNames.length === 0 ? (
           <div className="text-center py-12 text-slate-400 text-sm">
-            Aucun nom sélectionné pour la comparaison. Sélectionnez au moins 2 noms.
+            {t.empty}
           </div>
         ) : (
           <div
@@ -156,7 +162,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
                 <button
                   onClick={() => handleRemove(item.name)}
                   className="absolute top-3 right-3 text-slate-500 hover:text-red-400 p-1 rounded-lg transition"
-                  title="Retirer de la comparaison"
+                  title={t.remove}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -170,7 +176,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
                   </h3>
 
                   <div className="mt-2 text-xs font-semibold text-pink-400">
-                    Style : {item.style}
+                    {t.style} {item.style}
                   </div>
 
                   <div className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide bg-purple-500/10 border border-purple-400/20 text-purple-300">
@@ -196,7 +202,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
                       </button>
                     ))}
                     <span className="text-[11px] text-slate-400 ml-1">
-                      {item.rating > 0 ? `${item.rating}/5` : 'Non noté'}
+                      {item.rating > 0 ? `${item.rating}/5` : t.unrated}
                     </span>
                   </div>
 
@@ -206,7 +212,7 @@ export const CompareModal: React.FC<CompareModalProps> = ({
                   </p>
 
                   <div className="mt-2 text-[11px] text-slate-400 pt-2 border-t border-slate-800">
-                    <strong className="text-slate-200">Idéal pour :</strong> {item.bestFor}
+                    <strong className="text-slate-200">{common.idealFor}</strong> {item.bestFor}
                   </div>
 
                   {/* Note */}
@@ -226,12 +232,12 @@ export const CompareModal: React.FC<CompareModalProps> = ({
                     {copiedName === item.name ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-300" />
-                        <span>Copié !</span>
+                        <span>{common.copied}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Choisir & Copier</span>
+                        <span>{t.chooseCopy}</span>
                       </>
                     )}
                   </button>

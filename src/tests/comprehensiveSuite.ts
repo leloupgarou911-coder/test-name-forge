@@ -768,6 +768,18 @@ assert(
   startupDescriptionFailures.join(', ') || '25 languages checked'
 );
 
+// Fantasy, product, and anime descriptions must cover every priority locale.
+for (const generatorId of ['fantasy', 'product', 'anime'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
 const additionalFaqChecks = [
   ['ko', 'NameForge 같은', 'Korean'],
   ['zh', 'NameForge 这样的', 'Chinese'],

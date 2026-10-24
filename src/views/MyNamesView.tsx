@@ -976,7 +976,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         }}
                         className="text-xs font-bold text-cyan-400 hover:underline cursor-pointer"
                       >
-                        {`${controls.compare === 'Compare' ? 'View names' : controls.compare === 'Comparer' ? 'Voir les noms' : controls.compare} (${count}) →`}
+                        {currentLanguage === 'fr' ? `Voir les noms (${count}) →` : `View names (${count}) →`}
                       </button>
 
                       <div className="flex items-center gap-1.5">

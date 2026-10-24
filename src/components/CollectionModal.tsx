@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { X, FolderPlus, Check } from 'lucide-react';
 import { createCollection, updateCollection } from '../services/storage';
 import { NamedCollection } from '../types';
+import { getAppSettings } from '../services/settings';
+import { getCollectionModalLabels } from '../i18n/collectionModal';
 
 interface CollectionModalProps {
   collection?: NamedCollection | null;
@@ -28,6 +30,7 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
   const [description, setDescription] = useState(collection?.description || '');
   const [color, setColor] = useState(collection?.color || '#8b5cf6');
   const [success, setSuccess] = useState(false);
+  const t = getCollectionModalLabels(getAppSettings().language);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +58,7 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg transition"
+          aria-label={t.close}
         >
           <X className="w-5 h-5" />
         </button>
@@ -64,25 +68,25 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
             <FolderPlus className="w-4 h-4" />
           </div>
           <h3 className="text-base font-bold text-white">
-            {collection ? 'Modifier la Collection' : 'Nouvelle Collection Personnalisée'}
+            {collection ? t.titleEdit : t.titleNew}
           </h3>
         </div>
 
         <p className="text-xs text-slate-400 mb-5">
-          Organisez vos noms par projet, univers, roman, faction ou campagne de jeu de rôle.
+          {t.intro}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5">
-              Nom de la collection *
+              {t.nameLabel}
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="ex : Roman Fantasy - Tome 1, Guilde du Nord, etc."
+              placeholder={t.namePlaceholder}
               className="w-full h-10 px-3 bg-[#090d18] border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
               autoFocus
             />
@@ -90,20 +94,20 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5">
-              Description (optionnelle)
+              {t.descriptionLabel}
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={2}
-              placeholder="ex : Personnages principaux et factions alliées de la cité côtière."
+              placeholder={t.descriptionPlaceholder}
               className="w-full p-3 bg-[#090d18] border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 resize-none"
             />
           </div>
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-1.5">
-              Couleur thématique
+              {t.colorLabel}
             </label>
             <div className="flex items-center gap-2.5">
               {COLOR_OPTIONS.map((c) => (
@@ -135,10 +139,10 @@ export const CollectionModal: React.FC<CollectionModalProps> = ({
               {success ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>Enregistré !</span>
+                  <span>{t.saved}</span>
                 </>
               ) : (
-                <span>{collection ? 'Mettre à jour' : 'Créer la collection'}</span>
+                <span>{t.save}</span>
               )}
             </button>
           </div>

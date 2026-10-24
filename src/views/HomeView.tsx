@@ -302,6 +302,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     fi: { found: (count) => `Löytyi ${count} generaattoria`, noResults: 'Tarkkoja osumia ei löytynyt; kokeile muita hakusanoja' },
   };
   const searchFeedback = searchFeedbackUi[settings.language] || searchFeedbackUi.en;
+  const quickSearchUi: Record<string, { keywordPlaceholder: string; apply: string; advancedHint: string; openGenerator: string }> = {
+    en: { keywordPlaceholder: 'Keyword or inspiration theme (e.g. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Apply', advancedHint: 'Like these suggestions? Explore advanced options:', openGenerator: 'Full generator' },
+    fr: { keywordPlaceholder: 'Mot-clé ou thème d’inspiration (ex. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Appliquer', advancedHint: 'Vous aimez ces propositions ? Accédez aux options approfondies :', openGenerator: 'Générateur complet' },
+    es: { keywordPlaceholder: 'Palabra clave o tema de inspiración (p. ej., Nova, Wolf, Luna, Spark, Zen)…', apply: 'Aplicar', advancedHint: '¿Te gustan estas propuestas? Explora las opciones avanzadas:', openGenerator: 'Generador completo' },
+    de: { keywordPlaceholder: 'Stichwort oder Inspiration (z. B. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Anwenden', advancedHint: 'Diese Vorschläge gefallen dir? Entdecke die erweiterten Optionen:', openGenerator: 'Vollständiger Generator' },
+    it: { keywordPlaceholder: 'Parola chiave o tema d’ispirazione (es. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Applica', advancedHint: 'Ti piacciono questi suggerimenti? Scopri le opzioni avanzate:', openGenerator: 'Generatore completo' },
+    pt: { keywordPlaceholder: 'Palavra-chave ou tema de inspiração (ex.: Nova, Wolf, Luna, Spark, Zen)…', apply: 'Aplicar', advancedHint: 'Gostou destas sugestões? Explore as opções avançadas:', openGenerator: 'Gerador completo' },
+    ar: { keywordPlaceholder: 'كلمة مفتاحية أو فكرة إلهام (مثل Nova وWolf وLuna وSpark وZen)…', apply: 'تطبيق', advancedHint: 'هل أعجبتك هذه الاقتراحات؟ اكتشف الخيارات المتقدمة:', openGenerator: 'المولّد الكامل' },
+    tr: { keywordPlaceholder: 'Anahtar kelime veya ilham teması (örn. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Uygula', advancedHint: 'Bu önerileri beğendiniz mi? Gelişmiş seçenekleri keşfedin:', openGenerator: 'Tam oluşturucu' },
+    ja: { keywordPlaceholder: 'キーワードやテーマ（例：Nova、Wolf、Luna、Spark、Zen）…', apply: '適用', advancedHint: 'この候補が気に入りましたか？ 詳細オプションをご覧ください：', openGenerator: '詳細ジェネレーター' },
+    ko: { keywordPlaceholder: '키워드 또는 영감 테마 (예: Nova, Wolf, Luna, Spark, Zen)…', apply: '적용', advancedHint: '이 제안이 마음에 드시나요? 고급 옵션을 확인하세요:', openGenerator: '전체 생성기' },
+    zh: { keywordPlaceholder: '关键词或灵感主题（例如 Nova、Wolf、Luna、Spark、Zen）…', apply: '应用', advancedHint: '喜欢这些建议吗？探索高级选项：', openGenerator: '完整生成器' },
+    ru: { keywordPlaceholder: 'Ключевое слово или тема для вдохновения (например, Nova, Wolf, Luna, Spark, Zen)…', apply: 'Применить', advancedHint: 'Нравятся варианты? Изучите расширенные настройки:', openGenerator: 'Полный генератор' },
+    hi: { keywordPlaceholder: 'कीवर्ड या प्रेरणा का विषय (जैसे Nova, Wolf, Luna, Spark, Zen)…', apply: 'लागू करें', advancedHint: 'क्या ये सुझाव पसंद आए? उन्नत विकल्प देखें:', openGenerator: 'पूरा जनरेटर' },
+    nl: { keywordPlaceholder: 'Zoekwoord of inspiratie (bijv. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Toepassen', advancedHint: 'Bevallen deze suggesties? Bekijk de geavanceerde opties:', openGenerator: 'Volledige generator' },
+    pl: { keywordPlaceholder: 'Słowo kluczowe lub inspiracja (np. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Zastosuj', advancedHint: 'Podobają Ci się te propozycje? Sprawdź opcje zaawansowane:', openGenerator: 'Pełny generator' },
+    sv: { keywordPlaceholder: 'Nyckelord eller inspirationstema (t.ex. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Tillämpa', advancedHint: 'Gillar du förslagen? Utforska de avancerade alternativen:', openGenerator: 'Fullständig generator' },
+    vi: { keywordPlaceholder: 'Từ khóa hoặc chủ đề gợi ý (ví dụ Nova, Wolf, Luna, Spark, Zen)…', apply: 'Áp dụng', advancedHint: 'Bạn thích các gợi ý này? Khám phá tùy chọn nâng cao:', openGenerator: 'Công cụ tạo tên đầy đủ' },
+    id: { keywordPlaceholder: 'Kata kunci atau tema inspirasi (mis. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Terapkan', advancedHint: 'Suka saran ini? Jelajahi opsi lanjutan:', openGenerator: 'Generator lengkap' },
+    th: { keywordPlaceholder: 'คำค้นหาหรือธีมสร้างแรงบันดาลใจ (เช่น Nova, Wolf, Luna, Spark, Zen)…', apply: 'นำไปใช้', advancedHint: 'ชอบคำแนะนำเหล่านี้ไหม ดูตัวเลือกขั้นสูง:', openGenerator: 'เครื่องมือสร้างชื่อเต็ม' },
+    el: { keywordPlaceholder: 'Λέξη-κλειδί ή θέμα έμπνευσης (π.χ. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Εφαρμογή', advancedHint: 'Σας αρέσουν αυτές οι προτάσεις; Δείτε τις σύνθετες επιλογές:', openGenerator: 'Πλήρης γεννήτρια' },
+    he: { keywordPlaceholder: 'מילת מפתח או נושא השראה (למשל Nova, Wolf, Luna, Spark, Zen)…', apply: 'החלה', advancedHint: 'אהבתם את ההצעות? גלו אפשרויות מתקדמות:', openGenerator: 'מחולל מלא' },
+    cs: { keywordPlaceholder: 'Klíčové slovo nebo inspirace (např. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Použít', advancedHint: 'Líbí se vám návrhy? Prozkoumejte pokročilé možnosti:', openGenerator: 'Plný generátor' },
+    ro: { keywordPlaceholder: 'Cuvânt-cheie sau temă de inspirație (ex. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Aplică', advancedHint: 'Îți plac sugestiile? Explorează opțiunile avansate:', openGenerator: 'Generator complet' },
+    da: { keywordPlaceholder: 'Søgeord eller inspirationstema (f.eks. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Anvend', advancedHint: 'Kan du lide forslagene? Se de avancerede muligheder:', openGenerator: 'Fuld generator' },
+    fi: { keywordPlaceholder: 'Hakusana tai inspiraation aihe (esim. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Käytä', advancedHint: 'Pidätkö ehdotuksista? Tutustu lisäasetuksiin:', openGenerator: 'Täysi generaattori' },
+  };
+  const quickSearchLabels = quickSearchUi[settings.language] || quickSearchUi.en;
 
   // Filtered FAQ
   const localizedFaq = useMemo(() => getLocalizedFaq(settings.language), [settings.language]);
@@ -455,7 +483,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder={settings.language === 'fr' ? "Mot-clé ou thème d’inspiration (ex. Nova, Wolf, Luna, Spark, Zen)…" : settings.language === 'en' ? "Keyword or inspiration theme (e.g. Nova, Wolf, Luna, Spark, Zen)…" : t.nav.searchPlaceholder}
+                placeholder={quickSearchLabels.keywordPlaceholder}
                 value={quickKeyword}
                 onChange={(e) => setQuickKeyword(e.target.value)}
                 onKeyDown={(e) => {
@@ -467,7 +495,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 onClick={() => handleQuickForge()}
                 className="h-11 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition cursor-pointer border border-slate-700"
               >
-                {settings.language === 'fr' ? 'Appliquer' : settings.language === 'en' ? 'Apply' : t.generatorControl.generateBtn}
+                {quickSearchLabels.apply}
               </button>
             </div>
           </div>
@@ -485,13 +513,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
 
           <div className="pt-2 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80">
             <span>
-              {settings.language === 'fr' ? 'Vous aimez ces propositions ? Accédez aux options approfondies :' : settings.language === 'en' ? 'Like these suggestions? Explore advanced options:' : t.generatorControl.styleLabel}
+              {quickSearchLabels.advancedHint}
             </span>
             <button
               onClick={() => onNavigate('generator-detail', quickGenId)}
               className="text-cyan-300 hover:text-cyan-200 font-bold flex items-center gap-1 cursor-pointer"
             >
-              <span>{settings.language === 'fr' ? 'Générateur complet' : settings.language === 'en' ? 'Full generator' : t.categories.openGenerator} {GENERATORS_METADATA[quickGenId]?.shortTitle || ''}</span>
+              <span>{quickSearchLabels.openGenerator} {GENERATORS_METADATA[quickGenId]?.shortTitle || ''}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

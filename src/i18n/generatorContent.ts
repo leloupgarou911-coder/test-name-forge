@@ -1239,7 +1239,7 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     ro: "Generează nume distincte pentru canale YouTube, potrivite temei, stilului, publicului și brandului pe termen lung al creatorului.",
     da: "Skab særprægede YouTube-kanalnavne, der passer til skaberens emne, tone, publikum og langsigtede brand.",
     fi: "Luo omaleimaisia YouTube-kanavien nimiä, jotka sopivat tekijän aiheeseen, tyyliin, yleisöön ja pitkäaikaiseen brändiin.",
-  }
+  },
   handle: {
     en: "Create distinctive usernames and online handles that are easy to remember and fit your identity.",
     fr: "Créez des pseudonymes distinctifs, faciles à retenir et adaptés à votre identité en ligne.",

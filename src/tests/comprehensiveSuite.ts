@@ -13,6 +13,8 @@ import { getLanguageModalLabels } from '../i18n/languageModal';
 import { getNameDetailsLabels } from '../i18n/nameDetails';
 import { getCollectionModalLabels } from '../i18n/collectionModal';
 import { getCompareModalLabels } from '../i18n/compareModal';
+import { getGeneratorDetailSectionLabels, PRIORITY_GENERATOR_DETAIL_LOCALES } from '../i18n/generatorDetailSections';
+import { getLocalizedGeneratorEditorial, hasLocalizedGeneratorEditorial } from '../i18n/generatorEditorial';
 
 declare const process: { exit: (code: number) => void };
 
@@ -82,6 +84,24 @@ for (const locale of PRIORITY_LOCALES) {
   }
 }
 
+// Generator detail section headings must be complete and localized for all priority locales.
+assert(PRIORITY_GENERATOR_DETAIL_LOCALES.length === PRIORITY_LOCALES.length, 'Generator detail section labels cover all 25 priority locales');
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getGeneratorDetailSectionLabels(locale);
+  assert(
+    Boolean(labels.guide.trim() && labels.examples.trim() && labels.faq.trim()),
+    `Generator detail section headings exist for ${locale}`
+  );
+  if (locale !== 'en') {
+    assert(
+      labels.guide !== getGeneratorDetailSectionLabels('en').guide &&
+      labels.examples !== getGeneratorDetailSectionLabels('en').examples &&
+      labels.faq !== getGeneratorDetailSectionLabels('en').faq,
+      `Generator detail section headings are translated for ${locale}`
+    );
+  }
+}
+
 // Core generator titles and short labels must be localized in all 25 priority locales.
 for (const locale of PRIORITY_LOCALES) {
   const missingTitles = LOCALIZED_GENERATOR_TITLE_IDS.filter((id) => {
@@ -93,9 +113,29 @@ for (const locale of PRIORITY_LOCALES) {
   assert(
     missingTitles.length === 0,
     `Core generator titles and short labels are localized for ${locale}`,
-    missingTitles.join(', ') || '16 core generators checked'
+    missingTitles.join(', ') || `${LOCALIZED_GENERATOR_TITLE_IDS.length} core generators checked`
   );
 }
+
+// Editorial localization must preserve category-specific guidance, examples, benefits, limits, and FAQs.
+const editorialBatchOne = ['food_truck', 'hotel_name', 'clothing_brand', 'jewelry_brand', 'cosmetics_brand', 'fitness_studio', 'travel_agency', 'real_estate', 'architecture_studio', 'interior_decor', 'fantasy', 'dragon', 'elf', 'anime', 'startup', 'book', 'app', 'domain', 'character', 'videogame', 'kingdom', 'podcast'] as const;
+const editorialCoverageFailures: string[] = [];
+for (const generatorId of editorialBatchOne) {
+  const meta = GENERATORS_METADATA[generatorId];
+  const editorial = getLocalizedGeneratorEditorial(meta, 'en');
+  if (!editorial || !editorial.generatorSubtitle.trim() || !editorial.generatorTitle.trim() ||
+      !editorial.guideTitle.trim() || !editorial.guide.length || !editorial.cardsTitle.trim() ||
+      !editorial.cards.length || !editorial.faqTitle.trim() || !editorial.faq.length ||
+      !editorial.advantages?.length || !editorial.limits?.length ||
+      !hasLocalizedGeneratorEditorial(generatorId, 'en')) {
+    editorialCoverageFailures.push(generatorId);
+  }
+}
+assert(
+  editorialCoverageFailures.length === 0,
+  '22 generator categories have specific English subtitles, guides, examples, advantages, limits, and FAQs',
+  editorialCoverageFailures.join(', ') || '10 category-specific editorial records checked'
+);
 
 // Language selector modal must expose translated core controls for every priority locale.
 for (const locale of PRIORITY_LOCALES) {
@@ -1047,6 +1087,90 @@ for (const generatorId of ['podcast', 'planet'] as const) {
 
 // Character and AI-assistant generators must have dedicated descriptions in every priority locale.
 for (const generatorId of ['character', 'ai_bot'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Coffee-shop and bakery descriptions must be explicitly translated in all 25 priority locales.
+for (const generatorId of ['coffee_shop', 'bakery', 'restaurant'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Kingdom, vampire, and warrior descriptions must cover all priority locales.
+for (const generatorId of ['kingdom', 'vampire', 'warrior'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Sci-fi, wizard, and guild descriptions must cover all priority locales.
+for (const generatorId of ['sci-fi', 'wizard', 'guild'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Feature, service, and YouTube descriptions must cover all priority locales.
+for (const generatorId of ['feature', 'service', 'youtube'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Handle, community, and place-name descriptions must cover all 25 priority locales.
+for (const generatorId of ['handle', 'community', 'placename'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Project, framework, event, and culinary descriptions must cover all priority locales.
+for (const generatorId of ['project', 'framework', 'event', 'culinary'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
+// Food-truck and hotel-name descriptions must be explicitly localized across all priority locales.
+for (const generatorId of ['food_truck', 'hotel_name', 'clothing_brand', 'jewelry_brand', 'cosmetics_brand', 'fitness_studio', 'travel_agency', 'real_estate', 'architecture_studio', 'interior_decor'] as const) {
   const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
     (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
   );

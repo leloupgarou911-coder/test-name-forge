@@ -383,7 +383,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                 onClick={() => handleQuickForge()}
                 className="h-11 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition cursor-pointer border border-slate-700"
               >
-                Appliquer
+                {settings.language === 'fr' ? 'Appliquer' : settings.language === 'en' ? 'Apply' : t.generatorControl.generateBtn}
               </button>
             </div>
           </div>
@@ -772,12 +772,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                       {copiedName === entry.name ? (
                         <>
                           <Check className="w-3 h-3 text-emerald-400" />
-                          <span>Copié</span>
+                          <span>{t.nameCard.copied.replace(/^✓\s*/, '')}</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-3 h-3" />
-                          <span>Copier</span>
+                          <span>{t.nameCard.copy}</span>
                         </>
                       )}
                     </button>

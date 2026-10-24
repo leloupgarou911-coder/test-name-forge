@@ -139,8 +139,7 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cards: [{ icon: '📚', h: 'Fiction and worldbuilding', p: 'Name protagonists, dynasties, kingdoms, relics, and forgotten places.' }],
     faqTitle: 'Fantasy-name questions',
     faq: [{ q: 'How can a fantasy name feel believable?', a: 'Use consistent sound patterns and connect the name to the character’s culture, history, or role.' }],
-  },,
-
+  },
   dragon: {
     generatorTitle: 'Dragon Names & Ancient Broods',
     generatorSubtitle: 'Create names shaped by a dragon’s age, element, territory, and place in its lineage.',

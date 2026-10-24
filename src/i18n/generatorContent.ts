@@ -1430,7 +1430,6 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     da: "Skab appetitlige navne til retter, opskrifter, menuer og kulinariske koncepter, der passer til ingredienser og stil.",
     fi: "Luo herkullisia nimiä ruoille, resepteille, ruokalistoille ja kulinaarisille konsepteille ainesosien ja tyylin mukaan."
   },
-,
   food_truck: {
     en: "Create memorable food-truck names that reflect the cuisine, street-food energy, and mobile business.",
     fr: "Créez des noms de food trucks mémorables qui évoquent la cuisine, l’énergie de la street food et la mobilité.",

@@ -200,6 +200,79 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     faqTitle: 'Book-title questions',
     faq: [{ q: 'Can a generated title be published immediately?', a: 'Treat it as a draft. Search catalogues and the web, ask readers for feedback, and confirm any legal or branding concerns.' }]
   },
+
+  app: {
+    generatorTitle: 'App Names & Digital Products',
+    generatorSubtitle: 'Find a clear, memorable name that fits an app’s audience, core task, and product personality.',
+    advantages: ['Useful for app stores, prototypes, and product roadmaps', 'Encourages names that can grow with new features'],
+    limits: ['Store listing and trademark availability need separate checks', 'Avoid names that are difficult to spell after hearing them once'],
+    guideTitle: 'Name an app users can remember',
+    guide: [{ h: 'Start with the main user benefit', p: 'Decide whether the app helps people create, organise, learn, communicate, or solve a specific problem.' }, { h: 'Test it at small sizes', p: 'Check the name beside an app icon, in a search result, and when spoken aloud.' }],
+    cardsTitle: 'App naming directions',
+    cards: [{ icon: '📱', h: 'Utility and productivity', p: 'Direct, dependable names for tools that help people complete everyday tasks.' }, { icon: '✨', h: 'Creative and lifestyle', p: 'Expressive names for discovery, design, learning, and personal projects.' }],
+    faqTitle: 'App-name questions',
+    faq: [{ q: 'Does the generator check app-store availability?', a: 'No. Search the relevant stores, domains, social handles, and trademark databases before launch.' }]
+  },
+  domain: {
+    generatorTitle: 'Domain & Website Names',
+    generatorSubtitle: 'Generate web-friendly names that are easy to type, share, and connect to a clear site purpose.',
+    advantages: ['Promotes short, pronounceable naming ideas', 'Can help explore both descriptive and brandable directions'],
+    limits: ['Domain availability is not verified by the name generator', 'Hyphens, confusing spellings, and unintended meanings can reduce usability'],
+    guideTitle: 'Choose a practical domain name',
+    guide: [{ h: 'Keep the address easy to pass on', p: 'Prefer a spelling people can understand in conversation and avoid combinations that are easy to mistype.' }, { h: 'Check the full identity', p: 'Review the domain extension, existing websites, social handles, and trademark conflicts together.' }],
+    cardsTitle: 'Domain naming approaches',
+    cards: [{ icon: '🌐', h: 'Descriptive domains', p: 'Names that quickly explain a website’s subject or service.' }, { icon: '🔖', h: 'Brandable domains', p: 'Distinctive names suited to a product or organisation with room to expand.' }],
+    faqTitle: 'Domain-name questions',
+    faq: [{ q: 'Is a suggested domain guaranteed to be free?', a: 'No. Confirm current availability with a domain registrar before making plans or payments.' }]
+  },
+  character: {
+    generatorTitle: 'Original Character Names',
+    generatorSubtitle: 'Develop character names that support personality, background, setting, and narrative role.',
+    advantages: ['Useful for protagonists, supporting casts, and role-playing campaigns', 'Helps build a consistent naming style across a fictional world'],
+    limits: ['A name should not replace a believable character history', 'Check the cast for names that look or sound too similar'],
+    guideTitle: 'Make a character name feel intentional',
+    guide: [{ h: 'Connect name and background', p: 'Consider family, language, region, era, community, and the naming customs that shape the character.' }, { h: 'Read it in context', p: 'Test the name in dialogue, a chapter heading, a character sheet, and alongside other names in the cast.' }],
+    cardsTitle: 'Character naming directions',
+    cards: [{ icon: '🧩', h: 'Grounded characters', p: 'Natural, readable names for contemporary stories and realistic settings.' }, { icon: '🗡️', h: 'Speculative characters', p: 'More stylised names for fantasy, science fiction, and original worlds.' }],
+    faqTitle: 'Character-name questions',
+    faq: [{ q: 'How do I avoid repetitive character names?', a: 'Vary initials, syllable counts, stress patterns, and spelling, then read the full cast list aloud.' }]
+  },
+  videogame: {
+    generatorTitle: 'Video Game & Gamer Names',
+    generatorSubtitle: 'Explore memorable names for game worlds, player identities, teams, and original projects.',
+    advantages: ['Offers directions for different genres and play styles', 'Can produce a consistent naming theme for teams or game content'],
+    limits: ['Platform username rules and availability vary', 'Avoid names that impersonate others or include abusive language'],
+    guideTitle: 'Choose a name that fits the game',
+    guide: [{ h: 'Match the genre and tone', p: 'A strategy title, cosy game, racing project, and dark adventure may need very different naming styles.' }, { h: 'Check readability in play', p: 'Short, clear names are easier to recognise in menus, leaderboards, and voice chat.' }],
+    cardsTitle: 'Gaming name styles',
+    cards: [{ icon: '🎮', h: 'Player and team names', p: 'Distinctive options for profiles, squads, guilds, and tournament identities.' }, { icon: '🗺️', h: 'Game worlds and titles', p: 'Names for fictional locations, quests, factions, and original game concepts.' }],
+    faqTitle: 'Gaming-name questions',
+    faq: [{ q: 'Will a generated username be available?', a: 'Not necessarily. Check the exact platform and its rules before adopting a name.' }]
+  },
+  kingdom: {
+    generatorTitle: 'Kingdoms, Realms & Empires',
+    generatorSubtitle: 'Name a realm through its geography, political history, founding culture, and ambitions.',
+    advantages: ['Helps distinguish countries, city-states, empires, and disputed territories', 'Supports coherent maps, histories, and faction lists'],
+    limits: ['Grandiose names can feel interchangeable without a cultural reason', 'Keep neighbouring realm names distinct when readers scan a map'],
+    guideTitle: 'Give a realm a believable identity',
+    guide: [{ h: 'Let geography shape the name', p: 'Mountains, river basins, islands, trade routes, and climate can influence how inhabitants describe their homeland.' }, { h: 'Consider who named it', p: 'An official state name, a local name, and a name used by rivals may all differ for meaningful reasons.' }],
+    cardsTitle: 'Realm naming styles',
+    cards: [{ icon: '👑', h: 'Royal kingdoms', p: 'Formal names suited to dynasties, succession histories, and court politics.' }, { icon: '🏰', h: 'Frontier realms', p: 'Practical or regional names for borderlands, confederations, and newly founded states.' }],
+    faqTitle: 'Kingdom-name questions',
+    faq: [{ q: 'How can fictional realms feel connected?', a: 'Use shared linguistic roots for related cultures while allowing history and geography to create exceptions.' }]
+  },
+  podcast: {
+    generatorTitle: 'Podcast Names & Show Identity',
+    generatorSubtitle: 'Find a show name that signals its topic, tone, and promise to listeners without becoming too narrow.',
+    advantages: ['Useful for brainstorming show titles and recurring series', 'Helps align the title with artwork, episode names, and spoken introductions'],
+    limits: ['Check existing shows and distribution platforms for conflicts', 'Avoid a title that promises a topic or format the show rarely covers'],
+    guideTitle: 'Name a podcast people can find',
+    guide: [{ h: 'Clarify the listening promise', p: 'Decide whether the show informs, interviews, entertains, teaches, or explores a topic through storytelling.' }, { h: 'Say the title out loud', p: 'A podcast title should be easy to pronounce in an introduction and easy to search after hearing it.' }],
+    cardsTitle: 'Podcast naming approaches',
+    cards: [{ icon: '🎙️', h: 'Topic-led shows', p: 'Clear titles for education, news, hobbies, and specialist discussions.' }, { icon: '🎧', h: 'Personality-led shows', p: 'Flexible names for interviews, co-host chemistry, and broader creative formats.' }],
+    faqTitle: 'Podcast-name questions',
+    faq: [{ q: 'Should the podcast title include keywords?', a: 'A useful topic clue can help discovery, but clarity and memorability matter more than awkward keyword stuffing.' }]
+  },
 };
 
 export function getLocalizedGeneratorEditorial(meta: GeneratorMeta, language: LanguageCode): Editorial | null {

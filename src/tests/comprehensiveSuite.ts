@@ -1149,7 +1149,7 @@ for (const generatorId of ['project', 'framework', 'event', 'culinary'] as const
 }
 
 // Food-truck and hotel-name descriptions must be explicitly localized across all priority locales.
-for (const generatorId of ['food_truck', 'hotel_name'] as const) {
+for (const generatorId of ['food_truck', 'hotel_name', 'clothing_brand'] as const) {
   const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
     (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
   );

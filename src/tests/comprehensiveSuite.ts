@@ -121,7 +121,7 @@ for (const locale of PRIORITY_LOCALES) {
       labels.etymology.trim() && labels.variants.trim() && labels.transparency.trim() &&
       labels.strengths.trim() && labels.watchouts.trim() && labels.chooseTip.trim() &&
       labels.style.trim() && labels.copy.trim() && labels.copied.trim() && labels.close.trim() &&
-      labels.save.trim() && labels.saved.trim() && labels.like.trim() && labels.liked.trim()),
+      labels.save.trim() && labels.saved.trim() && labels.like.trim() && labels.liked.trim() && labels.adviceText.trim() && labels.fallbackStrength.trim() && labels.fallbackWatchout.trim()),
     `Name analysis modal labels exist for ${locale}`
   );
   assert(

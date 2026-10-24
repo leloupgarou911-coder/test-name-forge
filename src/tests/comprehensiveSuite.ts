@@ -8,6 +8,7 @@ import { getLocalizedGeneratorDescription, hasLocalizedGeneratorDescription, LOC
 import { getLocalizedFaq } from '../i18n/localizedFaq';
 import { getShellLabels } from '../i18n/shell';
 import { getMyNamesAuditLabels } from '../i18n/myNames';
+import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle, LOCALIZED_GENERATOR_TITLE_IDS } from '../i18n/generatorTitles';
 
 declare const process: { exit: (code: number) => void };
 
@@ -75,6 +76,21 @@ for (const locale of PRIORITY_LOCALES) {
       `My Names labels avoid English-only fallback for ${locale}`
     );
   }
+}
+
+// Core generator titles and short labels must be localized in all 25 priority locales.
+for (const locale of PRIORITY_LOCALES) {
+  const missingTitles = LOCALIZED_GENERATOR_TITLE_IDS.filter((id) => {
+    const meta = GENERATORS_METADATA[id];
+    return !getLocalizedGeneratorTitle(id, locale, meta.title).trim() ||
+      getLocalizedGeneratorTitle(id, locale, meta.title) === meta.title ||
+      !getLocalizedGeneratorShortTitle(id, locale, meta.shortTitle).trim();
+  });
+  assert(
+    missingTitles.length === 0,
+    `Core generator titles and short labels are localized for ${locale}`,
+    missingTitles.join(', ') || '16 core generators checked'
+  );
 }
 
 // FAQ localization regression checks

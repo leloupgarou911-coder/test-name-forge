@@ -800,3 +800,78 @@ html.light :is(.border-slate-700, .border-slate-800, .border-gray-700, .border-g
 html.light :is(button, a, input, select, textarea):focus-visible {
   outline-color: #1976c9 !important;
 }
+
+
+/* Generator detail pages: unify leftover dark panels in the light theme.
+   This specifically fixes gradient-backed cards and side sections that can
+   retain a dark gradient even after their background-color has been changed. */
+html.light main [class*="from-[#"],
+html.light main [class*="via-[#"],
+html.light main [class*="to-[#"] {
+  background-image: none !important;
+}
+
+html.light main :is(
+  [class*="bg-[#0"], [class*="bg-[#1"],
+  [class*="from-[#"], [class*="via-[#"], [class*="to-[#"],
+  .bg-slate-900, .bg-slate-900\/80, .bg-slate-900\/90,
+  .bg-slate-800, .bg-slate-800\/80, .bg-slate-800\/90
+) {
+  background-color: #ffffff !important;
+  border-color: #c4def5 !important;
+  box-shadow: 0 8px 24px rgba(36, 92, 145, 0.07);
+}
+
+html.light main [class*="bg-gradient-to-b"] {
+  background-image: linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%) !important;
+}
+
+html.light main :is(
+  .border-slate-700, .border-slate-700\/80, .border-slate-700\/60,
+  .border-slate-800, .border-slate-800\/80, .border-slate-800\/60
+) {
+  border-color: #c4def5 !important;
+}
+
+html.light main :is(h1, h2, h3, h4, h5, h6, .text-white, .text-slate-100, .text-slate-200) {
+  color: #163653 !important;
+}
+
+html.light main :is(.text-slate-300, .text-slate-400, .text-slate-500) {
+  color: #526d86 !important;
+}
+
+html.light main :is(button, a)[class*="bg-gradient-to-"],
+html.light main :is(button, a)[class*="bg-blue-600"],
+html.light main :is(button, a)[class*="bg-purple-600"],
+html.light main :is(button, a)[class*="bg-indigo-600"],
+html.light main :is(button, a)[class*="bg-cyan-600"],
+html.light main :is(button, a)[class*="bg-emerald-600"] {
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 5px 14px rgba(37, 99, 235, 0.18);
+}
+
+html.light main :is(button, a)[class*="bg-gradient-to-"] *,
+html.light main :is(button, a)[class*="bg-blue-600"] *,
+html.light main :is(button, a)[class*="bg-purple-600"] *,
+html.light main :is(button, a)[class*="bg-indigo-600"] *,
+html.light main :is(button, a)[class*="bg-cyan-600"] *,
+html.light main :is(button, a)[class*="bg-emerald-600"] * {
+  color: #ffffff !important;
+}
+
+html.light main kbd {
+  background-color: #e8f3ff !important;
+  border-color: #c4def5 !important;
+  color: #234c70 !important;
+}
+
+html.light main :is(button, a):not([class*="bg-blue-"]):not([class*="bg-purple-"]):not([class*="bg-indigo-"]):not([class*="bg-cyan-"]):not([class*="bg-emerald-"]):not([class*="bg-gradient-to-"]) {
+  color: #294965;
+}
+
+html.light main :is(button, a):not([class*="bg-blue-"]):not([class*="bg-purple-"]):not([class*="bg-indigo-"]):not([class*="bg-cyan-"]):not([class*="bg-emerald-"]):not([class*="bg-gradient-to-"]):hover {
+  background-color: #e8f3ff !important;
+  border-color: #8fc4ef !important;
+}

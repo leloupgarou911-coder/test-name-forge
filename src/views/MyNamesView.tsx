@@ -347,21 +347,20 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <h3 className="text-base font-bold text-white">{actions.deleteCollectionConfirm}</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Cette action supprimera définitivement vos {entries.length} noms enregistrés, collections,
-              notes et évaluations de ce navigateur. Cette opération est irréversible.
+              {currentLanguage === 'fr' ? `Cette action supprimera définitivement vos ${entries.length} noms enregistrés, collections, notes et évaluations de ce navigateur. Cette opération est irréversible.` : `This will permanently delete your ${entries.length} saved names, collections, notes, and ratings from this browser. This action cannot be undone.`}
             </p>
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
                 onClick={() => setShowClearConfirm(false)}
                 className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white bg-slate-800 cursor-pointer"
               >
-                Annuler
+                {currentLanguage === 'fr' ? 'Annuler' : 'Cancel'}
               </button>
               <button
                 onClick={handleClearEverything}
                 className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-500 shadow-md shadow-red-600/30 cursor-pointer"
               >
-                Oui, Tout Supprimer
+                {currentLanguage === 'fr' ? 'Oui, tout supprimer' : 'Yes, delete everything'}
               </button>
             </div>
           </div>
@@ -377,8 +376,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
               <h3 className="text-base font-bold text-white">{actions.clearHistoryConfirm}</h3>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Voulez-vous réinitialiser les 50 derniers noms générés récents ? Vos favoris enregistrés
-              ne seront pas affectés.
+              {currentLanguage === 'fr' ? 'Voulez-vous réinitialiser les 50 derniers noms générés ? Vos favoris enregistrés ne seront pas affectés.' : 'Clear the 50 most recent generated names? Your saved favorites will not be affected.'}
             </p>
             <div className="flex items-center justify-end gap-2.5 pt-2">
               <button
@@ -391,7 +389,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 onClick={handleClearHistory}
                 className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-500 shadow-md cursor-pointer"
               >
-                Vider l'historique
+                {actions.clearHistory}
               </button>
             </div>
           </div>
@@ -405,11 +403,10 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
           <span>{controls.localBadge}</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-3">
-          Mes Noms, Collections & Historique
+          {currentLanguage === 'fr' ? 'Mes noms, collections et historique' : 'My Names, Collections & History'}
         </h1>
         <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-          Stockage 100% privé dans votre navigateur. Synchronisé entre vos onglets, exportable et
-          restaurable à tout moment.
+          {currentLanguage === 'fr' ? 'Stockage 100 % privé dans votre navigateur. Synchronisé entre vos onglets, exportable et restaurable à tout moment.' : '100% private storage in your browser. Synced across tabs, exportable, and restorable at any time.'}
         </p>
       </div>
 
@@ -425,19 +422,19 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
           <div className="text-xl sm:text-2xl font-black text-white">{stats.total}</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">
-            Noms Suivis
+            {currentLanguage === 'fr' ? 'Noms suivis' : 'Tracked Names'}
           </div>
         </div>
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
           <div className="text-xl sm:text-2xl font-black text-purple-400">{stats.saved}</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">
-            Enregistrés
+            {currentLanguage === 'fr' ? 'Enregistrés' : 'Saved'}
           </div>
         </div>
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
           <div className="text-xl sm:text-2xl font-black text-pink-400">{stats.liked}</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-0.5">
-            Favoris (Likes)
+            {currentLanguage === 'fr' ? 'Favoris (likes)' : 'Favorites (Likes)'}
           </div>
         </div>
         <div className="p-3.5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
@@ -472,7 +469,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             }`}
           >
             <Bookmark className="w-3.5 h-3.5" />
-            <span>Noms Enregistrés ({entries.length})</span>
+            <span>{currentLanguage === 'fr' ? 'Noms enregistrés' : 'Saved Names'} ({entries.length})</span>
           </button>
 
           <button
@@ -484,7 +481,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             }`}
           >
             <Folder className="w-3.5 h-3.5" />
-            <span>Dossiers & Collections ({collections.length})</span>
+            <span>{currentLanguage === 'fr' ? 'Dossiers et collections' : 'Folders & Collections'} ({collections.length})</span>
           </button>
 
           <button
@@ -622,17 +619,17 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                   <button
                     onClick={handleCopyAll}
                     className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
-                    title="Copier les noms filtrés"
+                    title={currentLanguage === 'fr' ? 'Copier les noms filtrés' : 'Copy filtered names'}
                   >
                     {copiedAll ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>Copié {filteredEntries.length}</span>
+                        <span>{currentLanguage === 'fr' ? 'Copié' : 'Copied'} {filteredEntries.length}</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Tout Copier ({filteredEntries.length})</span>
+                        <span>{currentLanguage === 'fr' ? 'Tout copier' : 'Copy all'} ({filteredEntries.length})</span>
                       </>
                     )}
                   </button>
@@ -681,7 +678,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                 }}
                 className="mt-2 text-xs font-bold text-purple-400 hover:underline cursor-pointer"
               >
-                Réinitialiser les filtres
+                {currentLanguage === 'fr' ? 'Réinitialiser les filtres' : 'Reset filters'}
               </button>
             </div>
           ) : (
@@ -740,7 +737,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                             key={starIndex}
                             onClick={() => handleRate(item.name, starIndex, item.rating)}
                             className="p-0.5 text-slate-600 hover:text-amber-400 transition cursor-pointer"
-                            title={`Noter ${starIndex} étoiles`}
+                            title={currentLanguage === 'fr' ? `Noter ${starIndex} étoiles` : `Rate ${starIndex} stars`}
                           >
                             <Star
                               className={`w-3.5 h-3.5 ${
@@ -752,7 +749,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                           </button>
                         ))}
                         <span className="text-[11px] text-slate-500 ml-1">
-                          {item.rating ? `${item.rating}/5` : 'Non noté'}
+                          {item.rating ? `${item.rating}/5` : currentLanguage === 'fr' ? 'Non noté' : 'Not rated'}
                         </span>
                       </div>
 
@@ -874,7 +871,7 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
             <div>
               <h2 className="text-xl font-bold text-white">{copy.collections}</h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Regroupez vos noms par livre, faction, campagne ou équipe.
+                {currentLanguage === 'fr' ? 'Regroupez vos noms par livre, faction, campagne ou équipe.' : 'Group names by book, faction, campaign, or team.'}
               </p>
             </div>
             <button
@@ -1063,12 +1060,12 @@ export const MyNamesView: React.FC<MyNamesViewProps> = ({ onNavigate }) => {
                         {copiedName === item.name ? (
                           <>
                             <Check className="w-3.5 h-3.5 text-emerald-400" />
-                            <span>Copié</span>
+                            <span>{currentLanguage === 'fr' ? 'Copié' : 'Copied'}</span>
                           </>
                         ) : (
                           <>
                             <Copy className="w-3.5 h-3.5" />
-                            <span>Copier</span>
+                            <span>{currentLanguage === 'fr' ? 'Copier' : 'Copy'}</span>
                           </>
                         )}
                       </button>

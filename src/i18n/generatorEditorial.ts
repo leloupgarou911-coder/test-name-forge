@@ -128,6 +128,18 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     faqTitle: 'Interior-design questions',
     faq: [{ q: 'Can the name also suit a décor shop?', a: 'Yes, if you expect to offer both design services and curated products; make the broader offer clear.' }],
   },
+  fantasy: {
+    generatorTitle: 'Fantasy Worlds & Legendary Names',
+    generatorSubtitle: 'Shape names around lineage, culture, magic, and a character’s role in your world.',
+    advantages: ['Supports consistent naming across factions and places', 'Offers a fast starting point for stories and campaigns'],
+    limits: ['A fantasy tone may not fit contemporary settings', 'Review resemblance to famous fictional characters'],
+    guideTitle: 'Create a name that belongs in your world',
+    guide: [{ h: 'Define the culture first', p: 'Decide whether the people are courtly, nomadic, ancient, scholarly, or fearsome before choosing sounds and syllable patterns.' }],
+    cardsTitle: 'Fantasy naming uses',
+    cards: [{ icon: '📚', h: 'Fiction and worldbuilding', p: 'Name protagonists, dynasties, kingdoms, relics, and forgotten places.' }],
+    faqTitle: 'Fantasy-name questions',
+    faq: [{ q: 'How can a fantasy name feel believable?', a: 'Use consistent sound patterns and connect the name to the character’s culture, history, or role.' }],
+  },
 };
 
 export function getLocalizedGeneratorEditorial(meta: GeneratorMeta, language: LanguageCode): Editorial | null {

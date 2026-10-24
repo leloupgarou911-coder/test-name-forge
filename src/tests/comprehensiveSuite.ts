@@ -764,7 +764,7 @@ assert(
   specificDescriptionFailures.join(', ')
 );
 // Baby-name guidance is reviewed in every priority locale, not merely category-fallback text.
-for (const generatorId of ['baby_name', 'brand'] as const) {
+for (const generatorId of ['baby_name', 'brand', 'business'] as const) {
   const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter((lang) => {
     const localized = getLocalizedGeneratorDescription(GENERATORS_METADATA[generatorId], lang as any);
     return !hasLocalizedGeneratorDescription(generatorId, lang as any) || !localized.trim();

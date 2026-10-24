@@ -139,6 +139,67 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     cards: [{ icon: '📚', h: 'Fiction and worldbuilding', p: 'Name protagonists, dynasties, kingdoms, relics, and forgotten places.' }],
     faqTitle: 'Fantasy-name questions',
     faq: [{ q: 'How can a fantasy name feel believable?', a: 'Use consistent sound patterns and connect the name to the character’s culture, history, or role.' }],
+  },,
+
+  dragon: {
+    generatorTitle: 'Dragon Names & Ancient Broods',
+    generatorSubtitle: 'Create names shaped by a dragon’s age, element, territory, and place in its lineage.',
+    advantages: ['Distinguishes ancient dragons from young or wild ones', 'Supports consistent names for broods and territories'],
+    limits: ['Overly ornate names can be hard to remember', 'Avoid copying recognisable dragons from existing franchises'],
+    guideTitle: 'Build a dragon name with character',
+    guide: [{ h: 'Start with age and temperament', p: 'Use weightier sounds for an ancient guardian, sharper rhythms for a swift hunter, or softer vowels for a mysterious spirit.' }, { h: 'Connect the name to its domain', p: 'Let storms, volcanic stone, oceans, or stars influence the name without relying on a predictable element word every time.' }],
+    cardsTitle: 'Dragon naming directions',
+    cards: [{ icon: '🔥', h: 'Fire and volcanic dragons', p: 'Strong, compact names for fierce guardians, mountain lairs, and volcanic realms.' }, { icon: '🌌', h: 'Celestial and ancient dragons', p: 'Measured, ceremonial names suited to star-watchers and keepers of forgotten history.' }],
+    faqTitle: 'Dragon-name questions',
+    faq: [{ q: 'How do I make a dragon name feel ancient?', a: 'Give it a consistent sound pattern, a cultural origin, and a history that matters in your setting.' }]
+  },
+  elf: {
+    generatorTitle: 'Elf Names & Woodland Lineages',
+    generatorSubtitle: 'Shape elven names around culture, ancestry, landscape, and the character’s role.',
+    advantages: ['Helps separate woodland, high, dark, and original elven cultures', 'Useful for characters, families, settlements, and fantasy languages'],
+    limits: ['A single style may not suit every elven culture', 'Check that similar-sounding names remain distinct in a long cast list'],
+    guideTitle: 'Choose an elven name that fits the culture',
+    guide: [{ h: 'Decide where the character belongs', p: 'A forest community, a scholarly city, and an underground kingdom may each need different rhythms and naming customs.' }, { h: 'Keep names readable', p: 'Elegant sounds can create an elven feel, but a clear spelling makes the name easier to remember and pronounce.' }],
+    cardsTitle: 'Elven naming styles',
+    cards: [{ icon: '🌿', h: 'Woodland elves', p: 'Nature-linked names for rangers, healers, guardians, and hidden forest settlements.' }, { icon: '🌙', h: 'Ancient and high elves', p: 'Formal, melodic names for scholars, noble houses, and long-lived dynasties.' }],
+    faqTitle: 'Elf-name questions',
+    faq: [{ q: 'How can different elf groups sound distinct?', a: 'Give each culture its own preferred syllables, name lengths, and family-name conventions.' }]
+  },
+  anime: {
+    generatorTitle: 'Anime Character Names',
+    generatorSubtitle: 'Find character names that fit a genre, personality, setting, and intended cultural context.',
+    advantages: ['Useful for original casts and fan projects', 'Helps align a name with a character’s role and tone'],
+    limits: ['Generated names are creative suggestions, not proof of authentic cultural usage', 'Check spelling and meaning before presenting a name as Japanese or from another language'],
+    guideTitle: 'Match a character name to the story',
+    guide: [{ h: 'Choose the setting first', p: 'Modern school drama, science fiction, historical fantasy, and action comedy call for different naming choices.' }, { h: 'Balance style and clarity', p: 'A striking name should still be readable and distinguishable from other characters in the same cast.' }],
+    cardsTitle: 'Character-name directions',
+    cards: [{ icon: '🎒', h: 'Contemporary stories', p: 'Clear names for school, slice-of-life, romance-free friendship, and workplace casts.' }, { icon: '⚡', h: 'Action and fantasy', p: 'More dramatic names for rivals, teams, powers, and original fictional worlds.' }],
+    faqTitle: 'Anime-name questions',
+    faq: [{ q: 'Are generated Japanese-style names guaranteed to be authentic?', a: 'No. Verify language, kanji, pronunciation, and cultural meaning with reliable references before claiming authenticity.' }]
+  },
+  startup: {
+    generatorTitle: 'Startup & Venture Names',
+    generatorSubtitle: 'Explore concise company names that communicate a product promise, market, and long-term ambition.',
+    advantages: ['Encourages memorable, pitch-friendly options', 'Can support a name broad enough for future product growth'],
+    limits: ['Availability and trademark status are not checked automatically', 'Avoid names that imply results or capabilities the business cannot deliver'],
+    guideTitle: 'Choose a name for a growing company',
+    guide: [{ h: 'State the value in plain language', p: 'Identify the problem you solve and the audience you serve before choosing abstract, descriptive, or invented wording.' }, { h: 'Test the name outside the pitch deck', p: 'Say it aloud, spell it over a call, and check how it looks in a domain, app icon, and email address.' }],
+    cardsTitle: 'Startup naming approaches',
+    cards: [{ icon: '🚀', h: 'Short invented names', p: 'Distinctive options that may suit technology products and future expansion.' }, { icon: '🧭', h: 'Meaning-led names', p: 'Names that signal a clear mission, customer benefit, or industry focus.' }],
+    faqTitle: 'Startup-name questions',
+    faq: [{ q: 'Does a generated name mean the domain is available?', a: 'No. Check domain registration, company registers, social handles, and relevant trademark databases before committing.' }]
+  },
+  book: {
+    generatorTitle: 'Book Titles & Story Concepts',
+    generatorSubtitle: 'Develop title ideas that reflect a book’s genre, central tension, setting, and emotional promise.',
+    advantages: ['Provides starting points for brainstorming and cover concepts', 'Helps compare direct, atmospheric, and curiosity-driven titles'],
+    limits: ['A title alone cannot communicate the whole story', 'Check existing books and publishing-market conflicts before publication'],
+    guideTitle: 'Find a title that fits the manuscript',
+    guide: [{ h: 'Identify the reader’s promise', p: 'Decide whether the title should signal genre, introduce a central image, suggest a mystery, or foreground the protagonist.' }, { h: 'Test it with the cover removed', p: 'A strong title should be easy to say, reasonably easy to recall, and appropriate for the actual story.' }],
+    cardsTitle: 'Title directions',
+    cards: [{ icon: '📖', h: 'Literary and atmospheric', p: 'Image-led titles for reflective stories, layered themes, and distinctive settings.' }, { icon: '🔎', h: 'Mystery and suspense', p: 'Focused titles that suggest a question, secret, clue, or unresolved conflict.' }],
+    faqTitle: 'Book-title questions',
+    faq: [{ q: 'Can a generated title be published immediately?', a: 'Treat it as a draft. Search catalogues and the web, ask readers for feedback, and confirm any legal or branding concerns.' }]
   },
 };
 

@@ -1069,6 +1069,18 @@ for (const generatorId of ['coffee_shop', 'bakery', 'restaurant'] as const) {
   );
 }
 
+// Kingdom, vampire, and warrior descriptions must cover all priority locales.
+for (const generatorId of ['kingdom', 'vampire', 'warrior'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

@@ -874,6 +874,18 @@ for (const generatorId of ['anime_hero', 'indie_game_studio', 'local_association
   );
 }
 
+// Anime rivals, fictional mentors, and software tools cover all priority locales.
+for (const generatorId of ['anime_rival', 'fictional_mentor', 'software_tool'] as const) {
+  const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
+    (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
+  );
+  assert(
+    failures.length === 0,
+    `${generatorId} has a generator-specific description in all 25 priority languages`,
+    failures.join(', ') || '25 languages checked'
+  );
+}
+
 // -----------------------------------------------------------------------------
 // SUMMARY
 // -----------------------------------------------------------------------------

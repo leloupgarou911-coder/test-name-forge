@@ -246,6 +246,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     fi: { badge: 'SELKEÄT JA REHELLISET VASTAUKSET', title: 'Usein kysytyt kysymykset', description: 'Kaikki olennainen generaattorista, laillisesta käytöstä ja tiedoistasi.', all: 'Kaikki kysymykset (18)', general: 'Yleistä', features: 'Ominaisuudet', technical: 'Tekniikka ja tietosuoja', legal: 'Laki ja tavaramerkit' },
   };
   const faqLabels = faqUi[settings.language] || faqUi.en;
+  const homeSearchUi: Record<string, { title: string; featuredBadge: string; featuredTitle: string; catalog: string }> = {
+    en: { title: 'What would you like to name?', featuredBadge: 'FEATURED PICKS', featuredTitle: 'Popular Generators', catalog: `View the full catalog (${ALL_GENERATORS_LIST.length})` },
+    fr: { title: 'Quel univers souhaitez-vous nommer ?', featuredBadge: 'SÉLECTIONS À DÉCOUVRIR', featuredTitle: 'Générateurs populaires', catalog: `Voir tout le catalogue (${ALL_GENERATORS_LIST.length})` },
+    es: { title: '¿Qué te gustaría nombrar?', featuredBadge: 'SELECCIÓN DESTACADA', featuredTitle: 'Generadores populares', catalog: `Ver el catálogo completo (${ALL_GENERATORS_LIST.length})` },
+    de: { title: 'Was möchtest du benennen?', featuredBadge: 'EMPFOHLENE AUSWAHL', featuredTitle: 'Beliebte Generatoren', catalog: `Gesamten Katalog ansehen (${ALL_GENERATORS_LIST.length})` },
+    it: { title: 'Che cosa vorresti nominare?', featuredBadge: 'SCELTE IN EVIDENZA', featuredTitle: 'Generatori popolari', catalog: `Vedi il catalogo completo (${ALL_GENERATORS_LIST.length})` },
+    pt: { title: 'O que gostaria de nomear?', featuredBadge: 'SELEÇÕES EM DESTAQUE', featuredTitle: 'Geradores populares', catalog: `Ver catálogo completo (${ALL_GENERATORS_LIST.length})` },
+    ar: { title: 'ما الذي ترغب في اختيار اسم له؟', featuredBadge: 'اختيارات مميزة', featuredTitle: 'مولّدات شائعة', catalog: `عرض الفهرس الكامل (${ALL_GENERATORS_LIST.length})` },
+    tr: { title: 'Neye isim vermek istiyorsun?', featuredBadge: 'ÖNE ÇIKAN SEÇİMLER', featuredTitle: 'Popüler oluşturucular', catalog: `Tüm kataloğu gör (${ALL_GENERATORS_LIST.length})` },
+    ja: { title: '何に名前を付けますか？', featuredBadge: 'おすすめ', featuredTitle: '人気のジェネレーター', catalog: `カタログをすべて見る（${ALL_GENERATORS_LIST.length}）` },
+    ko: { title: '무엇의 이름을 만들고 싶으신가요?', featuredBadge: '추천 항목', featuredTitle: '인기 생성기', catalog: `전체 카탈로그 보기 (${ALL_GENERATORS_LIST.length})` },
+    zh: { title: '你想为哪些事物取名？', featuredBadge: '精选推荐', featuredTitle: '热门生成器', catalog: `查看完整目录（${ALL_GENERATORS_LIST.length}）` },
+    ru: { title: 'Для чего вы хотите придумать название?', featuredBadge: 'РЕКОМЕНДУЕМЫЕ ВАРИАНТЫ', featuredTitle: 'Популярные генераторы', catalog: `Весь каталог (${ALL_GENERATORS_LIST.length})` },
+    hi: { title: 'आप किस चीज़ का नाम रखना चाहते हैं?', featuredBadge: 'चुनिंदा विकल्प', featuredTitle: 'लोकप्रिय जनरेटर', catalog: `पूरा कैटलॉग देखें (${ALL_GENERATORS_LIST.length})` },
+    nl: { title: 'Wat wil je een naam geven?', featuredBadge: 'UITGELICHTE KEUZES', featuredTitle: 'Populaire generators', catalog: `Bekijk de volledige catalogus (${ALL_GENERATORS_LIST.length})` },
+    pl: { title: 'Czemu chcesz nadać nazwę?', featuredBadge: 'POLECANE WYBORY', featuredTitle: 'Popularne generatory', catalog: `Zobacz cały katalog (${ALL_GENERATORS_LIST.length})` },
+    sv: { title: 'Vad vill du hitta ett namn till?', featuredBadge: 'UTVALDA TIPS', featuredTitle: 'Populära generatorer', catalog: `Visa hela katalogen (${ALL_GENERATORS_LIST.length})` },
+    vi: { title: 'Bạn muốn đặt tên cho điều gì?', featuredBadge: 'LỰA CHỌN NỔI BẬT', featuredTitle: 'Công cụ tạo tên phổ biến', catalog: `Xem toàn bộ danh mục (${ALL_GENERATORS_LIST.length})` },
+    id: { title: 'Apa yang ingin Anda beri nama?', featuredBadge: 'PILIHAN UNGGULAN', featuredTitle: 'Generator populer', catalog: `Lihat katalog lengkap (${ALL_GENERATORS_LIST.length})` },
+    th: { title: 'คุณต้องการตั้งชื่อให้สิ่งใด?', featuredBadge: 'รายการแนะนำ', featuredTitle: 'เครื่องมือสร้างชื่อยอดนิยม', catalog: `ดูแค็ตตาล็อกทั้งหมด (${ALL_GENERATORS_LIST.length})` },
+    el: { title: 'Τι θα θέλατε να ονομάσετε;', featuredBadge: 'ΠΡΟΤΕΙΝΟΜΕΝΕΣ ΕΠΙΛΟΓΕΣ', featuredTitle: 'Δημοφιλείς γεννήτριες', catalog: `Προβολή πλήρους καταλόγου (${ALL_GENERATORS_LIST.length})` },
+    he: { title: 'למה תרצו לתת שם?', featuredBadge: 'בחירות מומלצות', featuredTitle: 'מחוללים פופולריים', catalog: `צפייה בקטלוג המלא (${ALL_GENERATORS_LIST.length})` },
+    cs: { title: 'Čemu chcete vymyslet název?', featuredBadge: 'DOPORUČENÝ VÝBĚR', featuredTitle: 'Oblíbené generátory', catalog: `Zobrazit celý katalog (${ALL_GENERATORS_LIST.length})` },
+    ro: { title: 'Pentru ce ai dori să găsești un nume?', featuredBadge: 'ALEGERI RECOMANDATE', featuredTitle: 'Generatoare populare', catalog: `Vezi catalogul complet (${ALL_GENERATORS_LIST.length})` },
+    da: { title: 'Hvad vil du finde et navn til?', featuredBadge: 'UDVALGTE FORSLAG', featuredTitle: 'Populære generatorer', catalog: `Se hele kataloget (${ALL_GENERATORS_LIST.length})` },
+    fi: { title: 'Mille haluaisit keksiä nimen?', featuredBadge: 'NOSTOT', featuredTitle: 'Suositut generaattorit', catalog: `Näytä koko luettelo (${ALL_GENERATORS_LIST.length})` },
+  };
+  const homeSearchLabels = homeSearchUi[settings.language] || homeSearchUi.en;
 
   // Filtered FAQ
   const localizedFaq = useMemo(() => getLocalizedFaq(settings.language), [settings.language]);
@@ -501,7 +529,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         <div className="p-8 rounded-3xl bg-gradient-to-br from-[#121a30] via-[#0d1426] to-[#080d1a] border border-purple-500/30 shadow-2xl space-y-5">
           <div className="text-center max-w-lg mx-auto">
             <h3 className="text-xl sm:text-2xl font-black text-white">
-              {settings.language === 'fr' ? 'Quel univers souhaitez-vous nommer ?' : settings.language === 'en' ? 'What would you like to name?' : t.categories.title}
+              {homeSearchLabels.title}
             </h3>
             <p className="text-xs text-slate-400 mt-1">
               {settings.language === 'fr' ? `Recherchez parmi nos ${ALL_GENERATORS_LIST.length} générateurs par besoin, profession ou registre imaginaire.` : settings.language === 'en' ? `Search ${ALL_GENERATORS_LIST.length} generators by need, profession, or fictional theme.` : t.categories.subtitle}
@@ -563,10 +591,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-bold uppercase tracking-wider mb-2">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>{settings.language === 'fr' ? 'SÉLECTIONS LES PLUS FORGÉES' : settings.language === 'en' ? 'FEATURED PICKS' : t.categories.title.toLocaleUpperCase()}</span>
+              <span>{homeSearchLabels.featuredBadge}</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              {settings.language === 'fr' ? 'Générateurs Populaires' : settings.language === 'en' ? 'Popular Generators' : t.categories.title}
+              {homeSearchLabels.featuredTitle}
             </h2>
           </div>
 
@@ -574,7 +602,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             onClick={() => onNavigate('generators')}
             className="text-xs font-bold text-purple-400 hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer"
           >
-            <span>{settings.language === 'fr' ? `Voir l’ensemble du catalogue (${ALL_GENERATORS_LIST.length})` : settings.language === 'en' ? `View the full catalog (${ALL_GENERATORS_LIST.length})` : t.categories.all}</span>
+            <span>{homeSearchLabels.catalog}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

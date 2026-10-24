@@ -326,7 +326,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               }`}
             >
               <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
-              <span>{isSaved ? 'Enregistré' : 'Enregistrer'}</span>
+              <span>{isSaved ? t.saved : t.save}</span>
             </button>
 
             <button
@@ -338,7 +338,7 @@ export const NameDetailsModal: React.FC<NameDetailsModalProps> = ({
               }`}
             >
               <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-current' : ''}`} />
-              <span>{isLiked ? 'Aimé' : 'J’aime'}</span>
+              <span>{isLiked ? t.liked : t.like}</span>
             </button>
 
             <button

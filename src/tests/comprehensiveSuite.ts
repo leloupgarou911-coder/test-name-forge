@@ -118,7 +118,7 @@ for (const locale of PRIORITY_LOCALES) {
 }
 
 // Editorial localization must preserve category-specific guidance, examples, benefits, limits, and FAQs.
-const editorialBatchOne = ['food_truck', 'hotel_name', 'clothing_brand', 'jewelry_brand', 'cosmetics_brand', 'fitness_studio', 'travel_agency', 'real_estate', 'architecture_studio', 'interior_decor'] as const;
+const editorialBatchOne = ['food_truck', 'hotel_name', 'clothing_brand', 'jewelry_brand', 'cosmetics_brand', 'fitness_studio', 'travel_agency', 'real_estate', 'architecture_studio', 'interior_decor', 'fantasy', 'dragon', 'elf', 'anime', 'startup', 'book', 'app', 'domain', 'character', 'videogame', 'kingdom', 'podcast'] as const;
 const editorialCoverageFailures: string[] = [];
 for (const generatorId of editorialBatchOne) {
   const meta = GENERATORS_METADATA[generatorId];
@@ -133,7 +133,7 @@ for (const generatorId of editorialBatchOne) {
 }
 assert(
   editorialCoverageFailures.length === 0,
-  'First 10 business categories have specific English subtitles, guides, examples, advantages, limits, and FAQs',
+  '22 generator categories have specific English subtitles, guides, examples, advantages, limits, and FAQs',
   editorialCoverageFailures.join(', ') || '10 category-specific editorial records checked'
 );
 

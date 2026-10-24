@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../assets/images/nameforge_logo_1791967308354.jpg';
+import logoImg from '../assets/images/82a33697-4af9-41fd-ae0a-940c4c556c06.png';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';

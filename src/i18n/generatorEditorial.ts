@@ -282,8 +282,8 @@ const ENGLISH_EDITORIAL: Partial<Record<GeneratorId, Editorial>> = {
     guide: [{ h: "Test the full name", p: "Say first, middle, and family names together, then check initials and likely nicknames." }, { h: 'Compare shortlisted options', p: 'Say each option aloud, check how it looks in context, and ask likely users for feedback.' }],
     cardsTitle: "Timeless names",
     cards: [{ icon: '✨', h: "Timeless names", p: "Familiar options with established usage and straightforward pronunciation." }, { icon: '🔎', h: 'Practical checks', p: 'Check pronunciation, distinctiveness, and suitability for the intended audience.' }],
-    faqTitle: "Are suggested meanings guaranteed?",
-    faq: [{ q: "No. Verify name origins with reliable references because sources may disagree.", a: 'Review the options carefully and verify important details with reliable sources before making a final choice.' }]
+    faqTitle: "Baby-name questions",
+    faq: [{ q: "Are suggested meanings guaranteed?", a: "No. Verify name origins with reliable references because sources may disagree." }]
   },
   pet_name: {
     generatorTitle: "Pet Name Ideas",

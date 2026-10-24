@@ -763,10 +763,15 @@ assert(
   '10 core generators have specific descriptions in English, French, Spanish, and German',
   specificDescriptionFailures.join(', ')
 );
-// A locale without a reviewed generator-specific entry must be reported honestly.
+// Baby-name guidance is reviewed in every priority locale, not merely category-fallback text.
+const babyNameDescriptionFailures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter((lang) => {
+  const localized = getLocalizedGeneratorDescription(GENERATORS_METADATA.baby_name, lang as any);
+  return !hasLocalizedGeneratorDescription('baby_name', lang as any) || !localized.trim();
+});
 assert(
-  !hasLocalizedGeneratorDescription('baby_name', 'ar'),
-  'Unreviewed generator-specific translations are not falsely reported as complete'
+  babyNameDescriptionFailures.length === 0,
+  'Baby-name guidance has a generator-specific description in all 25 priority languages',
+  babyNameDescriptionFailures.join(', ')
 );
 
 // -----------------------------------------------------------------------------

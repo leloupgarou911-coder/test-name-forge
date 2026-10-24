@@ -1430,7 +1430,34 @@ const GENERATOR_DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = 
     da: "Skab appetitlige navne til retter, opskrifter, menuer og kulinariske koncepter, der passer til ingredienser og stil.",
     fi: "Luo herkullisia nimiä ruoille, resepteille, ruokalistoille ja kulinaarisille konsepteille ainesosien ja tyylin mukaan."
   },
-
+,
+  food_truck: {
+    en: "Create memorable food-truck names that reflect the cuisine, street-food energy, and mobile business.",
+    fr: "Créez des noms de food trucks mémorables qui évoquent la cuisine, l’énergie de la street food et la mobilité.",
+    es: "Crea nombres memorables para food trucks que reflejen la cocina, la energía callejera y la movilidad.",
+    de: "Finde einprägsame Foodtruck-Namen, die Küche, Streetfood-Energie und Mobilität vermitteln.",
+    it: "Crea nomi memorabili per food truck che esprimano cucina, energia dello street food e mobilità.",
+    pt: "Crie nomes marcantes para food trucks que transmitam culinária, energia da comida de rua e mobilidade.",
+    ar: "أنشئ أسماء مميزة لعربات الطعام تعكس المطبخ وحيوية طعام الشارع والتنقل.",
+    tr: "Mutfağı, sokak lezzetlerinin enerjisini ve hareketli işletme yapısını yansıtan food truck adları oluşturun.",
+    ja: "料理、屋台グルメの活気、移動販売の個性が伝わるフードトラック名を作成します。",
+    ko: "음식, 길거리 음식의 활기, 이동형 매장의 개성을 담은 푸드트럭 이름을 만드세요.",
+    zh: "为餐车创作名称，体现菜系特色、街头美食活力和移动经营特点。",
+    ru: "Создавайте названия фудтраков, отражающие кухню, энергию уличной еды и мобильный формат.",
+    hi: "ऐसे फूड ट्रक नाम बनाएँ जो भोजन की शैली, स्ट्रीट फूड की ऊर्जा और गतिशील व्यवसाय को दर्शाएँ।",
+    nl: "Bedenk foodtrucknamen die de keuken, streetfoodenergie en het mobiele karakter weerspiegelen.",
+    pl: "Twórz nazwy food trucków oddające kuchnię, energię street foodu i mobilny charakter działalności.",
+    sv: "Skapa foodtrucknamn som förmedlar maten, streetfoodens energi och verksamhetens mobila karaktär.",
+    vi: "Tạo tên xe bán đồ ăn thể hiện phong cách ẩm thực, sức sống món ăn đường phố và tính lưu động.",
+    id: "Buat nama food truck yang mencerminkan jenis masakan, semangat jajanan jalanan, dan usaha bergerak.",
+    th: "สร้างชื่อรถขายอาหารที่สื่อถึงประเภทอาหาร ความคึกคักของสตรีทฟู้ด และธุรกิจเคลื่อนที่",
+    el: "Δημιουργήστε ονόματα food truck που εκφράζουν την κουζίνα, την ενέργεια του street food και την κινητικότητα.",
+    he: "צרו שמות למשאיות אוכל שמשקפים את סוג המטבח, האנרגיה של אוכל הרחוב והאופי הנייד.",
+    cs: "Vytvářejte názvy food trucků, které vystihují kuchyni, energii street foodu a mobilní provoz.",
+    ro: "Creează nume pentru food truck-uri care reflectă bucătăria, energia mâncării stradale și mobilitatea.",
+    da: "Skab foodtrucknavne, der afspejler køkkenet, streetfoodens energi og virksomhedens mobile karakter.",
+    fi: "Luo ruokarekkien nimiä, jotka kertovat keittiöstä, katuruoan energiasta ja liikkuvasta toiminnasta.",
+  },
 };
 
 export const LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES = Object.keys(LOCALIZED_DESCRIPTIONS);

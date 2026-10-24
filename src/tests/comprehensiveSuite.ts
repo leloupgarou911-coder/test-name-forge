@@ -12,6 +12,7 @@ import { getLocalizedGeneratorTitle, getLocalizedGeneratorShortTitle, LOCALIZED_
 import { getLanguageModalLabels } from '../i18n/languageModal';
 import { getNameDetailsLabels } from '../i18n/nameDetails';
 import { getCollectionModalLabels } from '../i18n/collectionModal';
+import { getCompareModalLabels } from '../i18n/compareModal';
 
 declare const process: { exit: (code: number) => void };
 
@@ -144,6 +145,23 @@ for (const locale of PRIORITY_LOCALES) {
   assert(
     locale === 'fr' || labels.titleNew !== 'Nouvelle collection personnalisée',
     `Collection modal title is localized for ${locale}`
+  );
+}
+
+// Comparison modal labels and fallback content must be localized in all 25 priority locales.
+for (const locale of PRIORITY_LOCALES) {
+  const labels = getCompareModalLabels(locale);
+  assert(
+    Boolean(labels.title.trim() && labels.subtitle.trim() && labels.addName.trim() &&
+      labels.selectFavorite.trim() && labels.empty.trim() && labels.selectTwo.trim() &&
+      labels.remove.trim() && labels.style.trim() && labels.rate.includes('{count}') &&
+      labels.unrated.trim() && labels.chooseCopy.trim() && labels.fallbackTone.trim() &&
+      labels.fallbackDescription.trim() && labels.fallbackBestFor.trim()),
+    `Comparison modal labels exist for ${locale}`
+  );
+  assert(
+    locale === 'fr' || labels.title !== 'Comparateur de noms (2–4)',
+    `Comparison modal title is localized for ${locale}`
   );
 }
 

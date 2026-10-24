@@ -82,6 +82,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     fi: { badge: 'NOPEA NIMIGENERAATTORI', title: 'Kokeile NameForgea yhdellä napsautuksella', description: 'Valitse maailma, lisää halutessasi hakusana ja luo heti 3 nimeä.', regenerate: 'Luo uudelleen', categories: ['Brändit ja yritykset', 'Fantasia ja sankarit', 'Startupit ja tekniikka', 'Lohikäärmeet ja myytit', 'Etunimet', 'Pelaajanimet', 'Ravintola ja kahvila', 'Tekoälyagentti'] },
   };
   const quickCopy = quickForgeCopy[settings.language] || quickForgeCopy.en;
+  const homeCtaCopy: Record<string, { title: string; description: string; browse: string; favorites: string }> = {
+    en: { title: 'Ready to forge the perfect name for your project?', description: `Explore our ${ALL_GENERATORS_LIST.length} themed generators and save your favorite creations to private collections.`, browse: `Explore all ${ALL_GENERATORS_LIST.length} generators`, favorites: 'View my favorites' },
+    fr: { title: '{homeCta.title}', description: `Explorez nos ${ALL_GENERATORS_LIST.length} générateurs thématiques et sauvegardez vos créations préférées dans vos collections privées.`, browse: `Explorer les ${ALL_GENERATORS_LIST.length} générateurs`, favorites: '{homeCta.favorites}' },
+    es: { title: '¿Listo para crear el nombre ideal para tu proyecto?', description: `Explora nuestros ${ALL_GENERATORS_LIST.length} generadores temáticos y guarda tus creaciones favoritas en colecciones privadas.`, browse: `Explorar los ${ALL_GENERATORS_LIST.length} generadores`, favorites: 'Ver mis favoritos' },
+    de: { title: 'Bereit, den idealen Namen für dein Projekt zu finden?', description: `Entdecke unsere ${ALL_GENERATORS_LIST.length} thematischen Generatoren und speichere deine Favoriten in privaten Sammlungen.`, browse: `Alle ${ALL_GENERATORS_LIST.length} Generatoren ansehen`, favorites: 'Meine Favoriten ansehen' },
+    it: { title: 'Pronto a creare il nome ideale per il tuo progetto?', description: `Esplora i nostri ${ALL_GENERATORS_LIST.length} generatori tematici e salva le tue creazioni preferite nelle raccolte private.`, browse: `Esplora tutti i ${ALL_GENERATORS_LIST.length} generatori`, favorites: 'Visualizza i miei preferiti' },
+    pt: { title: 'Pronto para criar o nome ideal para o seu projeto?', description: `Explore os nossos ${ALL_GENERATORS_LIST.length} geradores temáticos e guarde as suas criações favoritas em coleções privadas.`, browse: `Explorar todos os ${ALL_GENERATORS_LIST.length} geradores`, favorites: 'Ver os meus favoritos' },
+    ar: { title: 'هل أنت مستعد لإنشاء الاسم المثالي لمشروعك؟', description: `استكشف ${ALL_GENERATORS_LIST.length} مولّدًا حسب الموضوع واحفظ إبداعاتك المفضلة في مجموعات خاصة.`, browse: `استكشف جميع المولّدات وعددها ${ALL_GENERATORS_LIST.length}`, favorites: 'عرض المفضلة' },
+    tr: { title: 'Projen için ideal ismi oluşturmaya hazır mısın?', description: `Temalı ${ALL_GENERATORS_LIST.length} isim oluşturucumuzu keşfet ve favori çalışmalarını özel koleksiyonlarında sakla.`, browse: `${ALL_GENERATORS_LIST.length} oluşturucunun tümünü keşfet`, favorites: 'Favorilerimi görüntüle' },
+    ja: { title: 'プロジェクトにぴったりの名前を作りませんか？', description: `${ALL_GENERATORS_LIST.length}種類のテーマ別ジェネレーターを探索し、お気に入りをプライベートコレクションに保存できます。`, browse: `${ALL_GENERATORS_LIST.length}種類すべてのジェネレーターを見る`, favorites: 'お気に入りを見る' },
+    ko: { title: '프로젝트에 꼭 맞는 이름을 만들 준비가 되셨나요?', description: `테마별 생성기 ${ALL_GENERATORS_LIST.length}개를 살펴보고 마음에 드는 결과를 비공개 컬렉션에 저장하세요.`, browse: `${ALL_GENERATORS_LIST.length}개 생성기 모두 보기`, favorites: '즐겨찾기 보기' },
+    zh: { title: '准备好为你的项目打造理想名称了吗？', description: `探索我们的 ${ALL_GENERATORS_LIST.length} 个主题生成器，并将喜欢的结果保存到私人收藏集中。`, browse: `浏览全部 ${ALL_GENERATORS_LIST.length} 个生成器`, favorites: '查看我的收藏' },
+    ru: { title: 'Готовы подобрать идеальное имя для своего проекта?', description: `Изучите ${ALL_GENERATORS_LIST.length} тематических генераторов и сохраняйте понравившиеся варианты в личных коллекциях.`, browse: `Все генераторы: ${ALL_GENERATORS_LIST.length}`, favorites: 'Мои избранные' },
+    hi: { title: 'क्या आप अपने प्रोजेक्ट के लिए सही नाम बनाने को तैयार हैं?', description: `हमारे ${ALL_GENERATORS_LIST.length} विषयगत जनरेटर देखें और पसंदीदा नाम निजी संग्रहों में सहेजें।`, browse: `सभी ${ALL_GENERATORS_LIST.length} जनरेटर देखें`, favorites: 'मेरे पसंदीदा देखें' },
+    nl: { title: 'Klaar om de perfecte naam voor je project te bedenken?', description: `Ontdek onze ${ALL_GENERATORS_LIST.length} thematische generators en bewaar je favorieten in privécollecties.`, browse: `Bekijk alle ${ALL_GENERATORS_LIST.length} generators`, favorites: 'Mijn favorieten bekijken' },
+    pl: { title: 'Gotowy, aby stworzyć idealną nazwę dla swojego projektu?', description: `Poznaj nasze ${ALL_GENERATORS_LIST.length} tematycznych generatorów i zapisuj ulubione propozycje w prywatnych kolekcjach.`, browse: `Zobacz wszystkie generatory (${ALL_GENERATORS_LIST.length})`, favorites: 'Zobacz moje ulubione' },
+    sv: { title: 'Redo att skapa det perfekta namnet för ditt projekt?', description: `Utforska våra ${ALL_GENERATORS_LIST.length} tematiska generatorer och spara favoriter i privata samlingar.`, browse: `Utforska alla ${ALL_GENERATORS_LIST.length} generatorer`, favorites: 'Visa mina favoriter' },
+    vi: { title: 'Sẵn sàng tạo tên hoàn hảo cho dự án của bạn?', description: `Khám phá ${ALL_GENERATORS_LIST.length} công cụ tạo tên theo chủ đề và lưu các lựa chọn yêu thích vào bộ sưu tập riêng.`, browse: `Khám phá tất cả ${ALL_GENERATORS_LIST.length} công cụ`, favorites: 'Xem mục yêu thích' },
+    id: { title: 'Siap membuat nama yang tepat untuk proyek Anda?', description: `Jelajahi ${ALL_GENERATORS_LIST.length} generator bertema dan simpan hasil favorit dalam koleksi pribadi.`, browse: `Jelajahi semua ${ALL_GENERATORS_LIST.length} generator`, favorites: 'Lihat favorit saya' },
+    th: { title: 'พร้อมสร้างชื่อที่เหมาะกับโปรเจกต์ของคุณหรือยัง?', description: `สำรวจเครื่องมือสร้างชื่อตามธีม ${ALL_GENERATORS_LIST.length} รายการ และบันทึกชื่อที่ชอบไว้ในคอลเลกชันส่วนตัว`, browse: `ดูเครื่องมือสร้างชื่อทั้งหมด ${ALL_GENERATORS_LIST.length} รายการ`, favorites: 'ดูรายการโปรดของฉัน' },
+    el: { title: 'Έτοιμοι να δημιουργήσετε το ιδανικό όνομα για το έργο σας;', description: `Εξερευνήστε τις ${ALL_GENERATORS_LIST.length} θεματικές γεννήτριές μας και αποθηκεύστε τις αγαπημένες σας δημιουργίες σε ιδιωτικές συλλογές.`, browse: `Δείτε και τις ${ALL_GENERATORS_LIST.length} γεννήτριες`, favorites: 'Προβολή αγαπημένων' },
+    he: { title: 'מוכנים ליצור את השם המושלם לפרויקט שלכם?', description: `גלו את ${ALL_GENERATORS_LIST.length} מחוללי השמות לפי נושא ושמרו יצירות מועדפות באוספים פרטיים.`, browse: `לכל ${ALL_GENERATORS_LIST.length} המחוללים`, favorites: 'הצגת המועדפים שלי' },
+    cs: { title: 'Jste připraveni vytvořit ideální název pro svůj projekt?', description: `Prozkoumejte našich ${ALL_GENERATORS_LIST.length} tematických generátorů a ukládejte oblíbené návrhy do soukromých kolekcí.`, browse: `Prozkoumat všech ${ALL_GENERATORS_LIST.length} generátorů`, favorites: 'Zobrazit oblíbené' },
+    ro: { title: 'Ești gata să creezi numele ideal pentru proiectul tău?', description: `Explorează cei ${ALL_GENERATORS_LIST.length} de generatori tematici și salvează creațiile preferate în colecții private.`, browse: `Explorează toți cei ${ALL_GENERATORS_LIST.length} de generatori`, favorites: 'Vezi favoritele mele' },
+    da: { title: 'Klar til at skabe det perfekte navn til dit projekt?', description: `Udforsk vores ${ALL_GENERATORS_LIST.length} tematiske generatorer, og gem dine favoritter i private samlinger.`, browse: `Udforsk alle ${ALL_GENERATORS_LIST.length} generatorer`, favorites: 'Se mine favoritter' },
+    fi: { title: 'Valmis luomaan projektiisi täydellisen nimen?', description: `Tutustu ${ALL_GENERATORS_LIST.length} teemakohtaiseen generaattoriimme ja tallenna suosikkisi yksityisiin kokoelmiin.`, browse: `Tutustu kaikkiin ${ALL_GENERATORS_LIST.length} generaattoriin`, favorites: 'Näytä suosikkini' },
+  };
+  const homeCta = homeCtaCopy[settings.language] || homeCtaCopy.en;
 
   const refreshSaved = () => {
     setSavedEntries(getSavedNames());
@@ -925,14 +953,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             Prêt à forger le nom idéal pour votre projet ?
           </h2>
           <p className="text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-            Naviguez dès maintenant parmi nos {ALL_GENERATORS_LIST.length} générateurs thématiques et sauvegardez vos créations préférées dans vos collections privées.
+            {homeCta.description}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <button
               onClick={() => onNavigate('generators')}
               className="py-3 px-8 rounded-2xl bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-extrabold text-sm shadow-xl shadow-purple-600/30 transition cursor-pointer"
             >
-              Explorer les {ALL_GENERATORS_LIST.length} Générateurs
+              {homeCta.browse}
             </button>
             <button
               onClick={() => onNavigate('my-names')}

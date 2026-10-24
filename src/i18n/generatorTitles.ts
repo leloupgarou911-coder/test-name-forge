@@ -10,7 +10,7 @@ type CoreGeneratorId =
   | 'fantasy' | 'dragon' | 'elf' | 'anime' | 'brand' | 'business'
   | 'startup' | 'domain' | 'app' | 'book' | 'character' | 'videogame'
   | 'rpg' | 'gaming' | 'baby_name' | 'pet_name' | 'coffee_shop' | 'bakery' | 'restaurant'
-  | 'kingdom' | 'vampire' | 'warrior' | 'sci-fi';
+  | 'kingdom' | 'vampire' | 'warrior' | 'sci-fi' | 'wizard' | 'guild';
 
 const SUBJECTS: Record<typeof PRIORITY_LOCALES[number], Record<CoreGeneratorId, string>> = {
   en: { fantasy: 'fantasy', dragon: 'dragons', elf: 'elves', anime: 'anime', brand: 'brands', business: 'businesses', startup: 'startups', domain: 'web domains', app: 'apps', book: 'books and novels', character: 'characters', videogame: 'video games', rpg: 'RPGs', gaming: 'gaming and esports', baby_name: 'baby names', pet_name: 'pet names' , coffee_shop: 'coffee shops', bakery: 'bakeries' , restaurant: 'restaurants' , kingdom: "kingdoms", vampire: "vampires", warrior: "warriors" , 'sci-fi': "science fiction", wizard: "wizards", guild: "guilds" },

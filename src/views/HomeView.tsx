@@ -330,6 +330,34 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
     fi: { keywordPlaceholder: 'Hakusana tai inspiraation aihe (esim. Nova, Wolf, Luna, Spark, Zen)…', apply: 'Käytä', advancedHint: 'Pidätkö ehdotuksista? Tutustu lisäasetuksiin:', openGenerator: 'Täysi generaattori' },
   };
   const quickSearchLabels = quickSearchUi[settings.language] || quickSearchUi.en;
+  const topRatedUi: Record<string, { badge: string; notice: string; filterLabel: string; fantasy: string; business: string; creative: string; innovation: string; stars: string }> = {
+    en: { badge: 'INDEPENDENT USER RATINGS', notice: 'Your personal ranking uses your actual 1–5 star ratings stored in this browser.', filterLabel: 'Filter by category:', fantasy: 'Fantasy, Myths & Games', business: 'Business & Brands', creative: 'Creative & eSports', innovation: 'Systems & Web3', stars: 'stars' },
+    fr: { badge: 'PALMARÈS INDÉPENDANT DES ÉVALUATIONS', notice: 'Classement personnel établi d’après vos véritables notes par étoiles (1 à 5★) stockées sur ce navigateur.', filterLabel: 'Filtrer par domaine :', fantasy: 'Fantasy, mythes et jeux', business: 'Entreprises et marques', creative: 'Création et eSport', innovation: 'Systèmes et Web3', stars: 'étoiles' },
+    es: { badge: 'VALORACIONES INDEPENDIENTES', notice: 'Tu clasificación personal usa tus valoraciones reales de 1 a 5 estrellas guardadas en este navegador.', filterLabel: 'Filtrar por categoría:', fantasy: 'Fantasía, mitos y juegos', business: 'Empresas y marcas', creative: 'Creatividad y eSports', innovation: 'Sistemas y Web3', stars: 'estrellas' },
+    de: { badge: 'UNABHÄNGIGE NUTZERBEWERTUNGEN', notice: 'Deine persönliche Rangliste basiert auf deinen echten Bewertungen von 1 bis 5 Sternen in diesem Browser.', filterLabel: 'Nach Kategorie filtern:', fantasy: 'Fantasy, Mythen & Spiele', business: 'Unternehmen & Marken', creative: 'Kreatives & eSports', innovation: 'Systeme & Web3', stars: 'Sterne' },
+    it: { badge: 'VALUTAZIONI INDIPENDENTI DEGLI UTENTI', notice: 'La tua classifica personale usa le valutazioni reali da 1 a 5 stelle salvate in questo browser.', filterLabel: 'Filtra per categoria:', fantasy: 'Fantasy, miti e giochi', business: 'Aziende e marchi', creative: 'Creatività ed eSport', innovation: 'Sistemi e Web3', stars: 'stelle' },
+    pt: { badge: 'AVALIAÇÕES INDEPENDENTES DOS UTILIZADORES', notice: 'A tua classificação pessoal usa as avaliações reais de 1 a 5 estrelas guardadas neste navegador.', filterLabel: 'Filtrar por categoria:', fantasy: 'Fantasia, mitos e jogos', business: 'Empresas e marcas', creative: 'Criatividade e eSports', innovation: 'Sistemas e Web3', stars: 'estrelas' },
+    ar: { badge: 'تقييمات المستخدمين المستقلة', notice: 'يعتمد ترتيبك الشخصي على تقييماتك الفعلية من نجمة إلى خمس نجوم المحفوظة في هذا المتصفح.', filterLabel: 'تصفية حسب الفئة:', fantasy: 'الخيال والأساطير والألعاب', business: 'الشركات والعلامات التجارية', creative: 'الإبداع والرياضات الإلكترونية', innovation: 'الأنظمة وWeb3', stars: 'نجوم' },
+    tr: { badge: 'BAĞIMSIZ KULLANICI PUANLARI', notice: 'Kişisel sıralamanız bu tarayıcıda saklanan gerçek 1–5 yıldız puanlarınızı kullanır.', filterLabel: 'Kategoriye göre filtrele:', fantasy: 'Fantastik, Mitler ve Oyunlar', business: 'Şirketler ve Markalar', creative: 'Yaratıcılık ve eSpor', innovation: 'Sistemler ve Web3', stars: 'yıldız' },
+    ja: { badge: 'ユーザーによる独立評価', notice: '個人ランキングには、このブラウザーに保存された実際の1〜5つ星評価が使われます。', filterLabel: 'カテゴリで絞り込む：', fantasy: 'ファンタジー・神話・ゲーム', business: '企業・ブランド', creative: 'クリエイティブ・eスポーツ', innovation: 'システム・Web3', stars: 'つ星' },
+    ko: { badge: '독립 사용자 평점', notice: '개인 순위는 이 브라우저에 저장된 실제 1~5점 별점을 사용합니다.', filterLabel: '카테고리 필터:', fantasy: '판타지·신화·게임', business: '기업·브랜드', creative: '창작·e스포츠', innovation: '시스템·Web3', stars: '별' },
+    zh: { badge: '独立用户评分', notice: '个人排名依据保存在此浏览器中的真实 1–5 星评分。', filterLabel: '按类别筛选：', fantasy: '奇幻、神话与游戏', business: '企业与品牌', creative: '创意与电子竞技', innovation: '系统与 Web3', stars: '星' },
+    ru: { badge: 'НЕЗАВИСИМЫЕ ОЦЕНКИ ПОЛЬЗОВАТЕЛЕЙ', notice: 'Личный рейтинг основан на ваших реальных оценках от 1 до 5 звёзд, сохранённых в этом браузере.', filterLabel: 'Фильтр по категории:', fantasy: 'Фэнтези, мифы и игры', business: 'Компании и бренды', creative: 'Творчество и киберспорт', innovation: 'Системы и Web3', stars: 'звёзд' },
+    hi: { badge: 'स्वतंत्र उपयोगकर्ता रेटिंग', notice: 'आपकी व्यक्तिगत रैंकिंग इस ब्राउज़र में सहेजी गई आपकी वास्तविक 1–5 स्टार रेटिंग का उपयोग करती है।', filterLabel: 'श्रेणी के अनुसार फ़िल्टर करें:', fantasy: 'फैंटेसी, मिथक और गेम', business: 'व्यवसाय और ब्रांड', creative: 'रचनात्मकता और ई-स्पोर्ट्स', innovation: 'सिस्टम और Web3', stars: 'स्टार' },
+    nl: { badge: 'ONAFHANKELIJKE GEBRUIKERSBEOORDELINGEN', notice: 'Je persoonlijke ranglijst gebruikt je echte beoordelingen van 1 tot 5 sterren die in deze browser zijn opgeslagen.', filterLabel: 'Filter op categorie:', fantasy: 'Fantasy, mythen en games', business: 'Bedrijven en merken', creative: 'Creatief en eSports', innovation: 'Systemen en Web3', stars: 'sterren' },
+    pl: { badge: 'NIEZALEŻNE OCENY UŻYTKOWNIKÓW', notice: 'Twój ranking wykorzystuje rzeczywiste oceny od 1 do 5 gwiazdek zapisane w tej przeglądarce.', filterLabel: 'Filtruj według kategorii:', fantasy: 'Fantasy, mity i gry', business: 'Firmy i marki', creative: 'Kreatywność i e-sport', innovation: 'Systemy i Web3', stars: 'gwiazdek' },
+    sv: { badge: 'OBEROENDE ANVÄNDARBETYG', notice: 'Din personliga ranking använder dina faktiska betyg från 1 till 5 stjärnor som sparats i den här webbläsaren.', filterLabel: 'Filtrera efter kategori:', fantasy: 'Fantasy, myter och spel', business: 'Företag och varumärken', creative: 'Kreativitet och e-sport', innovation: 'System och Web3', stars: 'stjärnor' },
+    vi: { badge: 'ĐÁNH GIÁ ĐỘC LẬP CỦA NGƯỜI DÙNG', notice: 'Bảng xếp hạng cá nhân dùng đánh giá 1–5 sao thực tế được lưu trong trình duyệt này.', filterLabel: 'Lọc theo danh mục:', fantasy: 'Fantasy, thần thoại và trò chơi', business: 'Doanh nghiệp và thương hiệu', creative: 'Sáng tạo và thể thao điện tử', innovation: 'Hệ thống và Web3', stars: 'sao' },
+    id: { badge: 'PENILAIAN PENGGUNA INDEPENDEN', notice: 'Peringkat pribadi menggunakan penilaian nyata 1–5 bintang yang tersimpan di browser ini.', filterLabel: 'Filter berdasarkan kategori:', fantasy: 'Fantasi, mitos, dan game', business: 'Bisnis dan merek', creative: 'Kreatif dan eSports', innovation: 'Sistem dan Web3', stars: 'bintang' },
+    th: { badge: 'คะแนนจากผู้ใช้โดยอิสระ', notice: 'อันดับส่วนตัวใช้คะแนนจริง 1–5 ดาวที่บันทึกไว้ในเบราว์เซอร์นี้', filterLabel: 'กรองตามหมวดหมู่:', fantasy: 'แฟนตาซี ตำนาน และเกม', business: 'ธุรกิจและแบรนด์', creative: 'งานสร้างสรรค์และอีสปอร์ต', innovation: 'ระบบและ Web3', stars: 'ดาว' },
+    el: { badge: 'ΑΝΕΞΑΡΤΗΤΕΣ ΑΞΙΟΛΟΓΗΣΕΙΣ ΧΡΗΣΤΩΝ', notice: 'Η προσωπική κατάταξη χρησιμοποιεί τις πραγματικές βαθμολογίες 1–5 αστέρων που είναι αποθηκευμένες σε αυτό το πρόγραμμα περιήγησης.', filterLabel: 'Φιλτράρισμα ανά κατηγορία:', fantasy: 'Φαντασία, μύθοι και παιχνίδια', business: 'Επιχειρήσεις και επωνυμίες', creative: 'Δημιουργία και eSports', innovation: 'Συστήματα και Web3', stars: 'αστέρια' },
+    he: { badge: 'דירוגי משתמשים עצמאיים', notice: 'הדירוג האישי מבוסס על דירוגי 1–5 כוכבים אמיתיים שנשמרו בדפדפן הזה.', filterLabel: 'סינון לפי קטגוריה:', fantasy: 'פנטזיה, מיתוסים ומשחקים', business: 'עסקים ומותגים', creative: 'יצירה וספורט אלקטרוני', innovation: 'מערכות ו-Web3', stars: 'כוכבים' },
+    cs: { badge: 'NEZÁVISLÁ HODNOCENÍ UŽIVATELŮ', notice: 'Osobní žebříček používá vaše skutečná hodnocení 1–5 hvězdičkami uložená v tomto prohlížeči.', filterLabel: 'Filtrovat podle kategorie:', fantasy: 'Fantasy, mýty a hry', business: 'Firmy a značky', creative: 'Tvorba a eSport', innovation: 'Systémy a Web3', stars: 'hvězdičky' },
+    ro: { badge: 'EVALUĂRI INDEPENDENTE ALE UTILIZATORILOR', notice: 'Clasamentul personal folosește evaluările reale de la 1 la 5 stele salvate în acest browser.', filterLabel: 'Filtrează după categorie:', fantasy: 'Fantasy, mituri și jocuri', business: 'Companii și mărci', creative: 'Creativitate și eSports', innovation: 'Sisteme și Web3', stars: 'stele' },
+    da: { badge: 'UAFHÆNGIGE BRUGERVURDERINGER', notice: 'Din personlige rangliste bruger dine faktiske vurderinger fra 1 til 5 stjerner gemt i denne browser.', filterLabel: 'Filtrer efter kategori:', fantasy: 'Fantasy, myter og spil', business: 'Virksomheder og brands', creative: 'Kreativitet og e-sport', innovation: 'Systemer og Web3', stars: 'stjerner' },
+    fi: { badge: 'RIIPPUMATTOMAT KÄYTTÄJÄARVIOT', notice: 'Henkilökohtainen järjestys käyttää tähän selaimeen tallennettuja todellisia 1–5 tähden arvioitasi.', filterLabel: 'Suodata kategorian mukaan:', fantasy: 'Fantasia, myytit ja pelit', business: 'Yritykset ja brändit', creative: 'Luovuus ja e-urheilu', innovation: 'Järjestelmät ja Web3', stars: 'tähteä' },
+  };
+  const topRatedLabels = topRatedUi[settings.language] || topRatedUi.en;
 
   // Filtered FAQ
   const localizedFaq = useMemo(() => getLocalizedFaq(settings.language), [settings.language]);
@@ -777,7 +805,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
                 <Award className="w-3.5 h-3.5" />
-                <span>{settings.language === 'fr' ? 'PALMARÈS INDÉPENDANT DES ÉVALUATIONS' : settings.language === 'en' ? 'INDEPENDENT USER RATINGS' : t.topRated.title.toLocaleUpperCase()}</span>
+                <span>{topRatedLabels.badge}</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
                 {t.topRated.title}
@@ -788,13 +816,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             </div>
 
             <div className="text-xs text-slate-400 font-semibold bg-slate-800/60 px-3.5 py-2 rounded-xl border border-slate-700/60 max-w-md">
-              <span>{settings.language === 'fr' ? 'Classement personnel établi d’après vos véritables notes par étoiles (1 à 5★) stockées sur ce navigateur.' : settings.language === 'en' ? 'Your personal ranking uses your actual 1–5 star ratings stored in this browser.' : t.topRated.noticeText}</span>
+              <span>{topRatedLabels.notice}</span>
             </div>
           </div>
 
           {/* Category Filter Tabs for Top Rated */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-slate-400 font-bold mr-1">{settings.language === 'fr' ? 'Filtrer par domaine :' : settings.language === 'en' ? 'Filter by category:' : t.topRated.filterAll}</span>
+            <span className="text-xs text-slate-400 font-bold mr-1">{topRatedLabels.filterLabel}</span>
             <button
               onClick={() => setRatedCategoryFilter('all')}
               className={`py-1.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer ${
@@ -813,7 +841,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
               }`}
             >
-              ✨ Fantasy, Mythes & Jeux
+              ✨ {topRatedLabels.fantasy}
             </button>
             <button
               onClick={() => setRatedCategoryFilter('business')}
@@ -823,7 +851,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
               }`}
             >
-              🏢 Entreprises & Marques
+              🏢 {topRatedLabels.business}
             </button>
             <button
               onClick={() => setRatedCategoryFilter('creative')}
@@ -833,7 +861,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
               }`}
             >
-              🎨 Création & eSport
+              🎨 {topRatedLabels.creative}
             </button>
             <button
               onClick={() => setRatedCategoryFilter('innovation')}
@@ -843,7 +871,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
               }`}
             >
-              🚀 Systèmes & Web3
+              🚀 {topRatedLabels.innovation}
             </button>
           </div>
 
@@ -859,7 +887,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1">
                         <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                        <span>{entry.rating || 5}/5 étoiles</span>
+                        <span>{entry.rating || 5}/5 {topRatedLabels.stars}</span>
                       </span>
                       <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">
                         {entry.generator}

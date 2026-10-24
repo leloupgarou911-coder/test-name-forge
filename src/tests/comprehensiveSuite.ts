@@ -41,7 +41,7 @@ const PRIORITY_LOCALES = [
 for (const locale of PRIORITY_LOCALES) {
   const labels = getShellLabels(locale);
   assert(
-    Boolean(labels.skipToMain.trim() && labels.loading.trim()),
+    Boolean(labels.skipToMain.trim() && labels.loading.trim() && labels.mainNavigation.trim()),
     `Shell accessibility and loading labels exist for ${locale}`
   );
   assert(

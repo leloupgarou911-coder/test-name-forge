@@ -84,7 +84,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
   const quickCopy = quickForgeCopy[settings.language] || quickForgeCopy.en;
   const homeCtaCopy: Record<string, { title: string; description: string; browse: string; favorites: string }> = {
     en: { title: 'Ready to forge the perfect name for your project?', description: `Explore our ${ALL_GENERATORS_LIST.length} themed generators and save your favorite creations to private collections.`, browse: `Explore all ${ALL_GENERATORS_LIST.length} generators`, favorites: 'View my favorites' },
-    fr: { title: '{homeCta.title}', description: `Explorez nos ${ALL_GENERATORS_LIST.length} générateurs thématiques et sauvegardez vos créations préférées dans vos collections privées.`, browse: `Explorer les ${ALL_GENERATORS_LIST.length} générateurs`, favorites: '{homeCta.favorites}' },
+    fr: { title: 'Prêt à forger le nom idéal pour votre projet ?', description: `Explorez nos ${ALL_GENERATORS_LIST.length} générateurs thématiques et sauvegardez vos créations préférées dans vos collections privées.`, browse: `Explorer les ${ALL_GENERATORS_LIST.length} générateurs`, favorites: 'Consulter mes favoris' },
     es: { title: '¿Listo para crear el nombre ideal para tu proyecto?', description: `Explora nuestros ${ALL_GENERATORS_LIST.length} generadores temáticos y guarda tus creaciones favoritas en colecciones privadas.`, browse: `Explorar los ${ALL_GENERATORS_LIST.length} generadores`, favorites: 'Ver mis favoritos' },
     de: { title: 'Bereit, den idealen Namen für dein Projekt zu finden?', description: `Entdecke unsere ${ALL_GENERATORS_LIST.length} thematischen Generatoren und speichere deine Favoriten in privaten Sammlungen.`, browse: `Alle ${ALL_GENERATORS_LIST.length} Generatoren ansehen`, favorites: 'Meine Favoriten ansehen' },
     it: { title: 'Pronto a creare il nome ideale per il tuo progetto?', description: `Esplora i nostri ${ALL_GENERATORS_LIST.length} generatori tematici e salva le tue creazioni preferite nelle raccolte private.`, browse: `Esplora tutti i ${ALL_GENERATORS_LIST.length} generatori`, favorites: 'Visualizza i miei preferiti' },
@@ -950,7 +950,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
       <section className="max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-8">
         <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-purple-900/50 via-indigo-900/40 to-cyan-900/40 border border-purple-500/40 shadow-2xl text-center space-y-6">
           <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            Prêt à forger le nom idéal pour votre projet ?
+            {homeCta.title}
           </h2>
           <p className="text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
             {homeCta.description}
@@ -966,7 +966,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('my-names')}
               className="py-3 px-6 rounded-2xl bg-slate-800/90 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition cursor-pointer"
             >
-              Consulter mes favoris
+              {homeCta.favorites}
             </button>
           </div>
         </div>

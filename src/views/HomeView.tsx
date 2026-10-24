@@ -131,7 +131,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         getLocalizedGeneratorDescription(gen, settings.language).toLowerCase().includes(q) || gen.description.toLowerCase().includes(q) ||
         gen.badge.toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [searchQuery, settings.language]);
 
   // Featured Generators
   const featuredGenerators = useMemo(() => {
@@ -371,7 +371,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder="Mot-clé ou thème d'inspiration (ex: Nova, Wolf, Luna, Spark, Zen)..."
+                placeholder={settings.language === 'fr' ? "Mot-clé ou thème d’inspiration (ex. Nova, Wolf, Luna, Spark, Zen)…" : settings.language === 'en' ? "Keyword or inspiration theme (e.g. Nova, Wolf, Luna, Spark, Zen)…" : t.nav.searchPlaceholder}
                 value={quickKeyword}
                 onChange={(e) => setQuickKeyword(e.target.value)}
                 onKeyDown={(e) => {
@@ -401,13 +401,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
 
           <div className="pt-2 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800/80">
             <span>
-              Vous aimez ces propositions ? Accédez aux options approfondies :
+              {settings.language === 'fr' ? 'Vous aimez ces propositions ? Accédez aux options approfondies :' : settings.language === 'en' ? 'Like these suggestions? Explore advanced options:' : t.generatorControl.styleLabel}
             </span>
             <button
               onClick={() => onNavigate('generator-detail', quickGenId)}
               className="text-cyan-300 hover:text-cyan-200 font-bold flex items-center gap-1 cursor-pointer"
             >
-              <span>Générateur complet {GENERATORS_METADATA[quickGenId]?.shortTitle || ''}</span>
+              <span>{settings.language === 'fr' ? 'Générateur complet' : settings.language === 'en' ? 'Full generator' : t.categories.openGenerator} {GENERATORS_METADATA[quickGenId]?.shortTitle || ''}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -473,10 +473,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
         <div className="p-8 rounded-3xl bg-gradient-to-br from-[#121a30] via-[#0d1426] to-[#080d1a] border border-purple-500/30 shadow-2xl space-y-5">
           <div className="text-center max-w-lg mx-auto">
             <h3 className="text-xl sm:text-2xl font-black text-white">
-              Quel univers souhaitez-vous nommer ?
+              {settings.language === 'fr' ? 'Quel univers souhaitez-vous nommer ?' : settings.language === 'en' ? 'What would you like to name?' : t.categories.title}
             </h3>
             <p className="text-xs text-slate-400 mt-1">
-              Recherchez parmi nos {ALL_GENERATORS_LIST.length} générateurs par besoin, profession ou registre imaginaire.
+              {settings.language === 'fr' ? `Recherchez parmi nos ${ALL_GENERATORS_LIST.length} générateurs par besoin, profession ou registre imaginaire.` : settings.language === 'en' ? `Search ${ALL_GENERATORS_LIST.length} generators by need, profession, or fictional theme.` : t.categories.subtitle}
             </p>
           </div>
 
@@ -485,7 +485,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <Search className="w-5 h-5 text-purple-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Ex : marque, startup, dragon, roman, podcast, elfe, jeu vidéo..."
+              placeholder={settings.language === 'fr' ? "Ex. : marque, startup, dragon, roman, podcast, elfe, jeu vidéo…" : settings.language === 'en' ? "E.g. brand, startup, dragon, novel, podcast, elf, video game…" : t.nav.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-13 pl-12 pr-4 bg-[#070b16] border border-slate-700/80 rounded-2xl text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 shadow-inner"
@@ -496,9 +496,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           {searchQuery.trim() && (
             <div className="pt-2 animate-fade-in space-y-2">
               <div className="text-xs font-bold text-slate-400 flex items-center justify-between">
-                <span>{searchedGenerators.length} générateur(s) trouvé(s)</span>
+                <span>{settings.language === 'fr' ? `${searchedGenerators.length} générateur(s) trouvé(s)` : `${searchedGenerators.length} generator(s) found`}</span>
                 {searchedGenerators.length === 0 && (
-                  <span className="text-rose-400">Aucun résultat exact, essayez d'autres mots-clés</span>
+                  <span className="text-rose-400">{settings.language === 'fr' ? "Aucun résultat exact, essayez d'autres mots-clés" : settings.language === 'en' ? 'No exact matches; try different keywords' : t.topRated.emptyText}</span>
                 )}
               </div>
 
@@ -535,10 +535,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-bold uppercase tracking-wider mb-2">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>SÉLECTIONS LES PLUS FORGÉES</span>
+              <span>{settings.language === 'fr' ? 'SÉLECTIONS LES PLUS FORGÉES' : settings.language === 'en' ? 'FEATURED PICKS' : t.categories.title.toLocaleUpperCase()}</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-              Générateurs Populaires
+              {settings.language === 'fr' ? 'Générateurs Populaires' : settings.language === 'en' ? 'Popular Generators' : t.categories.title}
             </h2>
           </div>
 
@@ -546,7 +546,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             onClick={() => onNavigate('generators')}
             className="text-xs font-bold text-purple-400 hover:text-purple-300 transition flex items-center gap-1.5 cursor-pointer"
           >
-            <span>Voir l'ensemble du catalogue ({ALL_GENERATORS_LIST.length})</span>
+            <span>{settings.language === 'fr' ? `Voir l’ensemble du catalogue (${ALL_GENERATORS_LIST.length})` : settings.language === 'en' ? `View the full catalog (${ALL_GENERATORS_LIST.length})` : t.categories.all}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -584,7 +584,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('generator-detail', gen.id)}
                   className="py-1.5 px-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-1 transition cursor-pointer shadow-md shadow-purple-600/30"
                 >
-                  <span>Lancer</span>
+                  <span>{t.categories.openGenerator}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -665,7 +665,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
                 <Award className="w-3.5 h-3.5" />
-                <span>PALMARÈS INDÉPENDANT DES ÉVALUATIONS</span>
+                <span>{settings.language === 'fr' ? 'PALMARÈS INDÉPENDANT DES ÉVALUATIONS' : settings.language === 'en' ? 'INDEPENDENT USER RATINGS' : t.topRated.title.toLocaleUpperCase()}</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
                 {t.topRated.title}
@@ -676,13 +676,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             </div>
 
             <div className="text-xs text-slate-400 font-semibold bg-slate-800/60 px-3.5 py-2 rounded-xl border border-slate-700/60 max-w-md">
-              <span>Classement personnel établi d’après vos véritables notes par étoiles (1 à 5★) stockées sur ce navigateur.</span>
+              <span>{settings.language === 'fr' ? 'Classement personnel établi d’après vos véritables notes par étoiles (1 à 5★) stockées sur ce navigateur.' : settings.language === 'en' ? 'Your personal ranking uses your actual 1–5 star ratings stored in this browser.' : t.topRated.noticeText}</span>
             </div>
           </div>
 
           {/* Category Filter Tabs for Top Rated */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-slate-400 font-bold mr-1">Filtrer par domaine :</span>
+            <span className="text-xs text-slate-400 font-bold mr-1">{settings.language === 'fr' ? 'Filtrer par domaine :' : settings.language === 'en' ? 'Filter by category:' : t.topRated.filterAll}</span>
             <button
               onClick={() => setRatedCategoryFilter('all')}
               className={`py-1.5 px-3 rounded-xl text-xs font-bold transition cursor-pointer ${
@@ -691,7 +691,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
                   : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
               }`}
             >
-              Tous les univers
+              {t.topRated.filterAll}
             </button>
             <button
               onClick={() => setRatedCategoryFilter('fantasy')}
@@ -790,15 +790,15 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 mx-auto flex items-center justify-center">
                 <Star className="w-6 h-6" />
               </div>
-              <h4 className="text-base font-bold text-white">Aucun nom encore noté dans ce domaine</h4>
+              <h4 className="text-base font-bold text-white">{t.topRated.emptyText}</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Attribuez des étoiles (★) aux propositions générées pour constituer votre palmarès personnel indépendant.
+                {t.topRated.emptySubtext}
               </p>
               <button
                 onClick={() => onNavigate('generators')}
                 className="mt-2 py-2 px-5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition cursor-pointer keep-white shadow-md shadow-purple-600/30"
               >
-                Lancer un générateur
+                {t.topRated.discoverBtn}
               </button>
             </div>
           )}

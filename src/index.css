@@ -875,3 +875,136 @@ html.light main :is(button, a):not([class*="bg-blue-"]):not([class*="bg-purple-"
   background-color: #e8f3ff !important;
   border-color: #8fc4ef !important;
 }
+
+
+/* GLOBAL LIGHT THEME CONSISTENCY — applies to every route, not just Gaming.
+   Keep the page structure intact while normalizing shared surfaces, typography,
+   borders, form controls and interactive states across all views. */
+html.light,
+html.light body,
+html.light #root {
+  min-height: 100%;
+  color: #173653 !important;
+  background-color: #f0f7ff !important;
+}
+
+html.light #root > div {
+  color: #173653;
+  background-color: transparent;
+}
+
+html.light body {
+  background-image:
+    radial-gradient(ellipse at 8% 0%, rgba(147, 197, 253, 0.22), transparent 38%),
+    radial-gradient(ellipse at 95% 12%, rgba(186, 230, 253, 0.24), transparent 34%),
+    linear-gradient(180deg, #f7fbff 0%, #edf6ff 52%, #f5f9ff 100%) !important;
+}
+
+/* Neutralize dark-mode surfaces everywhere in the app (home, lists, details,
+   saved names, style studio, navigation, footer and dialogs). */
+html.light #root [class*="bg-[#0"],
+html.light #root [class*="bg-[#1"],
+html.light #root [class*="from-[#0"],
+html.light #root [class*="from-[#1"],
+html.light #root [class*="via-[#0"],
+html.light #root [class*="via-[#1"],
+html.light #root [class*="to-[#0"],
+html.light #root [class*="to-[#1"] {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+html.light #root [class*="bg-slate-950"],
+html.light #root [class*="bg-slate-900"],
+html.light #root [class*="bg-slate-800"],
+html.light #root [class*="bg-gray-950"],
+html.light #root [class*="bg-gray-900"],
+html.light #root [class*="bg-gray-800"] {
+  background-color: #ffffff !important;
+}
+
+html.light #root [class*="border-slate-800"],
+html.light #root [class*="border-slate-700"],
+html.light #root [class*="border-gray-800"],
+html.light #root [class*="border-gray-700"],
+html.light #root [class*="border-white/"] {
+  border-color: #c4def5 !important;
+}
+
+/* Shared typography rules, with saturated action controls exempted below. */
+html.light #root :is(h1, h2, h3, h4, h5, h6) {
+  color: #163653 !important;
+}
+
+html.light #root :is(p, li, label, small, span, div, td, th, dt, dd):not(.keep-white) {
+  --tw-text-opacity: 1;
+}
+
+html.light #root :is(.text-white, .text-slate-50, .text-slate-100, .text-slate-200) {
+  color: #173653 !important;
+}
+
+html.light #root :is(.text-slate-300, .text-slate-400, .text-slate-500,
+                     .text-gray-300, .text-gray-400, .text-gray-500) {
+  color: #526d86 !important;
+}
+
+/* Keep white text on strong primary buttons and their descendants. */
+html.light #root :is(button, a, [role="button"])[class*="bg-gradient-to-"],
+html.light #root :is(button, a, [role="button"])[class*="bg-blue-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-sky-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-purple-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-indigo-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-cyan-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-emerald-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-rose-600"],
+html.light #root :is(button, a, [role="button"])[class*="bg-red-600"] {
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+html.light #root :is(button, a, [role="button"])[class*="bg-gradient-to-"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-blue-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-sky-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-purple-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-indigo-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-cyan-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-emerald-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-rose-600"] *,
+html.light #root :is(button, a, [role="button"])[class*="bg-red-600"] * {
+  color: #ffffff !important;
+}
+
+/* Consistent inputs and keyboard focus across every screen. */
+html.light #root :is(input, select, textarea) {
+  color: #173653 !important;
+  background-color: #ffffff !important;
+  border-color: #a9cbea !important;
+}
+
+html.light #root :is(input, select, textarea)::placeholder {
+  color: #7188a0 !important;
+}
+
+html.light #root :is(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid rgba(37, 131, 204, 0.55) !important;
+  outline-offset: 2px;
+}
+
+/* Shared card treatment: same white surface and blue outline on every route. */
+html.light #root :is(
+  article, dialog, [role="dialog"],
+  .rounded-xl, .rounded-2xl, .rounded-3xl,
+  [class*="card"], [class*="panel"], [class*="sidebar"]
+) {
+  border-color: #c4def5;
+}
+
+html.light #root :is(button, a):not([class*="bg-gradient-to-"]):not([class*="bg-blue-600"]):not([class*="bg-sky-600"]):not([class*="bg-purple-600"]):not([class*="bg-indigo-600"]):not([class*="bg-cyan-600"]):not([class*="bg-emerald-600"]):hover {
+  border-color: #8fc4ef !important;
+}
+
+html.light #root option {
+  color: #173653;
+  background-color: #ffffff;
+}

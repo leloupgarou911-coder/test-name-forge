@@ -616,7 +616,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               {homeSearchLabels.title}
             </h3>
             <p className="text-xs text-slate-400 mt-1">
-              {settings.language === 'fr' ? `Recherchez parmi nos ${ALL_GENERATORS_LIST.length} générateurs par besoin, profession ou registre imaginaire.` : settings.language === 'en' ? `Search ${ALL_GENERATORS_LIST.length} generators by need, profession, or fictional theme.` : t.categories.subtitle}
+              {t.categories.subtitle}
             </p>
           </div>
 
@@ -625,7 +625,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
             <Search className="w-5 h-5 text-purple-400 absolute left-4 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder={settings.language === 'fr' ? "Ex. : marque, startup, dragon, roman, podcast, elfe, jeu vidéo…" : settings.language === 'en' ? "E.g. brand, startup, dragon, novel, podcast, elf, video game…" : t.nav.searchPlaceholder}
+              placeholder={t.nav.searchPlaceholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-13 pl-12 pr-4 bg-[#070b16] border border-slate-700/80 rounded-2xl text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 shadow-inner"

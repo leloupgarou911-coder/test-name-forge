@@ -1058,7 +1058,7 @@ for (const generatorId of ['character', 'ai_bot'] as const) {
 }
 
 // Coffee-shop and bakery descriptions must be explicitly translated in all 25 priority locales.
-for (const generatorId of ['coffee_shop', 'bakery'] as const) {
+for (const generatorId of ['coffee_shop', 'bakery', 'restaurant'] as const) {
   const failures = LOCALIZED_GENERATOR_DESCRIPTION_LANGUAGES.filter(
     (lang) => !hasLocalizedGeneratorDescription(generatorId, lang)
   );
